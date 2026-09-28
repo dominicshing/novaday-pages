@@ -1,0 +1,7 @@
+/* ===== Filters ===== */
+.filters{display:flex;gap:6px;overflow-x:auto;margin:8px -16px 0;padding:0 16px 2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.fchip{flex:none;min-height:40px;border-radius:999px;border:1px solid var(--line);background:var(--surface);padding:0 12px;font-size:13px;display:inline-flex;align-items:center;gap:5px;color:var(--muted);white-space:nowrap}
+.fchip[aria-pressed="true"]{border-color:var(--ion);color:var(--text);background:rgba(111,227,214,.13);box-shadow:0 0 10px -4px var(--ion)}
+.fchip.clear{color:var(--flare);border-color:rgba(255,180,92,.4)}
+

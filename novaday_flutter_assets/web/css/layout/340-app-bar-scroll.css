@@ -1,0 +1,11 @@
+/* 滾動 app bar：左品牌、中日期、右頭像 */
+.compact-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:0 12px}
+.compact-bar .cb-title{padding:0 4px!important;overflow:hidden}
+.compact-bar .cb-title{justify-self:start;padding:0 8px;font-size:14px;gap:7px}
+.compact-bar .cb-title .brand-t{letter-spacing:.1em;font-size:13px}
+.cb-date{justify-self:center;background:none;border:0;min-height:44px;padding:0 10px;color:var(--text);font-size:14px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px}
+.cb-date small{font-size:12px;font-weight:500;color:var(--muted)}
+.compact-bar .cb-av{position:static;transform:none;justify-self:end}
+.compact-bar.show .cb-date{pointer-events:auto}
+@media (max-width:379px){.compact-bar .cb-title .brand-t{display:none}}
+

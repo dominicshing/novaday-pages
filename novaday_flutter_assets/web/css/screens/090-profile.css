@@ -1,0 +1,36 @@
+/* ===== Profile ===== */
+.avatar-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:22px;line-height:1;display:grid;place-items:center;padding:0;box-shadow:0 0 16px -4px var(--nebula);flex:none}
+.sec-t{font-size:16px;margin:24px 0 10px}
+.sec-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:24px}
+.sec-row .sec-t{margin:0}
+.stat-grid.six{margin-top:0}
+.spectrum{padding:14px}
+.spec-bar{display:flex;height:14px;border-radius:8px;overflow:hidden;background:var(--surface2)}
+.spec-bar i{height:100%;background:var(--c);box-shadow:0 0 10px var(--c)}
+.spec-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
+.spec-legend b{display:block;color:var(--text);font-size:16px}
+.spec-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:3px;vertical-align:middle}
+.list{overflow:hidden}
+.li{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;min-height:54px;padding:10px 16px;background:none;border:0;border-bottom:1px solid var(--line);text-align:left;font-size:15px}
+.list .li:last-child{border-bottom:0}
+.li small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.li .chev{color:var(--muted);font-size:20px}
+.li.danger{color:var(--danger)}
+.li input[type=time]{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:16px;min-height:40px}
+.li.off{opacity:.45}
+.sw{width:52px;height:32px;border-radius:16px;border:1px solid var(--line);background:var(--surface2);position:relative;flex:none;padding:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--muted);transition:left .2s}
+.sw[aria-checked="true"]{background:var(--ion);border-color:var(--ion);box-shadow:0 0 12px -2px var(--ion)}
+.sw[aria-checked="true"]::after{left:23px;background:var(--on-accent)}
+.ver{text-align:center;color:var(--muted);font-size:12px;margin:18px 0 0}
+.avs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:8px}
+.av{aspect-ratio:1;min-height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:24px;line-height:1;display:grid;place-items:center;padding:0}
+.av[aria-pressed="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion)}
+.app.calm .orb,.app.calm .halo,.app.calm .fresh-ring,.app.calm .screen.active,.app.calm .lvcard{animation:none}
+
+/* 固定標題列的漸層淡出區不攔截點擊，只有標題列裡的按鈕、輸入框可點 */
+.top{pointer-events:none}
+.top>*,.top button,.top input,.top label{pointer-events:auto}
+.draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
+.draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
+

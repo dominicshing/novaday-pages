@@ -1,0 +1,6 @@
+/* R16：分批載入 */
+.lg-more{display:flex;justify-content:center;gap:6px;padding:18px 0 8px}
+.lg-more i{width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.5;animation:lgb 1s infinite ease-in-out}
+.lg-more i:nth-child(2){animation-delay:.15s}.lg-more i:nth-child(3){animation-delay:.3s}
+@keyframes lgb{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:.9;transform:translateY(-3px)}}
+

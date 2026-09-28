@@ -1,0 +1,114 @@
+/* ===== 方案 B2：日期在頂部，問候語＋觀星天數在第二行 ===== */
+.home-top{align-items:center!important;padding:10px 16px 8px!important}
+.ht-main{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center}
+.ht-brand{grid-row:1/3}
+.ht-brand .brand-t{display:none}
+.ht-brand .ht-logo{width:36px!important;height:36px!important}
+.ht-sub{margin:0!important;font-size:12px!important;letter-spacing:.04em;color:var(--muted)!important}
+.ht-row2{display:flex;align-items:center;gap:8px;min-width:0}
+.ht-greet{margin:0!important;font-size:20px!important;line-height:1.3!important;min-width:0}
+.ht-row2 .ht-day{flex:none;padding:0 7px!important;font-size:12px!important;line-height:20px}
+.home-top .avatar-btn{width:38px!important;height:38px!important;margin-top:0!important;font-size:19px!important}
+
+/* 頭像右下角的階級徽章 */
+.avatar-btn,.cb-av{position:relative;overflow:visible}
+.av-rank{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;pointer-events:none;line-height:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.45))}
+.av-rank.sm{width:13px;height:13px;right:-2px;bottom:-2px}
+.compact-bar .cb-av{position:relative!important;top:auto!important;right:auto!important;transform:none!important}
+.av-rank .rbadge{width:100%;height:100%;display:block}
+
+/* ===== 等級卡精簡版（兩行） ===== */
+.hud{padding:12px 14px 10px!important}
+.hud::before{width:110px!important;height:110px!important;left:-30px!important;top:-30px!important}
+.hud-top{gap:12px!important}
+.hud .lv-ring{width:46px!important;height:46px!important}
+.hud .lv-core small{display:none}
+.hud .lv-core b{font-size:17px!important}
+.hud #lvDot{r:3.8}
+.hud .rank{font-size:15px!important;line-height:1.3!important}
+.hud .rank .rk-lv{color:var(--muted);font-weight:500;font-size:13px}
+.hud .xpline{display:flex;align-items:center;gap:8px;margin-top:6px}
+.xpbar{flex:1;min-width:0;height:6px;border-radius:3px;background:rgba(138,124,255,.18);overflow:hidden}
+.xpbar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#8A7CFF,#6FE3D6);box-shadow:0 0 8px rgba(111,227,214,.5);transition:width .6s ease}
+.xpv{flex:none;font-variant-numeric:tabular-nums;line-height:1}
+.hud .xpline .xpv b{font-size:14px!important;text-shadow:none}
+.hud .xpline .xpv span{font-size:12px;margin-left:2px}
+.hud .xpnext{display:none}
+.hud .fuel{flex-direction:row!important;gap:4px;min-width:0!important;padding:5px 10px 5px 7px!important;border-radius:16px!important;align-self:center}
+.hud .fuel .flame-ic{width:18px;height:18px}
+.hud .fuel b{font-size:17px!important;margin:0!important;line-height:1}
+.hud .fuel span{font-size:12px!important}
+.hud .week{margin-top:10px!important;padding-top:9px!important;gap:5px!important}
+.hud .wd{width:auto!important}
+.hud .wd i{width:24px!important;height:24px!important;display:grid!important;place-items:center;font-style:normal;font-size:11px;font-weight:600;color:var(--muted);box-sizing:border-box}
+.hud .wd.done i{color:#07231F}
+.hud .wd.rest i{border-width:1.5px}
+.hud .wd.today:not(.done) i{color:var(--flare)}
+.hud .wd.today.done i{box-shadow:0 0 0 2px rgba(255,180,92,.9),0 0 8px rgba(111,227,214,.8)}
+.hud .wd.future i{opacity:.5}
+
+/* 我的：頭像右下角的階級徽章（與首頁同款），階級名稱只出現一次 */
+.p-rb{position:absolute;right:6px;bottom:8px;width:34px;height:34px;border-radius:50%;pointer-events:none;line-height:0;filter:drop-shadow(0 0 6px rgba(0,0,0,.5))}
+.p-rb .rbadge{width:100%;height:100%;display:block}
+.p-rank{padding:0 12px!important;gap:0!important}
+.p-rank small{margin-left:1px}
+.p-chips{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.p-chips .p-rank,.p-chips .p-sign{margin:0!important}
+.p-rb{width:38px!important;height:38px!important;right:2px!important;bottom:16px!important}
+
+/* 階級狀態標籤：統一為細框膠囊＋線條圖示 */
+.rk-state{gap:6px!important;padding:3px 10px 3px 8px!important;font-size:12px;background:rgba(7,10,28,.35)!important;border:1px solid rgba(232,233,255,.16);color:var(--muted)!important}
+.rs-ic{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.is-done .rk-state{color:var(--ion)!important;border-color:rgba(111,227,214,.4)}
+.p-slide .rk-state,.is-cur .rk-state{color:var(--rc,#B9BEE9)!important;border-color:color-mix(in srgb,var(--rc,#B9BEE9) 55%,transparent)}
+.rs-dot{width:7px;height:7px;border-radius:50%;background:var(--rc,#B9BEE9);box-shadow:0 0 6px var(--rc,#B9BEE9);animation:breathe 2.4s ease-in-out infinite}
+.app.calm .rs-dot{animation:none}
+/* 頭像下方：徽章＋等級合成一個膠囊 */
+.p-lvx{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:3px 12px 3px 3px;border-radius:999px;white-space:nowrap;
+  background:rgba(14,18,52,.94);border:1px solid color-mix(in srgb,var(--rc,#B9BEE9) 60%,transparent);box-shadow:0 0 0 3px var(--bg2),0 0 14px color-mix(in srgb,var(--rc,#B9BEE9) 45%,transparent)}
+.p-lvx .p-rb{position:static!important;width:26px!important;height:26px!important;filter:none!important}
+.p-lvx .p-lv{position:static;transform:none;background:none;box-shadow:none;padding:0;color:var(--text);font-size:14px;font-weight:700;letter-spacing:.02em}
+.p-slide .pname{margin-top:22px}
+
+/* ===== 階級膠囊 v2：漸層描邊玻璃牌，徽章略微突出左側 ===== */
+.p-lvx{bottom:-13px!important;gap:7px!important;height:30px;padding:0 14px 0 30px!important;border:1px solid transparent!important;
+  background:linear-gradient(180deg,rgba(44,50,120,.96),rgba(16,20,58,.96)) padding-box,
+             linear-gradient(100deg,var(--rc,#B9BEE9),rgba(111,227,214,.85) 55%,rgba(138,124,255,.9)) border-box!important;
+  box-shadow:0 0 0 3px var(--bg2),inset 0 1px 0 rgba(255,255,255,.14),0 6px 16px -6px rgba(0,0,0,.6),0 0 18px -4px color-mix(in srgb,var(--rc,#B9BEE9) 70%,transparent)!important}
+.p-lvx .p-rb{position:absolute!important;left:-8px;top:50%;transform:translateY(-50%);width:36px!important;height:36px!important;
+  filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#B9BEE9) 80%,transparent))!important}
+.p-lvx .p-lv{display:flex;align-items:baseline;gap:3px;font-size:17px!important;line-height:1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#FFFFFF,#CFC9FF);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.p-lvx .p-lv small{font-size:10px;letter-spacing:.14em;font-weight:700;-webkit-text-fill-color:currentColor;color:var(--muted)}
+.p-slide .pname{margin-top:26px!important}
+
+/* 階級名稱膠囊：與等級牌同一套玻璃＋漸層描邊 */
+.p-chips .p-rank{min-height:32px;border:1px solid transparent!important;
+  background:linear-gradient(180deg,rgba(36,42,104,.85),rgba(16,20,58,.85)) padding-box,
+             linear-gradient(100deg,color-mix(in srgb,var(--rc,#B9BEE9) 80%,transparent),rgba(138,124,255,.35)) border-box!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.p-chips .p-rank span{color:var(--text)}
+.p-chips .p-rank small{color:color-mix(in srgb,var(--rc,#B9BEE9) 80%,#9AA0D0)}
+.p-chips .p-sign{min-height:32px}
+
+/* 徽章光圈收斂：隱藏外圈光暈，只留很淡的陰影 */
+.p-lvx .rb-halo,.av-rank .rb-halo{display:none}
+.p-lvx .p-rb{filter:drop-shadow(0 0 2px color-mix(in srgb,var(--rc,#B9BEE9) 50%,transparent))!important}
+
+/* 階級膠囊移到頭像正下方（等級牌之下），名字與星座在其後 */
+.p-slide .p-chips-rk{margin-top:24px}
+.p-slide .p-chips-rk+.pname{margin-top:8px!important}
+.p-slide .pname+.p-chips{margin-top:8px}
+
+/* 等級牌＋階級合成一塊：徽章 LV 1｜見習觀星者 */
+.p-lvx{padding-right:6px!important}
+.lvx-sep{width:1px;height:16px;background:linear-gradient(180deg,transparent,rgba(232,233,255,.35),transparent);margin:0 2px}
+.p-lvx .p-rank{all:unset;cursor:pointer;display:inline-flex;align-items:center;height:26px;padding:0 10px 0 3px!important;margin:0!important;border:0!important;background:none!important;box-shadow:none!important;min-height:0!important;border-radius:13px;font-size:14px;font-weight:700;color:var(--text);white-space:nowrap}
+.p-lvx .p-rank span{color:var(--text)}
+.p-lvx .p-rank:active{background:rgba(255,255,255,.08)}
+.p-lvx .p-rank:focus-visible{outline:2px solid var(--ion);outline-offset:1px}
+
+/* 等級牌移到頭像下方，不再與頭像重疊 */
+.p-lvx{bottom:-30px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 6px 16px -6px rgba(0,0,0,.6),0 0 18px -4px color-mix(in srgb,var(--rc,#B9BEE9) 70%,transparent)!important}
+.p-slide .pname{margin-top:40px!important}
+

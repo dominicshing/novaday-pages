@@ -1,0 +1,20 @@
+/* ===== Achievements ===== */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{padding:12px 12px 10px;text-align:left;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;right:-18px;top:-18px;width:56px;height:56px;border-radius:50%;background:var(--sc);opacity:.12;filter:blur(8px)}
+.stat svg{width:18px;height:18px;display:block;fill:none;stroke:var(--sc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px;filter:drop-shadow(0 0 4px var(--sc))}
+.stat b{display:block;font-size:21px;line-height:1.15;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.medals{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin-top:16px}
+.medal{text-align:center;font-size:13px;line-height:1.35}
+.medal .em{width:64px;height:64px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:28px;border:3px solid transparent;
+  background:radial-gradient(circle at 35% 30%,#232A6E,#0C1030) padding-box,conic-gradient(var(--flare) calc(var(--p)*1%),rgba(138,124,255,.18) 0) border-box;box-shadow:0 0 16px -4px var(--flare)}
+.medal .em span{display:block;line-height:1}
+.medal.locked .em{box-shadow:none}
+.medal.locked .em span{filter:grayscale(1);opacity:.4}
+.medal .mp{display:block;font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums;color:var(--flare)}
+.medal.locked .mp{color:var(--muted)}
+.medal.locked{color:var(--muted)}
+.medal small{display:block;color:var(--muted);font-size:12px}
+
+

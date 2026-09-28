@@ -1,0 +1,23 @@
+/* 自繪成就圖示 */
+.ach-ic{width:32px;height:32px;overflow:visible}
+.ach-ic .al{fill:none;stroke:#FFE7A3;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ach-ic .af{fill:#FFD36F;filter:drop-shadow(0 0 3px rgba(255,211,111,.7))}
+.ach-ic .ad{fill:#FFF4D6}
+.medal.locked .ach-ic .al{stroke:#A3A8D8}.medal.locked .ach-ic .af{fill:#7A80BC;filter:none}.medal.locked .ach-ic .ad{fill:#A3A8D8}
+.medal.locked .ach-ic path[fill^="#"]{fill:#7A80BC}
+.medal.is-new .em{animation:achNew 1.6s ease-in-out 3}
+.medal.is-new::before{content:"NEW";display:block;width:max-content;margin:0 auto -8px;position:relative;z-index:1;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#231500;background:var(--flare)}
+@keyframes achNew{50%{box-shadow:0 0 0 6px rgba(255,180,92,.25),0 0 22px rgba(255,180,92,.7)}}
+.ach-pop{position:absolute;left:50%;top:70px;z-index:45;display:flex;align-items:center;gap:12px;min-width:250px;padding:12px 18px 12px 12px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(60,48,120,.97),rgba(20,24,64,.97));border:1px solid rgba(255,211,111,.55);box-shadow:0 18px 40px -12px rgba(0,0,0,.7),0 0 30px -8px rgba(255,180,92,.6);
+  transform:translate(-50%,-30px) scale(.9);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .25s}
+.ach-pop.show{transform:translate(-50%,0) scale(1);opacity:1;pointer-events:auto;cursor:pointer}
+.ap-ic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#3A2E6E,#140F3A);box-shadow:0 0 0 2px rgba(255,211,111,.6),0 0 18px -2px #FFB45C}
+.ap-ic .ach-ic{width:30px;height:30px}
+.ap-t{display:flex;flex-direction:column;gap:1px}
+.ap-t small{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--flare)}
+.ap-t b{font-size:17px}.ap-t span{font-size:12px;color:var(--muted)}
+.avatar-btn.has-new::after,.cb-av.has-new::after{content:"";position:absolute;top:-1px;right:-1px;width:10px;height:10px;border-radius:50%;background:var(--flare);box-shadow:0 0 0 2px #0A0D24,0 0 8px var(--flare)}
+.tb.has-new{position:relative}
+.tb.has-new::after{content:"";position:absolute;top:8px;left:calc(50% + 9px);width:8px;height:8px;border-radius:50%;background:var(--flare);box-shadow:0 0 0 2px var(--bar)}
+

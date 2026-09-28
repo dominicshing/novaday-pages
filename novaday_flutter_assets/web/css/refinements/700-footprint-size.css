@@ -1,0 +1,6 @@
+/* ===== 星光足跡：點亮的星星與未點亮的底圖同樣大小，不再溢出 ===== */
+.fp-grid i.on.m3::before,.fp-grid i.on.m4::before{inset:12%}
+.fp-grid.big i .moon{inset:12%!important;width:76%!important;height:76%!important}
+.fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent) 0,transparent 55%)}
+.fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
+

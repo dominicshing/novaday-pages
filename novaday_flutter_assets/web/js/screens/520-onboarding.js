@@ -1,0 +1,44 @@
+/* ---------- 第一次使用引導：歡迎 → 你是誰 → 讓星空更懂你 → 開始 ---------- */
+const OB_LOGO=`<svg class="ob-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgO)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloO)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaO)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg>`;
+let ob={i:0,av:null,name:'',m:0,d:0,reg:null};
+function obNeeded(){return !prof.onboarded&&entries.every(isSample)}
+function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.width=c.clientWidth*devicePixelRatio;c.height=c.clientHeight*devicePixelRatio};R();
+  const st=Array.from({length:90},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,p:Math.random()*6}));let t=0,id;
+  const f=()=>{if($('onb').hidden){cancelAnimationFrame(id);return}x.clearRect(0,0,c.width,c.height);t+=.016;
+    st.forEach(s=>{x.globalAlpha=.25+.55*(.5+.5*Math.sin(t*1.3+s.p));x.fillStyle='#E8E9FF';x.beginPath();x.arc(s.x*c.width,s.y*c.height,s.r*devicePixelRatio,0,7);x.fill()});
+    if(!reduce)id=requestAnimationFrame(f)};f()}
+function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i').forEach((d,k)=>d.classList.toggle('on',k<=i));
+  $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
+  if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
+      <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
+  else if(i===1){if(!ob.av)ob.av=prof.avatar;
+    B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
+      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>
+      <label class="mf ob-name"><span class="mf-l">暱稱</span><input class="field" id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}"></label>`;
+    B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b))});
+    $('obName').oninput=e=>ob.name=e.target.value;$('obNext').textContent='下一步'}
+  else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
+    B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
+      <div class="ob-sec"><div class="ob-h">生日<small>用來顯示你的星座與每月運勢</small></div>
+        <div class="bd-row"><select class="field" id="obM" aria-label="出生月份"><option value="">月份</option>${Array.from({length:12},(_,k)=>`<option value="${k+1}"${ob.m===k+1?' selected':''}>${k+1} 月</option>`).join('')}</select>
+        <select class="field" id="obD" aria-label="出生日期"><option value="">日期</option>${Array.from({length:n},(_,k)=>`<option value="${k+1}"${ob.d===k+1?' selected':''}>${k+1} 日</option>`).join('')}</select></div>
+        <div class="ob-sign${zi<0?'':' on'}">${zi<0?'':`<span class="zo sm">${zRing()}<span class="zg">${zg(zi)}</span></span><span>你是<b>${ZODIAC[zi].n}</b>・${ZODIAC[zi].el}星座</span>`}</div></div>
+      <div class="ob-sec"><div class="ob-h">所在地區<small>判斷哪些星座在你那裡看得到</small></div>
+        <div class="ob-reg">${REGIONS.flatMap(([,l])=>l).slice(0,10).concat(REGIONS[2][1].slice(0,2),REGIONS[3][1].slice(0,2)).map(([n,la])=>`<button type="button" data-n="${n}" data-la="${la}" aria-pressed="${ob.reg&&ob.reg.name===n}">${n}</button>`).join('')}<button type="button" data-more="1">更多…</button></div></div>`;
+    $('obM').onchange=e=>{ob.m=+e.target.value;const n=ob.m?new Date(2000,ob.m,0).getDate():31;if(ob.d>n)ob.d=0;obRender()};$('obD').onchange=e=>{ob.d=+e.target.value;obRender()};
+    B.querySelectorAll('.ob-reg button').forEach(b=>b.onclick=()=>{if(b.dataset.more){openRegion(()=>{ob.reg=prof.region;obRender()});return}
+      ob.reg=ob.reg&&ob.reg.name===b.dataset.n?null:{name:b.dataset.n,lat:+b.dataset.la};obRender()});
+    $('obNext').textContent='下一步'}
+  else{const sm=entries.filter(isSample).length;
+    B.innerHTML=`<div class="ob-hero"><svg class="ob-first" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(138,124,255,.3)" stroke-dasharray="2 5"/><path d="${sp4(60,60,26)}" fill="#FFE7A3"/><circle cx="60" cy="60" r="5" fill="#fff"/></svg></div>
+      <h2 id="obT">${esc(ob.name.trim()||'星旅人')}，準備好了</h2><p class="ob-lead">寫下第一則日記，點亮你的第一顆星。<br>不用寫很多，一句話也可以。</p>
+      ${sm?`<label class="ob-keep"><input type="checkbox" id="obKeep" checked><span>保留 ${sm} 則範例紀錄，先看看長什麼樣子<small>之後可在「設定」一鍵清除</small></span></label>`:''}`;
+    $('obNext').textContent='寫下第一則';$('obAlt').hidden=false;$('obAlt').textContent='先逛逛'}}
+function obFinish(write){prof.avatar=ob.av||prof.avatar;if(ob.name.trim())prof.name=ob.name.trim();
+  if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
+  if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
+  saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
+function openOnb(){ob={i:0,av:prof.avatar,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
+$('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
+$('obAlt').onclick=()=>obFinish(false);$('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
+$('obSkip').onclick=()=>{ob.i=3;obRender()};

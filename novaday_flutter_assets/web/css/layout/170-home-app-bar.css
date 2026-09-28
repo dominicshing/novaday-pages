@@ -1,0 +1,28 @@
+/* ===== Home app bar ===== */
+.home-top{position:relative;top:auto;align-items:flex-start;padding:14px 16px 12px;background:none}
+.ht-main{min-width:0}
+.ht-brand{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--muted)}
+.brand-t{font-family:"Chakra Petch",system-ui,sans-serif;font-weight:600;letter-spacing:.08em}
+.ht-brand .brand-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.cb-title .brand-t{letter-spacing:.14em;text-transform:uppercase}
+.ht-logo{width:22px;height:22px;flex:none;overflow:visible;border-radius:6px;filter:drop-shadow(0 0 5px rgba(138,124,255,.5))}
+.ht-greet{margin:4px 0 0!important;font-size:26px!important;line-height:1.25!important;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:linear-gradient(90deg,#FFFFFF,#D6D1FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ht-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:13px;color:#C4C8EE;font-variant-numeric:tabular-nums}
+.ht-day{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;color:var(--flare);
+  background:rgba(255,180,92,.1);border:1px solid rgba(255,180,92,.3)}
+.home-top .avatar-btn{position:relative;width:48px;height:48px;margin-top:6px;font-size:24px;border:2px solid transparent;
+  background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;
+  box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
+.home-top .avatar-btn:active{transform:scale(.94)}
+.compact-bar{position:absolute;left:0;right:0;top:0;z-index:9;height:48px;display:flex;align-items:center;justify-content:center;pointer-events:none;
+  background:rgba(9,12,34,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid rgba(138,124,255,.18);
+  opacity:0;transform:translateY(-6px);transition:opacity .22s,transform .22s}
+.compact-bar.show{opacity:1;transform:none}
+.compact-bar.show .cb-title,.compact-bar.show .cb-av{pointer-events:auto}
+.cb-title{background:none;border:0;color:var(--text);min-height:44px;padding:0 12px;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700}
+.cb-title .ht-logo{width:20px;height:20px}
+.cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
+  background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
+@media (min-width:600px){.compact-bar{top:54px}}
+

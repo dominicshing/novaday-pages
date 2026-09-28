@@ -1,0 +1,30 @@
+/* R14：星光足跡（半年熱度圖） */
+.foot{padding:14px 14px 12px;margin-top:10px}
+.fp-stat{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px}
+.fp-stat b{color:var(--text);font-size:15px;margin:0 2px;font-variant-numeric:tabular-nums}
+.fp-wrap{display:grid;grid-template-columns:18px 1fr;gap:4px}
+.fp-wd{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;font-size:9px;color:var(--muted);line-height:1;padding-top:15px}
+.fp-wd span{display:flex;align-items:center}
+.fp-mo{position:relative;height:12px;font-size:10px;color:var(--muted);margin-bottom:3px}
+.fp-mo span{position:absolute;top:0;white-space:nowrap}
+.fp-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,auto);grid-auto-columns:minmax(0,1fr);gap:3px;touch-action:manipulation}
+.fp-grid i{display:block;aspect-ratio:1;position:relative;cursor:pointer}
+/* 未點亮的日子：暗淡的星星輪廓 */
+.fp-grid i::before{content:"";position:absolute;inset:4%;background:rgba(232,233,255,.11);clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+/* 有寫的日子：心情星星（和全 App 的心情星星同形同色，小尺寸不放表情） */
+.fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 38%,transparent) 0,transparent 68%)}
+.fp-grid i.on::before{content:"";position:absolute;inset:-14%;background:radial-gradient(circle at 42% 36%,#fff 0,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);
+  clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+.fp-grid i.on.m3::before,.fp-grid i.on.m4::before{inset:-22%}
+.fp-grid i.fut{visibility:hidden}
+.fp-grid i.today::after,.fp-grid i.sel::after{content:"";position:absolute;inset:-18%;border-radius:50%;box-shadow:0 0 0 1.5px rgba(232,233,255,.7)}
+.fp-grid i.today:not(.on)::before{background:rgba(232,233,255,.3)}
+.fp-grid i.sel{z-index:1}
+.fp-grid i.sel::after{box-shadow:0 0 0 2px #fff,0 0 8px 1px rgba(255,255,255,.35)}
+.fp-leg{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:10px;font-size:11px;color:var(--muted)}
+.fp-leg .moon{width:17px;height:17px}
+.fp-tip{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(232,233,255,.05);border:1px solid var(--line);font-size:13px}
+.fp-tip .moon{width:18px;height:18px;flex:none}
+.fp-tip span{flex:1;min-width:0}
+.fp-tip button{flex:none;background:none;border:0;color:var(--ion);font-size:13px;min-height:32px;padding:0 4px}
+

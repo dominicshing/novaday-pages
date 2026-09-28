@@ -1,0 +1,30 @@
+/* ===== 首頁 HUD：較大的等級圓環、會跳動的連續火焰、重新設計的觀星天數 ===== */
+.hud .lv-ring{width:60px!important;height:60px!important}
+.hud .lv-core b{font-size:22px!important}
+.hud #lvDot{r:3.6}
+.ht-row2 .ht-day{position:relative;display:inline-flex;align-items:center;gap:3px;height:26px;padding:0 10px 0 3px!important;border-radius:999px;font-size:12px!important;line-height:1;overflow:hidden;
+  color:#FFE3B8;background:linear-gradient(rgba(14,16,48,.9),rgba(14,16,48,.9)) padding-box,linear-gradient(120deg,#FFB45C,#FF8FD0 55%,#8A7CFF) border-box;border:1px solid transparent;box-shadow:0 0 14px -4px rgba(255,180,92,.55)}
+.ht-day .hd-ic{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-right:3px;background:radial-gradient(circle at 35% 30%,#FFE7A3,#FFB45C 60%,#E07A3A);box-shadow:0 0 8px rgba(255,180,92,.7)}
+.ht-day .hd-ic svg{width:13px;height:13px;fill:#3A1E08}
+.ht-day .hd-ic svg .s{fill:#fff}
+.ht-day .hd-t{color:#E6D9C4;font-weight:500;letter-spacing:.02em}
+.ht-day b{font-size:15px;font-weight:800;margin:0 1px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF3D6,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ht-day::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:hdSweep 5.5s ease-in-out infinite}
+@keyframes hdSweep{0%,62%{left:-60%}82%,100%{left:130%}}
+.hud .fuel{position:relative;overflow:visible}
+.hud .fuel .flame-ic{width:20px!important;height:20px!important;overflow:visible;transform-origin:50% 92%;animation:flameDance 1.5s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(255,140,70,.75))}
+.hud .fuel .flame-ic .fl-core{transform-box:fill-box;transform-origin:50% 100%;animation:flameCore .9s ease-in-out infinite alternate}
+@keyframes flameDance{0%,100%{transform:scale(1,1) skewX(0)}20%{transform:scale(.96,1.08) skewX(-3deg)}45%{transform:scale(1.04,.95) skewX(2deg)}70%{transform:scale(.98,1.1) skewX(-1.5deg)}}
+@keyframes flameCore{from{transform:scale(.85,.8);opacity:.8}to{transform:scale(1.08,1.15);opacity:1}}
+.hud .fuel .ember{position:absolute;left:15px;bottom:12px;width:3px;height:3px;border-radius:50%;background:#FFD08A;box-shadow:0 0 4px #FFB45C;opacity:0;pointer-events:none;animation:ember 2.2s ease-out infinite}
+.hud .fuel .ember.e2{left:11px;animation-delay:.75s;width:2px;height:2px}
+.hud .fuel .ember.e3{left:19px;animation-delay:1.5s;width:2px;height:2px}
+@keyframes ember{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(3px,-22px);opacity:0}}
+.hud .fuel:has(.flame-ic.off) .ember{display:none}
+.hud .fuel .flame-ic.off{animation:none}
+.app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember,.app.calm .ht-day::after{animation:none}
+.app.calm .hud .fuel .ember{display:none}
+@media (prefers-reduced-motion:reduce){.hud .fuel .flame-ic,.hud .fuel .fl-core,.ht-day::after{animation:none}.hud .fuel .ember{display:none}}
+.ht-row2 .ht-greet{display:block!important;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ht-row2 .ht-day{padding-right:9px!important}
+

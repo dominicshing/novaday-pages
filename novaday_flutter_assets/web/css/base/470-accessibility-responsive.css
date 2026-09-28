@@ -1,0 +1,23 @@
+/* ===== 無障礙：放大小按鈕的可點範圍、統一鍵盤焦點樣式 ===== */
+#cbAv::before,.rk-dot::before,#pRankChip::before,.fo-x::before{content:"";position:absolute;inset:-8px}
+.rk-dot,#pRankChip{position:relative}
+#atMp,#atMn{width:34px!important;height:34px!important}
+.at-link{padding:8px 2px!important;margin:-8px 0!important}
+.hud .fuel{min-height:36px}
+.rp-grid small{font-size:12px}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--ion);outline-offset:2px}
+.field:focus-visible{outline-offset:0}
+
+/* ===== 小螢幕（≤360px）調整 ===== */
+@media (max-width:360px){
+  .cell{min-height:0;border-radius:10px}
+  .cal{gap:2px;padding:8px 5px 6px}
+  .cal .dow{font-size:11px}
+  .hud .week{gap:3px!important}
+  .hud .wd i{width:21px!important;height:21px!important;font-size:10px}
+  .week .ri{font-size:11px;white-space:normal;line-height:1.2}
+  .ht-greet{font-size:18px!important}
+  .cal-sum small{font-size:11px}
+  .rp-grid{grid-template-columns:repeat(2,1fr)}
+}
+

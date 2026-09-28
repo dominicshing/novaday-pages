@@ -1,0 +1,6 @@
+/* ===== iOS 捲動指示條 ===== */
+.screen,.sb{scrollbar-width:none;-ms-overflow-style:none}
+.screen::-webkit-scrollbar,.sb::-webkit-scrollbar{display:none}
+.ios-bar{position:absolute;top:0;right:3px;width:3px;border-radius:2px;background:rgba(255,255,255,.5);opacity:0;z-index:6;pointer-events:none;
+  transition:opacity .35s ease;will-change:transform}
+

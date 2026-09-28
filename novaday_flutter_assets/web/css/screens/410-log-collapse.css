@@ -1,0 +1,31 @@
+/* ===== 日記頂部收合 ===== */
+#logFind{display:none}
+#logTop h1{transition:font-size .2s}
+#logTop .h1-ic{transition:width .2s,height .2s}
+#logTop.cmp{display:grid!important;grid-template-columns:auto 1fr auto;grid-template-areas:"t s a" "c c c";column-gap:10px;align-items:center;padding-top:8px;padding-bottom:6px}
+#logTop.cmp .log-hrow{display:contents}
+#logTop.cmp h1{grid-area:t;font-size:18px!important;gap:6px}
+#logTop.cmp .h1-ic{width:20px;height:20px}
+#logTop.cmp .hr-act{grid-area:a}
+#logTop.cmp .seg{grid-area:s;margin:0;justify-self:center;width:100%;max-width:170px;padding:2px;border-radius:10px}
+#logTop.cmp .seg button{min-height:30px;font-size:13px}
+#logTop.cmp .seg-ind{top:2px;bottom:2px;left:2px;width:calc(50% - 2px);border-radius:8px}
+#logTop.cmp .icon-btn{width:36px;height:36px}
+#logTop.cmp #logFind{display:grid}
+#logTop.cmp #listCtl{grid-area:c}
+#logTop.cmp .search{display:none}
+#logTop.cmp .filters{margin-top:6px}
+#logTop.cmp .fgrp{min-height:34px;font-size:12px}
+#logTop.cmp #listCtl[hidden]{display:none}
+#logTop.cmp .today-btn{min-height:32px;padding:0 10px;font-size:12px}
+
+/* 列表顯示方式：放在篩選列右側的兩段式切換（卡片／精簡），不再佔用頂部右上角 */
+.f-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.f-row .filters{flex:1;min-width:0;margin:0!important;padding:0!important}
+.dens{flex:none;display:flex;padding:2px;border-radius:12px;background:rgba(232,233,255,.06);border:1px solid var(--line)}
+.dens button{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:9px;background:none;color:var(--muted);padding:0}
+.dens button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dens button[aria-checked="true"]{color:var(--text);background:linear-gradient(135deg,rgba(111,227,214,.22),rgba(138,124,255,.28));box-shadow:inset 0 0 0 1px rgba(111,227,214,.35)}
+#logTop.cmp .f-row{margin-top:6px}
+#logTop.cmp .dens button{width:30px;height:30px}
+

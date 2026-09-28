@@ -1,0 +1,17 @@
+/* R10：面板下拉關閉、按壓回饋 */
+/* 關閉中的面板藏在畫面下方，不可撐大頁面，否則聚焦時整個 app 會被捲走 */
+html{overflow:hidden}
+.layer{overflow:hidden}
+.sheet .grab{position:relative;touch-action:none;cursor:grab}
+.sheet .grab::before{content:"";position:absolute;left:-60px;right:-60px;top:-10px;bottom:-8px}
+.sheet .sh{touch-action:none}
+.sheet.dragging{transition:none;cursor:grabbing;user-select:none;-webkit-user-select:none}
+.sheet.dragging .grab{background:var(--muted)}
+.layer .bd{transition:opacity .28s}
+.cn-info .cv-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:where(.mem-card,.rp-open,.at-card,.ins,.cn-tonight.off,.qn-moods button,.li:is(button,label),.cn-tonight .red-q,.qn-go,.qn-more){transition:transform .14s ease,background-color .2s,border-color .2s}
+:where(.mem-card,.rp-open,.at-card,.ins,.cn-tonight.off):active{transform:scale(.975)}
+:where(.qn-moods button,.qn-go):active{transform:scale(.92)}
+:where(.li:is(button,label)):active{background:rgba(232,233,255,.05)}
+@media (prefers-reduced-motion:reduce){.sheet{transition-duration:.01s}}
+

@@ -1,0 +1,17 @@
+/* ===== 階級卡片：間距、會動的星空 ===== */
+.p-slide .pname{margin-top:50px!important}
+.p-slide .pname+.p-chips{margin-top:14px!important}
+.p-slide .pmotto{margin-top:14px}
+.rk-card{isolation:isolate}
+.rk-sky{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.rk-sky .rk-st{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff;box-shadow:0 0 5px rgba(255,255,255,.75);opacity:.2;animation:rkTw var(--t) ease-in-out var(--d) infinite}
+.rk-sky .rk-st.x{border-radius:0;background:color-mix(in srgb,var(--rc,#B9BEE9) 55%,#fff);box-shadow:none;filter:drop-shadow(0 0 3px var(--rc,#B9BEE9));clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+@keyframes rkTw{0%,100%{opacity:.12;transform:scale(.55)}50%{opacity:.95;transform:scale(1)}}
+.rk-sky .rk-met{position:absolute;top:var(--y);left:var(--x);width:74px;height:1.6px;border-radius:2px;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--rc,#B9BEE9) 60%,transparent) 30%,transparent);opacity:0;transform:rotate(-29deg);animation:rkMet var(--t) linear var(--d) infinite}
+@keyframes rkMet{0%,82%{opacity:0;transform:translate(0,0) rotate(-29deg)}84%{opacity:1}94%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}100%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}}
+.rk-sky .rk-neb{position:absolute;width:220px;height:160px;border-radius:50%;left:var(--x);top:var(--y);background:radial-gradient(closest-side,color-mix(in srgb,var(--rc,#B9BEE9) 22%,transparent),transparent);filter:blur(6px);animation:rkNeb 14s ease-in-out infinite alternate}
+@keyframes rkNeb{from{transform:translate(0,0) scale(1)}to{transform:translate(-18px,10px) scale(1.12)}}
+.app.calm .rk-sky *,#device:has(.app.calm) .rk-sky *{animation:none!important}
+.app.calm .rk-sky .rk-met{display:none}
+@media (prefers-reduced-motion:reduce){.rk-sky *{animation:none!important}.rk-sky .rk-met{display:none}}
+

@@ -1,0 +1,45 @@
+/* 日記：列表／月曆切換 */
+.hr-act{display:flex;align-items:center;gap:8px}
+.hr-act .today-btn[hidden],.hr-act .icon-btn[hidden]{display:none}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;margin-top:10px;padding:3px;border-radius:12px;background:rgba(232,233,255,.06);border:1px solid var(--line)}
+.seg button{position:relative;z-index:1;min-height:36px;background:none;border:0;color:var(--muted);font-size:14px;font-weight:600;border-radius:9px;transition:color .2s}
+.seg button[aria-selected="true"]{color:var(--text)}
+.seg-ind{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:9px;background:linear-gradient(135deg,rgba(111,227,214,.22),rgba(138,124,255,.28));border:1px solid rgba(111,227,214,.35);transition:transform .25s cubic-bezier(.3,.8,.3,1)}
+.seg.r .seg-ind{transform:translateX(100%)}
+#listCtl[hidden],#calWrap[hidden],#logList[hidden]{display:none}
+#calWrap{padding-top:4px}
+.app.calm .seg-ind{transition:none}
+/* 圖鑑頁 */
+.cal-sum b.cs-mood{display:flex;align-items:center;justify-content:center;gap:5px}
+.cal-sum b.cs-mood span{font-size:15px}
+
+/* 地點／照片／星語：與新增日記相同的線條圖示 */
+.mi-ic{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px}
+.mi{display:inline-flex;align-items:center;gap:3px;color:var(--muted)}
+.entry .meta .mi .mi-ic{color:var(--ion)}
+.dv-i .mi-ic{width:15px;height:15px;color:var(--ion)}
+.er-i .mi-ic{width:15px;height:15px}
+/* 篩選群組 */
+.filters{-webkit-mask-image:none!important;mask-image:none!important;overflow:visible;flex-wrap:nowrap}
+.fgrp{flex:1;min-width:0;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:13px;white-space:nowrap}
+.fgrp>span{flex:none}
+.fgrp.on .fg-car{display:none}
+.fgrp{gap:5px!important;padding:0 8px!important}
+.fgrp .moon,.fgrp .mi-ic{width:15px;height:15px;flex:none}
+.fg-car{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;transition:transform .2s}
+.fgrp.open .fg-car{transform:rotate(180deg)}
+.fg-n{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--ion);color:#07231F;font-size:12px;font-weight:700;display:grid;place-items:center;line-height:1}
+.fgrp.on{color:var(--text);border-color:var(--ion);background:rgba(111,227,214,.13)}
+.fgrp.open{border-color:rgba(111,227,214,.6)}
+.fgrp.clr{flex:none;width:40px;padding:0;color:var(--flare);border-color:rgba(255,180,92,.4)}
+.fpanel{margin-top:8px;padding:12px;border-radius:14px;background:rgba(18,22,58,.96);border:1px solid rgba(111,227,214,.3);box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
+.fpanel[hidden]{display:none}
+.fp-h{font-size:13px;font-weight:600;margin:0 2px 8px;display:flex;align-items:baseline;gap:8px}
+.fp-h small{font-size:12px;color:var(--muted);font-weight:400}
+.fp-opts{display:flex;flex-wrap:wrap;gap:6px}
+.fp-opts .fchip{flex:none}
+.fp-opts .fchip .mi-ic{color:var(--ion)}
+.fp-opts .fchip em{font-style:normal;font-size:12px;color:var(--muted);margin-left:2px}
+.fp-none{font-size:13px;color:var(--muted);padding:6px 2px}
+.fp-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.fp-foot .btn{min-height:36px;padding:0 18px}

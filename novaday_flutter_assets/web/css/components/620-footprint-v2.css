@@ -1,0 +1,32 @@
+/* R26：星光足跡優化 */
+.fp-grid i::before{inset:12%;background:rgba(232,233,255,.075)}
+.fp-grid i.fut{visibility:visible;cursor:default}
+.fp-grid i.fut::before{inset:40%;border-radius:50%;clip-path:none;background:rgba(232,233,255,.07)}
+.fp-grid i.today::after,.fp-grid i.sel::after{inset:-6%}
+.fp-grid.big i.on{background:none}
+.fp-grid.big i.on::before{display:none}
+.fp-grid.big i .moon{position:absolute;inset:-12%;width:124%;height:124%}
+.fp-grid.big i .moon{inset:-8%;width:116%;height:116%}
+.fp-tip{border-color:color-mix(in srgb,var(--c,#8A7CFF) 40%,transparent)}
+.fp-tip .moon.big{width:30px;height:30px;margin:0}
+.fp-tip span{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;flex:1;min-width:0}
+.fp-tip span b{font-size:14px;font-weight:600}
+.fp-tip span small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-tip.empty .fp-es{flex:none;width:26px;height:26px;background:rgba(232,233,255,.18);clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+
+/* R27：「我的」各區塊標題圖示、星光足跡進場與今日提示 */
+.sec-row .sec-t{display:flex;align-items:center;gap:8px}
+.sec-ic{flex:none;width:21px;height:21px;color:var(--ion);filter:drop-shadow(0 0 4px rgba(111,227,214,.5))}
+.sec-ic .fi{fill:rgba(111,227,214,.14)}
+.sec-ic .st{fill:currentColor}
+.sec-ic .o{stroke-width:1.9}
+/* 捲到星光足跡時，星星依序亮起（每次打開「我的」頁一次） */
+.fp-grid.intro i.on::before,.fp-grid.intro i.on .moon{animation:fpLit .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--col,0) * 28ms)}
+@keyframes fpLit{0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1;transform:none}}
+/* 今天還沒寫：今天那顆星輕輕呼吸，邀請點亮 */
+.fp-grid i.today:not(.on)::before{animation:fpToday 2.4s ease-in-out infinite}
+@keyframes fpToday{0%,100%{background:rgba(232,233,255,.14);transform:scale(.9)}50%{background:rgba(111,227,214,.55);transform:scale(1.08)}}
+.app.calm .fp-grid *,.app.calm .fp-grid *::before{animation:none!important}
+@media (prefers-reduced-motion:reduce){.fp-grid *,.fp-grid *::before{animation:none!important}}
+.fp-leg .fp-cta{margin-right:auto;background:none;border:0;padding:0;color:var(--ion);font:inherit;font-size:12px;min-height:28px}
+

@@ -1,0 +1,16 @@
+/* ===== Cockpit ===== */
+.cockpit{cursor:pointer;outline:none}
+.cockpit:focus-visible circle:first-child{stroke:var(--ion);stroke-width:3}
+.ck-lv{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:7px;fill:#2B2270;text-anchor:middle;letter-spacing:.14em}
+.ship{animation:bob 4.5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(-1.8px)}50%{transform:translateY(1.8px)}}
+.rl{opacity:.28}
+.rl.on{opacity:1;animation:chase 1.8s ease-in-out infinite}
+@keyframes chase{0%,100%{opacity:.5}50%{opacity:1}}
+.beacon{animation:blink 1.6s steps(1) infinite}
+@keyframes blink{0%,65%{opacity:1}66%,100%{opacity:.2}}
+.engine{transform-origin:190px 172px;animation:engine 2.4s ease-in-out infinite}
+@keyframes engine{0%,100%{transform:scale(.9);opacity:.75}50%{transform:scale(1.1);opacity:1}}
+.app.calm .ship,.app.calm .rl.on,.app.calm .beacon,.app.calm .engine{animation:none}
+@media (prefers-reduced-motion:reduce){.ship,.rl.on,.beacon,.engine{animation:none}}
+

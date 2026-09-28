@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070A1C">
+<meta name="color-scheme" content="dark">
+<title>Novaday 持續優化版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  Novaday（每天點亮一顆新星）：行動 App 介面預覽
+  設計基準：390 × 844（iPhone 14/15）。觸控目標 ≥ 44px，輸入框字級 16px（避免 iOS 自動放大）。
+  結構：底部分頁列 5 格（星空／日記〔列表・月曆〕／點亮／圖鑑／我的），紀錄詳情、編輯、匯出皆為底部彈出面板。
+  色彩 token 定義於 :root，固定使用星空暗黑主題（背景 #070A1C，主色 #8A7CFF，輔色 #6FE3D6，強調 #FFB45C）。
+-->
+<!-- ===== 樣式（依載入順序；順序即 CSS 疊加順序，請勿任意調換） ===== -->
+<link rel="stylesheet" href="css/base/010-tokens.css">
+<link rel="stylesheet" href="css/base/020-reset.css">
+<link rel="stylesheet" href="css/layout/030-app-shell.css">
+<link rel="stylesheet" href="css/layout/040-tab-bar.css">
+<link rel="stylesheet" href="css/screens/050-home.css">
+<link rel="stylesheet" href="css/screens/060-log.css">
+<link rel="stylesheet" href="css/screens/070-calendar.css">
+<link rel="stylesheet" href="css/components/080-achievements.css">
+<link rel="stylesheet" href="css/screens/090-profile.css">
+<link rel="stylesheet" href="css/components/100-level-carousel.css">
+<link rel="stylesheet" href="css/screens/110-star-calendar.css">
+<link rel="stylesheet" href="css/screens/120-home-star-map.css">
+<link rel="stylesheet" href="css/components/130-fortune.css">
+<link rel="stylesheet" href="css/screens/140-profile-editor.css">
+<link rel="stylesheet" href="css/screens/150-atlas.css">
+<link rel="stylesheet" href="css/components/160-pilot-card.css">
+<link rel="stylesheet" href="css/layout/170-home-app-bar.css">
+<link rel="stylesheet" href="css/screens/180-editor-v3.css">
+<link rel="stylesheet" href="css/components/190-missions.css">
+<link rel="stylesheet" href="css/components/200-hud.css">
+<link rel="stylesheet" href="css/components/210-snackbar.css">
+<link rel="stylesheet" href="css/components/220-filters.css">
+<link rel="stylesheet" href="css/components/230-galaxy-3d.css">
+<link rel="stylesheet" href="css/components/240-cockpit.css">
+<link rel="stylesheet" href="css/components/250-energy-chart.css">
+<link rel="stylesheet" href="css/screens/260-editor-v2.css">
+<link rel="stylesheet" href="css/components/270-bottom-sheets.css">
+<link rel="stylesheet" href="css/base/280-effects.css">
+<link rel="stylesheet" href="css/components/290-scroll-indicator.css">
+<link rel="stylesheet" href="css/layout/300-device-frame.css">
+<link rel="stylesheet" href="css/screens/310-editor-v4.css">
+<link rel="stylesheet" href="css/components/320-fortune-card-v2.css">
+<link rel="stylesheet" href="css/components/330-zodiac-glyphs.css">
+<link rel="stylesheet" href="css/layout/340-app-bar-scroll.css">
+<link rel="stylesheet" href="css/screens/350-detail.css">
+<link rel="stylesheet" href="css/refinements/360-ui-polish.css">
+<link rel="stylesheet" href="css/screens/370-log-atlas-toggles.css">
+<link rel="stylesheet" href="css/components/380-mood-stars.css">
+<link rel="stylesheet" href="css/screens/390-atlas-v2.css">
+<link rel="stylesheet" href="css/components/400-rank-pill-level-card.css">
+<link rel="stylesheet" href="css/screens/410-log-collapse.css">
+<link rel="stylesheet" href="css/screens/420-onboarding.css">
+<link rel="stylesheet" href="css/screens/430-tonight-guide.css">
+<link rel="stylesheet" href="css/screens/440-reports-share-insights.css">
+<link rel="stylesheet" href="css/components/450-quick-note.css">
+<link rel="stylesheet" href="css/components/460-achievement-icons.css">
+<link rel="stylesheet" href="css/base/470-accessibility-responsive.css">
+<link rel="stylesheet" href="css/screens/480-pin-lock.css">
+<link rel="stylesheet" href="css/refinements/490-atlas-card-fix.css">
+<link rel="stylesheet" href="css/components/500-sheet-drag.css">
+<link rel="stylesheet" href="css/screens/510-backup-restore.css">
+<link rel="stylesheet" href="css/screens/520-search.css">
+<link rel="stylesheet" href="css/components/530-entry-share-card.css">
+<link rel="stylesheet" href="css/components/540-footprint.css">
+<link rel="stylesheet" href="css/screens/550-tag-manager.css">
+<link rel="stylesheet" href="css/refinements/560-lazy-load.css">
+<link rel="stylesheet" href="css/components/570-favorites.css">
+<link rel="stylesheet" href="css/screens/580-storage.css">
+<link rel="stylesheet" href="css/components/590-detail-swipe.css">
+<link rel="stylesheet" href="css/screens/600-year-review.css">
+<link rel="stylesheet" href="css/components/610-multi-photo.css">
+<link rel="stylesheet" href="css/components/620-footprint-v2.css">
+<link rel="stylesheet" href="css/components/630-crystal-badges.css">
+<link rel="stylesheet" href="css/components/640-badge-layout.css">
+<link rel="stylesheet" href="css/components/650-crystal-flat.css">
+<link rel="stylesheet" href="css/refinements/660-atlas-nav.css">
+<link rel="stylesheet" href="css/refinements/670-badge-proportions.css">
+<link rel="stylesheet" href="css/components/680-hud-v3.css">
+<link rel="stylesheet" href="css/components/690-zodiac-ring.css">
+<link rel="stylesheet" href="css/refinements/700-footprint-size.css">
+<link rel="stylesheet" href="css/components/710-avatar-upload-tile.css">
+<link rel="stylesheet" href="css/components/720-rank-card-sky.css">
+<link rel="stylesheet" href="css/components/730-birthday-wheel.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs>
+    <linearGradient id="avGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6D6"/><stop offset=".55" stop-color="#FFE7A3"/><stop offset="1" stop-color="#FFB45C"/></linearGradient>
+    <linearGradient id="avNeb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7BFFF"/><stop offset="1" stop-color="#6A5AE6"/></linearGradient>
+    <linearGradient id="avIon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CFFBF5"/><stop offset="1" stop-color="#2FA89E"/></linearGradient>
+    <linearGradient id="avSea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9CC2FF"/><stop offset="1" stop-color="#3F6FD1"/></linearGradient>
+    <linearGradient id="avTail" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FE3D6" stop-opacity=".9"/><stop offset="1" stop-color="#6FE3D6" stop-opacity="0"/></linearGradient>
+    <linearGradient id="avTrail" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7A3"/><stop offset="1" stop-color="#FFE7A3" stop-opacity="0"/></linearGradient>
+    <radialGradient id="avCore"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#FFE7A3"/><stop offset="1" stop-color="#FFB45C"/></radialGradient>
+    <filter id="avBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2"/></filter>
+  </defs></svg>
+<div class="device" id="device">
+<span class="hw action" aria-hidden="true"></span><span class="hw vol-up" aria-hidden="true"></span><span class="hw vol-down" aria-hidden="true"></span><span class="hw power" aria-hidden="true"></span>
+<div class="app" id="app">
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <main class="screens">
+    <!-- 星空 -->
+    <section class="screen active" id="s-home" aria-label="星空">
+      <div class="top home-top">
+        <div class="ht-main">
+          <div class="ht-brand"><svg class="ht-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHalo1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNova1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBg1)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHalo1)"/><circle cx="30" cy="30" r="9" fill="url(#nvHalo1)"/><circle cx="70" cy="72" r="9" fill="url(#nvHalo1)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNova1)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg><span class="brand-t">Novaday</span></div>
+          <div class="ht-sub" id="stardate"></div>
+          <div class="ht-row2"><h1 class="ht-greet" id="greet">你好，星旅人</h1><span class="ht-day" id="htDay"></span></div>
+        </div>
+        <button class="avatar-btn" id="openMe" aria-label="我的檔案"><span id="topAvatar"></span><span class="av-rank" id="avRank" aria-hidden="true"></span></button>
+      </div>
+      <button class="draft-bar" id="draftBar" hidden><b id="draftTxt" style="font-weight:500">📝 有一則未完成的草稿</b><span>繼續寫 ›</span></button>
+      <section class="hud panel" aria-label="觀星狀態">
+        <div class="hud-top">
+          <div class="lv-ring" id="lvRing" role="img">
+            <svg viewBox="0 0 68 68" aria-hidden="true">
+              <defs><linearGradient id="lvG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FE3D6"/><stop offset="1" stop-color="#8A7CFF"/></linearGradient></defs>
+              
+              <circle cx="34" cy="34" r="27" fill="none" stroke="rgba(138,124,255,.16)" stroke-width="5.5"/>
+              <circle class="lv-prog" id="lvProg" cx="34" cy="34" r="27" fill="none" stroke="url(#lvG)" stroke-width="5.5" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 34 34)"/>
+              <circle id="lvDot" cx="34" cy="7" r="3.4" fill="#EFFFFD" style="filter:drop-shadow(0 0 4px #6FE3D6)"/>
+              <circle cx="34" cy="34" r="21" fill="url(#lvCore)"/>
+              <defs><radialGradient id="lvCore" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#2A3080"/><stop offset="1" stop-color="#0E1235"/></radialGradient></defs>
+            </svg>
+            <div class="lv-core"><small>LV</small><b id="lvNum">1</b></div>
+          </div>
+          <div class="hud-mid">
+            <div class="rank" id="rankName"></div>
+            <div class="xpline"><span class="xpbar" aria-hidden="true"><i id="xpFill"></i></span><span class="xpv"><b id="xpNow">0</b><span id="xpNeed">/ 100</span></span></div>
+            <div class="xpnext" id="xpNext"></div>
+          </div>
+          <button class="fuel" id="fuelBtn" aria-label="連續天數與休息日說明">
+            <svg class="flame-ic" id="flameIc" viewBox="0 0 24 24" aria-hidden="true">
+              <defs><linearGradient id="flG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF6A3D"/><stop offset=".55" stop-color="#FFB45C"/><stop offset="1" stop-color="#FFE7A3"/></linearGradient></defs>
+              <path d="M12 1.8c1.2 3.6 5.3 6 5.3 11.3a5.3 5.3 0 0 1-10.6 0c0-2.6 1.4-4.4 2.7-5.7.3 1.8 1.1 2.9 2.2 3.4C11 8.2 11.1 4.8 12 1.8z" fill="url(#flG)"/>
+              <path class="fl-core" d="M12 12.6c.9 1.4 2.1 2.3 2.1 4a2.1 2.1 0 0 1-4.2 0c0-1.4 1-2.5 2.1-4z" fill="#FFF4D6"/>
+            </svg>
+            <i class="ember e1" aria-hidden="true"></i><i class="ember e2" aria-hidden="true"></i><i class="ember e3" aria-hidden="true"></i>
+            <b id="streak">0</b><span>天</span>
+          </button>
+        </div>
+        <div class="week" id="weekRow" aria-label="本週紀錄"></div>
+      </section>
+      <button type="button" class="today-card" id="todayCard" hidden></button>
+      <div class="galaxy">
+        <div class="sky-head">
+          <div class="sky-t"><div class="sky-tr"><h2 id="conName"></h2><span class="sky-k">正在點亮</span></div><span class="sky-l" id="conLatin"></span></div>
+          <button type="button" class="atlas-btn" id="atlasBtn" aria-label="星座圖鑑"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="12" cy="12" r="8.8"/><path class="o dl" d="M7.2 15.2l3.2-3.4 3 1.6"/><circle class="dt" cx="7.2" cy="15.2" r="1.2"/><circle class="dt" cx="10.4" cy="11.8" r="1.1"/><path class="st" d="M15.2 5.9Q15.79 8.61 18.5 9.2Q15.79 9.79 15.2 12.5Q14.61 9.79 11.9 9.2Q14.61 8.61 15.2 5.9Z"/></svg><span><b id="conCount">0</b> / 88</span><small>星座圖鑑</small></button>
+        </div>
+        <svg viewBox="0 0 380 300" id="gal" role="img" style="cursor:pointer"></svg>
+        <div class="sky-dots" id="skyDots" aria-hidden="true"></div>
+        <div class="gcap" id="gcap"></div>
+      </div>
+      <form class="quick-note" id="quickNote" hidden autocomplete="off">
+        <div class="qn-h"><span class="qn-k">一句話快記</span><b id="qnMoodT">今天過得怎麼樣？</b></div>
+        <div class="qn-moods" id="qnMoods" role="group" aria-label="心情"></div>
+        <div class="qn-row"><input class="field" id="qnText" maxlength="120" placeholder="用一句話記下今天…" aria-label="一句話日記"><button type="submit" class="qn-go" id="qnGo" disabled aria-label="點亮"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5Q12.9 11.1 20.5 12Q12.9 12.9 12 20.5Q11.1 12.9 3.5 12Q11.1 11.1 12 3.5Z"/></svg></button></div>
+        <button type="button" class="qn-more" id="qnMore">想多寫一點？打開完整編輯器 ›</button>
+      </form>
+      <div class="missions panel" id="missions"><div class="ms-head"><div><h2>今日任務</h2><div class="ms-sub" id="mSub"></div></div><div class="ms-count" id="mCount"></div></div><div class="ms-bar" id="mBar" aria-hidden="true"><i></i><i></i><i></i></div><div id="mList"></div><button type="button" class="ms-more" id="msMore" aria-expanded="false"></button></div>
+      <button type="button" class="mem-card" id="rpCard" hidden></button>
+      <button type="button" class="mem-card" id="memCard" hidden></button>
+      <div class="fo-wrap" id="foWrap"><button type="button" class="fortune panel" id="fortuneCard"></button><button type="button" class="fo-x" id="foX" hidden aria-label="之後再說，7 天內不在首頁顯示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>
+    </section>
+
+    <!-- 紀錄 -->
+    <section class="screen" id="s-log" aria-label="日記">
+      <div class="top" id="logTop" style="flex-direction:column;align-items:stretch">
+        <div class="log-hrow"><h1><svg class="nic h1-ic" viewBox="0 0 24 24" aria-hidden="true"><rect class="o fi" x="4.5" y="3" width="15" height="18" rx="3"/><path class="o" d="M8.5 3v18"/><path class="st" d="M14 6.6Q14.648 9.552 17.6 10.2Q14.648 10.847999999999999 14 13.799999999999999Q13.352 10.847999999999999 10.4 10.2Q13.352 9.552 14 6.6Z"/><path class="o" d="M11.5 16.5h5"/></svg>日記</h1><div class="hr-act"><button type="button" class="today-btn" id="calToday" hidden>回到今天</button><button type="button" class="icon-btn" id="logFind" aria-label="搜尋紀錄"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></div></div>
+        <div class="seg" role="tablist" aria-label="日記檢視方式"><button type="button" role="tab" data-v="list" aria-selected="true">列表</button><button type="button" role="tab" data-v="cal" aria-selected="false">月曆</button><i class="seg-ind" aria-hidden="true"></i></div>
+        <div id="listCtl">
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <label for="q" class="sr">搜尋紀錄</label>
+          <input id="q" type="search" placeholder="搜尋標題、內文、標籤或地點" autocomplete="off" enterkeyhint="search">
+          <button type="button" class="q-clr" id="qClr" aria-label="清除搜尋" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l8 8M16 8l-8 8"/></svg></button>
+        </div>
+        <div class="q-sug" id="qSug" hidden></div>
+        <div class="f-row"><div class="filters" id="filters" role="group" aria-label="篩選"></div><div class="dens" id="logMode" role="radiogroup" aria-label="列表顯示方式"><button type="button" role="radio" data-d="0" aria-label="卡片"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="6.5" rx="2"/><rect x="4" y="13" width="16" height="6.5" rx="2"/></svg></button><button type="button" role="radio" data-d="1" aria-label="精簡"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button></div></div>
+        <div class="fpanel" id="fPanel" hidden></div>
+        </div>
+      </div>
+      <div id="logList"></div>
+      <div id="calWrap" hidden><div id="calView"></div><div id="calDay"></div></div>
+    </section>
+
+    <!-- 星座圖鑑 -->
+    <section class="screen" id="s-atlas" aria-label="星座圖鑑">
+      <div class="top" id="atTop"><div class="log-hrow"><h1><svg class="nic h1-ic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="12" cy="12" r="8.8"/><path class="o dl" d="M7.2 15.2l3.2-3.4 3 1.6"/><circle class="dt" cx="7.2" cy="15.2" r="1.2"/><circle class="dt" cx="10.4" cy="11.8" r="1.1"/><path class="st" d="M15.2 5.8999999999999995Q15.793999999999999 8.606 18.5 9.2Q15.793999999999999 9.793999999999999 15.2 12.5Q14.606 9.793999999999999 11.899999999999999 9.2Q14.606 8.606 15.2 5.8999999999999995Z"/></svg>圖鑑</h1><button type="button" class="icon-btn" id="atSearchBtn" aria-label="搜尋星座" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></div><div class="search at-search" id="atSearch" hidden><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><label for="atQ" class="sr">搜尋星座</label><input id="atQ" type="search" placeholder="搜尋星座名稱，例如：獵戶、Orion" autocomplete="off"></div><div class="at-tabs" id="atTabs" role="tablist" aria-label="圖鑑分類"></div></div>
+      <div id="atlasView"></div>
+    </section>
+
+    <!-- 我的 -->
+    <section class="screen" id="s-me" aria-label="我的">
+      <div class="top"><h1><svg class="nic h1-ic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="11" cy="8.6" r="3.9"/><path class="o" d="M3.8 20.5c.9-4.1 3.8-6.3 7.2-6.3s6.3 2.2 7.2 6.3"/><path class="st" d="M19 2.2Q19.504 4.496 21.8 5Q19.504 5.504 19 7.8Q18.496 5.504 16.2 5Q18.496 4.496 19 2.2Z"/></svg>我的</h1><button class="icon-btn" id="editMe" aria-label="設定"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.5 7.5 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.5 7.5 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.5 7.5 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.5 7.5 0 0 0 2.6-1.5l2.4 1 2-3.4z"/></svg></button></div>
+      <div class="pilot panel">
+        <div class="p-banner" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="rk-track" id="rkTrack" tabindex="0" role="region" aria-roledescription="輪播" aria-label="觀星者卡片，左右滑動查看每一階">
+        <article class="rk-card is-cur p-slide" id="pSlide" role="group" aria-roledescription="階級">
+          <div class="rk-top"><span class="rk-state" id="pState"><i class="rs-dot" aria-hidden="true"></i>目前階級</span><span class="rk-lv" id="pLvRange"></span></div>
+          <div class="p-gauge" id="pAvRing" role="img">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <linearGradient id="pG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FE3D6"/><stop offset="1" stop-color="#8A7CFF"/></linearGradient>
+                <radialGradient id="pCore" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#2A3080"/><stop offset="1" stop-color="#0C1030"/></radialGradient>
+              </defs>
+              
+              <circle cx="60" cy="60" r="49" fill="none" stroke="rgba(138,124,255,.16)" stroke-width="6"/>
+              <circle class="lv-prog" id="pProg" cx="60" cy="60" r="49" fill="none" stroke="url(#pG)" stroke-width="6" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 60 60)"/>
+              <circle id="pDot" cx="60" cy="11" r="4.2" fill="#EFFFFD" style="filter:drop-shadow(0 0 5px #6FE3D6)"/>
+              <circle cx="60" cy="60" r="41" fill="url(#pCore)" stroke="rgba(255,255,255,.08)"/>
+            </svg>
+            <span class="p-av" id="pAvatar"></span>
+            <span class="p-lvx"><span class="p-rb" id="pRb" aria-hidden="true"></span><b class="p-lv" id="pLv">Lv.1</b><i class="lvx-sep" aria-hidden="true"></i><button type="button" class="p-rank" id="pRankChip"></button></span>
+          </div>
+          <div class="pname" id="pName"></div>
+          <div class="p-chips"><button type="button" class="p-sign" id="pSign"></button></div>
+          <div class="pmotto" id="pMotto"></div>
+          <div class="p-xp" id="pXpText"></div>
+          <div class="rk-rew" id="pRew"></div>
+        </article>
+        </div>
+        <div class="rk-foot">
+          <button type="button" class="rk-arrow" id="rkPrev" aria-label="上一階"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <div class="rk-dots" id="rkDots" role="tablist" aria-label="選擇階級"></div>
+          <button type="button" class="rk-arrow" id="rkNext" aria-label="下一階"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+        <div class="rk-sub"><p class="rk-hint" id="rkHint">← 左右滑動，看看每一階的樣子和獎勵 →</p><button type="button" class="rk-back" id="rkBack" hidden>回到我的檔案</button></div>
+      </div>
+
+            <div class="stat-row panel">
+        <div class="stat panel" style="--sc:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5c2.5-1 5.5-1 8 .5 2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z"/><path d="M12 6v13.5"/></svg><b id="stTotal">0</b><span>總紀錄</span></div>
+        <div class="stat panel" style="--sc:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg><b id="stWords">0</b><span>總字數</span></div>
+        <div class="stat panel" style="--sc:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2.4 1.3-4 2.5-5.2.3 1.6 1 2.6 2 3C11 8 11.2 5.5 12 3z"/></svg><b id="stBest">0</b><span>最長連續</span></div>
+        <div class="stat panel" style="--sc:#FFD36F"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/></svg><b id="stXP">0</b><span>累積 XP</span></div>
+        <div class="stat panel" hidden style="--sc:#FF8FD0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><b id="stPhotos">0</b><span>影像紀錄</span></div>
+        <div class="stat panel" hidden style="--sc:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><b id="stLocs">0</b><span>到訪地點</span></div>
+      </div>
+      <button type="button" class="rp-open" id="rpOpen"><span class="rpc-ic" aria-hidden="true">✦</span><span class="mem-t"><small>星空月報</small><b id="rpOpenT">本月報告</b><span>月報和年度回顧：心情、標籤、完成的星座</span></span><span class="tc-go" aria-hidden="true">›</span></button>
+
+      <div class="sec-row"><h2 class="sec-t"><svg class="nic sec-ic" viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M3 16.5c1.6 0 2-5 3.8-5s2.2 6.5 4.2 6.5 2.3-9 4.3-9 1.9 5.5 3.7 5.5"/><path class="st" d="M19.2 2.2Q19.7 4.5 22 5Q19.7 5.5 19.2 7.8Q18.7 5.5 16.4 5Q18.7 4.5 19.2 2.2Z"/></svg>心情能量</h2><span class="sub">最近 30 天</span></div>
+      <div class="energy panel">
+        <p class="insight" id="enInsight"></p>
+        <svg viewBox="0 0 320 150" id="enChart" role="img"></svg>
+        <div class="en-empty" id="enEmpty" hidden></div>
+        <div class="en-dist" id="enDist"></div>
+      </div>
+
+      <div class="sec-row"><h2 class="sec-t"><svg class="nic sec-ic" viewBox="0 0 24 24" aria-hidden="true"><path class="o dl" d="M4.6 19.4C7 18.6 8.6 16.4 10.2 13.6S14 7.8 16.8 6.6"/><circle class="dt" cx="4.4" cy="19.5" r="1.3"/><path class="st" d="M10.4 10.8Q10.87 12.93 13 13.4Q10.87 13.87 10.4 16Q9.93 13.87 7.8 13.4Q9.93 12.93 10.4 10.8Z"/><path class="st" d="M17.6 2.4Q18.28 5.52 21.4 6.2Q18.28 6.88 17.6 10Q16.92 6.88 13.8 6.2Q16.92 5.52 17.6 2.4Z"/></svg>星光足跡</h2><span class="sub" id="fpSub">過去半年</span></div>
+      <div class="foot panel" id="footprint"></div>
+
+      <div class="sec-row"><h2 class="sec-t"><svg class="nic sec-ic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="10.5" cy="10.5" r="6.3"/><path class="o" d="M15.2 15.2l5 5"/><path class="st" d="M10.5 7.5Q11.04 9.96 13.5 10.5Q11.04 11.04 10.5 13.5Q9.96 11.04 7.5 10.5Q9.96 9.96 10.5 7.5Z"/></svg>心情洞察</h2><span class="sub">從你的紀錄找規律</span></div>
+      <div class="insights" id="insights"></div>
+      <div class="sec-row"><h2 class="sec-t"><svg class="nic sec-ic" viewBox="0 0 24 24" aria-hidden="true"><path class="o" d="M8.6 14.2 7 21l5-2.6 5 2.6-1.6-6.8"/><circle class="o fi" cx="12" cy="9.2" r="6"/><path class="st" d="M12 6.1Q12.56 8.64 15.1 9.2Q12.56 9.76 12 12.3Q11.44 9.76 8.9 9.2Q11.44 8.64 12 6.1Z"/></svg>成就徽章</h2><span class="sub" id="aCount"></span></div>
+      <button type="button" class="ach-next" id="achNext" hidden></button>
+      <div class="medals" id="achList"></div>
+      <button type="button" class="ach-more" id="achMore" hidden></button>
+
+    </section>
+  </main>
+
+  <div class="compact-bar" id="compactBar"><button type="button" class="cb-title" id="cbTitle" aria-label="回到頂部"><svg class="ht-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHalo2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNova2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBg2)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHalo2)"/><circle cx="30" cy="30" r="9" fill="url(#nvHalo2)"/><circle cx="70" cy="72" r="9" fill="url(#nvHalo2)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNova2)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg><span class="brand-t">Novaday</span></button><button type="button" class="cb-date" id="cbDate" aria-label="打開日記月曆"></button><button type="button" class="cb-av" id="cbAv" aria-label="我的檔案"><span id="cbAvE"></span><span class="av-rank sm" id="cbRank" aria-hidden="true"></span></button></div>
+  <nav class="tabbar" aria-label="主要分頁">
+    <button class="tb" data-s="home" aria-current="page"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><path class="o dl" d="M13.4 13.4l2.6 2.6"/><path class="st" d="M8.8 2.500000000000001Q9.934000000000001 7.666 15.100000000000001 8.8Q9.934000000000001 9.934000000000001 8.8 15.100000000000001Q7.666 9.934000000000001 2.500000000000001 8.8Q7.666 7.666 8.8 2.500000000000001Z"/><path class="st s2" d="M18.2 14.999999999999998Q18.811999999999998 17.788 21.599999999999998 18.4Q18.811999999999998 19.011999999999997 18.2 21.799999999999997Q17.588 19.011999999999997 14.799999999999999 18.4Q17.588 17.788 18.2 14.999999999999998Z"/><circle class="dt" cx="18.6" cy="5.4" r="1.3"/><circle class="dt" cx="4.6" cy="18.6" r="1"/></svg>星空</button>
+    <button class="tb" data-s="log"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><rect class="o fi" x="4.5" y="3" width="15" height="18" rx="3"/><path class="o" d="M8.5 3v18"/><path class="st" d="M14 6.6Q14.648 9.552 17.6 10.2Q14.648 10.847999999999999 14 13.799999999999999Q13.352 10.847999999999999 10.4 10.2Q13.352 9.552 14 6.6Z"/><path class="o" d="M11.5 16.5h5"/></svg>日記</button>
+    <button class="tb launch" id="newBtn" aria-label="點亮新紀錄"><span class="lb"><svg class="fbv" id="fabSvg" viewBox="-52 -52 104 104" aria-hidden="true"><defs><radialGradient id="fbC" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#C9C2FF"/><stop offset=".45" stop-color="#7E6BF0"/><stop offset="1" stop-color="#2A1F7A"/></radialGradient>
+      <radialGradient id="fbH"><stop offset=".4" stop-color="#8A7CFF" stop-opacity=".5"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient>
+      <linearGradient id="fbO" x1="0" x2="1"><stop offset="0" stop-color="#6FE3D6" stop-opacity=".1"/><stop offset=".5" stop-color="#6FE3D6" stop-opacity=".9"/><stop offset="1" stop-color="#6FE3D6" stop-opacity=".1"/></linearGradient></defs>
+      <circle class="fb-halo" r="46" fill="url(#fbH)"/>
+      <g class="fb-orb"><g transform="rotate(-24)"><ellipse rx="43" ry="13" fill="none" stroke="url(#fbO)" stroke-width="1.2"/></g></g>
+      <circle r="29" fill="url(#fbC)"/><circle r="29" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+      <ellipse cx="-9" cy="-14" rx="10" ry="5" fill="#fff" opacity=".35" transform="rotate(-30 -9 -14)"/>
+      <path class="fb-cs" d="M0,-14 Q2.52,-2.52 14,0 Q2.52,2.52 0,14 Q-2.52,2.52 -14,0 Q-2.52,-2.52 0,-14Z" fill="#fff" style="filter:drop-shadow(0 0 4px #CFFBF5)"/>
+      <g transform="rotate(-24)"><path d="M43 0 A43 13 0 0 1 -43 0" fill="none" stroke="url(#fbO)" stroke-width="1.4"/>
+        <circle r="2.8" fill="#6FE3D6" style="filter:drop-shadow(0 0 3px #6FE3D6)"><animateMotion dur="3.6s" repeatCount="indefinite" path="M43,0 A43,13 0 1,1 -43,0 A43,13 0 1,1 43,0"/></circle></g>
+      <g transform="rotate(30)"><ellipse rx="38" ry="9" fill="none" stroke="rgba(255,211,107,.35)" stroke-width="1" stroke-dasharray="2 4"/>
+        <circle r="2.2" fill="#FFD36B" style="filter:drop-shadow(0 0 3px #FFD36B)"><animateMotion dur="5.5s" repeatCount="indefinite" path="M-38,0 A38,9 0 1,0 38,0 A38,9 0 1,0 -38,0"/></circle></g>
+    </svg></span></button>
+    <button class="tb" data-s="atlas"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="12" cy="12" r="8.8"/><path class="o dl" d="M7.2 15.2l3.2-3.4 3 1.6"/><circle class="dt" cx="7.2" cy="15.2" r="1.2"/><circle class="dt" cx="10.4" cy="11.8" r="1.1"/><path class="st" d="M15.2 5.8999999999999995Q15.793999999999999 8.606 18.5 9.2Q15.793999999999999 9.793999999999999 15.2 12.5Q14.606 9.793999999999999 11.899999999999999 9.2Q14.606 8.606 15.2 5.8999999999999995Z"/></svg>圖鑑</button>
+    <button class="tb" data-s="me"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="11" cy="8.6" r="3.9"/><path class="o" d="M3.8 20.5c.9-4.1 3.8-6.3 7.2-6.3s6.3 2.2 7.2 6.3"/><path class="st" d="M19 2.2Q19.504 4.496 21.8 5Q19.504 5.504 19 7.8Q18.496 5.504 16.2 5Q18.496 4.496 19 2.2Z"/></svg>我的</button>
+  </nav>
+
+  <!-- 編輯面板 -->
+  <div class="layer" id="editor" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <form class="sheet" id="form" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+      <div class="grab"></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="edTitle">新增紀錄</h2><button type="submit" class="launch-btn r" id="saveBtn">點亮</button></div>
+      <div class="sb">
+        <div class="ed-when"><button type="button" class="when-btn" id="whenBtn" aria-label="更改日期與時間" aria-expanded="false" aria-controls="xDate"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M9 3.5v4M15 3.5v4"/></svg><span id="whenTxt"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button><span class="dstate" id="draftState" aria-live="polite"></span></div>
+        <div class="ed-star" id="edStar" hidden><svg id="edStarSvg" viewBox="0 0 84 52" aria-hidden="true"></svg>
+          <div class="es-t"><small id="edStarK">這則紀錄將點亮</small><b id="edStarN"></b><span id="edStarS">此刻的心情會決定這顆星的顏色</span></div></div>
+        <div class="prompt-note" id="promptNote" hidden><span class="pn-k" id="pnK"></span><span class="pn-t" id="pnT"></span><button type="button" class="pn-x" id="pnX" aria-label="移除書寫提示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>
+        <label class="sr" for="fTitle">標題</label>
+        <input class="bare title" id="fTitle" placeholder="標題（選填）" autocomplete="off">
+        <label class="sr" for="fBody">內容</label>
+        <textarea class="bare body" id="fBody" rows="4" placeholder="今天發生了什麼？寫幾句就很好。"></textarea>
+        <div class="sparks" id="sparks">
+          <div class="sparks-h">沒有靈感？從這裡開始</div>
+          <div class="sparks-row">
+            <button type="button" class="spark-chip sig" id="sigChip">今日星語 <b>+10 XP</b></button>
+            <button type="button" class="spark-chip">今天最想記住的一刻是</button>
+            <button type="button" class="spark-chip">讓我微笑的一件小事：</button>
+            <button type="button" class="spark-chip">此刻的感受是</button>
+            <button type="button" class="spark-chip">今天想感謝的是</button>
+          </div>
+        </div>
+        <div class="xsec" id="xPhoto" hidden>
+          <div class="xh">影像紀錄</div>
+          <div class="ph-strip" id="fPhotos"></div>
+          <input type="file" accept="image/*" id="fPhoto" multiple hidden>
+          <p class="ph-hint" id="phHint">最多 4 張・點一下照片可以設為封面</p>
+        </div>
+        <div class="xsec" id="xLoc" hidden><label class="f">地點<span class="two"><input class="field" id="fLoc" placeholder="例如：台北・大安森林公園"><button type="button" class="btn" id="geo">定位</button></span></label><div class="sug" id="locSug" aria-label="最近的地點"></div></div>
+        <div class="xsec" id="xTags" hidden><label class="f">標籤<input class="field" id="fTags" placeholder="用逗號分隔，例如：工作, 旅行"></label><div class="sug" id="tagSug" aria-label="常用標籤"></div></div>
+        <div class="xsec" id="xDate" hidden><label class="f">日期與時間<span class="two"><input class="field" type="date" id="fDate" required><input class="field" type="time" id="fTime"></span></label></div>
+      </div>
+      <div class="edbar">
+        <div class="eb-h"><span>此刻的心情・<b id="moodNow">還可以</b></span><button type="button" class="xpchip" id="xpPrev" aria-label="預計獲得的經驗值">+20 XP</button></div>
+        <div class="moods mini" id="moods" role="group" aria-label="此刻的心情"></div>
+        <div class="tools">
+          <button type="button" class="tool" data-x="xPhoto" aria-pressed="false" aria-label="照片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><span>照片</span></button>
+          <button type="button" class="tool" data-x="xLoc" aria-pressed="false" aria-label="地點"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span>地點</span></button>
+          <button type="button" class="tool" data-x="xTags" aria-pressed="false" aria-label="標籤"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg><span>標籤</span></button>
+          <span class="wc" id="wc" aria-live="off">0 字</span>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- 個人資料面板 -->
+  <div class="layer" id="meSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <form class="sheet" id="meForm" role="dialog" aria-modal="true" aria-labelledby="meTitle">
+      <div class="grab"></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="meTitle">編輯個人資料</h2><button type="submit" class="launch-btn r" id="meSave">儲存</button></div>
+      <div class="sb">
+        <div class="me-hero">
+          <i class="mh-stars" aria-hidden="true"></i>
+          <button type="button" class="mh-av" id="meAvBtn" aria-label="上傳照片當頭像"><span class="me-av" id="mePrevAv"></span></button>
+          <div class="mh-t" aria-live="polite"><b id="mePrevName"></b><small id="mePrevMotto"></small><span id="mePrevSign"></span></div>
+        </div>
+        <section class="me-card"><div class="mc-h"><h3>星空頭像</h3><span class="mc-note" id="avNow"></span></div>
+          <div class="avs" id="avs" role="radiogroup" aria-label="選擇星空頭像"></div>
+          <input type="file" id="avFile" accept="image/*" hidden>
+        </section>
+        <section class="me-card"><div class="mc-h"><h3>關於你</h3></div>
+          <label class="mf"><span class="mf-l">暱稱<em id="cntName"></em></span><input class="field" id="inName" maxlength="20" placeholder="例如：Lyra" autocomplete="nickname" enterkeyhint="next"></label>
+          <label class="mf"><span class="mf-l">座右銘<em id="cntMotto"></em></span><input class="field" id="inMotto" maxlength="40" placeholder="一句話介紹自己" enterkeyhint="done"></label>
+        </section>
+        <section class="me-card" id="bdSec"><div class="mc-h"><h3>生日與星座</h3><button type="button" class="mc-link" id="bdClear">清除</button></div>
+          <div class="bd-row">
+            <label class="sr" for="inBM">出生月份</label><select class="field" id="inBM"><option value="">月份</option><option value="1">1 月</option><option value="2">2 月</option><option value="3">3 月</option><option value="4">4 月</option><option value="5">5 月</option><option value="6">6 月</option><option value="7">7 月</option><option value="8">8 月</option><option value="9">9 月</option><option value="10">10 月</option><option value="11">11 月</option><option value="12">12 月</option></select>
+            <label class="sr" for="inBD">出生日期</label><select class="field" id="inBD"><option value="">日期</option></select>
+          </div>
+          <div class="bd-sign" id="bdSign"></div>
+        </section>
+        <p class="me-foot">只需要月份和日期。個人資料和照片都只存在這台裝置。</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- 徽章詳情 -->
+  <div class="layer" id="achSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short as-sheet" role="dialog" aria-modal="true" aria-labelledby="asN">
+      <div class="grab"></div>
+      <button type="button" class="as-x" id="asX" aria-label="關閉"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+      <div class="sb" id="asBody"></div>
+    </div>
+  </div>
+  <!-- 頭像照片選項 -->
+  <div class="layer" id="avOpt" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="aoT">
+      <div class="grab"></div>
+      <div class="sb ao">
+        <div class="ao-h"><span class="ao-av" id="aoAv"></span><div><h2 id="aoT">我的照片</h2><p>照片會裁切成圓形，只存在這台裝置</p></div></div>
+        <div class="ao-list">
+          <button type="button" class="ao-i" id="aoUse"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>使用這張照片</button>
+          <button type="button" class="ao-i" id="aoNew"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg>換一張照片</button>
+          <button type="button" class="ao-i danger" id="aoRm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></svg>移除照片</button>
+        </div>
+        <button type="button" class="btn ao-cancel" data-close>取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 頭像裁切 -->
+  <div class="layer" id="cropSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet crop-sheet" role="dialog" aria-modal="true" aria-labelledby="cropTitle">
+      <div class="grab"></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="cropTitle">調整頭像</h2><button type="button" class="launch-btn r" id="cropOk">使用</button></div>
+      <div class="sb crop-body">
+        <div class="crop-stage" id="cropStage" aria-label="拖曳調整照片位置" role="img"><img id="cropImg" alt="" draggable="false"><div class="crop-mask" aria-hidden="true"></div></div>
+        <p class="crop-tip">拖曳移動位置，雙指捏合或拉動滑桿縮放</p>
+        <div class="crop-zoom"><button type="button" class="icon-btn" id="cropMinus" aria-label="縮小"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button><input type="range" id="cropZoom" min="1" max="4" step="0.01" value="1" aria-label="縮放"><button type="button" class="icon-btn" id="cropPlus" aria-label="放大"><svg viewBox="0 0 24 24"><path d="M6 12h12M12 6v12"/></svg></button></div>
+        <div class="crop-prevs" aria-hidden="true"><canvas id="cropPv1" width="120" height="120"></canvas><canvas id="cropPv2" width="80" height="80"></canvas><canvas id="cropPv3" width="80" height="80"></canvas><span>預覽</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 詳情面板 -->
+  <div class="layer" id="detail" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short dsheet" role="dialog" aria-modal="true" aria-label="紀錄詳情">
+      <div class="grab"></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>關閉</button><h2>星光紀錄</h2><button type="button" class="txt-btn go r" id="dEdit">編輯</button></div>
+      <div class="sb detail" id="dBody"></div>
+    </div>
+  </div>
+
+  <!-- 照片檢視 -->
+  <div class="layer pv-layer" id="phViewer" aria-hidden="true">
+    <div class="pv" role="dialog" aria-modal="true" aria-label="照片檢視">
+      <div class="pv-top"><span class="pv-n" id="pvN" aria-live="polite"></span><button type="button" class="pv-x" data-close aria-label="關閉"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="pv-track" id="pvTrack"></div>
+    </div>
+  </div>
+
+  <!-- 儲存空間 -->
+  <div class="layer" id="storeSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="stTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="stTitle">儲存空間</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb" id="stBody"></div>
+    </div>
+  </div>
+
+  <!-- 標籤管理 -->
+  <div class="layer" id="tagSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="tgTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="tgTitle">管理標籤</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb"><p class="ex-note">點一下標籤可以改名或刪除。改成已經存在的名稱，兩個標籤就會合併。</p><div class="tg-list" id="tgList"></div></div>
+    </div>
+  </div>
+
+  <!-- 還原面板 -->
+  <div class="layer" id="importSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="imTitle">
+      <div class="grab"></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="imTitle">從備份還原</h2><span></span></div>
+      <div class="sb">
+        <p class="ex-note">選擇之前下載的備份檔（.json），或把備份內容貼在下面。已經在這台裝置上的紀錄不會重複匯入。</p>
+        <label class="im-file"><input type="file" id="imFile" accept=".json,application/json,text/plain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">支援「完整備份」和「JSON」格式</small></span></label>
+        <textarea class="field" id="imIn" placeholder="或把備份內容貼在這裡…" aria-label="貼上備份內容" style="min-height:120px;font-size:13px"></textarea>
+        <div class="im-prev" id="imPrev" aria-live="polite" hidden></div>
+        <label class="im-prof" id="imProfRow" hidden><input type="checkbox" id="imProf"><span>同時還原個人資料<small>暱稱、頭像、生日、地區與星座點亮順序</small></span></label>
+        <button type="button" class="btn primary im-go" id="imGo" disabled>匯入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 匯出面板 -->
+  <div class="layer" id="exporter" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="exTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="exTitle">匯出與備份</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <p class="ex-note">所有紀錄只存在這台裝置的瀏覽器裡。定期下載一份備份，換手機或清除瀏覽器資料時就能還原。</p>
+        <div class="exseg" role="radiogroup" aria-label="匯出格式"><button type="button" role="radio" id="fmtFull" data-f="full">完整備份</button><button type="button" role="radio" id="fmtJson" data-f="json">JSON</button><button type="button" role="radio" id="fmtText" data-f="text">純文字</button></div>
+        <p class="ex-hint" id="exHint"></p>
+        <textarea class="field" id="exOut" readonly aria-label="匯出內容預覽" style="min-height:180px;font-size:13px"></textarea>
+        <div class="row ex-act"><button class="btn" id="dlEx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg>下載檔案</button><button class="btn primary" id="copyEx"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg>複製內容</button></div>
+        <button type="button" class="ex-to-im" id="exToIm">已經有備份？從備份還原 ›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 本月紀錄面板 -->
+  <div class="layer" id="monthSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="mTitle">本月紀錄</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb" id="mBody"></div>
+    </div>
+  </div>
+
+  <!-- 星座圖鑑 -->
+  </div>
+
+  <!-- 星座詳情 -->
+  <div class="layer" id="conSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="conTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="conTitle">星座</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb" id="conBody"></div>
+    </div>
+  </div>
+
+  <!-- 星座性格與運勢 -->
+  <div class="layer" id="fortuneSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fsTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="fsTitle">星座運勢</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb" id="fsBody"></div>
+    </div>
+  </div>
+
+  <!-- 所在地區 -->
+  <div class="layer" id="regionSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="rgTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="rgTitle">所在地區</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <p class="rg-note">選一個離你最近的城市。只用緯度判斷星座高度，不會上傳位置。</p>
+        <button type="button" class="rg-geo" id="rgGeo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><circle cx="12" cy="12" r="7"/></svg>使用目前位置</button>
+        <div class="rg-list" id="rgList"></div>
+        <button type="button" class="rg-none" id="rgNone">不設定地區</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 快速設定生日 -->
+  <div class="layer" id="bdQuick" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="bqTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="bqTitle">你的生日</h2><button type="button" class="txt-btn r" data-close>取消</button></div>
+      <div class="sb">
+        <p class="bq-lead">只需要月份和日期，用來找出你的星座。</p>
+        <div class="bq-wlab" aria-hidden="true"><span>月份</span><span>日期</span></div>
+        <div class="bq-wheel" id="bqWheel"><i class="wh-hl" aria-hidden="true"></i><div class="wh-col" id="bqWM" role="listbox" aria-label="出生月份" tabindex="0"></div><div class="wh-col" id="bqWD" role="listbox" aria-label="出生日期" tabindex="0"></div></div>
+        <div class="bq-prev" id="bqPrev" aria-live="polite"></div>
+        <button type="button" class="btn primary bq-go" id="bqGo" disabled>查看我的運勢</button>
+        <p class="bq-note">之後可在「我的 → 編輯個人資料」修改</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 設定 -->
+  <div class="layer" id="settingsSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="setTitle">設定</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+      <div class="list panel" style="margin-top:0">
+        <button class="li" id="liEdit"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg></i><span>編輯個人資料<small>頭像、暱稱、生日與座右銘</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liRegion"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><span>所在地區<small>用來判斷星座在你那裡看不看得到</small></span></span><span class="li-v" id="regionVal">未設定</span><span class="chev" aria-hidden="true">›</span></button>
+        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></i><span>每日提醒<small>預覽版不會實際發送通知</small></span></span><button class="sw" role="switch" id="swRemind" aria-checked="false" aria-label="每日提醒"></button></div>
+        <label class="li" id="liTime"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></i><span>提醒時間</span></span><input type="time" id="remindTime"></label>
+        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg></i><span>減少動態效果<small>停止星星閃爍與點亮動畫</small></span></span><button class="sw" role="switch" id="swCalm" aria-checked="false" aria-label="減少動態效果"></button></div>
+        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FF6B6B"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg></i><span>紅光夜視模式<small>戶外觀星時使用，不刺眼、不破壞暗適應</small></span></span><button class="sw" role="switch" id="swRed" aria-checked="false" aria-label="紅光夜視模式"></button></div>
+        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg></i><span>密碼鎖<small id="lkSub">打開 App 時需要輸入 4 位數密碼</small></span></span><button class="sw" role="switch" id="swLock" aria-checked="false" aria-label="密碼鎖"></button></div>
+      </div>
+      <div class="list panel" style="margin-top:10px">
+        <button class="li" id="liStore"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-6"/></svg></i><span>儲存空間<small id="stSub">紀錄和照片存在這台裝置</small></span></span><span class="li-v" id="stVal"></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liTags"><span class="li-l"><i class="li-ic" style="--ic:#5FD8CC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg></i><span>管理標籤<small>改名、合併或刪除標籤</small></span></span><span class="li-v" id="tagCnt"></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liSamples" hidden><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M9 9l6 6M15 9l-6 6"/></svg></i><span>清除範例紀錄<small></small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="openExport"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg></i><span>匯出與備份<small>下載完整備份，或匯出成純文字</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liImport"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M4.5 14v4a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></i><span>從備份還原<small>匯入之前下載的備份檔</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+
+      </div>
+      <div class="list panel" style="margin-top:18px">
+        <button class="li danger" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄</span></span></button>
+      </div>
+      <p class="ver">Novaday・每天點亮一顆新星・持續優化版 2.0</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 清除所有紀錄（需輸入確認） -->
+  <div class="layer" id="wipeSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="wpTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="wpTitle">清除所有紀錄</h2><button type="button" class="txt-btn r" data-close>取消</button></div>
+      <div class="sb">
+        <p class="wp-msg" id="wpMsg"></p>
+        <button type="button" class="btn" id="wpExport" style="width:100%">先匯出備份</button>
+        <label class="mf" style="margin-top:16px"><span class="mf-l">輸入「刪除」兩個字以確認</span><input class="field" id="wpIn" autocomplete="off" placeholder="刪除"></label>
+        <button type="button" class="btn danger wp-go" id="wpGo" disabled>永久刪除全部紀錄</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 密碼鎖 -->
+  <div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lkT" hidden>
+    <div class="lk-top"><div class="lk-logo" aria-hidden="true"><svg class="lk-svg" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloL" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaL" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgL)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloL)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloL)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloL)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaL)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg></div><h2 id="lkT">輸入密碼</h2><p id="lkM">解鎖你的星空日記</p>
+      <div class="lk-dots" id="lkDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+    <div class="lk-pad" id="lkPad" role="group" aria-label="數字鍵盤"></div>
+    <div class="lk-foot"><button type="button" class="lk-link" id="lkCancel" hidden>取消</button><button type="button" class="lk-link" id="lkForgot">忘記密碼？</button></div>
+  </div>
+
+  <!-- 第一次使用引導 -->
+  <div class="onb" id="onb" role="dialog" aria-modal="true" aria-labelledby="obT" hidden>
+    <canvas class="ob-sky" id="obSky" aria-hidden="true"></canvas>
+    <div class="ob-top"><button type="button" class="ob-back" id="obBack" aria-label="上一步"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="ob-dots" id="obDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div><button type="button" class="ob-skip" id="obSkip">略過</button></div>
+    <div class="ob-body" id="obBody"></div>
+    <div class="ob-foot"><button type="button" class="btn primary ob-next" id="obNext">開始</button><button type="button" class="ob-alt" id="obAlt" hidden></button></div>
+  </div>
+
+  <!-- 分享圖卡 -->
+  <div class="layer" id="shareSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="shTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="shTitle">分享圖卡</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb"><div class="sh-prev" id="shPrev"><div class="sh-load">正在產生圖卡…</div></div>
+        <div class="exseg sh-opt" id="shOpt" role="radiogroup" aria-label="圖卡內容" hidden><button type="button" role="radio" data-o="full">包含內文</button><button type="button" role="radio" data-o="lite">只有標題和心情</button></div>
+        <p class="sh-hint">長按圖片也可以直接儲存</p>
+        <div class="row sh-btns"><button type="button" class="btn" id="shSave">儲存圖片</button><button type="button" class="btn primary" id="shGo">分享</button></div></div>
+    </div>
+  </div>
+
+  <!-- 確認面板 -->
+  <div class="layer" id="ask" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet ask" role="alertdialog" aria-modal="true" aria-labelledby="askT" aria-describedby="askM">
+      <div class="grab"></div>
+      <div class="sb"><h2 id="askT"></h2><p id="askM"></p><div class="ask-btns" id="askBtns"></div></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="conDone" role="dialog" aria-modal="true" aria-labelledby="cdName">
+    <div class="cd-card"><div class="cd-k">星座完成</div><svg viewBox="0 0 300 220" id="cdFig" aria-hidden="true"></svg>
+      <h2 id="cdName"></h2><p class="cd-la" id="cdLa"></p><p class="cd-f" id="cdFact"></p><div class="cd-btns"><button class="btn" id="cdShare">分享圖卡</button><button class="btn primary" id="cdOk">收進圖鑑</button></div></div>
+  </div>
+  <div class="overlay" id="lvUp" role="dialog" aria-modal="true" aria-labelledby="lvUpTitle">
+    <div class="lvcard"><div class="lv-badge" id="lvUpBadge"></div><div class="big" id="lvUpNum">2</div><h2 id="lvUpTitle">等級提升</h2><p id="lvUpRank"></p><button class="btn primary" id="lvUpOk">繼續觀星</button></div>
+  </div>
+  <div class="ach-pop" id="achPop" role="status" aria-live="polite"><div class="ap-ic" id="apIc"></div><div class="ap-t"><small>新徽章解鎖</small><b id="apN"></b><span id="apD"></span></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="snack" id="snack" role="status" aria-live="polite"><span id="snackMsg"></span><button type="button" id="snackBtn">復原</button></div>
+
+  <!-- 模擬 iOS 系統介面（僅電腦預覽） -->
+  <div class="sys-status" aria-hidden="true">
+    <span class="sys-time" id="sysTime">9:41</span>
+    <span></span>
+    <span class="sys-icons">
+      <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2.3c2.3 0 4.5.9 6.1 2.4l1.3-1.3C13.4 1.5 10.8.4 8 .4S2.6 1.5.6 3.4l1.3 1.3C3.5 3.2 5.7 2.3 8 2.3z"/><path d="M8 5.8c1.4 0 2.6.5 3.6 1.4l1.3-1.3C11.6 4.7 9.9 4 8 4s-3.6.7-4.9 1.9l1.3 1.3c1-.9 2.2-1.4 3.6-1.4z"/><path d="M8 9.3c.6 0 1.1.2 1.5.6L8 11.5 6.5 9.9c.4-.4.9-.6 1.5-.6z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="#fff" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2.4"/><rect x="24.8" y="4.3" width="1.6" height="4.4" rx=".8" fill-opacity=".45"/></svg>
+    </span>
+  </div>
+  <div class="sys-island" aria-hidden="true"></div>
+</div>
+</div>
+
+<!-- ===== 程式（依載入順序執行） ===== -->
+<script src="js/core/000-error-overlay.js"></script>
+<script src="js/core/010-config.js"></script>
+<script src="js/data/020-moods-ranks.js"></script>
+<script src="js/ui/art/030-rank-badge.js"></script>
+<script src="js/data/040-constellations.js"></script>
+<script src="js/data/050-zodiac-fortune.js"></script>
+<script src="js/ui/art/060-mood-stars.js"></script>
+<script src="js/ui/art/070-avatars.js"></script>
+<script src="js/core/080-profile.js"></script>
+<script src="js/core/090-storage.js"></script>
+<script src="js/logic/100-xp-streak.js"></script>
+<script src="js/data/110-achievements.js"></script>
+<script src="js/ui/art/120-crystal.js"></script>
+<script src="js/logic/130-achievement-rules.js"></script>
+<script src="js/core/140-navigation.js"></script>
+<script src="js/screens/home/150-render.js"></script>
+<script src="js/logic/160-sky-projection.js"></script>
+<script src="js/data/170-constellation-figures.js"></script>
+<script src="js/ui/art/180-constellation-map.js"></script>
+<script src="js/screens/atlas/190-atlas.js"></script>
+<script src="js/screens/atlas/200-tonight-guide.js"></script>
+<script src="js/features/210-share-cards.js"></script>
+<script src="js/features/220-mood-insights.js"></script>
+<script src="js/features/230-badge-unlock.js"></script>
+<script src="js/screens/home/240-zodiac-fortune.js"></script>
+<script src="js/screens/home/250-memories.js"></script>
+<script src="js/features/260-monthly-report.js"></script>
+<script src="js/features/270-year-review.js"></script>
+<script src="js/screens/home/280-today.js"></script>
+<script src="js/screens/log/290-search-filter.js"></script>
+<script src="js/screens/log/300-star-calendar.js"></script>
+<script src="js/screens/me/310-energy-chart.js"></script>
+<script src="js/screens/me/320-rank-carousel.js"></script>
+<script src="js/ui/330-gestures-shortcuts.js"></script>
+<script src="js/features/340-photo-viewer.js"></script>
+<script src="js/features/350-storage-usage.js"></script>
+<script src="js/features/360-tag-manager.js"></script>
+<script src="js/screens/me/370-footprint.js"></script>
+<script src="js/screens/me/380-badge-sheet.js"></script>
+<script src="js/ui/390-sheets.js"></script>
+<script src="js/screens/400-detail.js"></script>
+<script src="js/screens/410-editor.js"></script>
+<script src="js/ui/420-effects.js"></script>
+<script src="js/ui/430-starfield.js"></script>
+<script src="js/features/440-export.js"></script>
+<script src="js/screens/me/450-profile-actions.js"></script>
+<script src="js/screens/home/460-app-bar.js"></script>
+<script src="js/screens/log/470-collapse.js"></script>
+<script src="js/features/480-backup-restore.js"></script>
+<script src="js/ui/490-scroll-behavior.js"></script>
+<script src="js/ui/500-device-preview.js"></script>
+<script src="js/app/510-init-search.js"></script>
+<script src="js/screens/520-onboarding.js"></script>
+<script src="js/features/530-settings-pin-lock.js"></script>
+<script src="js/app/540-boot.js"></script>
+</body>
+</html>

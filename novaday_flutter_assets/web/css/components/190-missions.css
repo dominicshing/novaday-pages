@@ -1,0 +1,32 @@
+/* ===== Missions v2 ===== */
+.missions{margin-top:14px;padding:14px 10px 10px;transition:border-color .4s,box-shadow .4s}
+.ms-head{display:flex;justify-content:space-between;align-items:flex-end;padding:0 6px}
+.ms-head h2{margin:0;font-size:17px}
+.ms-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.ms-count{font-size:22px;font-weight:700;color:var(--flare);font-variant-numeric:tabular-nums;line-height:1}
+.ms-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:10px 6px 6px}
+.ms-bar i{height:4px;border-radius:2px;background:rgba(138,124,255,.18);transition:background .4s,box-shadow .4s}
+.ms-bar i.on{background:linear-gradient(90deg,#8A7CFF,#6FE3D6);box-shadow:0 0 8px rgba(111,227,214,.6)}
+.ms{display:flex;align-items:center;margin-top:6px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid transparent}
+.ms:not(.done):not(.locked){border-color:rgba(138,124,255,.22);background:rgba(138,124,255,.06)}
+.ms-main{flex:1;min-width:0;display:flex;align-items:center;gap:12px;min-height:62px;padding:8px 10px;background:none;border:0;text-align:left;color:inherit;border-radius:14px;transition:background .15s}
+.ms-main:not(:disabled):active{background:rgba(138,124,255,.14)}
+.ms-main:disabled{cursor:default}
+.ms-ic{width:38px;height:38px;border-radius:12px;flex:none;display:grid;place-items:center;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px currentColor}
+.ms-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ms.done .ms-ic{background:var(--ion);box-shadow:0 0 12px rgba(111,227,214,.55)}
+.ms.done .ms-ic svg{stroke-width:2.6}
+.ms.locked .ms-ic{color:var(--muted)!important}
+.ms-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.ms-txt b{font-size:15px;font-weight:600;line-height:1.35}
+.ms-txt small{font-size:12px;color:var(--muted);line-height:1.45;margin-top:1px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ms.done .ms-txt b{color:var(--muted)}
+.ms-xp{flex:none;font-size:12px;font-weight:700;color:var(--ion);padding:3px 9px;border-radius:999px;background:rgba(111,227,214,.1);border:1px solid rgba(111,227,214,.3);font-variant-numeric:tabular-nums}
+.ms.done .ms-xp{color:var(--muted);background:none;border-color:transparent;font-weight:500;padding:3px 2px}
+.ms.locked{opacity:.55}.ms.locked .ms-xp{display:none}
+.ms-go{color:var(--muted);font-size:20px;line-height:1;margin-left:-4px}
+.ms-swap{flex:none;width:40px;height:40px;margin-right:8px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;padding:0}
+.ms-swap svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;transition:transform .3s}
+.ms-swap:active svg{transform:rotate(-120deg)}
+.missions.all-done{border-color:rgba(111,227,214,.45);box-shadow:var(--glow),0 0 30px -12px rgba(111,227,214,.6)}
+

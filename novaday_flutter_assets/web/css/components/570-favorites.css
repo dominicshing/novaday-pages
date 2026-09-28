@@ -1,0 +1,12 @@
+/* R18：收藏 */
+.fav-m{display:inline-grid;place-items:center;vertical-align:-2px;margin-right:5px;color:#FFC744}
+.fav-m .mi-ic{width:15px;height:15px;fill:currentColor;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round}
+.entry.row .fav-m{margin:0 -2px 0 0}
+.dv-fav{display:inline-flex;align-items:center;gap:6px;min-height:30px;margin-left:auto;padding:0 12px;border-radius:15px;font-size:13px;color:var(--muted);background:rgba(232,233,255,.05);border:1px solid var(--line);transition:transform .14s,background .2s,color .2s,border-color .2s}
+.dv-fav .mi-ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round}
+.dv-fav[aria-pressed="true"]{color:#FFD58A;background:rgba(255,199,68,.12);border-color:rgba(255,199,68,.5)}
+.dv-fav[aria-pressed="true"] .mi-ic{fill:#FFC744;stroke:#FFC744}
+.dv-fav:active{transform:scale(.94)}
+.dv-fav.pop .mi-ic{animation:favpop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes favpop{0%{transform:scale(.6)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+

@@ -1,0 +1,187 @@
+{
+  "_note": "Rank is derived from level (see levelInfo / rankIdx). Livery = constellation line colour unlocked by rank.",
+  "ranks": [
+    {
+      "index": 0,
+      "name_zh": "見習觀星者",
+      "color": "#B9BEE9",
+      "description": "剛拿起望遠鏡，開始認識夜空裡的第一批星星。",
+      "livery": {
+        "name_zh": "月塵銀",
+        "colors_light_mid_dark": [
+          "#F6F7FF",
+          "#B9BEE9",
+          "#6D73B3"
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "name_zh": "觀星者",
+      "color": "#6FA8FF",
+      "description": "能在夜空中找到熟悉的星座，記錄沿途的風景。",
+      "livery": {
+        "name_zh": "晴空藍",
+        "colors_light_mid_dark": [
+          "#EEF5FF",
+          "#9CC2FF",
+          "#3F6FD1"
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "name_zh": "星圖繪製者",
+      "color": "#6FE3D6",
+      "description": "把一天天的紀錄，連成屬於自己的星圖。",
+      "livery": {
+        "name_zh": "極光青",
+        "colors_light_mid_dark": [
+          "#EFFFFC",
+          "#9BEDE2",
+          "#2A9C92"
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "name_zh": "星座獵人",
+      "color": "#A99EFF",
+      "description": "循著季節追逐星座，知道每顆星在哪裡。",
+      "livery": {
+        "name_zh": "星雲紫",
+        "colors_light_mid_dark": [
+          "#F4F1FF",
+          "#BBAEFF",
+          "#6552D9"
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "name_zh": "天文學家",
+      "color": "#FF8FD0",
+      "description": "累積了豐富的觀測紀錄，讀得懂星空的節奏。",
+      "livery": {
+        "name_zh": "脈衝星粉",
+        "colors_light_mid_dark": [
+          "#FFF1F8",
+          "#FFB3DC",
+          "#C04C8E"
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "name_zh": "星空領航員",
+      "color": "#FFB45C",
+      "description": "能替別人指出方向，自己的航線也越來越清楚。",
+      "livery": {
+        "name_zh": "日冕橘",
+        "colors_light_mid_dark": [
+          "#FFF6EA",
+          "#FFC98A",
+          "#D1772E"
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "name_zh": "星河守護者",
+      "color": "#FFD36F",
+      "description": "守護著一整片屬於自己的星河。",
+      "livery": {
+        "name_zh": "超新星金",
+        "colors_light_mid_dark": [
+          "#FFFBEA",
+          "#FFE08A",
+          "#C9961F"
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "name_zh": "星雲探險家",
+      "color": "#7FD8FF",
+      "description": "穿越一片片星雲，在未知的地方留下紀錄。",
+      "livery": {
+        "name_zh": "冰晶藍",
+        "colors_light_mid_dark": [
+          "#F0FBFF",
+          "#A8E6FF",
+          "#2E8FC2"
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "name_zh": "銀河建築師",
+      "color": "#C68CFF",
+      "description": "一磚一瓦，把日常搭成屬於自己的銀河。",
+      "livery": {
+        "name_zh": "星紋紫",
+        "colors_light_mid_dark": [
+          "#F8F0FF",
+          "#D9B8FF",
+          "#7A3FD1"
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "name_zh": "星系旅人",
+      "color": "#FF8C7A",
+      "description": "在不同的星系之間旅行，每段旅程都有回音。",
+      "livery": {
+        "name_zh": "赤霞紅",
+        "colors_light_mid_dark": [
+          "#FFF1EE",
+          "#FFB7AA",
+          "#C94A38"
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "name_zh": "宇宙詩人",
+      "color": "#8CF0B0",
+      "description": "把平凡的一天寫成詩，宇宙也為你停留。",
+      "livery": {
+        "name_zh": "極光綠",
+        "colors_light_mid_dark": [
+          "#F0FFF5",
+          "#B5F7CE",
+          "#2F9E62"
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "name_zh": "星際傳奇",
+      "color": "#FFE7A3",
+      "description": "你的日記本身，就是一段星空傳奇。",
+      "livery": {
+        "name_zh": "星河幻彩",
+        "colors_light_mid_dark": [
+          "#FFF6FD",
+          "#D6C4FF",
+          "#5FB8D6"
+        ]
+      }
+    }
+  ],
+  "rankIdx_js": "lv=>Math.min(RANKS.length-1,Math.floor((lv-1)/2))",
+  "levelInfo_js": "function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}",
+  "totalXP_js": "l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)}",
+  "xpMap_js": "function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));\n  for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));\n    const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);\n    es.forEach((e,i)=>{const extra=(e.photo?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);\n      m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}\n  return m}",
+  "XP_rules": {
+    "first": 20,
+    "extra": 5,
+    "photo": 5,
+    "loc": 5,
+    "prompt": 10,
+    "review": 5,
+    "step": 2,
+    "cap": 20
+  }
+}
