@@ -8,7 +8,7 @@ function saveReviews(){try{localStorage.setItem(RKEY,JSON.stringify(reviews))}ca
 function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));
   for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));
     const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);
-    es.forEach((e,i)=>{const extra=(e.photo?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);
+    es.forEach((e,i)=>{const extra=(e.photo||(e.video&&e.video.id)?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);
       m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}
   return m}
 const reviewXP=l=>Object.keys(reviews.ids||{}).filter(id=>l.some(e=>e.id===id)).length*XP.review;

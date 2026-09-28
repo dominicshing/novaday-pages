@@ -19,8 +19,8 @@ function openReport(Y,M){const R=monthStats(Y,M),n=R.list.length;$('mTitle').tex
       ${R.done.length?`<div class="rp-sec"><h4>完成的星座</h4><div class="rp-cons">${R.done.map(k=>`<button type="button" data-k="${k}"><svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,10,CON[k].s.length,conEntries(k),{sc:.6})}</svg><b>${CON[k].n}</b></button>`).join('')}</div></div>`:''}
       ${R.tags.length?`<div class="rp-sec"><h4>最常出現的標籤</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       <div class="rp-sec"><h4>值得回顧</h4>
-        ${R.longest?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
-        ${R.happiest&&R.happiest!==R.longest?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
+        ${R.longest?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
+        ${R.happiest&&R.happiest!==R.longest?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
       ${R.photos||R.locs?`<p class="rp-foot">${R.photos?`拍了 ${R.photos} 張照片`:''}${R.photos&&R.locs?'・':''}${R.locs?`去了 ${R.locs} 個地方`:''}</p>`:''}`}
   $('mBody').innerHTML=g;$('mBody').scrollTop=0;
   $('rpPrev').onclick=()=>openReport(pm.getFullYear(),pm.getMonth());if(canNext)$('rpNext').onclick=()=>openReport(nm.getFullYear(),nm.getMonth());

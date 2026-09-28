@@ -2419,6 +2419,36 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .wh-it{height:40px;display:grid;place-items:center;scroll-snap-align:center;font-size:20px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;cursor:pointer;user-select:none;-webkit-user-select:none;transform-origin:50% 50%}
 .wh-it[aria-selected="true"]{color:#FFE7A3}
 .bq-wheel+.bq-prev{margin-top:14px}
+/* 標題旁的生日蛋糕圖示 */
+.bq-title{display:flex;align-items:center;justify-content:center;gap:6px}
+.bq-ic{width:20px;height:20px;flex:none;fill:none;stroke:var(--flare);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* ===== 新增紀錄：照片／影片（照片最多 10 張，或 1 部影片） ===== */
+.md-sec{margin-top:12px}
+.md-empty{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.md-empty[hidden],.md-sec [hidden]{display:none}
+.md-pick{display:flex;align-items:center;gap:10px;min-height:64px;padding:10px 12px;border-radius:16px;border:1px dashed rgba(111,227,214,.45);background:rgba(111,227,214,.06);color:var(--ion);text-align:left;transition:background .2s,border-color .2s}
+.md-pick:hover{background:rgba(111,227,214,.1);border-color:rgba(111,227,214,.7)}
+.md-pick+.md-pick{border-color:rgba(169,158,255,.45);background:rgba(169,158,255,.07);color:#A99EFF}
+.md-pick+.md-pick:hover{background:rgba(169,158,255,.12);border-color:rgba(169,158,255,.7)}
+.md-pick svg{width:26px;height:26px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.md-pick span{display:flex;flex-direction:column;min-width:0}
+.md-pick b{font-size:14.5px;color:var(--text);font-weight:600}
+.md-pick small{font-size:11.5px;color:var(--muted)}
+.md-pick.busy{opacity:.6;cursor:progress}
+.md-sec .ph-strip{margin-top:0}
+.md-sec .ph-hint{margin-top:8px}
+.md-vid{position:relative;margin-top:6px;border-radius:16px;border:1px solid var(--line);background:#05060F}
+.md-v{display:block;width:100%;max-height:240px;border-radius:16px;background:#05060F}
+.md-dur{position:absolute;left:10px;top:10px;padding:2px 8px;border-radius:999px;background:rgba(8,10,30,.75);color:#fff;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;pointer-events:none}
+.md-vid .ph-x{top:-8px;right:-8px}
+/* 列表縮圖：影片播放標記 */
+.thumb-play{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(8,10,30,.7);display:grid;place-items:center;pointer-events:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.thumb-play svg{width:14px;height:14px;fill:#fff;margin-left:2px}
+.thumb-nv{display:block;width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#2A2470,#0B0E2A)}
+/* 詳情：影片播放器 */
+.dv-vid{margin:0 0 16px;border-radius:16px;overflow:hidden;background:#05060F;border:1px solid var(--line)}
+.dv-vid video{display:block;width:100%;max-height:320px;background:#05060F}
+.dv-vmiss{margin:0;padding:8px 12px;font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -2630,10 +2660,21 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
         <div class="ed-star" id="edStar" hidden><svg id="edStarSvg" viewBox="0 0 84 52" aria-hidden="true"></svg>
           <div class="es-t"><small id="edStarK">這則紀錄將點亮</small><b id="edStarN"></b><span id="edStarS">此刻的心情會決定這顆星的顏色</span></div></div>
         <div class="prompt-note" id="promptNote" hidden><span class="pn-k" id="pnK"></span><span class="pn-t" id="pnT"></span><button type="button" class="pn-x" id="pnX" aria-label="移除書寫提示"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>
+        <div class="md-sec" id="xMedia">
+          <div class="md-empty" id="mdEmpty">
+            <button type="button" class="md-pick" id="mdPhotoBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.7"/><path d="M20.5 15.5l-4.8-4.8L6 19"/></svg><span><b>加入照片</b><small>最多 10 張</small></span></button>
+            <button type="button" class="md-pick" id="mdVideoBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3z"/></svg><span><b>加入影片</b><small>1 部・100 MB 內</small></span></button>
+          </div>
+          <div class="ph-strip" id="fPhotos" hidden></div>
+          <div class="md-vid" id="fVideo" hidden></div>
+          <p class="ph-hint" id="phHint">可以只放照片或影片，不寫文字也能點亮</p>
+          <input type="file" accept="image/*" id="fPhoto" multiple hidden>
+          <input type="file" accept="video/*" id="fVideoIn" hidden>
+        </div>
         <label class="sr" for="fTitle">標題</label>
         <input class="bare title" id="fTitle" placeholder="標題（選填）" autocomplete="off">
         <label class="sr" for="fBody">內容</label>
-        <textarea class="bare body" id="fBody" rows="4" placeholder="今天發生了什麼？寫幾句就很好。"></textarea>
+        <textarea class="bare body" id="fBody" rows="4" placeholder="今天發生了什麼？寫幾句就很好，也可以只放照片或影片。"></textarea>
         <div class="sparks" id="sparks">
           <div class="sparks-h">沒有靈感？從這裡開始</div>
           <div class="sparks-row">
@@ -2644,12 +2685,6 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
             <button type="button" class="spark-chip">今天想感謝的是</button>
           </div>
         </div>
-        <div class="xsec" id="xPhoto" hidden>
-          <div class="xh">影像紀錄</div>
-          <div class="ph-strip" id="fPhotos"></div>
-          <input type="file" accept="image/*" id="fPhoto" multiple hidden>
-          <p class="ph-hint" id="phHint">最多 4 張・點一下照片可以設為封面</p>
-        </div>
         <div class="xsec" id="xLoc" hidden><label class="f">地點<span class="two"><input class="field" id="fLoc" placeholder="例如：台北・大安森林公園"><button type="button" class="btn" id="geo">定位</button></span></label><div class="sug" id="locSug" aria-label="最近的地點"></div></div>
         <div class="xsec" id="xTags" hidden><label class="f">標籤<input class="field" id="fTags" placeholder="用逗號分隔，例如：工作, 旅行"></label><div class="sug" id="tagSug" aria-label="常用標籤"></div></div>
         <div class="xsec" id="xDate" hidden><label class="f">日期與時間<span class="two"><input class="field" type="date" id="fDate" required><input class="field" type="time" id="fTime"></span></label></div>
@@ -2658,7 +2693,6 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
         <div class="eb-h"><span>此刻的心情・<b id="moodNow">還可以</b></span><button type="button" class="xpchip" id="xpPrev" aria-label="預計獲得的經驗值">+20 XP</button></div>
         <div class="moods mini" id="moods" role="group" aria-label="此刻的心情"></div>
         <div class="tools">
-          <button type="button" class="tool" data-x="xPhoto" aria-pressed="false" aria-label="照片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg><span>照片</span></button>
           <button type="button" class="tool" data-x="xLoc" aria-pressed="false" aria-label="地點"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg><span>地點</span></button>
           <button type="button" class="tool" data-x="xTags" aria-pressed="false" aria-label="標籤"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg><span>標籤</span></button>
           <span class="wc" id="wc" aria-live="off">0 字</span>
@@ -2682,6 +2716,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
         <section class="me-card"><div class="mc-h"><h3>星空頭像</h3><span class="mc-note" id="avNow"></span></div>
           <div class="avs" id="avs" role="radiogroup" aria-label="選擇星空頭像"></div>
           <input type="file" id="avFile" accept="image/*" hidden>
+          <input type="file" id="avFileCam" accept="image/*" capture="environment" hidden>
         </section>
         <section class="me-card"><div class="mc-h"><h3>關於你</h3></div>
           <label class="mf"><span class="mf-l">暱稱<em id="cntName"></em></span><input class="field" id="inName" maxlength="20" placeholder="例如：Lyra" autocomplete="nickname" enterkeyhint="next"></label>
@@ -2719,6 +2754,22 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
           <button type="button" class="ao-i" id="aoUse"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>使用這張照片</button>
           <button type="button" class="ao-i" id="aoNew"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg>換一張照片</button>
           <button type="button" class="ao-i danger" id="aoRm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></svg>移除照片</button>
+        </div>
+        <button type="button" class="btn ao-cancel" data-close>取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 選擇照片來源 -->
+  <div class="layer" id="avSrc" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="asrT">
+      <div class="grab"></div>
+      <div class="sb ao">
+        <div class="ao-h"><span class="ao-av" id="asrIc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg></span><div><h2 id="asrT">上傳照片</h2><p>照片會裁切成圓形，只存在這台裝置</p></div></div>
+        <div class="ao-list">
+          <button type="button" class="ao-i" id="asrCam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg>拍照</button>
+          <button type="button" class="ao-i" id="asrGal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11A1.5 1.5 0 0 1 4.5 5z"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 3.5 3.5L16 12l5 5"/></svg>從相簿選擇</button>
         </div>
         <button type="button" class="btn ao-cancel" data-close>取消</button>
       </div>
@@ -2865,7 +2916,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
     <div class="bd" data-close></div>
     <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="bqTitle">
       <div class="grab"></div>
-      <div class="sh"><span></span><h2 id="bqTitle">你的生日</h2><button type="button" class="txt-btn r" data-close>取消</button></div>
+      <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="bqTitle" class="bq-title"><svg class="bq-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M5 20v-6.5a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5V20"/><path d="M5 15.5c1.2 1 2.3 1 3.5 0s2.3-1 3.5 0 2.3 1 3.5 0 2.3-1 3.5 0"/><path d="M12 12V8.5"/><path d="M12 6.2c-.9-.8-.9-1.9 0-3.2.9 1.3.9 2.4 0 3.2z"/></svg>你的生日</h2><button type="button" class="launch-btn r" id="bqOk" disabled>確認</button></div>
       <div class="sb">
         <p class="bq-lead">只需要月份和日期，用來找出你的星座。</p>
         <div class="bq-wlab" aria-hidden="true"><span>月份</span><span>日期</span></div>
@@ -3238,6 +3289,27 @@ function seed(){const t=new Date(),a=n=>{const d=new Date(t);d.setDate(d.getDate
    {id:'s2',sample:1,date:a(2),time:'21:15',title:'雨天的夜間散步',body:'下班後雨剛停，街道反光像一條發亮的星河。邊走邊想接下來三個月想完成的事。',mood:2,tags:['散步','思考'],loc:'',photo:null},
    {id:'s3',sample:1,date:a(5),time:'13:05',title:'專案卡關',body:'花了一整個下午找一個小錯誤，最後發現是日期格式的問題。有點累，但解決的瞬間很痛快。',mood:1,tags:['工作'],loc:'辦公室',photo:null}];save()}
 
+/* ---------- 影片：檔案存在 IndexedDB（localStorage 放不下），紀錄裡只存 {id,poster,dur} ---------- */
+const MDB='novaday.media',MST='videos',VID_MAX=100*1024*1024;
+let mdbP=null;
+function mdb(){if(!mdbP)mdbP=new Promise((res,rej)=>{if(!window.indexedDB)return rej(new Error('no idb'));const r=indexedDB.open(MDB,1);
+  r.onupgradeneeded=()=>r.result.createObjectStore(MST);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+  mdbP.catch(()=>{mdbP=null});return mdbP}
+function mdbDo(mode,fn){return mdb().then(db=>new Promise((res,rej)=>{const tx=db.transaction(MST,mode),st=tx.objectStore(MST),r=fn(st);
+  tx.oncomplete=()=>res(r&&'result' in r?r.result:undefined);tx.onerror=tx.onabort=()=>rej(tx.error)}))}
+const mediaPut=(id,blob)=>mdbDo('readwrite',st=>st.put(blob,id));
+const mediaGet=id=>mdbDo('readonly',st=>st.get(id)).catch(()=>null);
+const mediaDel=id=>mdbDo('readwrite',st=>st.delete(id)).catch(()=>{});
+const mediaKeys=()=>mdbDo('readonly',st=>st.getAllKeys()).catch(()=>[]);
+const hasVideo=e=>!!(e&&e.video&&e.video.id);
+const hasMedia=e=>!!(e&&(e.photo||hasVideo(e)));
+/* 沒有標題的紀錄：只有影像時用「影片紀錄／照片紀錄」代替「未命名紀錄」 */
+const untitled=e=>e&&!(e.body||'').trim()?(hasVideo(e)?'影片紀錄':e.photo?'照片紀錄':'未命名紀錄'):'未命名紀錄';
+const fmtDur=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+/* 清掉沒有任何紀錄或草稿用到的影片檔（刪除紀錄時先保留，讓「復原」還能用；下次開 App 才清） */
+async function mediaGC(){const keep=new Set(entries.filter(hasVideo).map(e=>e.video.id));
+  try{const d=JSON.parse(localStorage.getItem('orbitlog.draft.v1')||'null');if(d&&d.video&&d.video.id)keep.add(d.video.id)}catch(e){}
+  for(const k of await mediaKeys())if(!keep.has(k))await mediaDel(k)}
 /* ---------- Game logic ---------- */
 /* XP 規則：獎勵「持續」與「回顧」，不看字數
    每天第一則 +20，連續加成每天 +2（上限 +20）；同一天其他紀錄 +5；照片 +5、地點 +5、回答今日星語 +10；回顧 7 天前的紀錄每則 +5（一次） */
@@ -3248,7 +3320,7 @@ function saveReviews(){try{localStorage.setItem(RKEY,JSON.stringify(reviews))}ca
 function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));
   for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));
     const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);
-    es.forEach((e,i)=>{const extra=(e.photo?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);
+    es.forEach((e,i)=>{const extra=(e.photo||(e.video&&e.video.id)?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);
       m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}
   return m}
 const reviewXP=l=>Object.keys(reviews.ids||{}).filter(id=>l.some(e=>e.id===id)).length*XP.review;
@@ -3280,7 +3352,7 @@ const ACH=[
  {id:'s3',em:'🔥',n:'三日連續',d:'連續 3 天記錄',t:l=>bestStreak(l)>=3},
  {id:'s7',em:'☄️',n:'七日連續',d:'連續 7 天記錄',t:l=>bestStreak(l)>=7},
  {id:'c10',em:'✨',n:'星光收藏家',d:'累積 10 則紀錄',t:l=>l.length>=10},
- {id:'photo',em:'📸',n:'星際攝影師',d:'5 則附照片',t:l=>l.filter(e=>e.photo).length>=5},
+ {id:'photo',em:'📸',n:'星際攝影師',d:'5 則附照片或影片',t:l=>l.filter(hasMedia).length>=5},
  {id:'loc',em:'🧭',n:'地點探險家',d:'5 則有地點',t:l=>l.filter(e=>e.loc).length>=5},
  {id:'words',em:'✍️',n:'星空作家',d:'總字數 1,000',t:l=>l.reduce((s,e)=>s+chars(e),0)>=1000},
  {id:'signal',em:'💫',n:'星語收藏家',d:'回答 3 次今日星語',t:l=>l.filter(e=>e.prompt).length>=3},
@@ -3366,7 +3438,7 @@ function crystal(id,on,p){const cat=CR_CAT[id]||'write',[c,hi,lo]=CR_COL[cat],pp
     <span class="cr-ic">${achIc(id)}</span>${on?'<i class="fc-spk a"></i><i class="fc-spk b"></i><i class="fc-spk c"></i>':'<i class="fc-spk d"></i>'}</span>`}
 
 const unlocked=l=>ACH.filter(a=>a.t(l)).map(a=>a.id);
-const ACHP={first:l=>[l.length,1],s3:l=>[bestStreak(l),3],s7:l=>[bestStreak(l),7],c10:l=>[l.length,10],photo:l=>[l.filter(e=>e.photo).length,5],
+const ACHP={first:l=>[l.length,1],s3:l=>[bestStreak(l),3],s7:l=>[bestStreak(l),7],c10:l=>[l.length,10],photo:l=>[l.filter(hasMedia).length,5],
   loc:l=>[l.filter(e=>e.loc).length,5],words:l=>[l.reduce((s,e)=>s+chars(e),0),1000],signal:l=>[l.filter(e=>e.prompt).length,3],all:l=>[new Set(l.map(e=>e.mood??2)).size,5],con1:l=>[consState(l).done.length,1],con5:l=>[consState(l).done.length,5],s14:l=>[bestStreak(l),14],s30:l=>[bestStreak(l),30],m20:l=>[maxMonthDays(l),20],c30:l=>[l.length,30],c100:l=>[l.length,100],w5k:l=>[l.reduce((s,e)=>s+chars(e),0),5000],long:l=>[l.reduce((m,e)=>Math.max(m,chars(e)),0),300],photo20:l=>[l.filter(e=>e.photo).length,20],loc10:l=>[new Set(l.filter(e=>e.loc).map(e=>e.loc.trim())).size,10],tag5:l=>[new Set(l.flatMap(e=>e.tags||[])).size,5],signal10:l=>[l.filter(e=>e.prompt).length,10],night:l=>[l.filter(e=>{const h=+(e.time||'').slice(0,2);return e.time&&(h>=22||h<4)}).length,3],early:l=>[l.filter(e=>{const h=+(e.time||'').slice(0,2);return e.time&&h>=4&&h<8}).length,3],con3:l=>[consState(l).done.length,3],con10:l=>[consState(l).done.length,10],s100:l=>[bestStreak(l),100],w20k:l=>[l.reduce((s,e)=>s+chars(e),0),20000],zod1:l=>[consState(l).done.filter(k=>CON[k]&&CON[k].z).length,1],con20:l=>[consState(l).done.length,20]};
 /* 擴充徽章用的統計 */
 const achDays=l=>[...new Set(l.map(e=>e.date))].sort();
@@ -3574,7 +3646,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
-      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||'未命名紀錄')}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
+      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${(base*3.2).toFixed(1)}" fill="${col}" opacity=".22"/>
         ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <circle class="core" cx="${x}" cy="${y}" r="${(base*1.25).toFixed(1)}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${(base*.55).toFixed(1)}" fill="#fff"/></g>`}
@@ -3817,7 +3889,7 @@ function moodInsights(){const L=entries.filter(e=>!isSample(e)),N=L.length;if(N<
     if(Math.abs(x.d)>=.4)out.push({ic:'tag',good:x.d>0,t:`寫到 #${esc(x.t)} 的日子`,s:`心情平均${x.d>0?'比平常好':'比平常低'} ${Math.abs(x.d).toFixed(1)} 級（${x.n} 則）`})});
   const wd=[0,1,2,3,4,5,6].map(d=>L.filter(e=>parse(e.date).getDay()===d)).map((a,d)=>({d,n:a.length,v:a.length?avg(a):0})).filter(x=>x.n>=2);
   if(wd.length>=3){const b=wd.slice().sort((a,c)=>c.v-a.v)[0];if(b.v-base>=.3)out.push({ic:'cal',good:1,t:`星期${WD[b.d]}的心情最好`,s:`平均 ${MOODS[Math.round(b.v)].n}，比其他日子高 ${(b.v-base).toFixed(1)} 級`})}
-  const lp=L.filter(e=>e.loc||e.photo),ln=L.filter(e=>!e.loc&&!e.photo);if(lp.length>=3&&ln.length>=3){const d=avg(lp)-avg(ln);if(Math.abs(d)>=.4)out.push({ic:'pin',good:d>0,t:'有照片或地點的日子',s:`心情${d>0?'比較好':'比較低'}，相差 ${Math.abs(d).toFixed(1)} 級`})}
+  const lp=L.filter(e=>e.loc||hasMedia(e)),ln=L.filter(e=>!e.loc&&!hasMedia(e));if(lp.length>=3&&ln.length>=3){const d=avg(lp)-avg(ln);if(Math.abs(d)>=.4)out.push({ic:'pin',good:d>0,t:'有照片或地點的日子',s:`心情${d>0?'比較好':'比較低'}，相差 ${Math.abs(d).toFixed(1)} 級`})}
   const late=L.filter(e=>e.time&&+e.time.slice(0,2)>=23||e.time&&+e.time.slice(0,2)<4),early=L.filter(e=>e.time&&+e.time.slice(0,2)>=5&&+e.time.slice(0,2)<23);
   if(late.length>=3&&early.length>=3){const d=avg(late)-avg(early);if(d<=-.4)out.push({ic:'moon',good:0,t:'深夜寫的日記',s:`心情通常比較低，早點休息也許會好一些`})}
   return{list:out.slice(0,3)}}
@@ -3873,14 +3945,17 @@ function openBdQuick(){const b=prof.birthday?prof.birthday.split('-').map(Number
   openSheet('bdQuick');whBuild($('bqWM'),Array.from({length:12},(_,k)=>`${k+1} 月`),bq.m);bqDays();bqRender();
   requestAnimationFrame(()=>{$('bqWM').scrollTop=(bq.m-1)*WH;$('bqWD').scrollTop=(bq.d-1)*WH;whPaint($('bqWM'));whPaint($('bqWD'))})}
 let bqLast=-2;
-function bqRender(){const zi=bq.m&&bq.d?signIdx(`2000-${pad(bq.m)}-${pad(bq.d)}`):-1,pv=$('bqPrev');$('bqGo').disabled=zi<0;
+function bqRender(){const zi=bq.m&&bq.d?signIdx(`2000-${pad(bq.m)}-${pad(bq.d)}`):-1,pv=$('bqPrev');$('bqGo').disabled=$('bqOk').disabled=zi<0;
   $('bqWheel').setAttribute('aria-label',`${bq.m} 月 ${bq.d} 日`);if(zi===bqLast)return;bqLast=zi;
   if(zi<0){pv.className='bq-prev';pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${STAR4}</span></span><span>選好月份和日期後，這裡會顯示你的星座</span>`}
   else{const Z=ZODIAC[zi];pv.className='bq-prev on';pv.style.setProperty('--elc',ELC[Z.el]);
     pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${zg(zi)}</span></span><span><b>${Z.n}</b><small>${zRange(zi)}・${Z.el}星座</small><span class="kw">${Z.kw.map(w=>`<span class="chip">${w}</span>`).join('')}</span></span>`}}
-$('bqGo').onclick=()=>{if(!bq.m||!bq.d)return;const had=signIdx(prof.birthday)>=0;prof.birthday=`2000-${pad(bq.m)}-${pad(bq.d)}`;saveProf();
+/* 確認：儲存後關閉；查看我的運勢：儲存後接著打開運勢 */
+function bqSave(){if(!bq.m||!bq.d)return false;const had=signIdx(prof.birthday)>=0;prof.birthday=`2000-${pad(bq.m)}-${pad(bq.d)}`;saveProf();
   closeSheet('bdQuick');renderFortuneCard();renderMe();const zi=signIdx(prof.birthday);
-  if(!had)toast(`已設定星座：${ZODIAC[zi].n}`);setTimeout(()=>openFortune(),reduce?0:260)};
+  if(!had)toast(`已設定星座：${ZODIAC[zi].n}`);return true}
+$('bqOk').onclick=()=>bqSave();
+$('bqGo').onclick=()=>{if(bqSave())setTimeout(()=>openFortune(),reduce?0:260)};
 function openFortune(i){const mine=signIdx(prof.birthday);if(i==null)i=mine;if(i<0)return openBdQuick();
   const Z=ZODIAC[i],n=new Date(),M=n.getMonth()+1,f=fortune(i,n.getFullYear(),M);
   $('fsTitle').textContent=`${Z.n}`;
@@ -3920,8 +3995,8 @@ function memoryPick(){const t=new Date(),td=ymd(t),real=entries.filter(e=>!isSam
 function renderMemory(){const b=$('memCard');if(!b)return;const m=memoryPick();b.hidden=!m;if(!m)return;const e=m.e,md=MOODS[e.mood??2];
   b.style.setProperty('--c',`var(${md.c})`);
   b.innerHTML=`<span class="mem-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3 4v4h4"/></svg></span>
-    <span class="mem-t"><small>${m.lab}${m.n>1?`・${m.n} 則`:''}</small><b>${esc(e.title||'未命名紀錄')}</b><span>${moon(e.mood??2)}${esc((e.body||'').replace(/\s+/g,' ').slice(0,34))}${(e.body||'').length>34?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
-  b.setAttribute('aria-label',`${m.lab}：${e.title||'未命名紀錄'}，查看`);b.onclick=()=>openDetail(e.id)}
+    <span class="mem-t"><small>${m.lab}${m.n>1?`・${m.n} 則`:''}</small><b>${esc(e.title||untitled(e))}</b><span>${moon(e.mood??2)}${esc((e.body||'').replace(/\s+/g,' ').slice(0,34))}${(e.body||'').length>34?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
+  b.setAttribute('aria-label',`${m.lab}：${e.title||untitled(e)}，查看`);b.onclick=()=>openDetail(e.id)}
 /* ---------- 星空月報 ---------- */
 function monthStats(Y,M){const key=`${Y}-${pad(M+1)}`,list=ascEntries().filter(e=>e.date.startsWith(key)&&!isSample(e));
   const days=new Set(list.map(e=>e.date)),dim=new Date(Y,M+1,0).getDate(),cnt=[0,0,0,0,0];list.forEach(e=>cnt[e.mood??2]++);
@@ -3943,8 +4018,8 @@ function openReport(Y,M){const R=monthStats(Y,M),n=R.list.length;$('mTitle').tex
       ${R.done.length?`<div class="rp-sec"><h4>完成的星座</h4><div class="rp-cons">${R.done.map(k=>`<button type="button" data-k="${k}"><svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,10,CON[k].s.length,conEntries(k),{sc:.6})}</svg><b>${CON[k].n}</b></button>`).join('')}</div></div>`:''}
       ${R.tags.length?`<div class="rp-sec"><h4>最常出現的標籤</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       <div class="rp-sec"><h4>值得回顧</h4>
-        ${R.longest?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
-        ${R.happiest&&R.happiest!==R.longest?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
+        ${R.longest?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
+        ${R.happiest&&R.happiest!==R.longest?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
       ${R.photos||R.locs?`<p class="rp-foot">${R.photos?`拍了 ${R.photos} 張照片`:''}${R.photos&&R.locs?'・':''}${R.locs?`去了 ${R.locs} 個地方`:''}</p>`:''}`}
   $('mBody').innerHTML=g;$('mBody').scrollTop=0;
   $('rpPrev').onclick=()=>openReport(pm.getFullYear(),pm.getMonth());if(canNext)$('rpNext').onclick=()=>openReport(nm.getFullYear(),nm.getMonth());
@@ -3984,9 +4059,9 @@ function openYearReport(Y){const R=yearStats(Y),n=R.list.length,now=new Date(),f
       ${R.tags.length?`<div class="rp-sec"><h4>最常出現的標籤</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       ${R.locs.length?`<div class="rp-sec"><h4>最常去的地方</h4><div class="rp-tags">${R.locs.map(([t,c])=>`<span class="chip tag">${IC_PIN}${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       <div class="rp-sec"><h4>值得回顧</h4>
-        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>這一年的第一則</small><b>${esc(R.first.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
-        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
-        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
+        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>這一年的第一則</small><b>${esc(R.first.title||untitled(R.first))}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
+        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
+        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
       ${R.photos?`<p class="rp-foot">這一年拍了 ${R.photos} 張照片</p>`:''}`}
   $('mBody').innerHTML=g;$('mBody').scrollTop=0;
   if(Y>minY)$('ryPrev').onclick=()=>openYearReport(Y-1);if(Y<now.getFullYear())$('ryNext').onclick=()=>openYearReport(Y+1);
@@ -4014,8 +4089,8 @@ const ico=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${MIC[k]}</svg>`;
 function renderTodayCard(today){const b=$('todayCard');if(!today.length){b.hidden=true;return}
   const A=ascEntries(today),e=A[A.length-1],m=MOODS[e.mood??2],S=entryStar(e);b.hidden=false;b.style.setProperty('--c',`var(${m.c})`);
   b.innerHTML=`<span class="tc-star" aria-hidden="true">${S?`<svg viewBox="0 0 120 76">${starMini(S,120,76)}</svg>`:moon(e.mood??2)}</span>
-    <span class="tc-t"><small>今天點亮了${S?`${CON[S.k].n}第 ${S.j+1} 顆星`:'一顆星'}${today.length>1?`・共 ${today.length} 則`:''}</small><b>${esc(e.title||'未命名紀錄')}</b><span>${moon(e.mood??2)} ${m.n}・${esc((e.body||'').replace(/\s+/g,' ').slice(0,28))}${(e.body||'').length>28?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
-  b.setAttribute('aria-label',`今天的紀錄：${e.title||'未命名紀錄'}，心情${m.n}，查看`);b.onclick=()=>openDetail(e.id)}
+    <span class="tc-t"><small>今天點亮了${S?`${CON[S.k].n}第 ${S.j+1} 顆星`:'一顆星'}${today.length>1?`・共 ${today.length} 則`:''}</small><b>${esc(e.title||untitled(e))}</b><span>${moon(e.mood??2)} ${m.n}・${esc((e.body||'').replace(/\s+/g,' ').slice(0,28))}${(e.body||'').length>28?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
+  b.setAttribute('aria-label',`今天的紀錄：${e.title||untitled(e)}，心情${m.n}，查看`);b.onclick=()=>openDetail(e.id)}
 let msOpen=false;
 function missionGo(k){const td=ymd(new Date());
   if(k==='write')openEditor();else if(k==='signal')openEditor(null,true);
@@ -4027,7 +4102,7 @@ function renderMissions(){const td=ymd(new Date()),today=entries.filter(e=>e.dat
   const ms=[{k:'write',ic:'pen',c:'#FFB45C',t:'寫下今天的紀錄',s:b?`第一則 +${XP.first}・連續加成 +${b} 🔥`:`每天第一則 +${XP.first} XP`,xp:XP.first+b,done:today.length>0},
     /* 每個任務都必須今天就能完成：還沒有舊紀錄時，改成「豐富今天的紀錄」 */
     olds.length?{k:'review',ic:'book',c:'#A99EFF',t:'回顧一則舊紀錄',s:'重讀之前寫下的自己',xp:XP.review,done:reviews.last===td}
-      :{k:'enrich',ic:'camera',c:'#A99EFF',t:'為今天加上照片或地點',s:today.length?'讓這則紀錄更完整':'寫紀錄時順手加上',xp:XP.photo,done:today.some(e=>e.photo||e.loc)},
+      :{k:'enrich',ic:'camera',c:'#A99EFF',t:'為今天加上照片、影片或地點',s:today.length?'讓這則紀錄更完整':'寫紀錄時順手加上',xp:XP.photo,done:today.some(e=>hasMedia(e)||e.loc)},
     {k:'signal',ic:'signal',c:'#6FE3D6',t:'回答今日星語',s:`「${promptToday()}」`,xp:XP.prompt,done:today.some(e=>e.prompt)}];
   const n=ms.filter(m=>m.done).length,left=ms.filter(m=>!m.done).reduce((s,m)=>s+m.xp,0);
   $('mCount').textContent=`${n}/3`;$('mSub').textContent=n===3?'今天的任務全部完成，辛苦了 ✨':left?`還可以獲得 +${left} XP`:'今天能做的任務都完成了 ✨';
@@ -4052,8 +4127,8 @@ const entryPhotos=e=>e?[e.photo,...(Array.isArray(e.photoMore)?e.photoMore:[])].
 const photoCount=e=>entryPhotos(e).length;
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:''}
-    <h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):'未命名紀錄'}</h3><p>${hl(snip(e.body,T),T)}</p>
+  return `<button class="entry" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+    <h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):untitled(e)}</h3><p>${hl(snip(e.body,T),T)}</p>
     <div class="meta"><span>${esc(e.time||'')}</span><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';
 const emptyState=(t,sub,btn)=>`${ES_ART}<b>${t}</b>${sub?`<p>${sub}</p>`:''}${btn||''}`;
@@ -4063,7 +4138,7 @@ const IC_SIG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><circle 
 const IC_BM='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>';
 const IC_TAG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg>';
 function entryRow(e){const m=MOODS[e.mood??2];
-  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20)||'未命名紀錄',qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
+  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20)||untitled(e),qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
 function bindCards(root){root.querySelectorAll('.entry').forEach(b=>b.onclick=()=>openDetail(b.dataset.id))}
 const fl={moods:new Set(),photo:false,loc:false,prompt:false,fav:false,tag:null};let fOpen=null;
 const flActive=()=>fl.moods.size||fl.photo||fl.loc||fl.prompt||fl.fav||fl.tag;
@@ -4076,21 +4151,21 @@ function hl(t,terms){t=String(t??'');if(!terms||!terms.length)return esc(t);cons
 function snip(body,terms){body=String(body||'');if(!terms.length)return body;const lo=body.toLowerCase();let at=-1;
   terms.forEach(w=>{const i=lo.indexOf(w);if(i>=0&&(at<0||i<at))at=i});return at>34?'…'+body.slice(at-14):body}
 function passFilter(e){const T=qTerms();if(T.length){const hay=[e.title,e.body,e.loc,(e.tags||[]).join(' ')].join(' ').toLowerCase();if(!T.every(w=>hay.includes(w)))return false}
-  if(fl.moods.size&&!fl.moods.has(e.mood??2))return false;if(fl.photo&&!e.photo)return false;if(fl.loc&&!e.loc)return false;if(fl.prompt&&!e.prompt)return false;if(fl.fav&&!e.fav)return false;
+  if(fl.moods.size&&!fl.moods.has(e.mood??2))return false;if(fl.photo&&!hasMedia(e))return false;if(fl.loc&&!e.loc)return false;if(fl.prompt&&!e.prompt)return false;if(fl.fav&&!e.fav)return false;
   if(fl.tag&&!(e.tags||[]).includes(fl.tag))return false;return true}
 function filterFade(){const f=$('filters');f.classList.toggle('at-end',f.scrollLeft+f.clientWidth>=f.scrollWidth-4)}
 /* 篩選：分成「心情／內容／標籤」三組，點組別打開選項 */
 function fClear(){fl.moods.clear();fl.photo=fl.loc=fl.prompt=fl.fav=false;fl.tag=null}
 function renderFilters(){const tc={};entries.forEach(e=>(e.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
   const tags=Object.keys(tc).sort((a,b)=>tc[b]-tc[a]);
-  const mSel=[...fl.moods].sort(),cSel=[fl.fav&&'已收藏',fl.photo&&'有照片',fl.loc&&'有地點',fl.prompt&&'回答星語'].filter(Boolean);
+  const mSel=[...fl.moods].sort(),cSel=[fl.fav&&'已收藏',fl.photo&&'有照片／影片',fl.loc&&'有地點',fl.prompt&&'回答星語'].filter(Boolean);
   const grp=(k,ic,lab,val)=>`<button type="button" class="fgrp${val?' on':''}${fOpen===k?' open':''}" data-g="${k}" aria-expanded="${fOpen===k}">${ic}<span>${lab}</span>${val?`<b class="fg-n" aria-label="${val}">${val}</b>`:''}<svg class="fg-car" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button>`;
   const mVal=mSel.length||'',cVal=cSel.length||'';
   $('filters').innerHTML=grp('mood',moon(mSel.length===1?mSel[0]:3),'心情',mVal)+grp('content',IC_CAM,'內容',cVal)+(tags.length||fl.tag?grp('tag',IC_TAG,'標籤',fl.tag?1:''):'')
     +(flActive()?'<button type="button" class="fgrp clr" data-g="clear" aria-label="清除全部篩選">✕</button>':'');
   let pn='';
   if(fOpen==='mood')pn=`<div class="fp-h">心情<small>可複選</small></div><div class="fp-opts">${MOODS.map((m,i)=>`<button type="button" class="fchip" data-f="m${i}" aria-pressed="${fl.moods.has(i)}">${moon(i)}${m.n}</button>`).join('')}</div>`;
-  else if(fOpen==='content')pn=`<div class="fp-h">內容<small>可複選</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${n}</button>`).join('')}</div>`;
+  else if(fOpen==='content')pn=`<div class="fp-h">內容<small>可複選</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片／影片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${n}</button>`).join('')}</div>`;
   else if(fOpen==='tag')pn=`<div class="fp-h">標籤<small>選一個</small>${tags.length?'<button type="button" class="fp-mng" id="fpMng">管理 ›</button>':''}</div><div class="fp-opts">${tags.map(t=>`<button type="button" class="fchip" data-f="t" data-t="${esc(t)}" aria-pressed="${fl.tag===t}">#${esc(t)}<em>${tc[t]}</em></button>`).join('')||'<span class="fp-none">還沒有使用過標籤</span>'}</div>`;
   $('fPanel').innerHTML=pn?pn+`<div class="fp-foot"><button type="button" class="txt-btn" id="fpReset">清除這組</button><button type="button" class="btn primary" id="fpDone">完成</button></div>`:'';$('fPanel').hidden=!pn;
   $('filters').querySelectorAll('.fgrp').forEach(b=>b.onclick=()=>{const g=b.dataset.g;if(g==='clear'){fClear();fOpen=null}else fOpen=fOpen===g?null:g;renderLog()});
@@ -4452,7 +4527,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
     ${fpSel?(()=>{const d=parse(fpSel),dl=`${d.getMonth()+1}/${d.getDate()}（${WD[d.getDay()]}）`;
       if(!tipE)return `<div class="fp-tip empty"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
       const m=Math.round(tipE.reduce((t,e)=>t+(e.mood??2),0)/tipE.length),t0=tipE[0];
-      return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||'未命名紀錄')}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
+      return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||untitled(t0))}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
       :`<div class="fp-leg">${by[tk]?'':'<button type="button" class="fp-cta" id="fpCta">今天還沒點亮，寫一則 ›</button>'}<span>星星＝當天心情</span>${[0,1,2,3,4].map(i=>moon(i)).join('')}</div>`}`;
   if($('fpCta'))$('fpCta').onclick=()=>openEditor();
   if(!reduce&&!fpIntroDone){const g=$('fpGrid');if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){io.disconnect();fpIntroDone=true;g.classList.add('intro');setTimeout(()=>g.classList.remove('intro'),1800)}},{threshold:.4});io.observe(g)}}
@@ -4520,7 +4595,7 @@ function openAch(id,dir){const a=ACH.find(x=>x.id===id);if(!a)return;achCur=id;c
   body.addEventListener('pointerup',end);body.addEventListener('pointercancel',end);
   body.addEventListener('click',e=>{if(Date.now()-(body._swEnd||0)<300){e.stopPropagation();e.preventDefault()}},true);
   document.addEventListener('keydown',e=>{if(!$('achSheet').classList.contains('open'))return;if(e.key==='ArrowRight'){e.preventDefault();achSwap(1)}else if(e.key==='ArrowLeft'){e.preventDefault();achSwap(-1)}})})();
-function achLeft(id,n){n=Math.max(0,n);const f={s3:`再連續寫 ${n} 天就能解鎖`,s7:`再連續寫 ${n} 天就能解鎖`,first:`寫下第一則就能解鎖`,c10:`再寫 ${n} 則就能解鎖`,photo:`再 ${n} 則附上照片就能解鎖`,loc:`再 ${n} 則加上地點就能解鎖`,
+function achLeft(id,n){n=Math.max(0,n);const f={s3:`再連續寫 ${n} 天就能解鎖`,s7:`再連續寫 ${n} 天就能解鎖`,first:`寫下第一則就能解鎖`,c10:`再寫 ${n} 則就能解鎖`,photo:`再 ${n} 則附上照片或影片就能解鎖`,loc:`再 ${n} 則加上地點就能解鎖`,
   words:`再寫 ${n.toLocaleString()} 字就能解鎖`,signal:`再回答 ${n} 次今日星語就能解鎖`,all:`再用 ${n} 種沒用過的心情就能解鎖`,con1:`再完成 ${n} 個星座就能解鎖`,con5:`再完成 ${n} 個星座就能解鎖`,s100:`再連續寫 ${n} 天就能解鎖`,s60:`再連續寫 ${n} 天就能解鎖`,mfull:`這個月再寫 ${n} 天就能解鎖`,back:`休息一陣子後再回來寫，就能解鎖`,c365:`再寫 ${n} 則就能解鎖`,w50k:`再寫 ${n.toLocaleString()} 字就能解鎖`,long1k:`單則再多寫 ${n.toLocaleString()} 字就能解鎖`,multi:`同一天再寫 ${n} 則就能解鎖`,photo4:`單則再加 ${n} 張照片就能解鎖`,fav5:`再收藏 ${n} 則就能解鎖`,season4:`再到 ${n} 個季節寫紀錄就能解鎖`,happy3:`再連續 ${n} 天好心情就能解鎖`,bright10:`再記錄 ${n} 次「很棒」就能解鎖`,calm10:`再記錄 ${n} 次「還可以」就能解鎖`,low5:`難過的日子也寫下來，再 ${n} 次就能解鎖`,rebound:`低落之後心情回升時就能解鎖`,rev1:`回顧一則舊紀錄就能解鎖`,rev10:`再回顧 ${n} 則就能解鎖`,rev30:`再回顧 ${n} 則就能解鎖`,anniv:`一年後的同一天再寫一則就能解鎖`,j100:`再繼續寫 ${n} 天就能解鎖`,j365:`再繼續寫 ${n} 天就能解鎖`,con44:`再完成 ${n} 個星座就能解鎖`,zod12:`再完成 ${n} 個黃道星座就能解鎖`,con88:`再完成 ${n} 個星座就能解鎖`,s14:`再連續寫 ${n} 天就能解鎖`,s30:`再連續寫 ${n} 天就能解鎖`,m20:`這個月再寫 ${n} 天就能解鎖`,c30:`再寫 ${n} 則就能解鎖`,c100:`再寫 ${n} 則就能解鎖`,long:`單則再多寫 ${n} 字就能解鎖`,photo20:`再 ${n} 則附上照片就能解鎖`,loc10:`再去 ${n} 個新地點就能解鎖`,tag5:`再用 ${n} 種新標籤就能解鎖`,signal10:`再回答 ${n} 次今日星語就能解鎖`,night:`再 ${n} 則在晚上 10 點後寫就能解鎖`,early:`再 ${n} 則在早上 8 點前寫就能解鎖`,con3:`再完成 ${n} 個星座就能解鎖`,con10:`再完成 ${n} 個星座就能解鎖`,w20k:`再寫 ${n.toLocaleString()} 字就能解鎖`,w5k:`再寫 ${n.toLocaleString()} 字就能解鎖`,zod1:`完成一個黃道十二星座就能解鎖`,con20:`再完成 ${n} 個星座就能解鎖`}[id];return f||`還差 ${n}`}
 function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStoreRow();if($('rpOpenT'))$('rpOpenT').textContent=`${new Date().getMonth()+1} 月星空報告`;
   const xp=totalXP(entries),{lv,rest,need}=levelInfo(xp),u=unlocked(entries);
@@ -4540,7 +4615,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
   {const zi=signIdx(prof.birthday);$('pSign').innerHTML=zi<0?`${STAR4} 設定星座`:`${zg(zi)} ${ZODIAC[zi].n}`;$('pSign').setAttribute('aria-label',zi<0?'設定生日以顯示星座':`${ZODIAC[zi].n}，查看性格與本月運勢`)}
   $('pXpText').innerHTML=`<b>${rest}</b> / ${need} XP・還差 ${need-rest} 升到 Lv.${lv+1}`;
   $('stTotal').textContent=entries.length;$('stWords').textContent=entries.reduce((s,e)=>s+chars(e),0).toLocaleString();$('stBest').textContent=bestStreak(entries);
-  $('stPhotos').textContent=entries.filter(e=>e.photo).length;$('stLocs').textContent=new Set(entries.filter(e=>e.loc).map(e=>e.loc)).size;$('stXP').textContent=xp.toLocaleString();
+  $('stPhotos').textContent=entries.filter(hasMedia).length;$('stLocs').textContent=new Set(entries.filter(e=>e.loc).map(e=>e.loc)).size;$('stXP').textContent=xp.toLocaleString();
   renderEnergy();
   $('aCount').textContent=`已解鎖 ${u.length} / ${ACH.length}`;
   /* 預設只顯示已解鎖＋最接近完成的 3 個，其餘收起 */
@@ -4580,7 +4655,7 @@ function openSheet(id){const l=$(id);l._last=document.activeElement;
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
   l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false')}
-function closeSheet(id){const l=$(id);l.classList.remove('open');l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
+function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}
 document.querySelectorAll('.layer').forEach(l=>l.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>requestClose(l.id)));
 
@@ -4622,7 +4697,7 @@ async function grantReview(e){if(!oldEntries().some(x=>x.id===e.id))return;const
   toast(first?`📖 回顧舊紀錄 +${XP.review} XP`:'📖 今日回顧任務完成');
   const lvA=levelInfo(totalXP(entries)).lv;if(lvA>lvB){await sleep(900);await showLevel(lvA)}
   for(const a of ACH.filter(a=>a.t(entries)&&!achB.includes(a.id)).slice(0,2)){await sleep(reduce?0:700);await showAch(a)}}
-let detailId=null;
+let detailId=null,dvUrl=null;
 /* 這則紀錄點亮的是哪個星座的第幾顆星 */
 function entryStar(e){const A=ascEntries(),idx=A.findIndex(x=>x.id===e.id);if(idx<0)return null;consState(entries);
   let off=0;for(const k of prof.conOrder||[]){const n=CON[k].s.length;if(idx<off+n)return{k,j:idx-off,n,es:A.slice(off,Math.min(A.length,off+n))};off+=n}return null}
@@ -4639,19 +4714,22 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
   $('dBody').innerHTML=`<div class="dv${prev||next?'':' solo'}" style="--c:var(${m.c})">
     ${S?`<button type="button" class="dv-star" id="dStar" aria-label="這則紀錄點亮了${CON[S.k].n}的第 ${S.j+1} 顆星，查看星座"><svg viewBox="0 0 120 76" aria-hidden="true">${starMini(S,120,76)}</svg>
       <span class="dv-st"><small>這則紀錄點亮了</small><b>${CON[S.k].n}・第 ${S.j+1} / ${S.n} 顆星</b><span>${S.es.length>=S.n?'✓ 星座已完成':`已點亮 ${S.es.length} / ${S.n}`}・查看星座 ›</span></span></button>`:''}
+    ${hasVideo(e)?`<div class="dv-vid"><video id="dVid" playsinline controls preload="metadata"${e.video.poster?` poster="${e.video.poster}"`:''}></video><p class="dv-vmiss" id="dVmiss" hidden>這部影片的檔案不在這台裝置上</p></div>`:''}
     ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="放大檢視照片"><img class="detail-img" src="${P[0]}" alt="紀錄照片"></button>`;
       return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
-    <h3>${esc(e.title||'未命名紀錄')}</h3>
+    <h3>${esc(e.title||untitled(e))}</h3>
     <div class="dv-when"><span>${esc(fmtDay(e.date))}${e.time?` ${esc(e.time)}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
     <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
     ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
     <div class="body">${esc(e.body)}</div>
     ${(e.tags||[]).length?`<div class="dv-tags">${e.tags.map(t=>`<button type="button" class="chip tag" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>`:''}
-    <div class="dv-foot"><span>${wc} 字</span>${e.photo?`<span>${photoCount(e)>1?photoCount(e)+' 張照片':'含照片'}</span>`:''}</div>
+    <div class="dv-foot"><span>${wc} 字</span>${e.photo?`<span>${photoCount(e)>1?photoCount(e)+' 張照片':'含照片'}</span>`:''}${hasVideo(e)?`<span>影片 ${fmtDur(e.video.dur)}</span>`:''}</div>
     ${prev||next?`<div class="dv-nav">${prev?`<button type="button" data-id="${esc(prev.id)}" class="p"><small>‹ 較早</small><b>${esc(prev.title||fmtDay(prev.date))}</b></button>`:'<span></span>'}${next?`<button type="button" data-id="${esc(next.id)}" class="n"><small>較新 ›</small><b>${esc(next.title||fmtDay(next.date))}</b></button>`:'<span></span>'}</div>`:''}
     <button type="button" class="dv-share" id="dShare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6"/></svg>分享成圖卡</button>
     <button type="button" class="dv-del" id="dDel">刪除這則紀錄</button></div>`;
   $('dShare').onclick=()=>openEntryShare(e.id);
+  if(dvUrl){URL.revokeObjectURL(dvUrl);dvUrl=null}
+  if(hasVideo(e)){const vid=e.video.id;mediaGet(vid).then(bl=>{const el=$('dVid');if(!el||detailId!==e.id)return;if(!bl){$('dVmiss').hidden=false;el.removeAttribute('controls');return}dvUrl=URL.createObjectURL(bl);el.src=dvUrl})}
   $('dBody').querySelectorAll('[data-pi]').forEach(b=>b.onclick=()=>openPhotoViewer(entryPhotos(e),+b.dataset.pi));
   if($('dGal')){const gl=$('dGal'),n=photoCount(e);gl.addEventListener('scroll',()=>{const i=Math.round(gl.scrollLeft/gl.clientWidth);$('dGn').textContent=`${i+1} / ${n}`;
     gl.parentElement.querySelectorAll('.dv-dots i').forEach((d,j)=>d.classList.toggle('on',j===i))},{passive:true})}
@@ -4669,7 +4747,7 @@ $('dEdit').onclick=()=>{closeSheet('detail');setTimeout(()=>openEditor(detailId)
 
 /* Editor */
 const DKEY='orbitlog.draft.v1';
-let editing=null,curMood=2,curPhoto=null,curPhotos=[],curPrompt=null,baseSnap='',dTimer=null;
+let editing=null,curMood=2,curPhoto=null,curPhotos=[],curVideo=null,vidUrl=null,curPrompt=null,baseSnap='',dTimer=null;
 /* 這則紀錄會點亮哪一顆星：新紀錄 → 目前星座的下一顆；編輯 → 這則原本對應的那顆 */
 function edTarget(){const st=consState(entries);
   if(!editing){if(!st.cur)return null;return{k:st.cur,t:st.lit,lit:st.lit,es:ascEntries().slice(st.off,st.off+st.lit)}}
@@ -4695,7 +4773,8 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
   box.setAttribute('aria-label',$('edStarK').textContent+$('edStarN').textContent);box.setAttribute('role','note');paintEdStar()}
 function paintEdStar(){$('edStar').style.setProperty('--c',`var(${MOODS[curMood].c})`)}
 function fitBody(){const f=$('fBody');f.style.height='auto';f.style.height=Math.max(132,f.scrollHeight+2)+'px'}
-function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length;$('wc').textContent=n+' 字'}
+function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length,p=curPhotos.length;
+  $('wc').textContent=n+' 字'+(p?`・${p} 張照片`:curVideo?'・1 部影片':'')}
 function renderPrompt(){$('promptNote').hidden=!curPrompt;const today=curPrompt===promptToday();
   $('pnK').textContent=curPrompt?(today?'💫 今日星語':'✦ 書寫提示'):'';$('pnT').textContent=curPrompt||'';
   $('sigChip').hidden=!!curPrompt;$('sigChip').title=promptToday()}
@@ -4705,35 +4784,45 @@ function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="butt
     for(let k=0;k<8;k++){const a=k/8*Math.PI*2,r=24+(k%2)*8,d=document.createElement('i');d.style.setProperty('--x',(Math.cos(a)*r).toFixed(1)+'px');d.style.setProperty('--y',(Math.sin(a)*r).toFixed(1)+'px');bs.appendChild(d)}
     nb.appendChild(bs);setTimeout(()=>bs.remove(),760);if(typeof buzz==='function')buzz(6)});
   $('moodNow').textContent=MOODS[curMood].n;paintEdStar()}
-const PH_MAX=4;
-function setPhotos(arr,quiet){curPhotos=(arr||[]).filter(Boolean).slice(0,PH_MAX);curPhoto=curPhotos[0]||null;renderPhStrip();if(!quiet)onEdit()}
+const PH_MAX=10;
+function setPhotos(arr,quiet){curPhotos=(arr||[]).filter(Boolean).slice(0,PH_MAX);curPhoto=curPhotos[0]||null;renderMedia();if(!quiet)onEdit()}
 function setPhoto(p,quiet){setPhotos(p?[p]:[],quiet)}
-function renderPhStrip(){const b=$('fPhotos');if(!b)return;const n=curPhotos.length;
+function setVideo(v,quiet){curVideo=v&&v.id?v:null;renderMedia();if(!quiet)onEdit()}
+/* 影像區：沒有影像時顯示「加入照片／加入影片」；照片最多 10 張，或 1 部影片，兩者擇一 */
+function renderMedia(){const b=$('fPhotos'),n=curPhotos.length;if(!b)return;
+  $('mdEmpty').hidden=!!(n||curVideo);b.hidden=!n;$('fVideo').hidden=!curVideo;
   b.innerHTML=curPhotos.map((u,i)=>`<div class="ph-t${i?'':' cover'}"><button type="button" class="ph-img" data-i="${i}" aria-label="${i?`把第 ${i+1} 張設為封面`:'封面照片'}"><img src="${u}" alt=""></button>${i?'':'<span class="ph-cv">封面</span>'}<button type="button" class="ph-x" data-x="${i}" aria-label="移除第 ${i+1} 張照片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>`).join('')
-    +(n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>${n?'再加一張':'加入照片'}</span><small>${n} / ${PH_MAX}</small></button>`:'');
-  $('phHint').textContent=n>1?'點一下照片可以設為封面，封面會顯示在列表上':`最多 ${PH_MAX} 張照片`;
-  b.querySelectorAll('.ph-x').forEach(x=>x.onclick=()=>{const a=curPhotos.slice();a.splice(+x.dataset.x,1);setPhotos(a);if(!a.length)syncTools()});
+    +(n&&n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>再加一張</span><small>${n} / ${PH_MAX}</small></button>`:'');
+  $('phHint').textContent=curVideo?'每則紀錄可放 1 部影片，或最多 10 張照片'
+    :n>1?`點一下照片可以設為封面・${n} / ${PH_MAX} 張`:n?`最多 ${PH_MAX} 張照片・想放影片請先移除照片`:'可以只放照片或影片，不寫文字也能點亮';
+  b.querySelectorAll('.ph-x').forEach(x=>x.onclick=()=>{const a=curPhotos.slice();a.splice(+x.dataset.x,1);setPhotos(a)});
   b.querySelectorAll('.ph-img').forEach(x=>x.onclick=()=>{const i=+x.dataset.i;if(!i)return;const a=curPhotos.slice();const [m]=a.splice(i,1);a.unshift(m);setPhotos(a);toast('已設為封面',1400)});
-  if($('phAdd'))$('phAdd').onclick=()=>$('fPhoto').click()}
-const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).concat([{id,date:$('fDate').value||ymd(new Date()),time:$('fTime').value,photo:curPhoto,loc:$('fLoc').value.trim(),prompt:curPrompt}]);
+  if($('phAdd'))$('phAdd').onclick=()=>$('fPhoto').click();
+  renderVidPrev()}
+function renderVidPrev(){const box=$('fVideo'),v=curVideo;if(vidUrl){URL.revokeObjectURL(vidUrl);vidUrl=null}
+  if(!v){box.innerHTML='';return}
+  box.innerHTML=`<video class="md-v" playsinline controls preload="metadata"${v.poster?` poster="${v.poster}"`:''}></video><span class="md-dur">${fmtDur(v.dur)}</span><button type="button" class="ph-x" id="vidX" aria-label="移除影片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>`;
+  $('vidX').onclick=()=>setVideo(null);
+  const id=v.id;mediaGet(id).then(bl=>{if(!bl||!curVideo||curVideo.id!==id)return;vidUrl=URL.createObjectURL(bl);const el=box.querySelector('video');if(el)el.src=vidUrl})}
+const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).concat([{id,date:$('fDate').value||ymd(new Date()),time:$('fTime').value,photo:curPhoto,video:curVideo,loc:$('fLoc').value.trim(),prompt:curPrompt}]);
   const v=xpMap(tmp).get(id)||{total:0,bonus:0},gain=editing?v.total:totalXP(tmp)-totalXP(entries);
   /* 新紀錄顯示「實際淨增加」的 XP（同一天第二則起只有 +5） */
   const firstToday=!entries.some(x=>x.date===tmp[tmp.length-1].date&&x.id!==id);
   $('xpPrev').textContent=`+${gain} XP${firstToday&&v.bonus?' 🔥':''}`;
   $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
 function updWhen(){const d=$('fDate').value||ymd(new Date()),t=$('fTime').value;$('whenTxt').textContent=(d===ymd(new Date())?'今天':fmtDay(d))+(t?' '+t:'');$('whenBtn').setAttribute('aria-expanded',!$('xDate').hidden)}
-function syncTools(){const has={xPhoto:!!curPhoto,xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
+function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
-const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curPrompt]);
-const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length));
+const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curVideo&&curVideo.id,curPrompt]);
+const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
-  if(snap()===baseSnap||!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)){clearDraft();$('draftState').textContent='';return}
-  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,prompt:curPrompt};
+  if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
+  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,video:curVideo,prompt:curPrompt};
   try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已自動儲存'}
   catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已儲存（不含照片）'}catch(e2){$('draftState').textContent='草稿無法儲存'}}}
-function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)}
+function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto||curVideo)}
 function updEdUI(){const sb=$('saveBtn'),was=sb.classList.contains('off'),now=!edHas();sb.classList.toggle('off',now);sb.setAttribute('aria-disabled',now);
   if(was&&!now&&!reduce){sb.classList.remove('pop');void sb.offsetWidth;sb.classList.add('pop')}
   updWC();fitBody();$('sparks').hidden=!!$('fBody').value.trim()||!!editing}
@@ -4750,14 +4839,14 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
   $('fDate').value=e?e.date:(presetDate||ymd(n));$('fTime').value=e?(e.time||''):pad(n.getHours())+':'+pad(n.getMinutes());
   $('fTitle').value=e?e.title:'';$('fBody').value=e?e.body:'';$('fTags').value=e?(e.tags||[]).join(', '):'';$('fLoc').value=e?(e.loc||''):'';
-  curMood=e?(e.mood??2):2;setPhotos(entryPhotos(e),true);$('fPhoto').value='';
+  curMood=e?(e.mood??2):2;curVideo=e&&hasVideo(e)?{...e.video}:null;setPhotos(entryPhotos(e),true);$('fPhoto').value='';$('fVideoIn').value='';
   baseSnap=snap();
   const d=readDraft();let restored=false;
   if(draftHas(d)&&(d.editing||null)===editing){
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
-    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
+    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
-  $('xPhoto').hidden=!curPhoto;$('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
+  $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<i class="lbi" aria-hidden="true">✦</i>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
   $('draftState').textContent=restored?'已還原草稿':'';
@@ -4766,7 +4855,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   if(restored)toast('已還原上次未完成的草稿');
   if(!e)setTimeout(()=>$('fBody').focus({preventScroll:true}),reduce?0:340)}
 
-async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)){closeSheet('editor');renderDraftBar();return}
+async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
   const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？','目前的內容已存成草稿，下次打開會自動還原。',
     [{k:'keep',t:'繼續寫',cls:'primary'},{k:'later',t:'保留草稿，稍後再寫'},{k:'discard',t:editing?'放棄修改':'捨棄內容',cls:'danger'}]);
   if(k==='later'){closeSheet('editor');renderDraftBar();toast('草稿已保留，首頁可以繼續寫')}
@@ -4780,7 +4869,6 @@ $('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const 
 $('pnX').onclick=()=>{curPrompt=null;renderPrompt();onEdit();$('fBody').focus({preventScroll:true})};
 $('xpPrev').onclick=()=>toast($('xpPrev').title||'寫完按「點亮」就會獲得經驗值',3000);
 document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{const s=$(b.dataset.x);
-  if(b.dataset.x==='xPhoto'&&!curPhoto){s.hidden=false;syncTools();$('fPhoto').click();return}
   s.hidden=!s.hidden;syncTools();
   if(!s.hidden){scrollToEl(s,'nearest');const inp=s.querySelector('input:not([type=file])');if(inp)inp.focus({preventScroll:true})}});
 
@@ -4807,8 +4895,8 @@ function renderQuick(){const b=$('quickNote');if(!b)return;const td=ymd(new Date
 function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(dTimer);
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
-    tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,prompt:curPrompt};
-  if(!data.title&&!data.body&&!data.photo){toast('先寫一點內容，或加一張照片再點亮');$('fBody').focus();return}
+    tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
+  if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
   const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
@@ -4828,11 +4916,31 @@ function loadPhoto(f){return new Promise(res=>{const r=new FileReader();r.onerro
   r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');
     c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};
     img.onerror=()=>res(null);img.src=r.result};r.readAsDataURL(f)})}
-$('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length){syncTools();return}
+$('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
+  if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}
   const room=PH_MAX-curPhotos.length,use=fs.slice(0,Math.max(0,room));if(!use.length){toast(`每則紀錄最多 ${PH_MAX} 張照片`);return}
-  $('xPhoto').hidden=false;const out=[];let bad=0;for(const f of use){const u=await loadPhoto(f);if(u)out.push(u);else bad++}
-  setPhotos(curPhotos.concat(out));syncTools();
+  const out=[];let bad=0;for(const f of use){const u=await loadPhoto(f);if(u)out.push(u);else bad++}
+  setPhotos(curPhotos.concat(out));
   if(fs.length>room)toast(`每則最多 ${PH_MAX} 張，已加入前 ${use.length} 張`,2600);else if(bad)toast('有照片無法讀取，請換一張試試',2600)};
+/* 讀影片長度並擷取一張封面（解不開的格式就沒有封面，但仍可儲存） */
+function probeVideo(f){return new Promise(res=>{const u=URL.createObjectURL(f),v=document.createElement('video');let done=false;
+  const end=r=>{if(done)return;done=true;clearTimeout(t);URL.revokeObjectURL(u);res(r)},t=setTimeout(()=>end({dur:v.duration||0,poster:null}),8000);
+  v.muted=true;v.playsInline=true;v.preload='auto';
+  v.onloadedmetadata=()=>{v.currentTime=Math.min(.5,(v.duration||0)/2)};
+  v.onseeked=()=>{try{const s=Math.min(1,640/Math.max(v.videoWidth,v.videoHeight,1)),c=document.createElement('canvas');c.width=Math.round(v.videoWidth*s)||1;c.height=Math.round(v.videoHeight*s)||1;
+    c.getContext('2d').drawImage(v,0,0,c.width,c.height);end({dur:v.duration,poster:c.width>1?c.toDataURL('image/jpeg',.72):null})}catch(e){end({dur:v.duration||0,poster:null})}};
+  v.onerror=()=>end({dur:0,poster:null});v.src=u})}
+$('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;
+  if(curPhotos.length){toast('每則紀錄只能放照片或 1 部影片，請先移除照片');return}
+  if(!/^video\//.test(f.type)){toast('這個檔案不是影片，請換一個試試');return}
+  if(f.size>VID_MAX){toast(`影片太大了（${Math.round(f.size/1048576)} MB），請選 100 MB 以內的影片`,3000);return}
+  $('mdVideoBtn').classList.add('busy');$('mdVideoBtn').querySelector('small').textContent='讀取中…';
+  try{const p=await probeVideo(f),id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);await mediaPut(id,f);
+    setVideo({id,poster:p.poster,dur:Math.round(p.dur||0),type:f.type,size:f.size});if(!p.poster)toast('已加入影片（這個格式無法顯示預覽畫面）',2800)}
+  catch(e){toast('影片無法儲存，可能是裝置空間不足',3000)}
+  finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
+$('mdPhotoBtn').onclick=()=>$('fPhoto').click();
+$('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
 
 $('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').textContent='定位中…';
   navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').textContent='定位';onEdit()},
@@ -4890,7 +4998,7 @@ const EX_HINT={full:'包含所有紀錄、<b>照片</b>、個人資料和星座�
   json:'結構化的紀錄資料（不含照片），也可以用來還原紀錄。',text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
 function exportText(real){if(fmt==='full'){const o=backupObj();if(!real)o.entries=o.entries.map(e=>e.photo?{...e,photo:'（照片）',...(e.photoMore?{photoMore:e.photoMore.map(()=>'（照片）')}:{})}:e);return JSON.stringify(o,null,real?0:2)}
   if(fmt==='json')return JSON.stringify(sorted().map(({photo,photoMore,...e})=>({...e,hasPhoto:!!photo})),null,2);
-  return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||'未命名紀錄'}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
+  return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
 function refreshEx(){$('exOut').value=exportText();document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   const ph=entries.reduce((t,e)=>t+photoCount(e),0);$('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}。`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};
@@ -5050,8 +5158,10 @@ function cleanEntry(o){if(!o||typeof o!=='object')return null;
     loc:st(o.loc,120).trim(),photo:typeof o.photo==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.photo)?o.photo:null};
   if(typeof o.prompt==='string'&&o.prompt)e.prompt=o.prompt.slice(0,200);
   if(o.sample)e.sample=1;if(o.edited)e.edited=1;if(o.fav)e.fav=1;
-  if(e.photo&&Array.isArray(o.photoMore)){const m=o.photoMore.filter(u=>typeof u==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0,3);if(m.length)e.photoMore=m}
-  return e.title||e.body||e.photo?e:null}
+  if(e.photo&&Array.isArray(o.photoMore)){const m=o.photoMore.filter(u=>typeof u==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0,9);if(m.length)e.photoMore=m}
+  /* 影片檔不在備份裡；同一台裝置還原時仍可從 IndexedDB 找回 */
+  if(!e.photo&&o.video&&typeof o.video.id==='string'&&/^v\w{1,40}$/.test(o.video.id))e.video={id:o.video.id,dur:Number(o.video.dur)||0,poster:typeof o.video.poster==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.video.poster)?o.video.poster:null};
+  return e.title||e.body||e.photo||e.video?e:null}
 function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
   {const av=AV_LEGACY[p.avatar]||p.avatar;if(AVATARS.includes(av))r.avatar=av}
   if(typeof p.photoAv==='string'&&p.photoAv.length<600000&&PHOTO_RE.test(p.photoAv)){r.photoAv=p.photoAv;if(p.avatar==='photo')r.avatar='photo'}
@@ -5238,6 +5348,7 @@ let hiddenAt=0;document.addEventListener('visibilitychange',()=>{$('device').cla
   if(document.hidden)hiddenAt=Date.now();else if(prof.pin&&hiddenAt&&Date.now()-hiddenAt>60000&&$('lock').hidden)openLock('unlock')});
 
 load();if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();else if(prof.pin)openLock('unlock');
+setTimeout(()=>mediaGC().catch(()=>{}),4000);
 })();
 </script>
 </body>

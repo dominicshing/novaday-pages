@@ -5,7 +5,7 @@ async function grantReview(e){if(!oldEntries().some(x=>x.id===e.id))return;const
   toast(first?`📖 回顧舊紀錄 +${XP.review} XP`:'📖 今日回顧任務完成');
   const lvA=levelInfo(totalXP(entries)).lv;if(lvA>lvB){await sleep(900);await showLevel(lvA)}
   for(const a of ACH.filter(a=>a.t(entries)&&!achB.includes(a.id)).slice(0,2)){await sleep(reduce?0:700);await showAch(a)}}
-let detailId=null;
+let detailId=null,dvUrl=null;
 /* 這則紀錄點亮的是哪個星座的第幾顆星 */
 function entryStar(e){const A=ascEntries(),idx=A.findIndex(x=>x.id===e.id);if(idx<0)return null;consState(entries);
   let off=0;for(const k of prof.conOrder||[]){const n=CON[k].s.length;if(idx<off+n)return{k,j:idx-off,n,es:A.slice(off,Math.min(A.length,off+n))};off+=n}return null}
@@ -22,19 +22,22 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
   $('dBody').innerHTML=`<div class="dv${prev||next?'':' solo'}" style="--c:var(${m.c})">
     ${S?`<button type="button" class="dv-star" id="dStar" aria-label="這則紀錄點亮了${CON[S.k].n}的第 ${S.j+1} 顆星，查看星座"><svg viewBox="0 0 120 76" aria-hidden="true">${starMini(S,120,76)}</svg>
       <span class="dv-st"><small>這則紀錄點亮了</small><b>${CON[S.k].n}・第 ${S.j+1} / ${S.n} 顆星</b><span>${S.es.length>=S.n?'✓ 星座已完成':`已點亮 ${S.es.length} / ${S.n}`}・查看星座 ›</span></span></button>`:''}
+    ${hasVideo(e)?`<div class="dv-vid"><video id="dVid" playsinline controls preload="metadata"${e.video.poster?` poster="${e.video.poster}"`:''}></video><p class="dv-vmiss" id="dVmiss" hidden>這部影片的檔案不在這台裝置上</p></div>`:''}
     ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="放大檢視照片"><img class="detail-img" src="${P[0]}" alt="紀錄照片"></button>`;
       return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
-    <h3>${esc(e.title||'未命名紀錄')}</h3>
+    <h3>${esc(e.title||untitled(e))}</h3>
     <div class="dv-when"><span>${esc(fmtDay(e.date))}${e.time?` ${esc(e.time)}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
     <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
     ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
     <div class="body">${esc(e.body)}</div>
     ${(e.tags||[]).length?`<div class="dv-tags">${e.tags.map(t=>`<button type="button" class="chip tag" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>`:''}
-    <div class="dv-foot"><span>${wc} 字</span>${e.photo?`<span>${photoCount(e)>1?photoCount(e)+' 張照片':'含照片'}</span>`:''}</div>
+    <div class="dv-foot"><span>${wc} 字</span>${e.photo?`<span>${photoCount(e)>1?photoCount(e)+' 張照片':'含照片'}</span>`:''}${hasVideo(e)?`<span>影片 ${fmtDur(e.video.dur)}</span>`:''}</div>
     ${prev||next?`<div class="dv-nav">${prev?`<button type="button" data-id="${esc(prev.id)}" class="p"><small>‹ 較早</small><b>${esc(prev.title||fmtDay(prev.date))}</b></button>`:'<span></span>'}${next?`<button type="button" data-id="${esc(next.id)}" class="n"><small>較新 ›</small><b>${esc(next.title||fmtDay(next.date))}</b></button>`:'<span></span>'}</div>`:''}
     <button type="button" class="dv-share" id="dShare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6"/></svg>分享成圖卡</button>
     <button type="button" class="dv-del" id="dDel">刪除這則紀錄</button></div>`;
   $('dShare').onclick=()=>openEntryShare(e.id);
+  if(dvUrl){URL.revokeObjectURL(dvUrl);dvUrl=null}
+  if(hasVideo(e)){const vid=e.video.id;mediaGet(vid).then(bl=>{const el=$('dVid');if(!el||detailId!==e.id)return;if(!bl){$('dVmiss').hidden=false;el.removeAttribute('controls');return}dvUrl=URL.createObjectURL(bl);el.src=dvUrl})}
   $('dBody').querySelectorAll('[data-pi]').forEach(b=>b.onclick=()=>openPhotoViewer(entryPhotos(e),+b.dataset.pi));
   if($('dGal')){const gl=$('dGal'),n=photoCount(e);gl.addEventListener('scroll',()=>{const i=Math.round(gl.scrollLeft/gl.clientWidth);$('dGn').textContent=`${i+1} / ${n}`;
     gl.parentElement.querySelectorAll('.dv-dots i').forEach((d,j)=>d.classList.toggle('on',j===i))},{passive:true})}

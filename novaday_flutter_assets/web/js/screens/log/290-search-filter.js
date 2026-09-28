@@ -6,21 +6,21 @@ function hl(t,terms){t=String(t??'');if(!terms||!terms.length)return esc(t);cons
 function snip(body,terms){body=String(body||'');if(!terms.length)return body;const lo=body.toLowerCase();let at=-1;
   terms.forEach(w=>{const i=lo.indexOf(w);if(i>=0&&(at<0||i<at))at=i});return at>34?'…'+body.slice(at-14):body}
 function passFilter(e){const T=qTerms();if(T.length){const hay=[e.title,e.body,e.loc,(e.tags||[]).join(' ')].join(' ').toLowerCase();if(!T.every(w=>hay.includes(w)))return false}
-  if(fl.moods.size&&!fl.moods.has(e.mood??2))return false;if(fl.photo&&!e.photo)return false;if(fl.loc&&!e.loc)return false;if(fl.prompt&&!e.prompt)return false;if(fl.fav&&!e.fav)return false;
+  if(fl.moods.size&&!fl.moods.has(e.mood??2))return false;if(fl.photo&&!hasMedia(e))return false;if(fl.loc&&!e.loc)return false;if(fl.prompt&&!e.prompt)return false;if(fl.fav&&!e.fav)return false;
   if(fl.tag&&!(e.tags||[]).includes(fl.tag))return false;return true}
 function filterFade(){const f=$('filters');f.classList.toggle('at-end',f.scrollLeft+f.clientWidth>=f.scrollWidth-4)}
 /* 篩選：分成「心情／內容／標籤」三組，點組別打開選項 */
 function fClear(){fl.moods.clear();fl.photo=fl.loc=fl.prompt=fl.fav=false;fl.tag=null}
 function renderFilters(){const tc={};entries.forEach(e=>(e.tags||[]).forEach(t=>tc[t]=(tc[t]||0)+1));
   const tags=Object.keys(tc).sort((a,b)=>tc[b]-tc[a]);
-  const mSel=[...fl.moods].sort(),cSel=[fl.fav&&'已收藏',fl.photo&&'有照片',fl.loc&&'有地點',fl.prompt&&'回答星語'].filter(Boolean);
+  const mSel=[...fl.moods].sort(),cSel=[fl.fav&&'已收藏',fl.photo&&'有照片／影片',fl.loc&&'有地點',fl.prompt&&'回答星語'].filter(Boolean);
   const grp=(k,ic,lab,val)=>`<button type="button" class="fgrp${val?' on':''}${fOpen===k?' open':''}" data-g="${k}" aria-expanded="${fOpen===k}">${ic}<span>${lab}</span>${val?`<b class="fg-n" aria-label="${val}">${val}</b>`:''}<svg class="fg-car" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button>`;
   const mVal=mSel.length||'',cVal=cSel.length||'';
   $('filters').innerHTML=grp('mood',moon(mSel.length===1?mSel[0]:3),'心情',mVal)+grp('content',IC_CAM,'內容',cVal)+(tags.length||fl.tag?grp('tag',IC_TAG,'標籤',fl.tag?1:''):'')
     +(flActive()?'<button type="button" class="fgrp clr" data-g="clear" aria-label="清除全部篩選">✕</button>':'');
   let pn='';
   if(fOpen==='mood')pn=`<div class="fp-h">心情<small>可複選</small></div><div class="fp-opts">${MOODS.map((m,i)=>`<button type="button" class="fchip" data-f="m${i}" aria-pressed="${fl.moods.has(i)}">${moon(i)}${m.n}</button>`).join('')}</div>`;
-  else if(fOpen==='content')pn=`<div class="fp-h">內容<small>可複選</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${n}</button>`).join('')}</div>`;
+  else if(fOpen==='content')pn=`<div class="fp-h">內容<small>可複選</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片／影片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${n}</button>`).join('')}</div>`;
   else if(fOpen==='tag')pn=`<div class="fp-h">標籤<small>選一個</small>${tags.length?'<button type="button" class="fp-mng" id="fpMng">管理 ›</button>':''}</div><div class="fp-opts">${tags.map(t=>`<button type="button" class="fchip" data-f="t" data-t="${esc(t)}" aria-pressed="${fl.tag===t}">#${esc(t)}<em>${tc[t]}</em></button>`).join('')||'<span class="fp-none">還沒有使用過標籤</span>'}</div>`;
   $('fPanel').innerHTML=pn?pn+`<div class="fp-foot"><button type="button" class="txt-btn" id="fpReset">清除這組</button><button type="button" class="btn primary" id="fpDone">完成</button></div>`:'';$('fPanel').hidden=!pn;
   $('filters').querySelectorAll('.fgrp').forEach(b=>b.onclick=()=>{const g=b.dataset.g;if(g==='clear'){fClear();fOpen=null}else fOpen=fOpen===g?null:g;renderLog()});

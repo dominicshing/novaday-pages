@@ -2,8 +2,8 @@
 function renderTodayCard(today){const b=$('todayCard');if(!today.length){b.hidden=true;return}
   const A=ascEntries(today),e=A[A.length-1],m=MOODS[e.mood??2],S=entryStar(e);b.hidden=false;b.style.setProperty('--c',`var(${m.c})`);
   b.innerHTML=`<span class="tc-star" aria-hidden="true">${S?`<svg viewBox="0 0 120 76">${starMini(S,120,76)}</svg>`:moon(e.mood??2)}</span>
-    <span class="tc-t"><small>今天點亮了${S?`${CON[S.k].n}第 ${S.j+1} 顆星`:'一顆星'}${today.length>1?`・共 ${today.length} 則`:''}</small><b>${esc(e.title||'未命名紀錄')}</b><span>${moon(e.mood??2)} ${m.n}・${esc((e.body||'').replace(/\s+/g,' ').slice(0,28))}${(e.body||'').length>28?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
-  b.setAttribute('aria-label',`今天的紀錄：${e.title||'未命名紀錄'}，心情${m.n}，查看`);b.onclick=()=>openDetail(e.id)}
+    <span class="tc-t"><small>今天點亮了${S?`${CON[S.k].n}第 ${S.j+1} 顆星`:'一顆星'}${today.length>1?`・共 ${today.length} 則`:''}</small><b>${esc(e.title||untitled(e))}</b><span>${moon(e.mood??2)} ${m.n}・${esc((e.body||'').replace(/\s+/g,' ').slice(0,28))}${(e.body||'').length>28?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
+  b.setAttribute('aria-label',`今天的紀錄：${e.title||untitled(e)}，心情${m.n}，查看`);b.onclick=()=>openDetail(e.id)}
 let msOpen=false;
 function missionGo(k){const td=ymd(new Date());
   if(k==='write')openEditor();else if(k==='signal')openEditor(null,true);
@@ -15,7 +15,7 @@ function renderMissions(){const td=ymd(new Date()),today=entries.filter(e=>e.dat
   const ms=[{k:'write',ic:'pen',c:'#FFB45C',t:'寫下今天的紀錄',s:b?`第一則 +${XP.first}・連續加成 +${b} 🔥`:`每天第一則 +${XP.first} XP`,xp:XP.first+b,done:today.length>0},
     /* 每個任務都必須今天就能完成：還沒有舊紀錄時，改成「豐富今天的紀錄」 */
     olds.length?{k:'review',ic:'book',c:'#A99EFF',t:'回顧一則舊紀錄',s:'重讀之前寫下的自己',xp:XP.review,done:reviews.last===td}
-      :{k:'enrich',ic:'camera',c:'#A99EFF',t:'為今天加上照片或地點',s:today.length?'讓這則紀錄更完整':'寫紀錄時順手加上',xp:XP.photo,done:today.some(e=>e.photo||e.loc)},
+      :{k:'enrich',ic:'camera',c:'#A99EFF',t:'為今天加上照片、影片或地點',s:today.length?'讓這則紀錄更完整':'寫紀錄時順手加上',xp:XP.photo,done:today.some(e=>hasMedia(e)||e.loc)},
     {k:'signal',ic:'signal',c:'#6FE3D6',t:'回答今日星語',s:`「${promptToday()}」`,xp:XP.prompt,done:today.some(e=>e.prompt)}];
   const n=ms.filter(m=>m.done).length,left=ms.filter(m=>!m.done).reduce((s,m)=>s+m.xp,0);
   $('mCount').textContent=`${n}/3`;$('mSub').textContent=n===3?'今天的任務全部完成，辛苦了 ✨':left?`還可以獲得 +${left} XP`:'今天能做的任務都完成了 ✨';
@@ -40,8 +40,8 @@ const entryPhotos=e=>e?[e.photo,...(Array.isArray(e.photoMore)?e.photoMore:[])].
 const photoCount=e=>entryPhotos(e).length;
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:''}
-    <h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):'未命名紀錄'}</h3><p>${hl(snip(e.body,T),T)}</p>
+  return `<button class="entry" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+    <h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):untitled(e)}</h3><p>${hl(snip(e.body,T),T)}</p>
     <div class="meta"><span>${esc(e.time||'')}</span><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';
 const emptyState=(t,sub,btn)=>`${ES_ART}<b>${t}</b>${sub?`<p>${sub}</p>`:''}${btn||''}`;
@@ -51,7 +51,7 @@ const IC_SIG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><circle 
 const IC_BM='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>';
 const IC_TAG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg>';
 function entryRow(e){const m=MOODS[e.mood??2];
-  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20)||'未命名紀錄',qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
+  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20)||untitled(e),qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
 function bindCards(root){root.querySelectorAll('.entry').forEach(b=>b.onclick=()=>openDetail(b.dataset.id))}
 const fl={moods:new Set(),photo:false,loc:false,prompt:false,fav:false,tag:null};let fOpen=null;
 const flActive=()=>fl.moods.size||fl.photo||fl.loc||fl.prompt||fl.fav||fl.tag;

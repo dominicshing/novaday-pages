@@ -30,9 +30,9 @@ function openYearReport(Y){const R=yearStats(Y),n=R.list.length,now=new Date(),f
       ${R.tags.length?`<div class="rp-sec"><h4>最常出現的標籤</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       ${R.locs.length?`<div class="rp-sec"><h4>最常去的地方</h4><div class="rp-tags">${R.locs.map(([t,c])=>`<span class="chip tag">${IC_PIN}${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
       <div class="rp-sec"><h4>值得回顧</h4>
-        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>這一年的第一則</small><b>${esc(R.first.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
-        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
-        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||'未命名紀錄')}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
+        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>這一年的第一則</small><b>${esc(R.first.title||untitled(R.first))}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
+        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
+        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
       ${R.photos?`<p class="rp-foot">這一年拍了 ${R.photos} 張照片</p>`:''}`}
   $('mBody').innerHTML=g;$('mBody').scrollTop=0;
   if(Y>minY)$('ryPrev').onclick=()=>openYearReport(Y-1);if(Y<now.getFullYear())$('ryNext').onclick=()=>openYearReport(Y+1);

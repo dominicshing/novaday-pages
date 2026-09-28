@@ -49,7 +49,7 @@ function openAch(id,dir){const a=ACH.find(x=>x.id===id);if(!a)return;achCur=id;c
   body.addEventListener('pointerup',end);body.addEventListener('pointercancel',end);
   body.addEventListener('click',e=>{if(Date.now()-(body._swEnd||0)<300){e.stopPropagation();e.preventDefault()}},true);
   document.addEventListener('keydown',e=>{if(!$('achSheet').classList.contains('open'))return;if(e.key==='ArrowRight'){e.preventDefault();achSwap(1)}else if(e.key==='ArrowLeft'){e.preventDefault();achSwap(-1)}})})();
-function achLeft(id,n){n=Math.max(0,n);const f={s3:`再連續寫 ${n} 天就能解鎖`,s7:`再連續寫 ${n} 天就能解鎖`,first:`寫下第一則就能解鎖`,c10:`再寫 ${n} 則就能解鎖`,photo:`再 ${n} 則附上照片就能解鎖`,loc:`再 ${n} 則加上地點就能解鎖`,
+function achLeft(id,n){n=Math.max(0,n);const f={s3:`再連續寫 ${n} 天就能解鎖`,s7:`再連續寫 ${n} 天就能解鎖`,first:`寫下第一則就能解鎖`,c10:`再寫 ${n} 則就能解鎖`,photo:`再 ${n} 則附上照片或影片就能解鎖`,loc:`再 ${n} 則加上地點就能解鎖`,
   words:`再寫 ${n.toLocaleString()} 字就能解鎖`,signal:`再回答 ${n} 次今日星語就能解鎖`,all:`再用 ${n} 種沒用過的心情就能解鎖`,con1:`再完成 ${n} 個星座就能解鎖`,con5:`再完成 ${n} 個星座就能解鎖`,s100:`再連續寫 ${n} 天就能解鎖`,s60:`再連續寫 ${n} 天就能解鎖`,mfull:`這個月再寫 ${n} 天就能解鎖`,back:`休息一陣子後再回來寫，就能解鎖`,c365:`再寫 ${n} 則就能解鎖`,w50k:`再寫 ${n.toLocaleString()} 字就能解鎖`,long1k:`單則再多寫 ${n.toLocaleString()} 字就能解鎖`,multi:`同一天再寫 ${n} 則就能解鎖`,photo4:`單則再加 ${n} 張照片就能解鎖`,fav5:`再收藏 ${n} 則就能解鎖`,season4:`再到 ${n} 個季節寫紀錄就能解鎖`,happy3:`再連續 ${n} 天好心情就能解鎖`,bright10:`再記錄 ${n} 次「很棒」就能解鎖`,calm10:`再記錄 ${n} 次「還可以」就能解鎖`,low5:`難過的日子也寫下來，再 ${n} 次就能解鎖`,rebound:`低落之後心情回升時就能解鎖`,rev1:`回顧一則舊紀錄就能解鎖`,rev10:`再回顧 ${n} 則就能解鎖`,rev30:`再回顧 ${n} 則就能解鎖`,anniv:`一年後的同一天再寫一則就能解鎖`,j100:`再繼續寫 ${n} 天就能解鎖`,j365:`再繼續寫 ${n} 天就能解鎖`,con44:`再完成 ${n} 個星座就能解鎖`,zod12:`再完成 ${n} 個黃道星座就能解鎖`,con88:`再完成 ${n} 個星座就能解鎖`,s14:`再連續寫 ${n} 天就能解鎖`,s30:`再連續寫 ${n} 天就能解鎖`,m20:`這個月再寫 ${n} 天就能解鎖`,c30:`再寫 ${n} 則就能解鎖`,c100:`再寫 ${n} 則就能解鎖`,long:`單則再多寫 ${n} 字就能解鎖`,photo20:`再 ${n} 則附上照片就能解鎖`,loc10:`再去 ${n} 個新地點就能解鎖`,tag5:`再用 ${n} 種新標籤就能解鎖`,signal10:`再回答 ${n} 次今日星語就能解鎖`,night:`再 ${n} 則在晚上 10 點後寫就能解鎖`,early:`再 ${n} 則在早上 8 點前寫就能解鎖`,con3:`再完成 ${n} 個星座就能解鎖`,con10:`再完成 ${n} 個星座就能解鎖`,w20k:`再寫 ${n.toLocaleString()} 字就能解鎖`,w5k:`再寫 ${n.toLocaleString()} 字就能解鎖`,zod1:`完成一個黃道十二星座就能解鎖`,con20:`再完成 ${n} 個星座就能解鎖`}[id];return f||`還差 ${n}`}
 function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStoreRow();if($('rpOpenT'))$('rpOpenT').textContent=`${new Date().getMonth()+1} 月星空報告`;
   const xp=totalXP(entries),{lv,rest,need}=levelInfo(xp),u=unlocked(entries);
@@ -69,7 +69,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
   {const zi=signIdx(prof.birthday);$('pSign').innerHTML=zi<0?`${STAR4} 設定星座`:`${zg(zi)} ${ZODIAC[zi].n}`;$('pSign').setAttribute('aria-label',zi<0?'設定生日以顯示星座':`${ZODIAC[zi].n}，查看性格與本月運勢`)}
   $('pXpText').innerHTML=`<b>${rest}</b> / ${need} XP・還差 ${need-rest} 升到 Lv.${lv+1}`;
   $('stTotal').textContent=entries.length;$('stWords').textContent=entries.reduce((s,e)=>s+chars(e),0).toLocaleString();$('stBest').textContent=bestStreak(entries);
-  $('stPhotos').textContent=entries.filter(e=>e.photo).length;$('stLocs').textContent=new Set(entries.filter(e=>e.loc).map(e=>e.loc)).size;$('stXP').textContent=xp.toLocaleString();
+  $('stPhotos').textContent=entries.filter(hasMedia).length;$('stLocs').textContent=new Set(entries.filter(e=>e.loc).map(e=>e.loc)).size;$('stXP').textContent=xp.toLocaleString();
   renderEnergy();
   $('aCount').textContent=`已解鎖 ${u.length} / ${ACH.length}`;
   /* 預設只顯示已解鎖＋最接近完成的 3 個，其餘收起 */

@@ -10,7 +10,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
-      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||'未命名紀錄')}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
+      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${(base*3.2).toFixed(1)}" fill="${col}" opacity=".22"/>
         ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <circle class="core" cx="${x}" cy="${y}" r="${(base*1.25).toFixed(1)}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${(base*.55).toFixed(1)}" fill="#fff"/></g>`}

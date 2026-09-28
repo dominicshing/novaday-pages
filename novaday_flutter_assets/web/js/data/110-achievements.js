@@ -3,7 +3,7 @@ const ACH=[
  {id:'s3',em:'🔥',n:'三日連續',d:'連續 3 天記錄',t:l=>bestStreak(l)>=3},
  {id:'s7',em:'☄️',n:'七日連續',d:'連續 7 天記錄',t:l=>bestStreak(l)>=7},
  {id:'c10',em:'✨',n:'星光收藏家',d:'累積 10 則紀錄',t:l=>l.length>=10},
- {id:'photo',em:'📸',n:'星際攝影師',d:'5 則附照片',t:l=>l.filter(e=>e.photo).length>=5},
+ {id:'photo',em:'📸',n:'星際攝影師',d:'5 則附照片或影片',t:l=>l.filter(hasMedia).length>=5},
  {id:'loc',em:'🧭',n:'地點探險家',d:'5 則有地點',t:l=>l.filter(e=>e.loc).length>=5},
  {id:'words',em:'✍️',n:'星空作家',d:'總字數 1,000',t:l=>l.reduce((s,e)=>s+chars(e),0)>=1000},
  {id:'signal',em:'💫',n:'星語收藏家',d:'回答 3 次今日星語',t:l=>l.filter(e=>e.prompt).length>=3},

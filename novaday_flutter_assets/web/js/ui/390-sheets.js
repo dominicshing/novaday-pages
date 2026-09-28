@@ -6,7 +6,7 @@ function openSheet(id){const l=$(id);l._last=document.activeElement;
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
   l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false')}
-function closeSheet(id){const l=$(id);l.classList.remove('open');l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
+function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}
 document.querySelectorAll('.layer').forEach(l=>l.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>requestClose(l.id)));
 

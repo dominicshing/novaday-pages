@@ -9,8 +9,10 @@ function cleanEntry(o){if(!o||typeof o!=='object')return null;
     loc:st(o.loc,120).trim(),photo:typeof o.photo==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.photo)?o.photo:null};
   if(typeof o.prompt==='string'&&o.prompt)e.prompt=o.prompt.slice(0,200);
   if(o.sample)e.sample=1;if(o.edited)e.edited=1;if(o.fav)e.fav=1;
-  if(e.photo&&Array.isArray(o.photoMore)){const m=o.photoMore.filter(u=>typeof u==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0,3);if(m.length)e.photoMore=m}
-  return e.title||e.body||e.photo?e:null}
+  if(e.photo&&Array.isArray(o.photoMore)){const m=o.photoMore.filter(u=>typeof u==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0,9);if(m.length)e.photoMore=m}
+  /* 影片檔不在備份裡；同一台裝置還原時仍可從 IndexedDB 找回 */
+  if(!e.photo&&o.video&&typeof o.video.id==='string'&&/^v\w{1,40}$/.test(o.video.id))e.video={id:o.video.id,dur:Number(o.video.dur)||0,poster:typeof o.video.poster==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.video.poster)?o.video.poster:null};
+  return e.title||e.body||e.photo||e.video?e:null}
 function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
   {const av=AV_LEGACY[p.avatar]||p.avatar;if(AVATARS.includes(av))r.avatar=av}
   if(typeof p.photoAv==='string'&&p.photoAv.length<600000&&PHOTO_RE.test(p.photoAv)){r.photoAv=p.photoAv;if(p.avatar==='photo')r.avatar='photo'}

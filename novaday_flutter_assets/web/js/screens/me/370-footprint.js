@@ -21,7 +21,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
     ${fpSel?(()=>{const d=parse(fpSel),dl=`${d.getMonth()+1}/${d.getDate()}（${WD[d.getDay()]}）`;
       if(!tipE)return `<div class="fp-tip empty"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
       const m=Math.round(tipE.reduce((t,e)=>t+(e.mood??2),0)/tipE.length),t0=tipE[0];
-      return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||'未命名紀錄')}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
+      return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||untitled(t0))}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
       :`<div class="fp-leg">${by[tk]?'':'<button type="button" class="fp-cta" id="fpCta">今天還沒點亮，寫一則 ›</button>'}<span>星星＝當天心情</span>${[0,1,2,3,4].map(i=>moon(i)).join('')}</div>`}`;
   if($('fpCta'))$('fpCta').onclick=()=>openEditor();
   if(!reduce&&!fpIntroDone){const g=$('fpGrid');if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){io.disconnect();fpIntroDone=true;g.classList.add('intro');setTimeout(()=>g.classList.remove('intro'),1800)}},{threshold:.4});io.observe(g)}}

@@ -72,7 +72,8 @@
     "css/refinements/700-footprint-size.css",
     "css/components/710-avatar-upload-tile.css",
     "css/components/720-rank-card-sky.css",
-    "css/components/730-birthday-wheel.css"
+    "css/components/730-birthday-wheel.css",
+    "css/components/740-media-picker.css"
   ],
   "js": [
     "js/core/010-config.js",
@@ -84,6 +85,7 @@
     "js/ui/art/070-avatars.js",
     "js/core/080-profile.js",
     "js/core/090-storage.js",
+    "js/core/095-media-store.js",
     "js/logic/100-xp-streak.js",
     "js/data/110-achievements.js",
     "js/ui/art/120-crystal.js",

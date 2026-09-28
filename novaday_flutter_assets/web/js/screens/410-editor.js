@@ -1,6 +1,6 @@
 /* Editor */
 const DKEY='orbitlog.draft.v1';
-let editing=null,curMood=2,curPhoto=null,curPhotos=[],curPrompt=null,baseSnap='',dTimer=null;
+let editing=null,curMood=2,curPhoto=null,curPhotos=[],curVideo=null,vidUrl=null,curPrompt=null,baseSnap='',dTimer=null;
 /* 這則紀錄會點亮哪一顆星：新紀錄 → 目前星座的下一顆；編輯 → 這則原本對應的那顆 */
 function edTarget(){const st=consState(entries);
   if(!editing){if(!st.cur)return null;return{k:st.cur,t:st.lit,lit:st.lit,es:ascEntries().slice(st.off,st.off+st.lit)}}
@@ -26,7 +26,8 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
   box.setAttribute('aria-label',$('edStarK').textContent+$('edStarN').textContent);box.setAttribute('role','note');paintEdStar()}
 function paintEdStar(){$('edStar').style.setProperty('--c',`var(${MOODS[curMood].c})`)}
 function fitBody(){const f=$('fBody');f.style.height='auto';f.style.height=Math.max(132,f.scrollHeight+2)+'px'}
-function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length;$('wc').textContent=n+' 字'}
+function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length,p=curPhotos.length;
+  $('wc').textContent=n+' 字'+(p?`・${p} 張照片`:curVideo?'・1 部影片':'')}
 function renderPrompt(){$('promptNote').hidden=!curPrompt;const today=curPrompt===promptToday();
   $('pnK').textContent=curPrompt?(today?'💫 今日星語':'✦ 書寫提示'):'';$('pnT').textContent=curPrompt||'';
   $('sigChip').hidden=!!curPrompt;$('sigChip').title=promptToday()}
@@ -36,35 +37,45 @@ function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="butt
     for(let k=0;k<8;k++){const a=k/8*Math.PI*2,r=24+(k%2)*8,d=document.createElement('i');d.style.setProperty('--x',(Math.cos(a)*r).toFixed(1)+'px');d.style.setProperty('--y',(Math.sin(a)*r).toFixed(1)+'px');bs.appendChild(d)}
     nb.appendChild(bs);setTimeout(()=>bs.remove(),760);if(typeof buzz==='function')buzz(6)});
   $('moodNow').textContent=MOODS[curMood].n;paintEdStar()}
-const PH_MAX=4;
-function setPhotos(arr,quiet){curPhotos=(arr||[]).filter(Boolean).slice(0,PH_MAX);curPhoto=curPhotos[0]||null;renderPhStrip();if(!quiet)onEdit()}
+const PH_MAX=10;
+function setPhotos(arr,quiet){curPhotos=(arr||[]).filter(Boolean).slice(0,PH_MAX);curPhoto=curPhotos[0]||null;renderMedia();if(!quiet)onEdit()}
 function setPhoto(p,quiet){setPhotos(p?[p]:[],quiet)}
-function renderPhStrip(){const b=$('fPhotos');if(!b)return;const n=curPhotos.length;
+function setVideo(v,quiet){curVideo=v&&v.id?v:null;renderMedia();if(!quiet)onEdit()}
+/* 影像區：沒有影像時顯示「加入照片／加入影片」；照片最多 10 張，或 1 部影片，兩者擇一 */
+function renderMedia(){const b=$('fPhotos'),n=curPhotos.length;if(!b)return;
+  $('mdEmpty').hidden=!!(n||curVideo);b.hidden=!n;$('fVideo').hidden=!curVideo;
   b.innerHTML=curPhotos.map((u,i)=>`<div class="ph-t${i?'':' cover'}"><button type="button" class="ph-img" data-i="${i}" aria-label="${i?`把第 ${i+1} 張設為封面`:'封面照片'}"><img src="${u}" alt=""></button>${i?'':'<span class="ph-cv">封面</span>'}<button type="button" class="ph-x" data-x="${i}" aria-label="移除第 ${i+1} 張照片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>`).join('')
-    +(n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>${n?'再加一張':'加入照片'}</span><small>${n} / ${PH_MAX}</small></button>`:'');
-  $('phHint').textContent=n>1?'點一下照片可以設為封面，封面會顯示在列表上':`最多 ${PH_MAX} 張照片`;
-  b.querySelectorAll('.ph-x').forEach(x=>x.onclick=()=>{const a=curPhotos.slice();a.splice(+x.dataset.x,1);setPhotos(a);if(!a.length)syncTools()});
+    +(n&&n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>再加一張</span><small>${n} / ${PH_MAX}</small></button>`:'');
+  $('phHint').textContent=curVideo?'每則紀錄可放 1 部影片，或最多 10 張照片'
+    :n>1?`點一下照片可以設為封面・${n} / ${PH_MAX} 張`:n?`最多 ${PH_MAX} 張照片・想放影片請先移除照片`:'可以只放照片或影片，不寫文字也能點亮';
+  b.querySelectorAll('.ph-x').forEach(x=>x.onclick=()=>{const a=curPhotos.slice();a.splice(+x.dataset.x,1);setPhotos(a)});
   b.querySelectorAll('.ph-img').forEach(x=>x.onclick=()=>{const i=+x.dataset.i;if(!i)return;const a=curPhotos.slice();const [m]=a.splice(i,1);a.unshift(m);setPhotos(a);toast('已設為封面',1400)});
-  if($('phAdd'))$('phAdd').onclick=()=>$('fPhoto').click()}
-const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).concat([{id,date:$('fDate').value||ymd(new Date()),time:$('fTime').value,photo:curPhoto,loc:$('fLoc').value.trim(),prompt:curPrompt}]);
+  if($('phAdd'))$('phAdd').onclick=()=>$('fPhoto').click();
+  renderVidPrev()}
+function renderVidPrev(){const box=$('fVideo'),v=curVideo;if(vidUrl){URL.revokeObjectURL(vidUrl);vidUrl=null}
+  if(!v){box.innerHTML='';return}
+  box.innerHTML=`<video class="md-v" playsinline controls preload="metadata"${v.poster?` poster="${v.poster}"`:''}></video><span class="md-dur">${fmtDur(v.dur)}</span><button type="button" class="ph-x" id="vidX" aria-label="移除影片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>`;
+  $('vidX').onclick=()=>setVideo(null);
+  const id=v.id;mediaGet(id).then(bl=>{if(!bl||!curVideo||curVideo.id!==id)return;vidUrl=URL.createObjectURL(bl);const el=box.querySelector('video');if(el)el.src=vidUrl})}
+const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).concat([{id,date:$('fDate').value||ymd(new Date()),time:$('fTime').value,photo:curPhoto,video:curVideo,loc:$('fLoc').value.trim(),prompt:curPrompt}]);
   const v=xpMap(tmp).get(id)||{total:0,bonus:0},gain=editing?v.total:totalXP(tmp)-totalXP(entries);
   /* 新紀錄顯示「實際淨增加」的 XP（同一天第二則起只有 +5） */
   const firstToday=!entries.some(x=>x.date===tmp[tmp.length-1].date&&x.id!==id);
   $('xpPrev').textContent=`+${gain} XP${firstToday&&v.bonus?' 🔥':''}`;
   $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
 function updWhen(){const d=$('fDate').value||ymd(new Date()),t=$('fTime').value;$('whenTxt').textContent=(d===ymd(new Date())?'今天':fmtDay(d))+(t?' '+t:'');$('whenBtn').setAttribute('aria-expanded',!$('xDate').hidden)}
-function syncTools(){const has={xPhoto:!!curPhoto,xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
+function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
-const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curPrompt]);
-const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length));
+const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curVideo&&curVideo.id,curPrompt]);
+const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
-  if(snap()===baseSnap||!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)){clearDraft();$('draftState').textContent='';return}
-  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,prompt:curPrompt};
+  if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
+  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,video:curVideo,prompt:curPrompt};
   try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已自動儲存'}
   catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已儲存（不含照片）'}catch(e2){$('draftState').textContent='草稿無法儲存'}}}
-function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)}
+function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto||curVideo)}
 function updEdUI(){const sb=$('saveBtn'),was=sb.classList.contains('off'),now=!edHas();sb.classList.toggle('off',now);sb.setAttribute('aria-disabled',now);
   if(was&&!now&&!reduce){sb.classList.remove('pop');void sb.offsetWidth;sb.classList.add('pop')}
   updWC();fitBody();$('sparks').hidden=!!$('fBody').value.trim()||!!editing}
@@ -81,14 +92,14 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
   $('fDate').value=e?e.date:(presetDate||ymd(n));$('fTime').value=e?(e.time||''):pad(n.getHours())+':'+pad(n.getMinutes());
   $('fTitle').value=e?e.title:'';$('fBody').value=e?e.body:'';$('fTags').value=e?(e.tags||[]).join(', '):'';$('fLoc').value=e?(e.loc||''):'';
-  curMood=e?(e.mood??2):2;setPhotos(entryPhotos(e),true);$('fPhoto').value='';
+  curMood=e?(e.mood??2):2;curVideo=e&&hasVideo(e)?{...e.video}:null;setPhotos(entryPhotos(e),true);$('fPhoto').value='';$('fVideoIn').value='';
   baseSnap=snap();
   const d=readDraft();let restored=false;
   if(draftHas(d)&&(d.editing||null)===editing){
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
-    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
+    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
-  $('xPhoto').hidden=!curPhoto;$('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
+  $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<i class="lbi" aria-hidden="true">✦</i>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
   $('draftState').textContent=restored?'已還原草稿':'';
@@ -97,7 +108,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   if(restored)toast('已還原上次未完成的草稿');
   if(!e)setTimeout(()=>$('fBody').focus({preventScroll:true}),reduce?0:340)}
 
-async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto)){closeSheet('editor');renderDraftBar();return}
+async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
   const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？','目前的內容已存成草稿，下次打開會自動還原。',
     [{k:'keep',t:'繼續寫',cls:'primary'},{k:'later',t:'保留草稿，稍後再寫'},{k:'discard',t:editing?'放棄修改':'捨棄內容',cls:'danger'}]);
   if(k==='later'){closeSheet('editor');renderDraftBar();toast('草稿已保留，首頁可以繼續寫')}
@@ -111,7 +122,6 @@ $('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const 
 $('pnX').onclick=()=>{curPrompt=null;renderPrompt();onEdit();$('fBody').focus({preventScroll:true})};
 $('xpPrev').onclick=()=>toast($('xpPrev').title||'寫完按「點亮」就會獲得經驗值',3000);
 document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{const s=$(b.dataset.x);
-  if(b.dataset.x==='xPhoto'&&!curPhoto){s.hidden=false;syncTools();$('fPhoto').click();return}
   s.hidden=!s.hidden;syncTools();
   if(!s.hidden){scrollToEl(s,'nearest');const inp=s.querySelector('input:not([type=file])');if(inp)inp.focus({preventScroll:true})}});
 
@@ -138,8 +148,8 @@ function renderQuick(){const b=$('quickNote');if(!b)return;const td=ymd(new Date
 function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(dTimer);
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
-    tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,prompt:curPrompt};
-  if(!data.title&&!data.body&&!data.photo){toast('先寫一點內容，或加一張照片再點亮');$('fBody').focus();return}
+    tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
+  if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
   const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
@@ -159,11 +169,31 @@ function loadPhoto(f){return new Promise(res=>{const r=new FileReader();r.onerro
   r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');
     c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};
     img.onerror=()=>res(null);img.src=r.result};r.readAsDataURL(f)})}
-$('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length){syncTools();return}
+$('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
+  if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}
   const room=PH_MAX-curPhotos.length,use=fs.slice(0,Math.max(0,room));if(!use.length){toast(`每則紀錄最多 ${PH_MAX} 張照片`);return}
-  $('xPhoto').hidden=false;const out=[];let bad=0;for(const f of use){const u=await loadPhoto(f);if(u)out.push(u);else bad++}
-  setPhotos(curPhotos.concat(out));syncTools();
+  const out=[];let bad=0;for(const f of use){const u=await loadPhoto(f);if(u)out.push(u);else bad++}
+  setPhotos(curPhotos.concat(out));
   if(fs.length>room)toast(`每則最多 ${PH_MAX} 張，已加入前 ${use.length} 張`,2600);else if(bad)toast('有照片無法讀取，請換一張試試',2600)};
+/* 讀影片長度並擷取一張封面（解不開的格式就沒有封面，但仍可儲存） */
+function probeVideo(f){return new Promise(res=>{const u=URL.createObjectURL(f),v=document.createElement('video');let done=false;
+  const end=r=>{if(done)return;done=true;clearTimeout(t);URL.revokeObjectURL(u);res(r)},t=setTimeout(()=>end({dur:v.duration||0,poster:null}),8000);
+  v.muted=true;v.playsInline=true;v.preload='auto';
+  v.onloadedmetadata=()=>{v.currentTime=Math.min(.5,(v.duration||0)/2)};
+  v.onseeked=()=>{try{const s=Math.min(1,640/Math.max(v.videoWidth,v.videoHeight,1)),c=document.createElement('canvas');c.width=Math.round(v.videoWidth*s)||1;c.height=Math.round(v.videoHeight*s)||1;
+    c.getContext('2d').drawImage(v,0,0,c.width,c.height);end({dur:v.duration,poster:c.width>1?c.toDataURL('image/jpeg',.72):null})}catch(e){end({dur:v.duration||0,poster:null})}};
+  v.onerror=()=>end({dur:0,poster:null});v.src=u})}
+$('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;
+  if(curPhotos.length){toast('每則紀錄只能放照片或 1 部影片，請先移除照片');return}
+  if(!/^video\//.test(f.type)){toast('這個檔案不是影片，請換一個試試');return}
+  if(f.size>VID_MAX){toast(`影片太大了（${Math.round(f.size/1048576)} MB），請選 100 MB 以內的影片`,3000);return}
+  $('mdVideoBtn').classList.add('busy');$('mdVideoBtn').querySelector('small').textContent='讀取中…';
+  try{const p=await probeVideo(f),id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);await mediaPut(id,f);
+    setVideo({id,poster:p.poster,dur:Math.round(p.dur||0),type:f.type,size:f.size});if(!p.poster)toast('已加入影片（這個格式無法顯示預覽畫面）',2800)}
+  catch(e){toast('影片無法儲存，可能是裝置空間不足',3000)}
+  finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
+$('mdPhotoBtn').onclick=()=>$('fPhoto').click();
+$('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
 
 $('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').textContent='定位中…';
   navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').textContent='定位';onEdit()},

@@ -6,7 +6,7 @@ const EX_HINT={full:'包含所有紀錄、<b>照片</b>、個人資料和星座�
   json:'結構化的紀錄資料（不含照片），也可以用來還原紀錄。',text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
 function exportText(real){if(fmt==='full'){const o=backupObj();if(!real)o.entries=o.entries.map(e=>e.photo?{...e,photo:'（照片）',...(e.photoMore?{photoMore:e.photoMore.map(()=>'（照片）')}:{})}:e);return JSON.stringify(o,null,real?0:2)}
   if(fmt==='json')return JSON.stringify(sorted().map(({photo,photoMore,...e})=>({...e,hasPhoto:!!photo})),null,2);
-  return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||'未命名紀錄'}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
+  return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
 function refreshEx(){$('exOut').value=exportText();document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   const ph=entries.reduce((t,e)=>t+photoCount(e),0);$('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}。`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};

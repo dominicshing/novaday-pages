@@ -6,7 +6,7 @@ function moodInsights(){const L=entries.filter(e=>!isSample(e)),N=L.length;if(N<
     if(Math.abs(x.d)>=.4)out.push({ic:'tag',good:x.d>0,t:`寫到 #${esc(x.t)} 的日子`,s:`心情平均${x.d>0?'比平常好':'比平常低'} ${Math.abs(x.d).toFixed(1)} 級（${x.n} 則）`})});
   const wd=[0,1,2,3,4,5,6].map(d=>L.filter(e=>parse(e.date).getDay()===d)).map((a,d)=>({d,n:a.length,v:a.length?avg(a):0})).filter(x=>x.n>=2);
   if(wd.length>=3){const b=wd.slice().sort((a,c)=>c.v-a.v)[0];if(b.v-base>=.3)out.push({ic:'cal',good:1,t:`星期${WD[b.d]}的心情最好`,s:`平均 ${MOODS[Math.round(b.v)].n}，比其他日子高 ${(b.v-base).toFixed(1)} 級`})}
-  const lp=L.filter(e=>e.loc||e.photo),ln=L.filter(e=>!e.loc&&!e.photo);if(lp.length>=3&&ln.length>=3){const d=avg(lp)-avg(ln);if(Math.abs(d)>=.4)out.push({ic:'pin',good:d>0,t:'有照片或地點的日子',s:`心情${d>0?'比較好':'比較低'}，相差 ${Math.abs(d).toFixed(1)} 級`})}
+  const lp=L.filter(e=>e.loc||hasMedia(e)),ln=L.filter(e=>!e.loc&&!hasMedia(e));if(lp.length>=3&&ln.length>=3){const d=avg(lp)-avg(ln);if(Math.abs(d)>=.4)out.push({ic:'pin',good:d>0,t:'有照片或地點的日子',s:`心情${d>0?'比較好':'比較低'}，相差 ${Math.abs(d).toFixed(1)} 級`})}
   const late=L.filter(e=>e.time&&+e.time.slice(0,2)>=23||e.time&&+e.time.slice(0,2)<4),early=L.filter(e=>e.time&&+e.time.slice(0,2)>=5&&+e.time.slice(0,2)<23);
   if(late.length>=3&&early.length>=3){const d=avg(late)-avg(early);if(d<=-.4)out.push({ic:'moon',good:0,t:'深夜寫的日記',s:`心情通常比較低，早點休息也許會好一些`})}
   return{list:out.slice(0,3)}}

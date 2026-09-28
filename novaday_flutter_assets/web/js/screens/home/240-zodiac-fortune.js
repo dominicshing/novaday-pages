@@ -33,14 +33,17 @@ function openBdQuick(){const b=prof.birthday?prof.birthday.split('-').map(Number
   openSheet('bdQuick');whBuild($('bqWM'),Array.from({length:12},(_,k)=>`${k+1} 月`),bq.m);bqDays();bqRender();
   requestAnimationFrame(()=>{$('bqWM').scrollTop=(bq.m-1)*WH;$('bqWD').scrollTop=(bq.d-1)*WH;whPaint($('bqWM'));whPaint($('bqWD'))})}
 let bqLast=-2;
-function bqRender(){const zi=bq.m&&bq.d?signIdx(`2000-${pad(bq.m)}-${pad(bq.d)}`):-1,pv=$('bqPrev');$('bqGo').disabled=zi<0;
+function bqRender(){const zi=bq.m&&bq.d?signIdx(`2000-${pad(bq.m)}-${pad(bq.d)}`):-1,pv=$('bqPrev');$('bqGo').disabled=$('bqOk').disabled=zi<0;
   $('bqWheel').setAttribute('aria-label',`${bq.m} 月 ${bq.d} 日`);if(zi===bqLast)return;bqLast=zi;
   if(zi<0){pv.className='bq-prev';pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${STAR4}</span></span><span>選好月份和日期後，這裡會顯示你的星座</span>`}
   else{const Z=ZODIAC[zi];pv.className='bq-prev on';pv.style.setProperty('--elc',ELC[Z.el]);
     pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${zg(zi)}</span></span><span><b>${Z.n}</b><small>${zRange(zi)}・${Z.el}星座</small><span class="kw">${Z.kw.map(w=>`<span class="chip">${w}</span>`).join('')}</span></span>`}}
-$('bqGo').onclick=()=>{if(!bq.m||!bq.d)return;const had=signIdx(prof.birthday)>=0;prof.birthday=`2000-${pad(bq.m)}-${pad(bq.d)}`;saveProf();
+/* 確認：儲存後關閉；查看我的運勢：儲存後接著打開運勢 */
+function bqSave(){if(!bq.m||!bq.d)return false;const had=signIdx(prof.birthday)>=0;prof.birthday=`2000-${pad(bq.m)}-${pad(bq.d)}`;saveProf();
   closeSheet('bdQuick');renderFortuneCard();renderMe();const zi=signIdx(prof.birthday);
-  if(!had)toast(`已設定星座：${ZODIAC[zi].n}`);setTimeout(()=>openFortune(),reduce?0:260)};
+  if(!had)toast(`已設定星座：${ZODIAC[zi].n}`);return true}
+$('bqOk').onclick=()=>bqSave();
+$('bqGo').onclick=()=>{if(bqSave())setTimeout(()=>openFortune(),reduce?0:260)};
 function openFortune(i){const mine=signIdx(prof.birthday);if(i==null)i=mine;if(i<0)return openBdQuick();
   const Z=ZODIAC[i],n=new Date(),M=n.getMonth()+1,f=fortune(i,n.getFullYear(),M);
   $('fsTitle').textContent=`${Z.n}`;

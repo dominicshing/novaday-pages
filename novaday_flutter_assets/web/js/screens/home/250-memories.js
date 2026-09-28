@@ -6,5 +6,5 @@ function memoryPick(){const t=new Date(),td=ymd(t),real=entries.filter(e=>!isSam
 function renderMemory(){const b=$('memCard');if(!b)return;const m=memoryPick();b.hidden=!m;if(!m)return;const e=m.e,md=MOODS[e.mood??2];
   b.style.setProperty('--c',`var(${md.c})`);
   b.innerHTML=`<span class="mem-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3 4v4h4"/></svg></span>
-    <span class="mem-t"><small>${m.lab}${m.n>1?`・${m.n} 則`:''}</small><b>${esc(e.title||'未命名紀錄')}</b><span>${moon(e.mood??2)}${esc((e.body||'').replace(/\s+/g,' ').slice(0,34))}${(e.body||'').length>34?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
-  b.setAttribute('aria-label',`${m.lab}：${e.title||'未命名紀錄'}，查看`);b.onclick=()=>openDetail(e.id)}
+    <span class="mem-t"><small>${m.lab}${m.n>1?`・${m.n} 則`:''}</small><b>${esc(e.title||untitled(e))}</b><span>${moon(e.mood??2)}${esc((e.body||'').replace(/\s+/g,' ').slice(0,34))}${(e.body||'').length>34?'…':''}</span></span><span class="tc-go" aria-hidden="true">›</span>`;
+  b.setAttribute('aria-label',`${m.lab}：${e.title||untitled(e)}，查看`);b.onclick=()=>openDetail(e.id)}

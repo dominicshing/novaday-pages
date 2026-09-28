@@ -2,7 +2,6 @@
 .avs .av.av-up2{position:relative;overflow:visible;border:1.5px dashed rgba(111,227,214,.65);background:radial-gradient(circle at 40% 30%,rgba(111,227,214,.22),rgba(10,14,40,.92) 70%);color:var(--ion)}
 .av-up2 .avp-ic{display:grid;place-items:center;width:46%;height:46%}
 .av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(111,227,214,.6))}
-.av-up2 .avp-plus{position:absolute;right:-1px;bottom:-1px;width:36%;height:36%;min-width:17px;min-height:17px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:800;line-height:1;color:#07231F;background:var(--ion);box-shadow:0 0 0 2.5px #141a4a,0 0 10px -2px var(--ion)}
 .avs .av.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
 .av-up2.has .av-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
 .av-up2.has .avp-ic{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:18px;min-height:18px;border-radius:50%;background:var(--ion);color:#07231F;box-shadow:0 0 0 2.5px #141a4a}

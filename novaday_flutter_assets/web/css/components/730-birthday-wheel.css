@@ -12,3 +12,6 @@
 .wh-it{height:40px;display:grid;place-items:center;scroll-snap-align:center;font-size:20px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;cursor:pointer;user-select:none;-webkit-user-select:none;transform-origin:50% 50%}
 .wh-it[aria-selected="true"]{color:#FFE7A3}
 .bq-wheel+.bq-prev{margin-top:14px}
+/* 標題旁的生日蛋糕圖示 */
+.bq-title{display:flex;align-items:center;justify-content:center;gap:6px}
+.bq-ic{width:20px;height:20px;flex:none;fill:none;stroke:var(--flare);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
