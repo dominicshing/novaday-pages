@@ -34,3 +34,6 @@
 .draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
 .draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
 
+/* 設定頁分類標題 */
+.set-h{margin:22px 8px 8px;font-size:12px;font-weight:600;line-height:1.4;color:var(--muted);letter-spacing:.12em}
+.set-h.first{margin-top:2px}
