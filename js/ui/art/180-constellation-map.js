@@ -14,7 +14,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${(base*3.2).toFixed(1)}" fill="${col}" opacity=".22"/>
         ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <circle class="core" cx="${x}" cy="${y}" r="${(base*1.25).toFixed(1)}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${(base*.55).toFixed(1)}" fill="#fff"/></g>`}
-    else g+=`<circle cx="${x}" cy="${y}" r="${(base*.75).toFixed(1)}" fill="rgba(232,233,255,.5)"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
+    else g+=`<circle class="cu" cx="${x}" cy="${y}" r="${(base*.75).toFixed(1)}" fill="rgba(232,233,255,.5)"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
 function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}

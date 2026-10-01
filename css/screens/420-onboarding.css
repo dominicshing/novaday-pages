@@ -92,8 +92,14 @@
 .ob-pst{fill:#FFE7A3;transform-box:fill-box;transform-origin:center;animation:obTw 2.6s ease-in-out .6s infinite}
 @keyframes obChip{0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:none}}
 @keyframes obSpinOnce{from{transform:rotate(-180deg)}to{transform:none}}
-.ob-keep{display:flex;gap:10px;align-items:flex-start;width:100%;max-width:338px;margin:26px auto 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left;font-size:14px;cursor:pointer}
-.ob-keep input{margin-top:3px;width:18px;height:18px;accent-color:var(--nebula)}
+.ob-keep{display:flex;gap:12px;align-items:center;width:100%;max-width:338px;margin:26px auto 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left;font-size:14px;cursor:pointer}
+.ob-keep>span{flex:1;min-width:0}
+/* 保留範例：App 風格的開關 */
+.ob-keep input{flex:none;appearance:none;-webkit-appearance:none;position:relative;width:46px;height:28px;margin:0;border-radius:14px;background:rgba(232,233,255,.14);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:background .25s}
+.ob-keep input::before{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.ob-keep input:checked{background:linear-gradient(135deg,#8A7CFF,#6FE3D6)}
+.ob-keep input:checked::before{transform:translateX(18px)}
+.ob-keep input:focus-visible{outline:2px solid var(--ion);outline-offset:2px}
 .ob-keep small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .ob-foot{position:relative;padding:10px 24px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px}
 .ob-next{width:100%;min-height:50px;font-size:16px;border-radius:16px;box-shadow:0 10px 30px -10px rgba(138,124,255,.8)}
@@ -133,6 +139,25 @@
 .ob-mc .moon:nth-child(5){animation-delay:5.6s}
 .ob-mc .moon .nv .mx{display:inline}
 @keyframes obMood{0%{opacity:0;transform:scale(.6)}4%{opacity:1;transform:none}17%{opacity:1;transform:none}21%,100%{opacity:0;transform:scale(.85)}}
+/* 星座卡：星座環持續旋轉（彈出時先轉一圈進場） */
+.ob-sign .fo-ring{animation:foSpin 30s linear infinite}
+.ob-sign.pop .fo-ring{animation:obSpinOnce 1.1s cubic-bezier(.2,.7,.2,1),foSpin 30s linear 1.1s infinite}
+/* 最後一步：你的第一個星座 */
+.ob-con-wrap{display:flex;flex-direction:column;align-items:center}
+.ob-con{position:relative;width:min(300px,100%);animation:bob 6s ease-in-out 2.2s infinite}
+.ob-con::before{content:"";position:absolute;inset:-6% -4%;border-radius:50%;background:radial-gradient(closest-side,rgba(138,124,255,.3),rgba(138,124,255,.08) 60%,transparent);animation:obBreath 4s ease-in-out infinite}
+.ob-con svg{position:relative;display:block;width:100%;height:auto;overflow:visible}
+.ob-con .cl-dash{stroke-dasharray:none;stroke:rgba(232,233,255,.22)}
+.ob-con.intro .cfig{animation:obFade .9s ease .15s both}
+.ob-con.intro .cu{transform-box:fill-box;transform-origin:center;animation:obStar .5s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+.ob-con.intro .cl-dash{animation:obFade .7s ease 1s both}
+.ob-con.intro .nextring{animation:obFade .4s ease 1.4s both,nextp 1.8s ease-in-out 1.8s infinite}
+.ob-cname{display:flex;flex-direction:column;align-items:center;gap:1px;margin-top:4px}
+.ob-cname small{font-size:12px;color:var(--muted);letter-spacing:.08em}
+.ob-cname b{font-size:18px;background:linear-gradient(90deg,#FFE7A3,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ob-cname span{font-size:12px;color:#C4C8EE}
+.ob-con.intro+.ob-cname{animation:obIn .5s cubic-bezier(.2,.7,.2,1) 1.5s both}
+.ob-lead b{color:#FFE7A3;font-weight:700}
 /* 換頁時內容依序淡入 */
 @keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
@@ -147,10 +172,12 @@
 .ob-body.in .ob-pts li:nth-child(3){animation-delay:1.54s}
 /* 減少動態效果：引導頁執行時是 #device 底下 .app 的兄弟元素，所以用 ~ 選取 */
 .app.calm~.onb .ob-tabs::before{transition:none}
-.app.calm~.onb :is(.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
+.app.calm~.onb :is(.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
 @media (prefers-reduced-motion:reduce){.ob-logo,.ob-first,.ob-body.in>*{animation:none}}
 @media (prefers-reduced-motion:reduce){.ob-tabs::before{transition:none}}
-@media (prefers-reduced-motion:reduce){.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}}
+@media (prefers-reduced-motion:reduce){.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}}
 /* 範例標籤 */
 .smp{display:inline-block;vertical-align:2px;margin-right:6px;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:700;color:#CFC9FF;background:rgba(138,124,255,.2);border:1px solid rgba(138,124,255,.45)}
-
+/* 動態關閉時星座圖直接顯示完成狀態 */
+.app.calm~.onb .ob-con .cd-star{opacity:1}.app.calm~.onb .ob-con .cd-line{stroke-dashoffset:0}
+@media (prefers-reduced-motion:reduce){.ob-con .cd-star{opacity:1}.ob-con .cd-line{stroke-dashoffset:0}}
