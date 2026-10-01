@@ -91,7 +91,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
       b.setAttribute('aria-label',`下一個目標：${a.n}，${achLeft(a.id,t-Math.min(c,t))}`);
       b.onclick=()=>{achPrevP=null;openAch(a.id)}}}
   $('achMore').hidden=!achAll&&!hiddenN;$('achMore').textContent=achAll?'收起':`查看全部 ${AL.length} 個徽章`;
-  $('swRemind').setAttribute('aria-checked',!!prof.remind);$('remindTime').value=prof.remindTime||'21:00';$('remindTime').disabled=!prof.remind;$('liTime').classList.toggle('off',!prof.remind);
+  $('swRemind').setAttribute('aria-checked',!!prof.remind);$('remindTime').value=prof.remindTime||'21:00';$('remindTime').disabled=!prof.remind;$('liTime').hidden=!prof.remind;$('liTime').classList.toggle('off',!prof.remind);
   $('swCalm').setAttribute('aria-checked',!!prof.calm);$('swObDev').setAttribute('aria-checked',!!prof.devOnb);$('swFig').setAttribute('aria-checked',!prof.noFig);
 }
 let logView='list';

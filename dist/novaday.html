@@ -221,6 +221,23 @@ button{cursor:pointer;touch-action:manipulation}
 /* 設定頁分類標題 */
 .set-h{margin:22px 8px 8px;font-size:12px;font-weight:600;line-height:1.4;color:var(--muted);letter-spacing:.12em}
 .set-h.first{margin-top:2px}
+/* 分類標題圖示 */
+.set-h{display:flex;align-items:center;gap:6px}
+.set-h svg{flex:none;width:14px;height:14px;fill:none;stroke:var(--c,currentColor);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* 最後一列後面接著隱藏列時（例如關閉提醒時的「提醒時間」），不顯示底線 */
+.list .li:has(+ .li[hidden]:last-child){border-bottom:0}
+/* 版本資訊 */
+.ab-hero{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0 4px;text-align:center}
+.ab-logo{width:84px;height:84px;margin-bottom:10px;filter:drop-shadow(0 0 22px rgba(138,124,255,.55))}
+.ab-hero b{font-size:22px;letter-spacing:.02em}
+.ab-hero span{font-size:13px;color:var(--muted)}
+.ab-hero em{margin-top:8px;padding:3px 12px;border-radius:12px;font-style:normal;font-size:12px;font-weight:600;color:#CFC9FF;background:rgba(138,124,255,.18);border:1px solid rgba(138,124,255,.4)}
+.ab-info .li{min-height:46px;cursor:default}
+.ab-log{list-style:none;margin:0;padding:0}
+.ab-log li{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px}
+.ab-log li:last-child{border-bottom:0}
+.ab-log b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(138,124,255,.16);color:#CFC9FF;font-size:13px}
+.ab-log small{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.5}
 /* ===== Level carousel ===== */
 .rk-head{align-items:center}
 .rk-nav{display:flex;align-items:center;gap:6px}
@@ -3138,26 +3155,26 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
       <div class="grab"></div>
       <div class="sh"><span></span><h2 id="setTitle">設定</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
       <div class="sb">
-      <h3 class="set-h first">個人資料</h3>
+      <h3 class="set-h first" style="--c:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg>個人資料</h3>
       <div class="list panel">
         <button class="li" id="liEdit"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg></i><span>編輯個人資料<small>頭像、暱稱、生日與座右銘</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liRegion"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><span>所在地區<small>用來判斷星座在你那裡看不看得到</small></span></span><span class="li-v" id="regionVal">未設定</span><span class="chev" aria-hidden="true">›</span></button>
       </div>
-      <h3 class="set-h">通知</h3>
+      <h3 class="set-h" style="--c:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>通知</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></i><span>每日提醒<small>預覽版不會實際發送通知</small></span></span><button class="sw" role="switch" id="swRemind" aria-checked="false" aria-label="每日提醒"></button></div>
         <label class="li" id="liTime"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></i><span>提醒時間</span></span><input type="time" id="remindTime"></label>
       </div>
-      <h3 class="set-h">顯示</h3>
+      <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>顯示</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg></i><span>減少動態效果<small>停止星星閃爍與點亮動畫</small></span></span><button class="sw" role="switch" id="swCalm" aria-checked="false" aria-label="減少動態效果"></button></div>
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FF6B6B"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg></i><span>紅光夜視模式<small>戶外觀星時使用，不刺眼、不破壞暗適應</small></span></span><button class="sw" role="switch" id="swRed" aria-checked="false" aria-label="紅光夜視模式"></button></div>
       </div>
-      <h3 class="set-h">隱私與安全</h3>
+      <h3 class="set-h" style="--c:#7EE0A8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>隱私與安全</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg></i><span>密碼鎖<small id="lkSub">打開 App 時需要輸入 4 位數密碼</small></span></span><button class="sw" role="switch" id="swLock" aria-checked="false" aria-label="密碼鎖"></button></div>
       </div>
-      <h3 class="set-h">資料管理</h3>
+      <h3 class="set-h" style="--c:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg>資料管理</h3>
       <div class="list panel">
         <button class="li" id="liStore"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-6"/></svg></i><span>儲存空間<small id="stSub">紀錄和照片存在這台裝置</small></span></span><span class="li-v" id="stVal"></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liTags"><span class="li-l"><i class="li-ic" style="--ic:#5FD8CC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg></i><span>管理標籤<small>改名、合併或刪除標籤</small></span></span><span class="li-v" id="tagCnt"></span><span class="chev" aria-hidden="true">›</span></button>
@@ -3165,12 +3182,16 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
         <button class="li" id="openExport"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg></i><span>匯出與備份<small>下載完整備份，或匯出成純文字</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liImport"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M4.5 14v4a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></i><span>從備份還原<small>匯入之前下載的備份檔</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
-      <h3 class="set-h">開發者選項</h3>
+      <h3 class="set-h" style="--c:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg>關於</h3>
+      <div class="list panel">
+        <button class="li" id="liAbout"><span class="li-l"><i class="li-ic" style="--ic:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg></i><span>版本資訊<small>版本號碼與最近的更新內容</small></span></span><span class="li-v">v2.0</span><span class="chev" aria-hidden="true">›</span></button>
+      </div>
+      <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>開發者選項</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/></svg></i><span>每次都顯示引導<small>每次打開 App 都從歡迎頁開始</small></span></span><button class="sw" role="switch" id="swObDev" aria-checked="false" aria-label="開發者選項：每次都顯示引導"></button></div>
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>顯示星座剪影<small>在星座連線後方畫出圖案（例如海豚）</small></span></span><button class="sw" role="switch" id="swFig" aria-checked="true" aria-label="開發者選項：顯示星座剪影"></button></div>
       </div>
-      <h3 class="set-h">重設</h3>
+      <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
       <div class="list panel">
         <button class="li danger" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄</span></span></button>
       </div>
@@ -3200,6 +3221,28 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
       <div class="lk-dots" id="lkDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
     <div class="lk-pad" id="lkPad" role="group" aria-label="數字鍵盤"></div>
     <div class="lk-foot"><button type="button" class="lk-link" id="lkCancel" hidden>取消</button><button type="button" class="lk-link" id="lkForgot">忘記密碼？</button></div>
+  </div>
+
+  <!-- 版本資訊 -->
+  <div class="layer" id="aboutSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="abTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="abTitle">版本資訊</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <div class="ab-hero"><svg class="ab-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgA)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloA)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloA)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloA)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaA)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg><b>Novaday</b><span>每天點亮一顆新星</span><em>版本 2.0</em></div>
+        <h3 class="set-h">應用程式</h3>
+        <div class="list panel ab-info">
+          <div class="li"><span>版本</span><span class="li-v">2.0</span></div>
+          <div class="li"><span>更新日期</span><span class="li-v">2026 年 10 月</span></div>
+          <div class="li"><span>資料儲存</span><span class="li-v">只存在這台裝置</span></div>
+          <div class="li"><span>星座資料</span><span class="li-v">88 個 IAU 星座</span></div>
+        </div>
+        <h3 class="set-h">這個版本的更新</h3>
+        <ul class="list panel ab-log"><li><b aria-hidden="true">✦</b><span>全新的引導流程<small>星空動畫、心情星星、照片頭像、地區分區，以及「你的第一個星座」</small></span></li><li><b aria-hidden="true">◎</b><span>「今晚在哪裡？」更準確<small>加入城市經度與時區，全球各地的方位與仰角都正確</small></span></li><li><b aria-hidden="true">↻</b><span>下拉重新整理<small>在畫面頂端往下拉，就能重新載入</small></span></li><li><b aria-hidden="true">☰</b><span>設定頁分類<small>新增「版本資訊」與開發者選項（每次顯示引導、星座剪影）</small></span></li><li><b aria-hidden="true">◐</b><span>頭像與介面細節<small>上傳照片按鈕重新設計，歡迎頁加入圖示與動畫</small></span></li></ul>
+        <p class="ver">Novaday・每天點亮一顆新星</p>
+      </div>
+    </div>
   </div>
 
   <!-- 第一次使用引導 -->
@@ -4882,7 +4925,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
       b.setAttribute('aria-label',`下一個目標：${a.n}，${achLeft(a.id,t-Math.min(c,t))}`);
       b.onclick=()=>{achPrevP=null;openAch(a.id)}}}
   $('achMore').hidden=!achAll&&!hiddenN;$('achMore').textContent=achAll?'收起':`查看全部 ${AL.length} 個徽章`;
-  $('swRemind').setAttribute('aria-checked',!!prof.remind);$('remindTime').value=prof.remindTime||'21:00';$('remindTime').disabled=!prof.remind;$('liTime').classList.toggle('off',!prof.remind);
+  $('swRemind').setAttribute('aria-checked',!!prof.remind);$('remindTime').value=prof.remindTime||'21:00';$('remindTime').disabled=!prof.remind;$('liTime').hidden=!prof.remind;$('liTime').classList.toggle('off',!prof.remind);
   $('swCalm').setAttribute('aria-checked',!!prof.calm);$('swObDev').setAttribute('aria-checked',!!prof.devOnb);$('swFig').setAttribute('aria-checked',!prof.noFig);
 }
 let logView='list';
@@ -5377,6 +5420,7 @@ function applyRed(){$('device').classList.toggle('red',!!prof.red);$('swRed').se
 function toggleRed(){prof.red=!prof.red;saveProf();applyRed();toast(prof.red?'已開啟紅光夜視模式':'已關閉紅光夜視模式')}
 $('swRed').onclick=toggleRed;
 $('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()};
+$('liAbout').onclick=()=>openSheet('aboutSheet');
 $('swFig').onclick=()=>{prof.noFig=!prof.noFig;saveProf();renderMe();render();toast(prof.noFig?'已隱藏星座剪影':'已顯示星座剪影')};
 $('swObDev').onclick=()=>{prof.devOnb=!prof.devOnb;saveProf();renderMe();toast(prof.devOnb?'下次開啟 App 時會顯示引導':'已關閉引導預覽')};
 $('liWipe').onclick=openWipe;

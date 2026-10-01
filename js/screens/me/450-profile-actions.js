@@ -103,6 +103,7 @@ function applyRed(){$('device').classList.toggle('red',!!prof.red);$('swRed').se
 function toggleRed(){prof.red=!prof.red;saveProf();applyRed();toast(prof.red?'已開啟紅光夜視模式':'已關閉紅光夜視模式')}
 $('swRed').onclick=toggleRed;
 $('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()};
+$('liAbout').onclick=()=>openSheet('aboutSheet');
 $('swFig').onclick=()=>{prof.noFig=!prof.noFig;saveProf();renderMe();render();toast(prof.noFig?'已隱藏星座剪影':'已顯示星座剪影')};
 $('swObDev').onclick=()=>{prof.devOnb=!prof.devOnb;saveProf();renderMe();toast(prof.devOnb?'下次開啟 App 時會顯示引導':'已關閉引導預覽')};
 $('liWipe').onclick=openWipe;
