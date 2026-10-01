@@ -73,7 +73,8 @@
     "css/components/710-avatar-upload-tile.css",
     "css/components/720-rank-card-sky.css",
     "css/components/730-birthday-wheel.css",
-    "css/components/740-media-picker.css"
+    "css/components/740-media-picker.css",
+    "css/components/750-log-cards.css"
   ],
   "js": [
     "js/core/010-config.js",

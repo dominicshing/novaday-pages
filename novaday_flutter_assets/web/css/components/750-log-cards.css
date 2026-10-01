@@ -1,0 +1,55 @@
+/* ===== 日記列表：卡片重新設計 ===== */
+.f-row .dens{order:0}
+.entry:not(.row){padding:18px 18px 16px 24px;border-radius:22px;border:1px solid rgba(160,170,255,.14);
+  background:radial-gradient(120% 140% at 100% -20%,color-mix(in srgb,var(--mood) 18%,transparent),transparent 55%),linear-gradient(160deg,rgba(40,42,118,.58),rgba(14,16,52,.8));
+  box-shadow:0 10px 28px -16px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.06);margin-bottom:14px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.entry:not(.row):active{transform:scale(.985)}
+@media(hover:hover){.entry:not(.row):hover{border-color:color-mix(in srgb,var(--mood) 45%,rgba(160,170,255,.14));
+  box-shadow:0 16px 36px -16px rgba(0,0,0,.8),0 0 0 1px color-mix(in srgb,var(--mood) 25%,transparent) inset,inset 0 1px 0 rgba(255,255,255,.08)}}
+.entry:not(.row)::before{left:0;top:14px;bottom:14px;width:3.5px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--mood),color-mix(in srgb,var(--mood) 30%,transparent));box-shadow:0 0 14px -1px var(--mood)}
+.entry:not(.row) h3{font-size:17px;font-weight:700;letter-spacing:.01em;margin:0 0 7px;color:#F3F4FF}
+.entry:not(.row) p{font-size:14.5px;line-height:1.62;color:rgba(226,228,255,.72);-webkit-line-clamp:3}
+.entry:not(.row) .meta{margin-top:14px;padding-top:12px;gap:8px;font-size:12.5px;border-top:1px solid rgba(160,170,255,.09);clear:both}
+/* 時間放在最右邊 */
+.entry:not(.row) .meta .tm{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;letter-spacing:.03em;color:rgba(200,204,255,.6);font-weight:500;white-space:nowrap}
+.entry:not(.row) .meta .tm .mi-ic{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+/* 沒有標題的卡片：內文當主角 */
+.entry.nt:not(.row) p{font-size:15.5px;line-height:1.6;color:#E9EBFF;font-weight:500}
+.entry:not(.row) .meta .chip{display:inline-flex;align-items:center;gap:3px;padding:2px 12px 2px 5px;border-radius:999px;border:0!important;font-weight:650;color:#F5F6FF;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--mood) 34%,transparent),color-mix(in srgb,var(--mood) 14%,transparent));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mood) 55%,transparent),0 0 10px -3px var(--mood)}
+.entry:not(.row) .meta .mi{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:rgba(232,233,255,.06);color:rgba(220,224,255,.75);box-shadow:inset 0 0 0 1px rgba(160,170,255,.1)}
+.entry:not(.row) .meta .mi .mi-ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.entry .thumb{width:76px;height:76px;border-radius:16px;box-shadow:0 6px 16px -8px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.12)}
+.entry .thumb-nv{width:76px;height:76px;border-radius:16px}
+/* ===== 星空感：卡片裡的星塵、心情色亮星、右上角閃爍的四芒星 ===== */
+.entry:not(.row)>*{position:relative;z-index:1}
+.entry:not(.row)::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:
+    radial-gradient(1.2px 1.2px at 8% 18%,rgba(255,255,255,.75),transparent),
+    radial-gradient(1px 1px at 23% 78%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1.4px 1.4px at 41% 12%,rgba(255,255,255,.55),transparent),
+    radial-gradient(1px 1px at 57% 62%,rgba(255,255,255,.4),transparent),
+    radial-gradient(1.2px 1.2px at 69% 30%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 78% 88%,rgba(255,255,255,.45),transparent),
+    radial-gradient(1.3px 1.3px at 93% 52%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 34% 44%,rgba(255,255,255,.3),transparent),
+    radial-gradient(2px 2px at 84% 16%,var(--mood),transparent),
+    radial-gradient(1.7px 1.7px at 15% 58%,color-mix(in srgb,var(--mood) 80%,#fff),transparent),
+    radial-gradient(1.6px 1.6px at 62% 92%,color-mix(in srgb,var(--mood) 70%,#fff),transparent);
+  opacity:.7;animation:eDust 5.5s ease-in-out infinite}
+.entry:not(.row):nth-child(2n)::after{animation-delay:-2s;background-position:7% 3%}
+.entry:not(.row):nth-child(3n)::after{animation-delay:-3.6s;transform:scaleX(-1)}
+@keyframes eDust{0%,100%{opacity:.55}50%{opacity:.95}}
+.e-spark{position:absolute!important;top:14px;right:16px;width:15px;height:15px;z-index:1;pointer-events:none;background:var(--mood);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+  filter:drop-shadow(0 0 4px var(--mood));opacity:.85;animation:eSpark 3.8s ease-in-out infinite}
+.entry:not(.row):nth-child(2n) .e-spark{animation-delay:-1.4s}
+.entry:not(.row):nth-child(3n) .e-spark{animation-delay:-2.6s}
+.entry.row .e-spark,.entry:has(.thumb-w) .e-spark{display:none}
+/* 標題太長時不要壓到四芒星 */
+.entry:not(.row):not(:has(.thumb-w)) h3{padding-right:20px}
+@keyframes eSpark{0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.entry:not(.row)::after,.e-spark{animation:none}}

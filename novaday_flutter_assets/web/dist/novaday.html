@@ -2380,7 +2380,6 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .avs .av.av-up2{position:relative;overflow:visible;border:1.5px dashed rgba(111,227,214,.65);background:radial-gradient(circle at 40% 30%,rgba(111,227,214,.22),rgba(10,14,40,.92) 70%);color:var(--ion)}
 .av-up2 .avp-ic{display:grid;place-items:center;width:46%;height:46%}
 .av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(111,227,214,.6))}
-.av-up2 .avp-plus{position:absolute;right:-1px;bottom:-1px;width:36%;height:36%;min-width:17px;min-height:17px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:800;line-height:1;color:#07231F;background:var(--ion);box-shadow:0 0 0 2.5px #141a4a,0 0 10px -2px var(--ion)}
 .avs .av.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
 .av-up2.has .av-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
 .av-up2.has .avp-ic{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:18px;min-height:18px;border-radius:50%;background:var(--ion);color:#07231F;box-shadow:0 0 0 2.5px #141a4a}
@@ -2449,6 +2448,61 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .dv-vid{margin:0 0 16px;border-radius:16px;overflow:hidden;background:#05060F;border:1px solid var(--line)}
 .dv-vid video{display:block;width:100%;max-height:320px;background:#05060F}
 .dv-vmiss{margin:0;padding:8px 12px;font-size:12.5px;color:var(--muted)}
+/* ===== 日記列表：卡片重新設計 ===== */
+.f-row .dens{order:0}
+.entry:not(.row){padding:18px 18px 16px 24px;border-radius:22px;border:1px solid rgba(160,170,255,.14);
+  background:radial-gradient(120% 140% at 100% -20%,color-mix(in srgb,var(--mood) 18%,transparent),transparent 55%),linear-gradient(160deg,rgba(40,42,118,.58),rgba(14,16,52,.8));
+  box-shadow:0 10px 28px -16px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.06);margin-bottom:14px;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.entry:not(.row):active{transform:scale(.985)}
+@media(hover:hover){.entry:not(.row):hover{border-color:color-mix(in srgb,var(--mood) 45%,rgba(160,170,255,.14));
+  box-shadow:0 16px 36px -16px rgba(0,0,0,.8),0 0 0 1px color-mix(in srgb,var(--mood) 25%,transparent) inset,inset 0 1px 0 rgba(255,255,255,.08)}}
+.entry:not(.row)::before{left:0;top:14px;bottom:14px;width:3.5px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,var(--mood),color-mix(in srgb,var(--mood) 30%,transparent));box-shadow:0 0 14px -1px var(--mood)}
+.entry:not(.row) h3{font-size:17px;font-weight:700;letter-spacing:.01em;margin:0 0 7px;color:#F3F4FF}
+.entry:not(.row) p{font-size:14.5px;line-height:1.62;color:rgba(226,228,255,.72);-webkit-line-clamp:3}
+.entry:not(.row) .meta{margin-top:14px;padding-top:12px;gap:8px;font-size:12.5px;border-top:1px solid rgba(160,170,255,.09);clear:both}
+/* 時間放在最右邊 */
+.entry:not(.row) .meta .tm{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;letter-spacing:.03em;color:rgba(200,204,255,.6);font-weight:500;white-space:nowrap}
+.entry:not(.row) .meta .tm .mi-ic{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+/* 沒有標題的卡片：內文當主角 */
+.entry.nt:not(.row) p{font-size:15.5px;line-height:1.6;color:#E9EBFF;font-weight:500}
+.entry:not(.row) .meta .chip{display:inline-flex;align-items:center;gap:3px;padding:2px 12px 2px 5px;border-radius:999px;border:0!important;font-weight:650;color:#F5F6FF;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--mood) 34%,transparent),color-mix(in srgb,var(--mood) 14%,transparent));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mood) 55%,transparent),0 0 10px -3px var(--mood)}
+.entry:not(.row) .meta .mi{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:rgba(232,233,255,.06);color:rgba(220,224,255,.75);box-shadow:inset 0 0 0 1px rgba(160,170,255,.1)}
+.entry:not(.row) .meta .mi .mi-ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.entry .thumb{width:76px;height:76px;border-radius:16px;box-shadow:0 6px 16px -8px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.12)}
+.entry .thumb-nv{width:76px;height:76px;border-radius:16px}
+/* ===== 星空感：卡片裡的星塵、心情色亮星、右上角閃爍的四芒星 ===== */
+.entry:not(.row)>*{position:relative;z-index:1}
+.entry:not(.row)::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;
+  background:
+    radial-gradient(1.2px 1.2px at 8% 18%,rgba(255,255,255,.75),transparent),
+    radial-gradient(1px 1px at 23% 78%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1.4px 1.4px at 41% 12%,rgba(255,255,255,.55),transparent),
+    radial-gradient(1px 1px at 57% 62%,rgba(255,255,255,.4),transparent),
+    radial-gradient(1.2px 1.2px at 69% 30%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 78% 88%,rgba(255,255,255,.45),transparent),
+    radial-gradient(1.3px 1.3px at 93% 52%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1px 1px at 34% 44%,rgba(255,255,255,.3),transparent),
+    radial-gradient(2px 2px at 84% 16%,var(--mood),transparent),
+    radial-gradient(1.7px 1.7px at 15% 58%,color-mix(in srgb,var(--mood) 80%,#fff),transparent),
+    radial-gradient(1.6px 1.6px at 62% 92%,color-mix(in srgb,var(--mood) 70%,#fff),transparent);
+  opacity:.7;animation:eDust 5.5s ease-in-out infinite}
+.entry:not(.row):nth-child(2n)::after{animation-delay:-2s;background-position:7% 3%}
+.entry:not(.row):nth-child(3n)::after{animation-delay:-3.6s;transform:scaleX(-1)}
+@keyframes eDust{0%,100%{opacity:.55}50%{opacity:.95}}
+.e-spark{position:absolute!important;top:14px;right:16px;width:15px;height:15px;z-index:1;pointer-events:none;background:var(--mood);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
+  filter:drop-shadow(0 0 4px var(--mood));opacity:.85;animation:eSpark 3.8s ease-in-out infinite}
+.entry:not(.row):nth-child(2n) .e-spark{animation-delay:-1.4s}
+.entry:not(.row):nth-child(3n) .e-spark{animation-delay:-2.6s}
+.entry.row .e-spark,.entry:has(.thumb-w) .e-spark{display:none}
+/* 標題太長時不要壓到四芒星 */
+.entry:not(.row):not(:has(.thumb-w)) h3{padding-right:20px}
+@keyframes eSpark{0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.entry:not(.row)::after,.e-spark{animation:none}}
 </style>
 </head>
 <body>
@@ -2545,7 +2599,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
           <button type="button" class="q-clr" id="qClr" aria-label="清除搜尋" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l8 8M16 8l-8 8"/></svg></button>
         </div>
         <div class="q-sug" id="qSug" hidden></div>
-        <div class="f-row"><div class="filters" id="filters" role="group" aria-label="篩選"></div><div class="dens" id="logMode" role="radiogroup" aria-label="列表顯示方式"><button type="button" role="radio" data-d="0" aria-label="卡片"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="6.5" rx="2"/><rect x="4" y="13" width="16" height="6.5" rx="2"/></svg></button><button type="button" role="radio" data-d="1" aria-label="精簡"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button></div></div>
+        <div class="f-row"><div class="dens" id="logMode" role="radiogroup" aria-label="列表顯示方式"><button type="button" role="radio" data-d="0" aria-label="卡片"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="6.5" rx="2"/><rect x="4" y="13" width="16" height="6.5" rx="2"/></svg></button><button type="button" role="radio" data-d="1" aria-label="精簡"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button></div><div class="filters" id="filters" role="group" aria-label="篩選"></div></div>
         <div class="fpanel" id="fPanel" hidden></div>
         </div>
       </div>
@@ -4127,18 +4181,19 @@ const entryPhotos=e=>e?[e.photo,...(Array.isArray(e.photoMore)?e.photoMore:[])].
 const photoCount=e=>entryPhotos(e).length;
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
-    <h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):untitled(e)}</h3><p>${hl(snip(e.body,T),T)}</p>
-    <div class="meta"><span>${esc(e.time||'')}</span><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}</div></button>`}
+  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})"><i class="e-spark" aria-hidden="true"></i>${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+    ${e.title||e.fav||isSample(e)?`<h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):''}</h3>`:''}${(e.body||'').trim()?`<p>${hl(snip(e.body,T),T)}</p>`:''}
+    <div class="meta"><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}${e.time?`<span class="tm">${IC_CLK}${esc(e.time)}</span>`:''}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';
 const emptyState=(t,sub,btn)=>`${ES_ART}<b>${t}</b>${sub?`<p>${sub}</p>`:''}${btn||''}`;
 const IC_PIN='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>';
 const IC_CAM='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13.2" r="3.4"/></svg>';
 const IC_SIG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="1.8"/><path d="M8.5 15.5a5 5 0 0 1 0-7M15.5 8.5a5 5 0 0 1 0 7M5.6 18.4a9 9 0 0 1 0-12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>';
 const IC_BM='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-4-6 4V5a1 1 0 0 1 1-1z"/></svg>';
+const IC_CLK='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
 const IC_TAG='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg>';
 function entryRow(e){const m=MOODS[e.mood??2];
-  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20)||untitled(e),qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
+  return `<button class="entry row" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${moon(e.mood??2)}${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}<span class="er-t">${hl(e.title||(e.body||'').slice(0,20),qTerms())}</span>${e.photo?`<span class="er-i mi" aria-label="有照片">${IC_CAM}</span>`:''}<span class="er-time">${esc(e.time||'')}</span></button>`}
 function bindCards(root){root.querySelectorAll('.entry').forEach(b=>b.onclick=()=>openDetail(b.dataset.id))}
 const fl={moods:new Set(),photo:false,loc:false,prompt:false,fav:false,tag:null};let fOpen=null;
 const flActive=()=>fl.moods.size||fl.photo||fl.loc||fl.prompt||fl.fav||fl.tag;
@@ -4717,7 +4772,7 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
     ${hasVideo(e)?`<div class="dv-vid"><video id="dVid" playsinline controls preload="metadata"${e.video.poster?` poster="${e.video.poster}"`:''}></video><p class="dv-vmiss" id="dVmiss" hidden>這部影片的檔案不在這台裝置上</p></div>`:''}
     ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="放大檢視照片"><img class="detail-img" src="${P[0]}" alt="紀錄照片"></button>`;
       return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
-    <h3>${esc(e.title||untitled(e))}</h3>
+    ${e.title?`<h3>${esc(e.title)}</h3>`:''}
     <div class="dv-when"><span>${esc(fmtDay(e.date))}${e.time?` ${esc(e.time)}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
     <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
     ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
@@ -5030,26 +5085,31 @@ const CAM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1
 function popPrev(){const v=$('mePrevAv');v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')}
 function pickAvatar(a){if(a!=='photo')lastEmoji=a;pickAv=a;renderAvs();popPrev();meUpdate()}
 function renderAvs(){const has=!!pickPh,on=pickAv==='photo';
-  const up=`<button type="button" class="av av-up2${has?' has':''}" role="radio" aria-checked="${on}" aria-label="${has?(on?'我的照片（使用中），點一下查看選項':'使用我的照片'):'上傳照片當頭像'}" id="avPhTile">${has?`<img class="av-img" src="${pickPh}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span>${has?'':'<i class="avp-plus" aria-hidden="true">+</i>'}</button>`;
+  const up=`<button type="button" class="av av-up2${has?' has':''}" role="radio" aria-checked="${on}" aria-label="${has?(on?'我的照片（使用中），點一下查看選項':'使用我的照片'):'上傳照片當頭像'}" id="avPhTile">${has?`<img class="av-img" src="${pickPh}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span></button>`;
   $('avs').innerHTML=up+AVATARS.map(a=>`<button type="button" class="av" role="radio" aria-checked="${a===pickAv}" aria-label="頭像：${AVK[a].n}" data-a="${a}">${avSVG(a)}</button>`).join('');
   $('avs').querySelectorAll('.av[data-a]').forEach(b=>b.onclick=()=>pickAvatar(b.dataset.a));
-  $('avPhTile').onclick=()=>!has?$('avFile').click():on?openAvOpt():pickAvatar('photo');
+  $('avPhTile').onclick=()=>!has?openAvSrc():on?openAvOpt():pickAvatar('photo');
   $('avNow').textContent=on?'目前：我的照片':`目前：${AVK[pickAv].n}`;
   $('meAvBtn').setAttribute('aria-label',has?'照片頭像選項':'上傳照片當頭像')}
 function openAvOpt(){$('aoAv').innerHTML=`<img class="av-img" src="${pickPh}" alt="">`;$('aoUse').hidden=pickAv==='photo';openSheet('avOpt')}
-$('meAvBtn').onclick=()=>pickPh?openAvOpt():$('avFile').click();
+function openAvSrc(){openSheet('avSrc')}
+$('meAvBtn').onclick=()=>pickPh?openAvOpt():openAvSrc();
 $('aoUse').onclick=()=>{closeSheet('avOpt');pickAvatar('photo')};
-$('aoNew').onclick=()=>{closeSheet('avOpt');$('avFile').click()};
+$('aoNew').onclick=()=>{closeSheet('avOpt');openAvSrc()};
 $('aoRm').onclick=()=>{closeSheet('avOpt');pickPh=null;if(pickAv==='photo')pickAv=lastEmoji;renderAvs();popPrev();meUpdate();toast('已移除照片，按「儲存」後生效')};
+$('asrCam').onclick=()=>{closeSheet('avSrc');$('avFileCam').click()};
+$('asrGal').onclick=()=>{closeSheet('avSrc');$('avFile').click()};
 /* ---- 頭像裁切 ---- */
 const crop={img:null,w:0,h:0,z:1,tx:0,ty:0,pts:new Map(),pinch:null};
-$('avFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+function handleAvFile(f){if(!f)return;
   if(!/^image\//.test(f.type)&&!/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name)){toast('請選擇圖片檔');return}
   if(f.size>25*1024*1024){toast('圖片太大了，請選 25 MB 以內的照片',2800);return}
   const url=URL.createObjectURL(f),img=new Image();
   img.onload=()=>{crop.img=img;crop.w=img.naturalWidth;crop.h=img.naturalHeight;crop.z=1;crop.tx=crop.ty=0;
     const ci=$('cropImg');ci.src=url;$('cropZoom').value=1;openSheet('cropSheet');requestAnimationFrame(()=>{cropApply();$('cropOk').focus({preventScroll:true})})};
-  img.onerror=()=>{URL.revokeObjectURL(url);toast('無法讀取這張圖片，請改用 JPG 或 PNG',3000)};img.src=url});
+  img.onerror=()=>{URL.revokeObjectURL(url);toast('無法讀取這張圖片，請改用 JPG 或 PNG',3000)};img.src=url}
+$('avFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';handleAvFile(f)});
+$('avFileCam').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';handleAvFile(f)});
 function cropGeo(){const S=$('cropStage').clientWidth||300,D=S*.86,base=D/Math.min(crop.w,crop.h),sc=base*crop.z;return{S,D,sc}}
 function cropClamp(){const{D,sc}=cropGeo(),mx=Math.max(0,(crop.w*sc-D)/2),my=Math.max(0,(crop.h*sc-D)/2);
   crop.tx=Math.min(mx,Math.max(-mx,crop.tx));crop.ty=Math.min(my,Math.max(-my,crop.ty))}
