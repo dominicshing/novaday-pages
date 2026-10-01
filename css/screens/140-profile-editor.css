@@ -83,7 +83,6 @@
 .me-av .av-svg{width:92%;height:92%}
 .avs .av .av-svg,.ob-av button .av-svg{width:84%;height:84%}
 .avs .av{background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235 72%)}
-.ob-av{grid-template-columns:repeat(6,1fr)!important;gap:8px!important;max-width:340px!important}
 .av-ph .av-svg{display:none}
 
 .ic .va{transform-box:view-box;transform-origin:var(--o,24px 24px);animation-delay:var(--dl,0s)}

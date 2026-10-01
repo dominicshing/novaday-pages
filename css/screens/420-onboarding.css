@@ -7,42 +7,60 @@
 .ob-back{width:44px;height:44px;border-radius:50%;background:none;border:0;color:var(--muted);display:grid;place-items:center}
 .ob-back svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .ob-dots{display:flex;gap:6px}
-.ob-dots i{width:22px;height:4px;border-radius:2px;background:rgba(232,233,255,.18);transition:background .3s}
+.ob-dots i{width:18px;height:4px;border-radius:2px;background:rgba(232,233,255,.18);transition:background .3s,width .35s cubic-bezier(.2,.7,.2,1)}
+.ob-dots i.cur{width:34px}
 .ob-dots i.on{background:linear-gradient(90deg,#8A7CFF,#6FE3D6)}
 .ob-skip{min-width:44px;min-height:44px;background:none;border:0;color:var(--muted);font-size:14px}
 .ob-skip[hidden]{visibility:hidden;display:block}
-.ob-body{position:relative;flex:1;overflow:auto;padding:8px 24px 16px;text-align:center}
-.ob-body h2{margin:14px 0 8px;font-size:24px;line-height:1.3}
+.ob-body{position:relative;flex:1;overflow:auto;padding:8px 24px 24px;text-align:center;display:flex;flex-direction:column}
+/* 內容在可用高度內垂直置中；內容超出時自動貼齊頂端、照常捲動 */
+.ob-body>:first-child{margin-top:auto}
+.ob-body>:last-child{margin-bottom:auto}
+.ob-body h2{margin:14px 0 8px;font-size:25px;line-height:1.3;letter-spacing:.02em}
 .ob-lead{margin:0 auto;max-width:30ch;color:#C4C8EE;font-size:15px;line-height:1.65}
-.ob-hero{display:grid;place-items:center;margin-top:18px}
-.ob-logo{width:112px;height:112px;filter:drop-shadow(0 0 30px rgba(138,124,255,.55));animation:bob 4.5s ease-in-out infinite}
-.ob-first{width:128px;height:128px;filter:drop-shadow(0 0 22px rgba(255,211,111,.6));animation:bob 4.5s ease-in-out infinite}
-.ob-pts{list-style:none;margin:22px auto 0;padding:0;max-width:280px;text-align:left;display:grid;gap:10px}
-.ob-pts li{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:14px;background:rgba(232,233,255,.05);border:1px solid var(--line);font-size:14px}
-.ob-pts b{color:var(--flare)}
-.ob-av{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:300px;margin:20px auto 0}
-.ob-av button{aspect-ratio:1;border-radius:50%;border:1px solid var(--line);background:rgba(232,233,255,.05);font-size:28px;line-height:1;padding:0}
-.ob-av button[aria-checked="true"]{border-color:var(--ion);background:rgba(111,227,214,.14);box-shadow:0 0 0 2px var(--ion),0 0 18px -4px var(--ion)}
-.ob-name{max-width:300px;margin:18px auto 0;text-align:left}
-.ob-sec{max-width:320px;margin:20px auto 0;text-align:left}
-.ob-h{font-size:14px;font-weight:700;margin:0 2px 8px;display:flex;flex-direction:column;gap:2px}
+.ob-hero{position:relative;display:grid;place-items:center;margin:8px auto 10px;width:180px;height:180px}
+.ob-hero::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(138,124,255,.28) 0%,rgba(138,124,255,.08) 45%,transparent 70%)}
+.ob-hero::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed rgba(232,233,255,.12)}
+.ob-logo{position:relative;width:112px;height:112px;filter:drop-shadow(0 0 30px rgba(138,124,255,.55));animation:bob 4.5s ease-in-out infinite}
+.ob-first{position:relative;width:128px;height:128px;filter:drop-shadow(0 0 22px rgba(255,211,111,.6));animation:bob 4.5s ease-in-out infinite}
+.ob-pts{list-style:none;margin:26px auto 0;padding:0;width:100%;max-width:300px;text-align:left;display:grid;gap:10px}
+.ob-pts li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(138,124,255,.10),rgba(232,233,255,.03));border:1px solid var(--line);font-size:14px}
+.ob-pts b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(255,180,92,.14);color:var(--flare);font-size:13px}
+/* 頭像：flex 置中排列，最後一排不足 6 個時也會置中 */
+.ob-av{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:100%;max-width:338px;margin:24px auto 0}
+.ob-av button{flex:none;width:48px;height:48px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235 72%);line-height:1;padding:0;transition:transform .2s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s}
+.ob-av button:active{transform:scale(.92)}
+.ob-av button[aria-checked="true"]{border-color:var(--ion);background:radial-gradient(circle at 40% 30%,#1F4F63,#0E1F35 72%);box-shadow:0 0 0 2px var(--ion),0 0 20px -2px rgba(111,227,214,.6);transform:scale(1.06)}
+.ob-name{width:100%;max-width:338px;margin:22px auto 0;text-align:left}
+.ob-sec{width:100%;max-width:338px;margin:14px auto 0;padding:16px;border-radius:18px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left}
+.ob-lead+.ob-sec{margin-top:24px}
+.ob-h{font-size:15px;font-weight:700;margin:0 2px 12px;display:flex;flex-direction:column;gap:2px}
 .ob-h small{font-size:12px;color:var(--muted);font-weight:400}
 .ob-sign{min-height:0;margin-top:8px;font-size:14px;color:#C4C8EE;display:flex;align-items:center;gap:10px}
 .ob-sign.on{padding:10px 12px;border-radius:14px;border:1px solid rgba(255,211,111,.4);background:rgba(255,180,92,.08)}
 .ob-sign .zg{width:36px;height:36px}
 .ob-sign b{color:var(--text)}
-.ob-reg{display:flex;flex-wrap:wrap;gap:6px}
-.ob-reg button{min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--line);background:rgba(232,233,255,.05);color:var(--text);font-size:13px}
+.ob-reg{display:flex;flex-wrap:wrap;gap:8px}
+.ob-reg button{min-height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:rgba(232,233,255,.05);color:var(--text);font-size:13px;transition:transform .15s,border-color .2s,background .2s}
+.ob-reg button:active{transform:scale(.95)}
 .ob-reg button[aria-pressed="true"]{border-color:var(--ion);background:rgba(111,227,214,.16)}
 .ob-reg button[data-more]{color:var(--muted)}
-.ob-keep{display:flex;gap:10px;align-items:flex-start;max-width:320px;margin:26px auto 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left;font-size:14px;cursor:pointer}
+.ob-keep{display:flex;gap:10px;align-items:flex-start;width:100%;max-width:338px;margin:26px auto 0;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left;font-size:14px;cursor:pointer}
 .ob-keep input{margin-top:3px;width:18px;height:18px;accent-color:var(--nebula)}
 .ob-keep small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .ob-foot{position:relative;padding:10px 24px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px}
 .ob-next{width:100%;min-height:50px;font-size:16px;border-radius:16px;box-shadow:0 10px 30px -10px rgba(138,124,255,.8)}
 .ob-alt{min-height:44px;background:none;border:0;color:var(--muted);font-size:14px}
 .ob-alt[hidden]{display:none}
-.app.calm .ob-logo,.app.calm .ob-first{animation:none}
+/* 換頁時內容依序淡入 */
+@keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
+.ob-body.in>:nth-child(2){animation-delay:.06s}
+.ob-body.in>:nth-child(3){animation-delay:.12s}
+.ob-body.in>:nth-child(4){animation-delay:.18s}
+.ob-body.in>:nth-child(5){animation-delay:.24s}
+.app.calm .ob-logo,.app.calm .ob-first,.app.calm .ob-body.in>*{animation:none}
+@media (prefers-reduced-motion:reduce){.ob-logo,.ob-first,.ob-body.in>*{animation:none}}
 /* 範例標籤 */
 .smp{display:inline-block;vertical-align:2px;margin-right:6px;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:700;color:#CFC9FF;background:rgba(138,124,255,.2);border:1px solid rgba(138,124,255,.45)}
 

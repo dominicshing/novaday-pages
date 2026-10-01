@@ -7,7 +7,8 @@ function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.wid
   const f=()=>{if($('onb').hidden){cancelAnimationFrame(id);return}x.clearRect(0,0,c.width,c.height);t+=.016;
     st.forEach(s=>{x.globalAlpha=.25+.55*(.5+.5*Math.sin(t*1.3+s.p));x.fillStyle='#E8E9FF';x.beginPath();x.arc(s.x*c.width,s.y*c.height,s.r*devicePixelRatio,0,7);x.fill()});
     if(!reduce)id=requestAnimationFrame(f)};f()}
-function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i').forEach((d,k)=>d.classList.toggle('on',k<=i));
+function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i').forEach((d,k)=>{d.classList.toggle('on',k<=i);d.classList.toggle('cur',k===i)});
+  if(ob.shown!==i){ob.shown=i;B.classList.remove('in');if(!reduce){void B.offsetWidth;B.classList.add('in')}}
   $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
   if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
