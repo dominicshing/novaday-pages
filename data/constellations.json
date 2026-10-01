@@ -1,5 +1,5 @@
 {
-  "_note": "88 IAU constellations. stars: [RA hours, Dec degrees, magnitude]; lines: arrays of star indices forming polylines; figure.body_path is an SVG path in the figure's own coordinate space, aligned by matching ref_points to projected star positions (see web/js/ui/art/180-constellation-map.js customFig and web/js/logic/160-sky-projection.js conProj).",
+  "_note": "88 IAU constellations. stars: [RA hours, Dec degrees, magnitude]; lines: arrays of star indices forming polylines; figure.body_path is an SVG path in the figure's own coordinate space, aligned by matching ref_points to projected star positions (see js/ui/art/180-constellation-map.js customFig and js/logic/160-sky-projection.js conProj).",
   "constellations": {
     "And": {
       "abbr": "And",
