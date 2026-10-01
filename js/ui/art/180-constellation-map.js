@@ -1,5 +1,6 @@
 /* 依星星的範圍決定圖形大小與位置 */
-function conFig(k,W,H,P){return CFX[k]?customFig(k,P):''}
+/* 星座剪影（例如海豚）：開發者選項可關閉，prof.noFig 未設定時預設顯示 */
+function conFig(k,W,H,P){return !prof.noFig&&CFX[k]?customFig(k,P):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
 function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c;
   const byStar={};ord.slice(0,lit).forEach((si,j)=>byStar[si]=es&&es[j]);let g='';
