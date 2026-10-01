@@ -1676,7 +1676,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-pts{list-style:none;margin:26px auto 0;padding:0;width:100%;max-width:300px;text-align:left;display:grid;gap:10px}
 .ob-pts li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(138,124,255,.10),rgba(232,233,255,.03));border:1px solid var(--line);font-size:14px}
 .ob-pts b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(232,233,255,.08);background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent)}
-.ob-pts b svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ob-pts b svg:not(.moon){width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 /* 「你是誰」頂部：大頭像＋即時暱稱，與編輯個人資料的樣式一致 */
 .ob-me{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0;margin-top:24px}
 .ob-me-av{width:92px;height:92px;overflow:hidden;box-shadow:0 0 0 6px rgba(138,124,255,.12),0 10px 34px -8px rgba(138,124,255,.9)}
@@ -1738,6 +1738,16 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 @keyframes obSpin{to{transform:rotate(360deg)}}
 @keyframes obFade{from{opacity:0}to{opacity:1}}
 @keyframes obSheen{from{background-position:0 0}to{background-position:100% 0}}
+/* 第一張卡片：App 裡的心情星星，由「很棒」到「很低落」輪播；動態關閉時固定顯示「很棒」 */
+.ob-pts .ob-mc{position:relative;width:30px;height:30px;background:rgba(232,233,255,.06);box-shadow:inset 0 0 0 1px var(--line)}
+.ob-mc .moon{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px);opacity:0;animation:obMood 7s ease-in-out infinite both}
+.ob-mc .moon:nth-child(1){opacity:1}
+.ob-mc .moon:nth-child(2){animation-delay:1.4s}
+.ob-mc .moon:nth-child(3){animation-delay:2.8s}
+.ob-mc .moon:nth-child(4){animation-delay:4.2s}
+.ob-mc .moon:nth-child(5){animation-delay:5.6s}
+.ob-mc .moon .nv .mx{display:inline}
+@keyframes obMood{0%{opacity:0;transform:scale(.6)}4%{opacity:1;transform:none}17%{opacity:1;transform:none}21%,100%{opacity:0;transform:scale(.85)}}
 /* 換頁時內容依序淡入 */
 @keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
@@ -1751,9 +1761,9 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-body.in .ob-pts li:nth-child(2){animation-delay:1.42s}
 .ob-body.in .ob-pts li:nth-child(3){animation-delay:1.54s}
 /* 減少動態效果：引導頁執行時是 #device 底下 .app 的兄弟元素，所以用 ~ 選取 */
-.app.calm~.onb :is(.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
+.app.calm~.onb :is(.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
 @media (prefers-reduced-motion:reduce){.ob-logo,.ob-first,.ob-body.in>*{animation:none}}
-@media (prefers-reduced-motion:reduce){.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}}
+@media (prefers-reduced-motion:reduce){.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}}
 /* 範例標籤 */
 .smp{display:inline-block;vertical-align:2px;margin-right:6px;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:700;color:#CFC9FF;background:rgba(138,124,255,.2);border:1px solid rgba(138,124,255,.45)}
 
@@ -5438,7 +5448,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(ob.shown!==i){ob.shown=i;B.classList.remove('in');if(!reduce){void B.offsetWidth;B.classList.add('in')}}
   $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
   if(i===0){B.innerHTML=`<div class="ob-hero"><span class="ob-orbit" aria-hidden="true"><i></i></span>${OB_LOGO}</div><h2 id="obT">歡迎來到 <span class="ob-brand">Novaday</span></h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。</p>
-      <ul class="ob-pts"><li style="--c:#A99EFF"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.2 6.3 6.3 2.2-6.3 2.2L12 20.5l-2.2-6.3L3.5 12l6.3-2.2z"/></svg></b>心情會變成星星的顏色</li>
+      <ul class="ob-pts"><li class="ob-mood"><b class="ob-mc">${[4,3,2,1,0].map(i=>moon(i)).join('')}</b>用 5 顆表情星星記錄心情</li>
         <li style="--c:#6FE3D6"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17l5-7 4 4 5-8"/><circle cx="5" cy="17" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="14" cy="14" r="1.6"/><circle cx="19" cy="6" r="1.6"/></svg></b>全天 88 個星座等你收集</li>
         <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;

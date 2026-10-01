@@ -11,7 +11,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(ob.shown!==i){ob.shown=i;B.classList.remove('in');if(!reduce){void B.offsetWidth;B.classList.add('in')}}
   $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
   if(i===0){B.innerHTML=`<div class="ob-hero"><span class="ob-orbit" aria-hidden="true"><i></i></span>${OB_LOGO}</div><h2 id="obT">歡迎來到 <span class="ob-brand">Novaday</span></h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。</p>
-      <ul class="ob-pts"><li style="--c:#A99EFF"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.2 6.3 6.3 2.2-6.3 2.2L12 20.5l-2.2-6.3L3.5 12l6.3-2.2z"/></svg></b>心情會變成星星的顏色</li>
+      <ul class="ob-pts"><li class="ob-mood"><b class="ob-mc">${[4,3,2,1,0].map(i=>moon(i)).join('')}</b>用 5 顆表情星星記錄心情</li>
         <li style="--c:#6FE3D6"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17l5-7 4 4 5-8"/><circle cx="5" cy="17" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="14" cy="14" r="1.6"/><circle cx="19" cy="6" r="1.6"/></svg></b>全天 88 個星座等你收集</li>
         <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
