@@ -14,12 +14,16 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
     B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
-      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span>
+      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av,ob.ph)}</span>
         <label class="ob-nm"><span class="sr">暱稱</span><input id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}" autocomplete="nickname" enterkeyhint="done"><svg class="ob-nm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></label></div>
       <p class="ob-cap">選擇頭像</p>
-      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
-    B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
-      const v=$('obAvPrev');v.innerHTML=avHTML(ob.av);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')});
+      <div class="ob-av" role="radiogroup" aria-label="頭像"><button type="button" class="av-up2${ob.ph?' has':''}" role="radio" aria-checked="${ob.av==='photo'}" id="obPhTile" aria-label="${ob.ph?(ob.av==='photo'?'我的照片（使用中），點一下換一張':'使用我的照片'):'上傳照片當頭像'}">${ob.ph?`<img class="av-img" src="${ob.ph}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span></button>${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
+    const pickOb=(a,b)=>{ob.av=a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
+      const v=$('obAvPrev');v.innerHTML=avHTML(ob.av,ob.ph);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')};
+    B.querySelectorAll('.ob-av button[data-a]').forEach(b=>b.onclick=()=>pickOb(b.dataset.a,b));
+    /* 照片格：還沒有照片→選來源並裁切；有照片但沒選→選它；已選→換一張 */
+    $('obPhTile').onclick=e=>{if(ob.ph&&ob.av!=='photo'){pickOb('photo',e.currentTarget);return}
+      avTarget=ph=>{ob.ph=ph;ob.av='photo';obRender()};openSheet('avSrc')};
     $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
@@ -38,11 +42,11 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
       <h2 id="obT">${esc(ob.name.trim()||'星旅人')}，準備好了</h2><p class="ob-lead">寫下第一則日記，點亮你的第一顆星。<br>不用寫很多，一句話也可以。</p>
       ${sm?`<label class="ob-keep"><input type="checkbox" id="obKeep" checked><span>保留 ${sm} 則範例紀錄，先看看長什麼樣子<small>之後可在「設定」一鍵清除</small></span></label>`:''}`;
     $('obNext').textContent='寫下第一則';$('obAlt').hidden=false;$('obAlt').textContent='先逛逛'}}
-function obFinish(write){prof.avatar=ob.av||prof.avatar;if(ob.name.trim())prof.name=ob.name.trim();
+function obFinish(write){avTarget=null;if(ob.ph)prof.photoAv=ob.ph;prof.avatar=ob.av==='photo'&&!ob.ph?prof.avatar:ob.av||prof.avatar;if(ob.name.trim())prof.name=ob.name.trim();
   if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
   if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
   saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
-function openOnb(){ob={i:0,av:prof.avatar,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
+function openOnb(){ob={i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
 $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
 $('obAlt').onclick=()=>obFinish(false);$('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
 $('obSkip').onclick=()=>{ob.i=3;obRender()};

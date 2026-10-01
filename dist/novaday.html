@@ -1713,6 +1713,9 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-next{width:100%;min-height:50px;font-size:16px;border-radius:16px;box-shadow:0 10px 30px -10px rgba(138,124,255,.8)}
 .ob-alt{min-height:44px;background:none;border:0;color:var(--muted);font-size:14px}
 .ob-alt[hidden]{display:none}
+/* 照片頭像格：沿用 710 的漸層外框；選取時仍維持青綠光環 */
+.ob-av button.av-up2{position:relative;overflow:visible}
+.ob-av button.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030;box-shadow:0 0 0 2px var(--ion),0 0 20px -2px rgba(111,227,214,.6)}
 /* 換頁時內容依序淡入 */
 @keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
@@ -2412,18 +2415,19 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
 
 /* ===== 頭像選擇：第一格是上傳照片 ===== */
-.avs .av.av-up2{position:relative;overflow:visible;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
-/* 尚未上傳：右下角漸層「＋」徽章，提示可新增照片 */
-.avs .av.av-up2:not(.has)::after{content:"";position:absolute;right:0;bottom:0;width:26%;height:26%;min-width:15px;min-height:15px;border-radius:50%;box-shadow:0 0 0 2.5px #141a4a;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 6.5v11M6.5 12h11' stroke='%230B0E2A' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center/70% no-repeat,linear-gradient(135deg,#8A7CFF,#6FE3D6)}
+.avs .av.av-up2,.ob-av button.av-up2{position:relative;overflow:visible;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
 .av-up2 .avp-ic{display:grid;place-items:center;width:46%;height:46%}
 .av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(138,124,255,.85))}
-.avs .av.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
+.avs .av.av-up2.has,.ob-av button.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
 .av-up2.has .av-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
 .av-up2.has .avp-ic{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:18px;min-height:18px;border-radius:50%;background:var(--ion);color:#07231F;box-shadow:0 0 0 2.5px #141a4a}
 .av-up2.has .avp-ic svg{width:62%;height:62%;filter:none;stroke-width:2.2}
-.avs .av.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030}
+.avs .av.av-up2[aria-checked="true"],.ob-av button.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030}
 .av-up2:active{transform:scale(.92)}
 
+/* 「上傳照片」面板標題圖示：與相機格同款漸層外框 */
+#asrIc{display:grid;place-items:center;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
+#asrIc svg{width:46%;height:46%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(138,124,255,.85))}
 /* ===== 階級卡片：間距、會動的星空 ===== */
 .p-slide .pname{margin-top:50px!important}
 .p-slide .pname+.p-chips{margin-top:14px!important}
@@ -4764,7 +4768,8 @@ function sheetTop(id){const l=$(id);let top=19;document.querySelectorAll('.layer
   l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1))}
 function openSheet(id){const l=$(id);l._last=document.activeElement;
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
-  l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1));
+  /* 引導頁（z 60）開著時，面板要疊在它上面、密碼鎖（z 70）下面 */
+  const onb=$('onb')&&!$('onb').hidden;l.style.zIndex=onb?Math.min(69,Math.max(61,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false')}
 function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}
@@ -5137,6 +5142,8 @@ $('wpGo').onclick=()=>{if($('wpIn').value.trim()!=='刪除')return;entries=[];sa
 
 /* ---------- Profile actions ---------- */
 let pickAv=prof.avatar,pickPh=prof.photoAv||null,lastEmoji='moon',meSnap='';
+/* 裁切完成後要交給誰：null＝編輯個人資料；引導頁會暫時設成自己的回呼 */
+let avTarget=null;
 const CAM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg>';
 function popPrev(){const v=$('mePrevAv');v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')}
 function pickAvatar(a){if(a!=='photo')lastEmoji=a;pickAv=a;renderAvs();popPrev();meUpdate()}
@@ -5148,7 +5155,7 @@ function renderAvs(){const has=!!pickPh,on=pickAv==='photo';
   $('avNow').textContent=on?'目前：我的照片':`目前：${AVK[pickAv].n}`;
   $('meAvBtn').setAttribute('aria-label',has?'照片頭像選項':'上傳照片當頭像')}
 function openAvOpt(){$('aoAv').innerHTML=`<img class="av-img" src="${pickPh}" alt="">`;$('aoUse').hidden=pickAv==='photo';openSheet('avOpt')}
-function openAvSrc(){openSheet('avSrc')}
+function openAvSrc(){avTarget=null;openSheet('avSrc')}
 $('meAvBtn').onclick=()=>pickPh?openAvOpt():openAvSrc();
 $('aoUse').onclick=()=>{closeSheet('avOpt');pickAvatar('photo')};
 $('aoNew').onclick=()=>{closeSheet('avOpt');openAvSrc()};
@@ -5195,7 +5202,9 @@ function cropZoomTo(z,cx,cy){const oz=crop.z;z=Math.min(4,Math.max(1,z));if(z===
   window.addEventListener('resize',()=>$('cropSheet').classList.contains('open')&&cropApply())})();
 $('cropOk').onclick=()=>{if(!crop.img)return;const cv=document.createElement('canvas');cv.width=cv.height=320;cropDraw(cv);
   let out=cv.toDataURL('image/webp',.84);if(!out.startsWith('data:image/webp'))out=cv.toDataURL('image/jpeg',.84);
-  pickPh=out;closeSheet('cropSheet');URL.revokeObjectURL($('cropImg').src);crop.img=null;pickAvatar('photo')};
+  closeSheet('cropSheet');URL.revokeObjectURL($('cropImg').src);crop.img=null;
+  if(avTarget){const f=avTarget;avTarget=null;f(out);return}
+  pickPh=out;pickAvatar('photo')};
 function fillDays(){const m=+$('inBM').value,sel=$('inBD'),keep=sel.value,n=m?new Date(2000,m,0).getDate():31;
   sel.innerHTML='<option value="">日期</option>'+Array.from({length:n},(_,k)=>`<option value="${k+1}">${k+1} 日</option>`).join('');if(keep&&+keep<=n)sel.value=keep}
 function meDraft(){const m=$('inBM').value,d=$('inBD').value;
@@ -5403,12 +5412,16 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
     B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
-      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span>
+      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av,ob.ph)}</span>
         <label class="ob-nm"><span class="sr">暱稱</span><input id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}" autocomplete="nickname" enterkeyhint="done"><svg class="ob-nm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></label></div>
       <p class="ob-cap">選擇頭像</p>
-      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
-    B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
-      const v=$('obAvPrev');v.innerHTML=avHTML(ob.av);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')});
+      <div class="ob-av" role="radiogroup" aria-label="頭像"><button type="button" class="av-up2${ob.ph?' has':''}" role="radio" aria-checked="${ob.av==='photo'}" id="obPhTile" aria-label="${ob.ph?(ob.av==='photo'?'我的照片（使用中），點一下換一張':'使用我的照片'):'上傳照片當頭像'}">${ob.ph?`<img class="av-img" src="${ob.ph}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span></button>${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
+    const pickOb=(a,b)=>{ob.av=a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
+      const v=$('obAvPrev');v.innerHTML=avHTML(ob.av,ob.ph);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')};
+    B.querySelectorAll('.ob-av button[data-a]').forEach(b=>b.onclick=()=>pickOb(b.dataset.a,b));
+    /* 照片格：還沒有照片→選來源並裁切；有照片但沒選→選它；已選→換一張 */
+    $('obPhTile').onclick=e=>{if(ob.ph&&ob.av!=='photo'){pickOb('photo',e.currentTarget);return}
+      avTarget=ph=>{ob.ph=ph;ob.av='photo';obRender()};openSheet('avSrc')};
     $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
@@ -5427,11 +5440,11 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
       <h2 id="obT">${esc(ob.name.trim()||'星旅人')}，準備好了</h2><p class="ob-lead">寫下第一則日記，點亮你的第一顆星。<br>不用寫很多，一句話也可以。</p>
       ${sm?`<label class="ob-keep"><input type="checkbox" id="obKeep" checked><span>保留 ${sm} 則範例紀錄，先看看長什麼樣子<small>之後可在「設定」一鍵清除</small></span></label>`:''}`;
     $('obNext').textContent='寫下第一則';$('obAlt').hidden=false;$('obAlt').textContent='先逛逛'}}
-function obFinish(write){prof.avatar=ob.av||prof.avatar;if(ob.name.trim())prof.name=ob.name.trim();
+function obFinish(write){avTarget=null;if(ob.ph)prof.photoAv=ob.ph;prof.avatar=ob.av==='photo'&&!ob.ph?prof.avatar:ob.av||prof.avatar;if(ob.name.trim())prof.name=ob.name.trim();
   if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
   if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
   saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
-function openOnb(){ob={i:0,av:prof.avatar,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
+function openOnb(){ob={i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
 $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
 $('obAlt').onclick=()=>obFinish(false);$('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
 $('obSkip').onclick=()=>{ob.i=3;obRender()};

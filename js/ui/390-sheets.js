@@ -4,7 +4,8 @@ function sheetTop(id){const l=$(id);let top=19;document.querySelectorAll('.layer
   l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1))}
 function openSheet(id){const l=$(id);l._last=document.activeElement;
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
-  l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1));
+  /* 引導頁（z 60）開著時，面板要疊在它上面、密碼鎖（z 70）下面 */
+  const onb=$('onb')&&!$('onb').hidden;l.style.zIndex=onb?Math.min(69,Math.max(61,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false')}
 function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}

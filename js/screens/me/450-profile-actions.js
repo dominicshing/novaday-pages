@@ -1,5 +1,7 @@
 /* ---------- Profile actions ---------- */
 let pickAv=prof.avatar,pickPh=prof.photoAv||null,lastEmoji='moon',meSnap='';
+/* 裁切完成後要交給誰：null＝編輯個人資料；引導頁會暫時設成自己的回呼 */
+let avTarget=null;
 const CAM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.4-2h6.2L16.5 7h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.3"/></svg>';
 function popPrev(){const v=$('mePrevAv');v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')}
 function pickAvatar(a){if(a!=='photo')lastEmoji=a;pickAv=a;renderAvs();popPrev();meUpdate()}
@@ -11,7 +13,7 @@ function renderAvs(){const has=!!pickPh,on=pickAv==='photo';
   $('avNow').textContent=on?'目前：我的照片':`目前：${AVK[pickAv].n}`;
   $('meAvBtn').setAttribute('aria-label',has?'照片頭像選項':'上傳照片當頭像')}
 function openAvOpt(){$('aoAv').innerHTML=`<img class="av-img" src="${pickPh}" alt="">`;$('aoUse').hidden=pickAv==='photo';openSheet('avOpt')}
-function openAvSrc(){openSheet('avSrc')}
+function openAvSrc(){avTarget=null;openSheet('avSrc')}
 $('meAvBtn').onclick=()=>pickPh?openAvOpt():openAvSrc();
 $('aoUse').onclick=()=>{closeSheet('avOpt');pickAvatar('photo')};
 $('aoNew').onclick=()=>{closeSheet('avOpt');openAvSrc()};
@@ -58,7 +60,9 @@ function cropZoomTo(z,cx,cy){const oz=crop.z;z=Math.min(4,Math.max(1,z));if(z===
   window.addEventListener('resize',()=>$('cropSheet').classList.contains('open')&&cropApply())})();
 $('cropOk').onclick=()=>{if(!crop.img)return;const cv=document.createElement('canvas');cv.width=cv.height=320;cropDraw(cv);
   let out=cv.toDataURL('image/webp',.84);if(!out.startsWith('data:image/webp'))out=cv.toDataURL('image/jpeg',.84);
-  pickPh=out;closeSheet('cropSheet');URL.revokeObjectURL($('cropImg').src);crop.img=null;pickAvatar('photo')};
+  closeSheet('cropSheet');URL.revokeObjectURL($('cropImg').src);crop.img=null;
+  if(avTarget){const f=avTarget;avTarget=null;f(out);return}
+  pickPh=out;pickAvatar('photo')};
 function fillDays(){const m=+$('inBM').value,sel=$('inBD'),keep=sel.value,n=m?new Date(2000,m,0).getDate():31;
   sel.innerHTML='<option value="">日期</option>'+Array.from({length:n},(_,k)=>`<option value="${k+1}">${k+1} 日</option>`).join('');if(keep&&+keep<=n)sel.value=keep}
 function meDraft(){const m=$('inBM').value,d=$('inBD').value;

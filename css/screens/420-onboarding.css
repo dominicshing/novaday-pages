@@ -63,6 +63,9 @@
 .ob-next{width:100%;min-height:50px;font-size:16px;border-radius:16px;box-shadow:0 10px 30px -10px rgba(138,124,255,.8)}
 .ob-alt{min-height:44px;background:none;border:0;color:var(--muted);font-size:14px}
 .ob-alt[hidden]{display:none}
+/* 照片頭像格：沿用 710 的漸層外框；選取時仍維持青綠光環 */
+.ob-av button.av-up2{position:relative;overflow:visible}
+.ob-av button.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030;box-shadow:0 0 0 2px var(--ion),0 0 20px -2px rgba(111,227,214,.6)}
 /* 換頁時內容依序淡入 */
 @keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
