@@ -7,6 +7,17 @@ function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.wid
   const f=()=>{if($('onb').hidden){cancelAnimationFrame(id);return}x.clearRect(0,0,c.width,c.height);t+=.016;
     st.forEach(s=>{x.globalAlpha=.25+.55*(.5+.5*Math.sin(t*1.3+s.p));x.fillStyle='#E8E9FF';x.beginPath();x.arc(s.x*c.width,s.y*c.height,s.r*devicePixelRatio,0,7);x.fill()});
     if(!reduce)id=requestAnimationFrame(f)};f()}
+/* 第 3 步的城市格子：切換分區時只重繪這裡（swap 讓格子依序淡入），選城市只更新選取狀態 */
+const obCustomReg=()=>ob.reg&&!REGIONS.some(([,l])=>l.some(([n])=>n===ob.reg.name));
+function obRegGrid(swap){const g=$('obRg');if(!g)return;const lat=la=>`${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}`;
+  g.innerHTML=(obCustomReg()?`<button type="button" class="rg-c ob-me-loc" aria-pressed="true" data-cur="1">${esc(ob.reg.name.replace(/（.*$/,''))}<small>${lat(ob.reg.lat)}</small></button>`:'')
+    +REGIONS[ob.rg][1].map(([n,la])=>`<button type="button" class="rg-c" data-n="${n}" data-la="${la}" aria-pressed="${!!ob.reg&&ob.reg.name===n}">${n}<small>${lat(la)}</small></button>`).join('');
+  g.classList.remove('swap');if(swap&&!reduce){void g.offsetWidth;g.classList.add('swap')}
+  g.querySelectorAll('.rg-c').forEach(b=>b.onclick=()=>{
+    if(b.dataset.cur){ob.reg=null;obRegGrid(false);return}
+    const on=!(ob.reg&&ob.reg.name===b.dataset.n);ob.reg=on?{name:b.dataset.n,lat:+b.dataset.la}:null;
+    if(obCustomReg()===false&&g.querySelector('[data-cur]'))g.querySelector('[data-cur]').remove();
+    g.querySelectorAll('.rg-c[data-n]').forEach(x=>{x.setAttribute('aria-pressed',on&&x===b);x.classList.toggle('hit',on&&x===b)})})}
 function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i').forEach((d,k)=>{d.classList.toggle('on',k<=i);d.classList.toggle('cur',k===i)});
   if(ob.shown!==i){ob.shown=i;B.classList.remove('in');if(!reduce){void B.offsetWidth;B.classList.add('in')}}
   $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
@@ -28,16 +39,22 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
       avTarget=ph=>{ob.ph=ph;ob.av='photo';obRender()};openSheet('avSrc')};
     $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
-    B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
-      <div class="ob-sec"><div class="ob-h">生日<small>用來顯示你的星座與每月運勢</small></div>
+    const pop=zi>=0&&zi!==ob.zi;ob.zi=zi;
+    B.innerHTML=`<div class="ob-hero sm"><span class="ob-zr">${zRing()}</span><svg class="ob-loc" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="obPinG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A7CFF"/><stop offset="1" stop-color="#6FE3D6"/></linearGradient></defs><path class="ob-pin" d="M24 45s-14-13-14-24a14 14 0 0 1 28 0c0 11-14 24-14 24z"/><path class="ob-pst" d="${sp4(24,21,8)}"/><circle cx="24" cy="21" r="1.8" fill="#fff"/></svg></div>
+      <h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
+      <div class="ob-sec"><div class="ob-h"><i class="ob-hi" style="--c:var(--flare)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"/><path d="M5 20v-6.5a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5V20"/><path d="M5 15.5c1.2 1 2.3 1 3.5 0s2.3-1 3.5 0 2.3 1 3.5 0 2.3-1 3.5 0"/><path d="M12 12V8.5"/><path d="M12 6.2c-.9-.8-.9-1.9 0-3.2.9 1.3.9 2.4 0 3.2z"/></svg></i><span>生日<small>用來顯示你的星座與每月運勢</small></span></div>
         <div class="bd-row"><select class="field" id="obM" aria-label="出生月份"><option value="">月份</option>${Array.from({length:12},(_,k)=>`<option value="${k+1}"${ob.m===k+1?' selected':''}>${k+1} 月</option>`).join('')}</select>
         <select class="field" id="obD" aria-label="出生日期"><option value="">日期</option>${Array.from({length:n},(_,k)=>`<option value="${k+1}"${ob.d===k+1?' selected':''}>${k+1} 日</option>`).join('')}</select></div>
-        <div class="ob-sign${zi<0?'':' on'}">${zi<0?'':`<span class="zo sm">${zRing()}<span class="zg">${zg(zi)}</span></span><span>你是<b>${ZODIAC[zi].n}</b>・${ZODIAC[zi].el}星座</span>`}</div></div>
-      <div class="ob-sec"><div class="ob-h">所在地區<small>判斷哪些星座在你那裡看得到</small></div>
-        <div class="ob-reg">${REGIONS.flatMap(([,l])=>l).slice(0,10).concat(REGIONS[2][1].slice(0,2),REGIONS[3][1].slice(0,2)).map(([n,la])=>`<button type="button" data-n="${n}" data-la="${la}" aria-pressed="${ob.reg&&ob.reg.name===n}">${n}</button>`).join('')}<button type="button" data-more="1">更多…</button></div></div>`;
+        <div class="ob-sign${zi<0?'':' on'}${pop?' pop':''}">${zi<0?'':`<span class="zo sm">${zRing()}<span class="zg">${zg(zi)}</span></span><span>你是<b>${ZODIAC[zi].n}</b>・${ZODIAC[zi].el}星座</span>`}</div></div>
+      <div class="ob-sec"><div class="ob-h"><i class="ob-hi" style="--c:var(--ion)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></i><span>所在地區<small>判斷星座的可見度與方位</small></span>
+          <button type="button" class="ob-geo" id="obGeo" aria-label="使用目前位置"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><circle cx="12" cy="12" r="7"/></svg>定位</button></div>
+        <div class="ob-tabs" role="tablist" aria-label="地區分區" style="--i:${ob.rg}">${REGIONS.map(([g],k)=>`<button type="button" role="tab" aria-selected="${k===ob.rg}" data-g="${k}">${g}</button>`).join('')}</div>
+        <div class="ob-rg" id="obRg" role="group" aria-label="城市"></div></div>`;
+    obRegGrid(false);
     $('obM').onchange=e=>{ob.m=+e.target.value;const n=ob.m?new Date(2000,ob.m,0).getDate():31;if(ob.d>n)ob.d=0;obRender()};$('obD').onchange=e=>{ob.d=+e.target.value;obRender()};
-    B.querySelectorAll('.ob-reg button').forEach(b=>b.onclick=()=>{if(b.dataset.more){openRegion(()=>{ob.reg=prof.region;obRender()});return}
-      ob.reg=ob.reg&&ob.reg.name===b.dataset.n?null:{name:b.dataset.n,lat:+b.dataset.la};obRender()});
+    B.querySelectorAll('.ob-tabs button').forEach(b=>b.onclick=()=>{ob.rg=+b.dataset.g;const t=b.parentElement;t.style.setProperty('--i',ob.rg);
+      t.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b));obRegGrid(true)});
+    $('obGeo').onclick=()=>geoRegion(r=>{ob.reg=r;obRegGrid(false)});
     $('obNext').textContent='下一步'}
   else{const sm=entries.filter(isSample).length;
     B.innerHTML=`<div class="ob-hero"><svg class="ob-first" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" fill="none" stroke="rgba(138,124,255,.3)" stroke-dasharray="2 5"/><path d="${sp4(60,60,26)}" fill="#FFE7A3"/><circle cx="60" cy="60" r="5" fill="#fff"/></svg></div>
@@ -48,7 +65,7 @@ function obFinish(write){avTarget=null;if(ob.ph)prof.photoAv=ob.ph;prof.avatar=o
   if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
   if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
   saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
-function openOnb(){ob={i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null};$('onb').hidden=false;obRender();obSkyStart()}
+function openOnb(){ob={i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!=='星旅人'?prof.name:'',m:0,d:0,reg:prof.region||null,zi:-1};ob.rg=Math.max(0,REGIONS.findIndex(([,l])=>ob.reg&&l.some(([n])=>n===ob.reg.name)));$('onb').hidden=false;obRender();obSkyStart()}
 $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
 $('obAlt').onclick=()=>obFinish(false);$('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
 $('obSkip').onclick=()=>{ob.i=3;obRender()};

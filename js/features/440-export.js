@@ -20,10 +20,12 @@ function setRegion(r){prof.region=r;saveProf();renderMe();renderCal();closeSheet
 function openRegion(after){rgAfter=after||null;renderRegion();openSheet('regionSheet')}
 $('liRegion').onclick=()=>openRegion();
 $('rgNone').onclick=()=>setRegion(null);
-$('rgGeo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置無法取得位置，請直接選城市');return}
+/* 取得目前位置（地區面板與引導頁共用） */
+function geoRegion(done){if(!navigator.geolocation){toast('這個裝置無法取得位置，請直接選城市');return}
   toast('正在取得位置…',4000);
-  navigator.geolocation.getCurrentPosition(p=>{const la=Math.round(p.coords.latitude*10)/10,lo=Math.round(p.coords.longitude*10)/10;setRegion({name:`目前位置（${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}）`,lat:la,lon:lo})},
-    ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})};
+  navigator.geolocation.getCurrentPosition(p=>{const la=Math.round(p.coords.latitude*10)/10,lo=Math.round(p.coords.longitude*10)/10;done({name:`目前位置（${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}）`,lat:la,lon:lo})},
+    ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})}
+$('rgGeo').onclick=()=>geoRegion(setRegion);
 document.querySelectorAll('#exporter .exseg button').forEach(b=>b.onclick=()=>{fmt=b.dataset.f;refreshEx()});
 $('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText(true));toast('已複製內容')}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
 function openWipe(){$('wpMsg').innerHTML=`這會永久刪除全部 <b>${entries.length}</b> 則紀錄，已點亮的星座和徽章進度也會歸零，<b>無法復原</b>。建議先匯出一份備份。`;
