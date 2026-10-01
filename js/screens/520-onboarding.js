@@ -13,13 +13,14 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
-    B.innerHTML=`<div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span><b id="obNamePrev">${esc(ob.name.trim()||'星旅人')}</b></div>
-      <h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
-      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>
-      <label class="mf ob-name"><span class="mf-l">暱稱</span><input class="field" id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}"></label>`;
+    B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
+      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span>
+        <label class="ob-nm"><span class="sr">暱稱</span><input id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}" autocomplete="nickname" enterkeyhint="done"><svg class="ob-nm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></label></div>
+      <p class="ob-cap">選擇頭像</p>
+      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
     B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
       const v=$('obAvPrev');v.innerHTML=avHTML(ob.av);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')});
-    $('obName').oninput=e=>{ob.name=e.target.value;$('obNamePrev').textContent=ob.name.trim()||'星旅人'};$('obNext').textContent='下一步'}
+    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
       <div class="ob-sec"><div class="ob-h">生日<small>用來顯示你的星座與每月運勢</small></div>

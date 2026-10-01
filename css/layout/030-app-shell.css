@@ -13,4 +13,9 @@
 .icon-btn{background:var(--surface);border:1px solid var(--line);border-radius:12px;width:44px;height:44px;display:grid;place-items:center;flex:none}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-
+/* 下拉重新整理指示器 */
+.ptr{position:absolute;top:0;left:50%;z-index:5;width:38px;height:38px;margin-left:-19px;display:grid;place-items:center;border-radius:50%;background:rgba(20,23,63,.92);border:1px solid var(--line);box-shadow:0 8px 20px -8px rgba(138,124,255,.9);opacity:0;transform:translateY(-44px);pointer-events:none}
+.ptr svg{width:18px;height:18px;fill:var(--muted);transition:fill .2s}
+.ptr.ready svg,.ptr.go svg{fill:#FFE7A3}
+.ptr.go svg{animation:kvSpin .8s linear infinite}
+.ptr.back,.screen.ptr-back{transition:transform .25s ease,opacity .25s ease}

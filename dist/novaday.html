@@ -63,7 +63,12 @@ button{cursor:pointer;touch-action:manipulation}
 .icon-btn{background:var(--surface);border:1px solid var(--line);border-radius:12px;width:44px;height:44px;display:grid;place-items:center;flex:none}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-
+/* 下拉重新整理指示器 */
+.ptr{position:absolute;top:0;left:50%;z-index:5;width:38px;height:38px;margin-left:-19px;display:grid;place-items:center;border-radius:50%;background:rgba(20,23,63,.92);border:1px solid var(--line);box-shadow:0 8px 20px -8px rgba(138,124,255,.9);opacity:0;transform:translateY(-44px);pointer-events:none}
+.ptr svg{width:18px;height:18px;fill:var(--muted);transition:fill .2s}
+.ptr.ready svg,.ptr.go svg{fill:#FFE7A3}
+.ptr.go svg{animation:kvSpin .8s linear infinite}
+.ptr.back,.screen.ptr-back{transition:transform .25s ease,opacity .25s ease}
 /* ===== Tab bar ===== */
 .tabbar{position:relative;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);height:64px;background:var(--bar);border-top:1px solid var(--line);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);user-select:none;-webkit-user-select:none}
@@ -1672,16 +1677,22 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-pts li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(138,124,255,.10),rgba(232,233,255,.03));border:1px solid var(--line);font-size:14px}
 .ob-pts b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(255,180,92,.14);color:var(--flare);font-size:13px}
 /* 「你是誰」頂部：大頭像＋即時暱稱，與編輯個人資料的樣式一致 */
-.ob-me{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0}
+.ob-me{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0;margin-top:24px}
 .ob-me-av{width:92px;height:92px;overflow:hidden;box-shadow:0 0 0 6px rgba(138,124,255,.12),0 10px 34px -8px rgba(138,124,255,.9)}
-.ob-me b{font-size:19px;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ob-me+h2{margin-top:18px}
+/* 暱稱直接寫在頭像下方：置中、底線、鉛筆提示 */
+.ob-nm{position:relative;display:block;width:min(220px,100%)}
+.ob-nm input{width:100%;padding:6px 30px;border:0;border-bottom:1px solid rgba(232,233,255,.22);border-radius:0;background:none;color:var(--text);font:inherit;font-size:20px;font-weight:700;text-align:center;outline:none;transition:border-color .2s,box-shadow .2s}
+.ob-nm input::placeholder{color:rgba(232,233,255,.45)}
+.ob-nm input:focus{border-bottom-color:var(--ion);box-shadow:0 10px 16px -14px var(--ion)}
+.ob-nm-ic{position:absolute;right:4px;top:50%;width:16px;height:16px;margin-top:-8px;fill:none;stroke:var(--muted);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transition:opacity .2s}
+.ob-nm:focus-within .ob-nm-ic{opacity:0}
+.ob-cap{margin:26px 0 0;font-size:13px;color:var(--muted);letter-spacing:.08em}
+.ob-cap+.ob-av{margin-top:12px}
 /* 頭像：flex 置中排列，最後一排不足 6 個時也會置中 */
 .ob-av{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;width:100%;max-width:338px;margin:24px auto 0}
 .ob-av button{flex:none;width:48px;height:48px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235 72%);line-height:1;padding:0;transition:transform .2s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s}
 .ob-av button:active{transform:scale(.92)}
 .ob-av button[aria-checked="true"]{border-color:var(--ion);background:radial-gradient(circle at 40% 30%,#1F4F63,#0E1F35 72%);box-shadow:0 0 0 2px var(--ion),0 0 20px -2px rgba(111,227,214,.6);transform:scale(1.06)}
-.ob-name{width:100%;max-width:338px;margin:22px auto 0;text-align:left}
 .ob-sec{width:100%;max-width:338px;margin:14px auto 0;padding:16px;border-radius:18px;border:1px solid var(--line);background:rgba(232,233,255,.04);text-align:left}
 .ob-lead+.ob-sec{margin-top:24px}
 .ob-h{font-size:15px;font-weight:700;margin:0 2px 12px;display:flex;flex-direction:column;gap:2px}
@@ -4518,6 +4529,22 @@ async function detailGo(dir){const {prev,next}=detailNeighbors(),t=dir>0?next:pr
     if(Math.abs(dx)>70)detailGo(dx<0?1:-1);else{const dv=body.querySelector('.dv');if(dv){dv.classList.add('slide');dv.style.transform='';setTimeout(()=>dv.classList.remove('slide'),220)}}};
   body.addEventListener('pointerup',end);body.addEventListener('pointercancel',end);
   body.addEventListener('click',e=>{if(Date.now()-(body._swEnd||0)<300){e.stopPropagation();e.preventDefault()}},true)}
+/* 下拉重新整理：在畫面頂端往下拉，超過門檻後放開就重新載入 */
+{const wrap=document.querySelector('.screens'),ind=document.createElement('div'),TH=70;let p=null;
+  ind.className='ptr';ind.setAttribute('aria-hidden','true');ind.innerHTML=`<svg viewBox="0 0 24 24"><path d="${sp4(12,12,8)}"/></svg>`;wrap.appendChild(ind);
+  const paint=d=>{ind.style.transform=`translateY(${d-44}px)`;ind.style.opacity=Math.min(1,d/TH);ind.firstChild.style.transform=`rotate(${d*3}deg)`;ind.classList.toggle('ready',d>=TH)};
+  const reset=s=>{ind.classList.add('back');s.classList.add('ptr-back');s.style.transform='';paint(0);setTimeout(()=>{ind.classList.remove('back','ready');s.classList.remove('ptr-back')},260)};
+  wrap.addEventListener('touchstart',e=>{const s=e.target.closest('.screen.active');p=null;
+    if(e.touches.length!==1||!s||s.scrollTop>0||e.target.closest('input,textarea,select,[contenteditable]'))return;
+    p={s,x:e.touches[0].clientX,y:e.touches[0].clientY,d:0,on:false}},{passive:true});
+  wrap.addEventListener('touchmove',e=>{if(!p)return;if(e.touches.length!==1){if(p.on)reset(p.s);p=null;return}
+    const dx=e.touches[0].clientX-p.x,dy=e.touches[0].clientY-p.y;
+    if(!p.on){if(Math.abs(dx)<8&&Math.abs(dy)<8)return;if(dy<=0||Math.abs(dx)>dy||p.s.scrollTop>0){p=null;return}p.on=true}
+    if(e.cancelable)e.preventDefault();p.d=Math.min(120,Math.max(0,dy)*.5);p.s.style.transform=`translateY(${p.d}px)`;paint(p.d)},{passive:false});
+  const end=()=>{if(!p)return;const {s,d,on}=p;p=null;if(!on)return;
+    if(d>=TH){buzz(8);ind.classList.add('go');s.classList.add('ptr-back');s.style.transform=`translateY(${TH*.6}px)`;paint(TH);setTimeout(()=>location.reload(),reduce?0:420)}
+    else reset(s)};
+  wrap.addEventListener('touchend',end);wrap.addEventListener('touchcancel',end)}
 /* 桌面快捷鍵：N 新增、/ 搜尋；詳情頁左右方向鍵切換 */
 document.addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const t=e.target;if(t&&(t.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)))return;
   if(!$('lock').hidden||!$('onb').hidden)return;
@@ -5373,13 +5400,14 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
-    B.innerHTML=`<div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span><b id="obNamePrev">${esc(ob.name.trim()||'星旅人')}</b></div>
-      <h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
-      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>
-      <label class="mf ob-name"><span class="mf-l">暱稱</span><input class="field" id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}"></label>`;
+    B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
+      <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span>
+        <label class="ob-nm"><span class="sr">暱稱</span><input id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}" autocomplete="nickname" enterkeyhint="done"><svg class="ob-nm-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></label></div>
+      <p class="ob-cap">選擇頭像</p>
+      <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>`;
     B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
       const v=$('obAvPrev');v.innerHTML=avHTML(ob.av);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')});
-    $('obName').oninput=e=>{ob.name=e.target.value;$('obNamePrev').textContent=ob.name.trim()||'星旅人'};$('obNext').textContent='下一步'}
+    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
       <div class="ob-sec"><div class="ob-h">生日<small>用來顯示你的星座與每月運勢</small></div>
