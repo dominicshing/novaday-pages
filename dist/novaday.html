@@ -2412,14 +2412,16 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
 
 /* ===== 頭像選擇：第一格是上傳照片 ===== */
-.avs .av.av-up2{position:relative;overflow:visible;border:1.5px dashed rgba(111,227,214,.65);background:radial-gradient(circle at 40% 30%,rgba(111,227,214,.22),rgba(10,14,40,.92) 70%);color:var(--ion)}
+.avs .av.av-up2{position:relative;overflow:visible;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
+/* 尚未上傳：右下角漸層「＋」徽章，提示可新增照片 */
+.avs .av.av-up2:not(.has)::after{content:"";position:absolute;right:0;bottom:0;width:26%;height:26%;min-width:15px;min-height:15px;border-radius:50%;box-shadow:0 0 0 2.5px #141a4a;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 6.5v11M6.5 12h11' stroke='%230B0E2A' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center/70% no-repeat,linear-gradient(135deg,#8A7CFF,#6FE3D6)}
 .av-up2 .avp-ic{display:grid;place-items:center;width:46%;height:46%}
-.av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(111,227,214,.6))}
+.av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(138,124,255,.85))}
 .avs .av.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
 .av-up2.has .av-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
 .av-up2.has .avp-ic{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:18px;min-height:18px;border-radius:50%;background:var(--ion);color:#07231F;box-shadow:0 0 0 2.5px #141a4a}
 .av-up2.has .avp-ic svg{width:62%;height:62%;filter:none;stroke-width:2.2}
-.avs .av.av-up2[aria-checked="true"]{border-style:solid;border-color:var(--ion)}
+.avs .av.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030}
 .av-up2:active{transform:scale(.92)}
 
 /* ===== 階級卡片：間距、會動的星空 ===== */
