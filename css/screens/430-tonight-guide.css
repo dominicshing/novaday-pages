@@ -1,7 +1,7 @@
 /* 今晚觀星指引 */
 .cn-tonight{display:flex;align-items:center;gap:14px;width:100%;margin-top:8px;padding:12px 14px;border-radius:14px;text-align:left;color:var(--text);
   background:radial-gradient(120% 140% at 0% 50%,rgba(111,227,214,.12),transparent 60%),var(--surface);border:1px solid rgba(111,227,214,.28)}
-.cn-tonight.off{cursor:pointer;border-style:dashed;border-color:var(--line);font:inherit}
+.cn-tonight.off{cursor:pointer;border-style:solid;border-color:var(--line);font:inherit}
 .cn-tonight.none{border-color:var(--line)}
 .dome{flex:none;width:92px;height:92px;overflow:visible}
 .dome .d-h{fill:rgba(20,26,70,.7);stroke:rgba(138,124,255,.5);stroke-width:1.2}

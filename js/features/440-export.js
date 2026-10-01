@@ -22,7 +22,7 @@ $('liRegion').onclick=()=>openRegion();
 $('rgNone').onclick=()=>setRegion(null);
 $('rgGeo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置無法取得位置，請直接選城市');return}
   toast('正在取得位置…',4000);
-  navigator.geolocation.getCurrentPosition(p=>{const la=Math.round(p.coords.latitude*10)/10;setRegion({name:`目前位置（${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}）`,lat:la})},
+  navigator.geolocation.getCurrentPosition(p=>{const la=Math.round(p.coords.latitude*10)/10,lo=Math.round(p.coords.longitude*10)/10;setRegion({name:`目前位置（${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}）`,lat:la,lon:lo})},
     ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})};
 document.querySelectorAll('#exporter .exseg button').forEach(b=>b.onclick=()=>{fmt=b.dataset.f;refreshEx()});
 $('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText(true));toast('已複製內容')}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};

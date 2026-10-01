@@ -1,6 +1,6 @@
 /* ---------- 今晚觀星指引：用地區緯度推算星座在今晚的方位與仰角 ---------- */
 const DIR8=['北','東北','東','東南','南','西南','西','西北'];
-function skyPos(k,lat,h,d=new Date()){const{ra,dec}=conCenter(k),lst=((lst21(d)+(h-21)*1.0027)%24+24)%24,H=(lst-ra)*15*D2R,de=dec*D2R,la=lat*D2R;
+function skyPos(k,lat,h,d=new Date()){const{ra,dec}=conCenter(k),lst=lstAt(d,h,regLon()),H=(lst-ra)*15*D2R,de=dec*D2R,la=lat*D2R;
   const alt=Math.asin(Math.sin(de)*Math.sin(la)+Math.cos(de)*Math.cos(la)*Math.cos(H))/D2R;
   const az=(Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(la)-Math.tan(de)*Math.cos(la))/D2R+180+360)%360;return{alt,az}}
 const dirName=az=>DIR8[Math.round(az/45)%8];
