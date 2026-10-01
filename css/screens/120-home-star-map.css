@@ -44,3 +44,10 @@
 .app.calm .cstar .core,.app.calm .nextring{animation:none}
 @media (prefers-reduced-motion:reduce){.cstar .core,.nextring{animation:none}}
 
+/* 星塵剪影：亮星閃爍、星雲緩慢呼吸（靜態場合沿用上方 .cfx * 的關閉規則） */
+.cfx-tw path{transform-box:fill-box;transform-origin:center;animation:cfxTw 2.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+.cfx-neb{animation:cfxNeb 6s ease-in-out infinite}
+@keyframes cfxTw{0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+@keyframes cfxNeb{0%,100%{opacity:.26}50%{opacity:.4}}
+/* 引導頁是 .app 的兄弟元素，減少動態時要另外關閉 */
+.app.calm~.onb .cfx *{animation:none!important}
