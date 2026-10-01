@@ -10,6 +10,8 @@
   .device{width:390px;height:844px;flex:none;border-radius:56px;transform-origin:center center;
     box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
   .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
+  /* 引導頁是 .app 的兄弟元素，同樣要讓出模擬狀態列 */
+  .device>.onb{padding-top:54px}
   .hw{display:block;position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#3A3D48,#7A7E8C 50%,#3A3D48)}
   .hw.action{left:-19px;top:128px;height:32px}
   .hw.vol-up{left:-19px;top:188px;height:60px}
