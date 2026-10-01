@@ -1667,15 +1667,16 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-body>:first-child{margin-top:auto}
 .ob-body>:last-child{margin-bottom:auto}
 .ob-body h2{margin:14px 0 8px;font-size:25px;line-height:1.3;letter-spacing:.02em}
-.ob-lead{margin:0 auto;max-width:30ch;color:#C4C8EE;font-size:15px;line-height:1.65}
+.ob-lead{margin:0 auto;max-width:30ch;color:#C4C8EE;font-size:15px;line-height:1.65;text-wrap:balance}
 .ob-hero{position:relative;display:grid;place-items:center;margin:8px auto 10px;width:180px;height:180px}
 .ob-hero::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(138,124,255,.28) 0%,rgba(138,124,255,.08) 45%,transparent 70%)}
-.ob-hero::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed rgba(232,233,255,.12)}
+.ob-hero::after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(232,233,255,.10)}
 .ob-logo{position:relative;width:112px;height:112px;filter:drop-shadow(0 0 30px rgba(138,124,255,.55));animation:bob 4.5s ease-in-out infinite}
 .ob-first{position:relative;width:128px;height:128px;filter:drop-shadow(0 0 22px rgba(255,211,111,.6));animation:bob 4.5s ease-in-out infinite}
 .ob-pts{list-style:none;margin:26px auto 0;padding:0;width:100%;max-width:300px;text-align:left;display:grid;gap:10px}
 .ob-pts li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:16px;background:linear-gradient(135deg,rgba(138,124,255,.10),rgba(232,233,255,.03));border:1px solid var(--line);font-size:14px}
-.ob-pts b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(255,180,92,.14);color:var(--flare);font-size:13px}
+.ob-pts b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(232,233,255,.08);background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent)}
+.ob-pts b svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 /* 「你是誰」頂部：大頭像＋即時暱稱，與編輯個人資料的樣式一致 */
 .ob-me{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0;margin-top:24px}
 .ob-me-av{width:92px;height:92px;overflow:hidden;box-shadow:0 0 0 6px rgba(138,124,255,.12),0 10px 34px -8px rgba(138,124,255,.9)}
@@ -1716,6 +1717,27 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 /* 照片頭像格：沿用 710 的漸層外框；選取時仍維持青綠光環 */
 .ob-av button.av-up2{position:relative;overflow:visible}
 .ob-av button.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030;box-shadow:0 0 0 2px var(--ion),0 0 20px -2px rgba(111,227,214,.6)}
+/* ===== 歡迎頁動畫：連線描繪 → 星星依序亮起 → 新星爆亮閃爍 → 小星環繞 ===== */
+.ob-logo{animation:obPop .6s cubic-bezier(.2,.8,.3,1.2) both,bob 4.5s ease-in-out .6s infinite}
+.ob-ln{stroke-dasharray:1;animation:obDraw .9s ease-in-out .25s both}
+.ob-st,.ob-nova{transform-box:fill-box;transform-origin:center}
+.ob-st{animation:obStar .5s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+.ob-nova{animation:obNova .7s cubic-bezier(.3,1.5,.5,1) 1.1s both,obTw 2.8s ease-in-out 1.8s infinite}
+.ob-nh{animation:obHalo 2.8s ease-in-out 1.8s infinite}
+.ob-hero::before{animation:obBreath 4s ease-in-out infinite}
+.ob-orbit{position:absolute;inset:14px;border-radius:50%;pointer-events:none;animation:obSpin 14s linear infinite,obFade .8s ease 1.4s both}
+.ob-orbit i{position:absolute;top:-3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:radial-gradient(circle,#fff 30%,#6FE3D6);box-shadow:0 0 8px 2px rgba(111,227,214,.7)}
+.ob-brand{background:linear-gradient(90deg,#B9AEFF,#6FE3D6 40%,#FFE7A3 55%,#B9AEFF);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:obSheen 5s ease-in-out 2s infinite alternate}
+@keyframes obPop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes obDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes obStar{0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.15)}100%{opacity:1;transform:none}}
+@keyframes obNova{0%{opacity:0;transform:scale(0) rotate(-45deg)}60%{opacity:1;transform:scale(1.25) rotate(8deg)}100%{opacity:1;transform:none}}
+@keyframes obTw{0%,100%{transform:none}50%{transform:scale(1.12)}}
+@keyframes obHalo{0%,100%{opacity:.75}50%{opacity:1}}
+@keyframes obBreath{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes obSpin{to{transform:rotate(360deg)}}
+@keyframes obFade{from{opacity:0}to{opacity:1}}
+@keyframes obSheen{from{background-position:0 0}to{background-position:100% 0}}
 /* 換頁時內容依序淡入 */
 @keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .ob-body.in>*{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
@@ -1723,8 +1745,15 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-body.in>:nth-child(3){animation-delay:.12s}
 .ob-body.in>:nth-child(4){animation-delay:.18s}
 .ob-body.in>:nth-child(5){animation-delay:.24s}
-.app.calm .ob-logo,.app.calm .ob-first,.app.calm .ob-body.in>*{animation:none}
+/* 歡迎頁三張卡片：等標誌動畫結束後逐一出現 */
+.ob-body.in .ob-pts li{animation:obIn .5s cubic-bezier(.2,.7,.2,1) both}
+.ob-body.in .ob-pts li:nth-child(1){animation-delay:1.3s}
+.ob-body.in .ob-pts li:nth-child(2){animation-delay:1.42s}
+.ob-body.in .ob-pts li:nth-child(3){animation-delay:1.54s}
+/* 減少動態效果：引導頁執行時是 #device 底下 .app 的兄弟元素，所以用 ~ 選取 */
+.app.calm~.onb :is(.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
 @media (prefers-reduced-motion:reduce){.ob-logo,.ob-first,.ob-body.in>*{animation:none}}
+@media (prefers-reduced-motion:reduce){.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}}
 /* 範例標籤 */
 .smp{display:inline-block;vertical-align:2px;margin-right:6px;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:700;color:#CFC9FF;background:rgba(138,124,255,.2);border:1px solid rgba(138,124,255,.45)}
 
@@ -5397,7 +5426,7 @@ $('qClr').onclick=()=>{$('q').value='';q='';renderLog();$('q').focus();renderQSu
 const n=new Date();pIdx=Math.floor((n-new Date(n.getFullYear(),0,0))/864e5);
 
 /* ---------- 第一次使用引導：歡迎 → 你是誰 → 讓星空更懂你 → 開始 ---------- */
-const OB_LOGO=`<svg class="ob-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgO)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloO)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaO)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg>`;
+const OB_LOGO=`<svg class="ob-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgO)"/><polyline class="ob-ln" pathLength="1" points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><g class="ob-st" style="--d:.2s"><circle cx="30" cy="74" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/></g><g class="ob-st" style="--d:.52s"><circle cx="30" cy="30" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/></g><g class="ob-st" style="--d:.88s"><circle cx="70" cy="72" r="9" fill="url(#nvHaloO)"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/></g><g class="ob-nova"><circle class="ob-nh" cx="70" cy="30" r="16" fill="url(#nvNovaO)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></g></svg>`;
 let ob={i:0,av:null,name:'',m:0,d:0,reg:null};
 function obNeeded(){return !!prof.devOnb||(!prof.onboarded&&entries.every(isSample))}
 function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.width=c.clientWidth*devicePixelRatio;c.height=c.clientHeight*devicePixelRatio};R();
@@ -5408,8 +5437,10 @@ function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.wid
 function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i').forEach((d,k)=>{d.classList.toggle('on',k<=i);d.classList.toggle('cur',k===i)});
   if(ob.shown!==i){ob.shown=i;B.classList.remove('in');if(!reduce){void B.offsetWidth;B.classList.add('in')}}
   $('obBack').style.visibility=i?'visible':'hidden';$('obSkip').style.visibility=i===3?'hidden':'visible';$('obAlt').hidden=true;
-  if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
-      <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
+  if(i===0){B.innerHTML=`<div class="ob-hero"><span class="ob-orbit" aria-hidden="true"><i></i></span>${OB_LOGO}</div><h2 id="obT">歡迎來到 <span class="ob-brand">Novaday</span></h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。</p>
+      <ul class="ob-pts"><li style="--c:#A99EFF"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.2 6.3 6.3 2.2-6.3 2.2L12 20.5l-2.2-6.3L3.5 12l6.3-2.2z"/></svg></b>心情會變成星星的顏色</li>
+        <li style="--c:#6FE3D6"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17l5-7 4 4 5-8"/><circle cx="5" cy="17" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="14" cy="14" r="1.6"/><circle cx="19" cy="6" r="1.6"/></svg></b>全天 88 個星座等你收集</li>
+        <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
     B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
       <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av,ob.ph)}</span>
