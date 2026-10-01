@@ -92,7 +92,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
       b.onclick=()=>{achPrevP=null;openAch(a.id)}}}
   $('achMore').hidden=!achAll&&!hiddenN;$('achMore').textContent=achAll?'收起':`查看全部 ${AL.length} 個徽章`;
   $('swRemind').setAttribute('aria-checked',!!prof.remind);$('remindTime').value=prof.remindTime||'21:00';$('remindTime').disabled=!prof.remind;$('liTime').classList.toggle('off',!prof.remind);
-  $('swCalm').setAttribute('aria-checked',!!prof.calm);
+  $('swCalm').setAttribute('aria-checked',!!prof.calm);$('swObDev').setAttribute('aria-checked',!!prof.devOnb);
 }
 let logView='list';
 function setLogView(v,quiet){logView=v;const cal=v==='cal';$('logList').hidden=cal;$('calWrap').hidden=!cal;$('listCtl').hidden=cal;

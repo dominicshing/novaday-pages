@@ -1,7 +1,7 @@
 /* ---------- 第一次使用引導：歡迎 → 你是誰 → 讓星空更懂你 → 開始 ---------- */
 const OB_LOGO=`<svg class="ob-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaO" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgO)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloO)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloO)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaO)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg>`;
 let ob={i:0,av:null,name:'',m:0,d:0,reg:null};
-function obNeeded(){return !prof.onboarded&&entries.every(isSample)}
+function obNeeded(){return !!prof.devOnb||(!prof.onboarded&&entries.every(isSample))}
 function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');const R=()=>{c.width=c.clientWidth*devicePixelRatio;c.height=c.clientHeight*devicePixelRatio};R();
   const st=Array.from({length:90},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.3,p:Math.random()*6}));let t=0,id;
   const f=()=>{if($('onb').hidden){cancelAnimationFrame(id);return}x.clearRect(0,0,c.width,c.height);t+=.016;
@@ -13,11 +13,13 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(i===0){B.innerHTML=`<div class="ob-hero">${OB_LOGO}</div><h2 id="obT">歡迎來到 Novaday</h2><p class="ob-lead">每寫一則日記，就點亮一顆星。<br>集滿一個星座的星星，就把它收進你的星空圖鑑。</p>
       <ul class="ob-pts"><li><b>✦</b>心情會變成星星的顏色</li><li><b>✦</b>全天 88 個星座等你收集</li><li><b>✦</b>紀錄只存在這台裝置上</li></ul>`;$('obNext').textContent='開始';}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
-    B.innerHTML=`<h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
+    B.innerHTML=`<div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av)}</span><b id="obNamePrev">${esc(ob.name.trim()||'星旅人')}</b></div>
+      <h2 id="obT">你是誰？</h2><p class="ob-lead">選一個頭像，取一個在星空裡的名字。</p>
       <div class="ob-av" role="radiogroup" aria-label="頭像">${AVATARS.map(a=>`<button type="button" role="radio" aria-checked="${a===ob.av}" data-a="${a}" aria-label="${AVK[a].n}">${avSVG(a)}</button>`).join('')}</div>
       <label class="mf ob-name"><span class="mf-l">暱稱</span><input class="field" id="obName" maxlength="12" placeholder="星旅人" value="${esc(ob.name)}"></label>`;
-    B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b))});
-    $('obName').oninput=e=>ob.name=e.target.value;$('obNext').textContent='下一步'}
+    B.querySelectorAll('.ob-av button').forEach(b=>b.onclick=()=>{ob.av=b.dataset.a;B.querySelectorAll('.ob-av button').forEach(x=>x.setAttribute('aria-checked',x===b));
+      const v=$('obAvPrev');v.innerHTML=avHTML(ob.av);v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')});
+    $('obName').oninput=e=>{ob.name=e.target.value;$('obNamePrev').textContent=ob.name.trim()||'星旅人'};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     B.innerHTML=`<h2 id="obT">讓星空更懂你</h2><p class="ob-lead">兩項都可以之後再設定。</p>
       <div class="ob-sec"><div class="ob-h">生日<small>用來顯示你的星座與每月運勢</small></div>
