@@ -1,8 +1,0 @@
-/* 自繪十二星座符號：不依賴系統字型，確保置中 */
-.zgi{width:1em;height:1em;flex:none;vertical-align:-.14em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
-.zgi.st4{fill:currentColor;stroke:none}
-.zg{font-family:inherit;line-height:0}
-.zg .zgi{width:52%;height:52%;vertical-align:0;display:block}
-.fo-ring g{fill:none;stroke:#FFE7A3;stroke-opacity:.5;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.fo-el{display:grid;place-items:center;min-width:20px;height:18px;padding:0 4px;line-height:1}
-

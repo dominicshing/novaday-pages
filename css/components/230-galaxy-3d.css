@@ -1,6 +1,0 @@
-/* ===== Galaxy 3D ===== */
-.orbit{fill:none;stroke-width:1.2}
-.orbit.dash{stroke-dasharray:2 5}
-.planet{cursor:pointer;outline:none}
-.planet:focus-visible .sphere{stroke:var(--ion);stroke-width:2}
-

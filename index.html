@@ -18,81 +18,54 @@
   色彩 token 定義於 :root，固定使用星空暗黑主題（背景 #070A1C，主色 #8A7CFF，輔色 #6FE3D6，強調 #FFB45C）。
 -->
 <!-- ===== 樣式（依載入順序；順序即 CSS 疊加順序，請勿任意調換） ===== -->
-<link rel="stylesheet" href="css/base/010-tokens.css">
-<link rel="stylesheet" href="css/base/020-reset.css">
-<link rel="stylesheet" href="css/layout/030-app-shell.css">
-<link rel="stylesheet" href="css/layout/040-tab-bar.css">
-<link rel="stylesheet" href="css/screens/050-home.css">
-<link rel="stylesheet" href="css/screens/060-log.css">
-<link rel="stylesheet" href="css/screens/070-calendar.css">
-<link rel="stylesheet" href="css/components/080-achievements.css">
-<link rel="stylesheet" href="css/screens/090-profile.css">
-<link rel="stylesheet" href="css/components/100-level-carousel.css">
-<link rel="stylesheet" href="css/screens/110-star-calendar.css">
-<link rel="stylesheet" href="css/screens/120-home-star-map.css">
-<link rel="stylesheet" href="css/components/130-fortune.css">
-<link rel="stylesheet" href="css/screens/140-profile-editor.css">
-<link rel="stylesheet" href="css/screens/150-atlas.css">
-<link rel="stylesheet" href="css/components/160-pilot-card.css">
-<link rel="stylesheet" href="css/layout/170-home-app-bar.css">
-<link rel="stylesheet" href="css/screens/180-editor-v3.css">
-<link rel="stylesheet" href="css/components/190-missions.css">
-<link rel="stylesheet" href="css/components/200-hud.css">
-<link rel="stylesheet" href="css/components/210-snackbar.css">
-<link rel="stylesheet" href="css/components/220-filters.css">
-<link rel="stylesheet" href="css/components/230-galaxy-3d.css">
-<link rel="stylesheet" href="css/components/240-cockpit.css">
-<link rel="stylesheet" href="css/components/250-energy-chart.css">
-<link rel="stylesheet" href="css/screens/260-editor-v2.css">
-<link rel="stylesheet" href="css/components/270-bottom-sheets.css">
-<link rel="stylesheet" href="css/base/280-effects.css">
-<link rel="stylesheet" href="css/components/290-scroll-indicator.css">
-<link rel="stylesheet" href="css/layout/300-device-frame.css">
-<link rel="stylesheet" href="css/screens/310-editor-v4.css">
-<link rel="stylesheet" href="css/components/320-fortune-card-v2.css">
-<link rel="stylesheet" href="css/components/330-zodiac-glyphs.css">
-<link rel="stylesheet" href="css/layout/340-app-bar-scroll.css">
-<link rel="stylesheet" href="css/screens/350-detail.css">
-<link rel="stylesheet" href="css/refinements/360-ui-polish.css">
-<link rel="stylesheet" href="css/screens/370-log-atlas-toggles.css">
-<link rel="stylesheet" href="css/components/380-mood-stars.css">
-<link rel="stylesheet" href="css/screens/390-atlas-v2.css">
-<link rel="stylesheet" href="css/components/400-rank-pill-level-card.css">
-<link rel="stylesheet" href="css/screens/410-log-collapse.css">
-<link rel="stylesheet" href="css/screens/420-onboarding.css">
-<link rel="stylesheet" href="css/screens/430-tonight-guide.css">
-<link rel="stylesheet" href="css/screens/440-reports-share-insights.css">
-<link rel="stylesheet" href="css/components/450-quick-note.css">
-<link rel="stylesheet" href="css/components/460-achievement-icons.css">
-<link rel="stylesheet" href="css/base/470-accessibility-responsive.css">
-<link rel="stylesheet" href="css/screens/480-pin-lock.css">
-<link rel="stylesheet" href="css/refinements/490-atlas-card-fix.css">
-<link rel="stylesheet" href="css/components/500-sheet-drag.css">
-<link rel="stylesheet" href="css/screens/510-backup-restore.css">
-<link rel="stylesheet" href="css/screens/520-search.css">
-<link rel="stylesheet" href="css/components/530-entry-share-card.css">
-<link rel="stylesheet" href="css/components/540-footprint.css">
-<link rel="stylesheet" href="css/screens/550-tag-manager.css">
-<link rel="stylesheet" href="css/refinements/560-lazy-load.css">
-<link rel="stylesheet" href="css/components/570-favorites.css">
-<link rel="stylesheet" href="css/screens/580-storage.css">
-<link rel="stylesheet" href="css/components/590-detail-swipe.css">
-<link rel="stylesheet" href="css/screens/600-year-review.css">
-<link rel="stylesheet" href="css/components/610-multi-photo.css">
-<link rel="stylesheet" href="css/components/620-footprint-v2.css">
-<link rel="stylesheet" href="css/components/630-crystal-badges.css">
-<link rel="stylesheet" href="css/components/640-badge-layout.css">
-<link rel="stylesheet" href="css/components/650-crystal-flat.css">
-<link rel="stylesheet" href="css/refinements/660-atlas-nav.css">
-<link rel="stylesheet" href="css/refinements/670-badge-proportions.css">
-<link rel="stylesheet" href="css/components/680-hud-v3.css">
-<link rel="stylesheet" href="css/components/690-zodiac-ring.css">
-<link rel="stylesheet" href="css/refinements/700-footprint-size.css">
-<link rel="stylesheet" href="css/components/710-avatar-upload-tile.css">
-<link rel="stylesheet" href="css/components/720-rank-card-sky.css">
-<link rel="stylesheet" href="css/components/730-birthday-wheel.css">
-<link rel="stylesheet" href="css/components/740-media-picker.css">
-<link rel="stylesheet" href="css/components/750-log-cards.css">
+<link rel="stylesheet" href="src/css/base/tokens.css">
+<link rel="stylesheet" href="src/css/base/reset.css">
+<link rel="stylesheet" href="src/css/layout/app-shell.css">
+<link rel="stylesheet" href="src/css/layout/tab-bar.css">
+<link rel="stylesheet" href="src/css/layout/app-bar.css">
+<link rel="stylesheet" href="src/css/components/controls.css">
+<link rel="stylesheet" href="src/css/components/list.css">
+<link rel="stylesheet" href="src/css/components/avatar-picker.css">
+<link rel="stylesheet" href="src/css/components/bottom-sheet.css">
+<link rel="stylesheet" href="src/css/layout/scrollbar.css">
+<link rel="stylesheet" href="src/css/components/snackbar.css">
+<link rel="stylesheet" href="src/css/components/hud.css">
+<link rel="stylesheet" href="src/css/components/rank-card.css">
+<link rel="stylesheet" href="src/css/components/mood-star.css">
+<link rel="stylesheet" href="src/css/components/constellation-art.css">
+<link rel="stylesheet" href="src/css/components/celebrations.css">
+<link rel="stylesheet" href="src/css/components/fortune-card.css">
+<link rel="stylesheet" href="src/css/components/zodiac.css">
+<link rel="stylesheet" href="src/css/components/badges.css">
+<link rel="stylesheet" href="src/css/components/footprint.css">
+<link rel="stylesheet" href="src/css/components/energy-chart.css">
+<link rel="stylesheet" href="src/css/components/filters.css">
+<link rel="stylesheet" href="src/css/components/quick-note.css">
+<link rel="stylesheet" href="src/css/components/missions.css">
+<link rel="stylesheet" href="src/css/components/entry-card.css">
+<link rel="stylesheet" href="src/css/components/media.css">
+<link rel="stylesheet" href="src/css/components/share-card.css">
+<link rel="stylesheet" href="src/css/components/empty-state.css">
+<link rel="stylesheet" href="src/css/components/galaxy.css">
+<link rel="stylesheet" href="src/css/base/accessibility.css">
+<link rel="stylesheet" href="src/css/components/birthday-picker.css">
+<link rel="stylesheet" href="src/css/screens/home.css">
+<link rel="stylesheet" href="src/css/screens/log.css">
+<link rel="stylesheet" href="src/css/screens/star-calendar.css">
+<link rel="stylesheet" href="src/css/screens/atlas.css">
+<link rel="stylesheet" href="src/css/screens/me.css">
+<link rel="stylesheet" href="src/css/screens/profile-editor.css">
+<link rel="stylesheet" href="src/css/screens/settings.css">
+<link rel="stylesheet" href="src/css/screens/editor.css">
+<link rel="stylesheet" href="src/css/screens/detail.css">
+<link rel="stylesheet" href="src/css/screens/onboarding.css">
+<link rel="stylesheet" href="src/css/screens/reports.css">
+<link rel="stylesheet" href="src/css/screens/backup.css">
+<link rel="stylesheet" href="src/css/screens/tag-manager.css">
+<link rel="stylesheet" href="src/css/screens/pin-lock.css">
+<link rel="stylesheet" href="src/css/screens/dev-tools.css">
+<link rel="stylesheet" href="src/css/base/effects.css">
+<link rel="stylesheet" href="src/css/layout/device-frame.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs>
@@ -832,65 +805,81 @@
 </div>
 
 <!-- ===== 程式（依載入順序執行） ===== -->
-<script src="js/core/000-error-overlay.js"></script>
-<script src="js/core/005-dev-clock.js"></script>
-<script src="js/core/010-config.js"></script>
-<script src="js/data/020-moods-ranks.js"></script>
-<script src="js/ui/art/030-rank-badge.js"></script>
-<script src="js/data/040-constellations.js"></script>
-<script src="js/data/050-zodiac-fortune.js"></script>
-<script src="js/ui/art/060-mood-stars.js"></script>
-<script src="js/ui/art/070-avatars.js"></script>
-<script src="js/core/080-profile.js"></script>
-<script src="js/core/090-storage.js"></script>
-<script src="js/core/095-media-store.js"></script>
-<script src="js/core/096-zip.js"></script>
-<script src="js/core/097-photo-store.js"></script>
-<script src="js/logic/100-xp-streak.js"></script>
-<script src="js/data/110-achievements.js"></script>
-<script src="js/ui/art/120-crystal.js"></script>
-<script src="js/logic/130-achievement-rules.js"></script>
-<script src="js/core/140-navigation.js"></script>
-<script src="js/screens/home/150-render.js"></script>
-<script src="js/logic/160-sky-projection.js"></script>
-<script src="js/data/170-constellation-figures.js"></script>
-<script src="js/ui/art/180-constellation-map.js"></script>
-<script src="js/screens/atlas/190-atlas.js"></script>
-<script src="js/screens/atlas/200-tonight-guide.js"></script>
-<script src="js/features/210-share-cards.js"></script>
-<script src="js/features/220-mood-insights.js"></script>
-<script src="js/features/230-badge-unlock.js"></script>
-<script src="js/screens/home/240-zodiac-fortune.js"></script>
-<script src="js/screens/home/250-memories.js"></script>
-<script src="js/features/260-monthly-report.js"></script>
-<script src="js/features/270-year-review.js"></script>
-<script src="js/screens/home/280-today.js"></script>
-<script src="js/screens/log/290-search-filter.js"></script>
-<script src="js/screens/log/300-star-calendar.js"></script>
-<script src="js/screens/me/310-energy-chart.js"></script>
-<script src="js/screens/me/320-rank-carousel.js"></script>
-<script src="js/ui/330-gestures-shortcuts.js"></script>
-<script src="js/features/340-photo-viewer.js"></script>
-<script src="js/features/350-storage-usage.js"></script>
-<script src="js/features/360-tag-manager.js"></script>
-<script src="js/screens/me/370-footprint.js"></script>
-<script src="js/screens/me/380-badge-sheet.js"></script>
-<script src="js/ui/390-sheets.js"></script>
-<script src="js/screens/400-detail.js"></script>
-<script src="js/screens/410-editor.js"></script>
-<script src="js/ui/420-effects.js"></script>
-<script src="js/ui/430-starfield.js"></script>
-<script src="js/features/440-export.js"></script>
-<script src="js/screens/me/450-profile-actions.js"></script>
-<script src="js/screens/home/460-app-bar.js"></script>
-<script src="js/screens/log/470-collapse.js"></script>
-<script src="js/features/480-backup-restore.js"></script>
-<script src="js/ui/490-scroll-behavior.js"></script>
-<script src="js/ui/500-device-preview.js"></script>
-<script src="js/app/510-init-search.js"></script>
-<script src="js/screens/520-onboarding.js"></script>
-<script src="js/features/530-settings-pin-lock.js"></script>
-<script src="js/features/535-dev-tools.js"></script>
-<script src="js/app/540-boot.js"></script>
+<script src="src/js/core/error-overlay.js"></script>
+<script src="src/js/core/dev-clock.js"></script>
+<script src="src/js/core/config.js"></script>
+<script src="src/js/core/utils.js"></script>
+<script src="src/js/data/moods-ranks.js"></script>
+<script src="src/js/ui/art/rank-badge.js"></script>
+<script src="src/js/data/prompts.js"></script>
+<script src="src/js/data/constellations.js"></script>
+<script src="src/js/data/zodiac-fortune.js"></script>
+<script src="src/js/ui/art/mood-stars.js"></script>
+<script src="src/js/ui/art/avatars.js"></script>
+<script src="src/js/core/profile.js"></script>
+<script src="src/js/core/storage.js"></script>
+<script src="src/js/core/entries.js"></script>
+<script src="src/js/core/media-store.js"></script>
+<script src="src/js/core/zip.js"></script>
+<script src="src/js/core/photo-store.js"></script>
+<script src="src/js/logic/xp-streak.js"></script>
+<script src="src/js/data/achievements.js"></script>
+<script src="src/js/ui/art/crystal.js"></script>
+<script src="src/js/logic/achievement-rules.js"></script>
+<script src="src/js/core/navigation.js"></script>
+<script src="src/js/screens/home/hud.js"></script>
+<script src="src/js/logic/sky-projection.js"></script>
+<script src="src/js/data/constellation-figures.js"></script>
+<script src="src/js/ui/art/constellation-map.js"></script>
+<script src="src/js/screens/atlas/atlas.js"></script>
+<script src="src/js/screens/atlas/tonight-guide.js"></script>
+<script src="src/js/features/share-card.js"></script>
+<script src="src/js/screens/me/insights.js"></script>
+<script src="src/js/ui/celebrations.js"></script>
+<script src="src/js/screens/home/fortune.js"></script>
+<script src="src/js/ui/birthday-picker.js"></script>
+<script src="src/js/screens/home/memories.js"></script>
+<script src="src/js/features/reports/monthly-report.js"></script>
+<script src="src/js/features/reports/year-review.js"></script>
+<script src="src/js/screens/home/today.js"></script>
+<script src="src/js/screens/home/missions.js"></script>
+<script src="src/js/ui/entry-card.js"></script>
+<script src="src/js/screens/log/search-filter.js"></script>
+<script src="src/js/screens/log/star-calendar.js"></script>
+<script src="src/js/screens/me/energy-chart.js"></script>
+<script src="src/js/screens/me/rank-carousel.js"></script>
+<script src="src/js/ui/gestures.js"></script>
+<script src="src/js/ui/photo-viewer.js"></script>
+<script src="src/js/screens/settings/storage.js"></script>
+<script src="src/js/screens/settings/tag-manager.js"></script>
+<script src="src/js/screens/me/footprint.js"></script>
+<script src="src/js/screens/me/badge-sheet.js"></script>
+<script src="src/js/screens/me/me.js"></script>
+<script src="src/js/screens/log/log-view.js"></script>
+<script src="src/js/app/render.js"></script>
+<script src="src/js/ui/sheets.js"></script>
+<script src="src/js/screens/detail.js"></script>
+<script src="src/js/screens/editor.js"></script>
+<script src="src/js/screens/home/quick-note.js"></script>
+<script src="src/js/ui/effects.js"></script>
+<script src="src/js/ui/starfield.js"></script>
+<script src="src/js/features/backup/export.js"></script>
+<script src="src/js/screens/settings/region.js"></script>
+<script src="src/js/features/backup/wipe.js"></script>
+<script src="src/js/screens/me/avatar-picker.js"></script>
+<script src="src/js/screens/me/profile-editor.js"></script>
+<script src="src/js/screens/settings/settings.js"></script>
+<script src="src/js/screens/home/app-bar.js"></script>
+<script src="src/js/screens/log/collapse.js"></script>
+<script src="src/js/core/download.js"></script>
+<script src="src/js/features/backup/restore.js"></script>
+<script src="src/js/ui/scroll.js"></script>
+<script src="src/js/ui/device-preview.js"></script>
+<script src="src/js/screens/log/search.js"></script>
+<script src="src/js/app/init.js"></script>
+<script src="src/js/screens/onboarding.js"></script>
+<script src="src/js/features/pin-lock.js"></script>
+<script src="src/js/features/dev-tools.js"></script>
+<script src="src/js/app/boot.js"></script>
 </body>
 </html>

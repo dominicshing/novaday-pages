@@ -1,0 +1,200 @@
+/* 階級卡片與階級輪播：徽章、進度、星空背景、星線顏色 */
+.rk-arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);display:grid;place-items:center;padding:0}
+.rk-arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.rk-arrow:disabled{opacity:.3}
+.rk-back{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(111,227,214,.4);background:rgba(111,227,214,.1);color:var(--ion);font-size:12px;font-weight:600}
+.rk-track{position:relative;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;margin:0 -16px;padding:0;
+  scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;outline:none;cursor:grab;touch-action:pan-x pan-y}
+.rk-track::-webkit-scrollbar{display:none}
+.rk-track:focus-visible{box-shadow:inset 0 0 0 2px var(--ion);border-radius:12px}
+.rk-track.drag{scroll-snap-type:none;cursor:grabbing;user-select:none;-webkit-user-select:none}
+.rk-card{flex:0 0 100%;min-width:0;scroll-snap-align:center;scroll-snap-stop:always;position:relative;display:flex;flex-direction:column;align-items:center;padding:14px 16px 2px;text-align:center;
+  background:radial-gradient(ellipse 75% 42% at 50% 0%,var(--ra),transparent 72%);opacity:.3;transition:opacity .35s}
+.rk-card.on{opacity:1}
+.rk-top{align-self:stretch;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.rk-state{display:inline-flex;align-items:center;border-radius:999px;font-weight:600}
+.is-done .rk-state{background:rgba(111,227,214,.1)}
+.is-cur .rk-state{color:#0A0D24;background:var(--rc)}
+.rk-lv{color:var(--muted);font-variant-numeric:tabular-nums}
+.rk-badge{width:120px;height:120px;margin:14px auto 8px;display:block;overflow:visible;filter:drop-shadow(0 0 16px var(--ra))}
+.rbadge{width:100%;height:100%;display:block;overflow:visible}
+
+/* 徽章動畫：外圈星環緩轉、星星閃爍、光暈呼吸；滑到這一階時，連線重新畫出、圖案浮現 */
+.rb-ring{transform-origin:50px 50px;animation:spin 48s linear infinite}
+.rb-st{transform-box:fill-box;transform-origin:center;animation:rbTw 2.6s ease-in-out infinite}
+.rb-halo{transform-origin:50px 50px;animation:rbHalo 3.6s ease-in-out infinite}
+.rb-shine{animation:rbShine 5s ease-in-out infinite}
+.rk-card.on .rb-ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease-out .25s forwards}
+.rk-card.on .rb-em{transform-origin:50px 50px;animation:rbIn .7s cubic-bezier(.2,1.4,.4,1)}
+.is-lock .rb-ring{animation-duration:90s}
+.lv-badge{width:110px;height:110px;margin:0 auto 6px;filter:drop-shadow(0 0 20px rgba(255,211,111,.5))}
+.lv-badge .rb-ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s ease-out .4s forwards}
+.lv-badge .rb-em{transform-origin:50px 50px;animation:rbIn .8s cubic-bezier(.2,1.4,.4,1) .15s both}
+.app.calm .rb-ring,.app.calm .rb-st,.app.calm .rb-halo,.app.calm .rb-shine,.app.calm .rb-em{animation:none}
+.app.calm .rb-ln{animation:none!important;stroke-dashoffset:0!important}
+
+@media (prefers-reduced-motion:reduce){
+  .rb-ring,.rb-st,.rb-halo,.rb-shine,.rb-em{animation:none!important}
+  .rb-ln{animation:none!important;stroke-dashoffset:0!important}
+}
+.is-cur .rk-badge{animation:rkFloat 3.6s ease-in-out infinite}
+.is-lock .rk-badge{filter:grayscale(.6);opacity:.55}
+.rk-card h3{margin:0;font-size:21px;line-height:1.3}
+.is-lock h3{color:var(--muted)}
+.rk-desc{margin:4px auto 0;font-size:13px;line-height:1.6;color:var(--muted);min-height:3.2em;text-wrap:balance}
+.rk-prog{align-self:stretch;margin-top:auto;padding-top:12px;text-align:left}
+.rk-bar{height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.rk-bar i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--rc),#fff);box-shadow:0 0 10px var(--rc);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.is-lock .rk-bar i{background:rgba(255,255,255,.25);box-shadow:none}
+.rk-pt{display:flex;justify-content:space-between;gap:8px;margin-top:6px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rk-pt b{color:var(--text);font-weight:600}
+.rk-rew{align-self:stretch;display:flex;align-items:center;gap:10px;margin-top:12px;padding:8px 10px;border-radius:14px;background:rgba(7,10,28,.45);border:1px solid rgba(255,255,255,.06);text-align:left}
+.rk-rew svg{width:40px;height:26px;flex:none;overflow:visible}
+.rk-rew .t{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.rk-rew .t small{display:block;font-size:12px;color:var(--muted)}
+.rk-rew .st{flex:none;font-size:12px;font-weight:600;color:var(--muted)}
+.rk-rew .st.using{color:var(--ion)}
+.rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}
+.is-lock .rk-rew{opacity:.6}
+.rk-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:2px}
+.rk-dot{width:24px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center}
+.rk-dot i{display:block;width:6px;height:6px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
+.rk-dot.reached i{background:rgba(138,124,255,.6)}
+.rk-dot.cur i{box-shadow:0 0 0 2px rgba(111,227,214,.45)}
+.rk-dot[aria-selected="true"] i{width:18px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
+.rk-hint{text-align:center;font-size:12px;color:var(--muted);margin:2px 0 0;transition:opacity .4s}
+.p-rank{display:inline-flex;align-items:center;margin-top:10px;min-height:34px;border-radius:999px;border:1px solid var(--rb,rgba(138,124,255,.4));
+  background:rgba(7,10,28,.4);color:var(--text);font-size:13px;font-weight:600}
+.p-rank svg{width:26px;height:26px;overflow:visible}
+.p-rank .rb-shine,.p-rank .rb-halo{display:none}
+.p-rank small{font-size:12px;color:var(--muted);font-weight:500}
+.app.calm .is-cur .rk-badge{animation:none}
+
+@media (prefers-reduced-motion:reduce){
+  .is-cur .rk-badge{animation:none}
+  .rk-card{transition:none}
+}
+.pilot{padding-bottom:12px}
+.p-slide{background:none}
+.p-slide .p-gauge{margin-top:10px}
+.p-slide .rk-state{color:#0A0D24;background:var(--rc,#B9BEE9)}
+#pRew{margin-top:14px}
+.rk-foot{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;position:relative}
+.rk-foot .rk-arrow{width:32px;height:32px}
+.rk-sub{display:flex;justify-content:center;min-height:32px;align-items:center}
+.rk-sub .rk-hint{margin:0}
+.pilot{position:relative;overflow:hidden;padding:0 16px 16px;margin-top:4px;text-align:center}
+.p-banner{position:absolute;left:0;right:0;top:0;height:92px;pointer-events:none;
+  background:radial-gradient(ellipse 70% 120% at 20% 0%,rgba(138,124,255,.45),transparent 60%),radial-gradient(ellipse 60% 110% at 85% 10%,rgba(255,143,208,.22),transparent 60%),radial-gradient(ellipse 50% 90% at 60% 0%,rgba(111,227,214,.18),transparent 70%);
+  -webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+.p-banner i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.7}
+.p-banner i:nth-child(1){left:12%;top:22%}
+.p-banner i:nth-child(2){left:28%;top:58%;opacity:.4}
+.p-banner i:nth-child(3){left:74%;top:18%}
+.p-banner i:nth-child(4){left:88%;top:52%;opacity:.45}
+.p-banner i:nth-child(5){left:58%;top:12%;width:3px;height:3px;box-shadow:0 0 6px #fff}
+.p-banner i:nth-child(6){left:40%;top:30%;opacity:.35}
+.p-gauge{position:relative;width:128px;height:128px;margin:24px auto 0}
+.p-gauge svg{width:100%;height:100%;overflow:visible;display:block}
+.p-gauge .tk{stroke:rgba(232,233,255,.16);stroke-width:1.4;stroke-linecap:round;transition:stroke .4s}
+.p-gauge .tk.on{stroke:#6FE3D6}
+#pDot{transition:cx 1.1s cubic-bezier(.2,.8,.2,1),cy 1.1s cubic-bezier(.2,.8,.2,1)}
+.p-av{position:absolute;inset:0;display:grid;place-items:center;font-size:52px;line-height:1;padding-bottom:2px}
+.p-lv{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);font-size:13px;font-weight:700;color:#2A1030;white-space:nowrap;
+  background:linear-gradient(180deg,#FFE7A3,#FFB45C);border-radius:999px;padding:2px 11px;box-shadow:0 0 0 3px var(--bg2),0 0 14px rgba(255,180,92,.55)}
+.pname{margin-top:14px;font-size:23px;font-weight:700;line-height:1.3}
+.pmotto{color:var(--muted);font-size:14px;margin:8px auto 0;max-width:30ch;line-height:1.6}
+.p-xp{margin-top:12px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.p-xp b{color:var(--ion);font-size:16px}
+.pname{cursor:pointer}
+
+/* 我的：頭像右下角的階級徽章（與首頁同款），階級名稱只出現一次 */
+.p-rb{position:absolute;border-radius:50%;pointer-events:none;line-height:0;filter:drop-shadow(0 0 6px rgba(0,0,0,.5))}
+.p-rb .rbadge{width:100%;height:100%;display:block}
+.p-rank{padding:0 12px!important;gap:0!important}
+.p-rank small{margin-left:1px}
+.p-chips{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.p-chips .p-rank,.p-chips .p-sign{margin:0!important}
+.p-rb{width:38px!important;height:38px!important;right:2px!important;bottom:16px!important}
+
+/* 階級狀態標籤：統一為細框膠囊＋線條圖示 */
+.rk-state{gap:6px!important;padding:3px 10px 3px 8px!important;font-size:12px;background:rgba(7,10,28,.35)!important;border:1px solid rgba(232,233,255,.16);color:var(--muted)!important}
+.rs-ic{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.is-done .rk-state{color:var(--ion)!important;border-color:rgba(111,227,214,.4)}
+.p-slide .rk-state,.is-cur .rk-state{color:var(--rc,#B9BEE9)!important;border-color:color-mix(in srgb,var(--rc,#B9BEE9) 55%,transparent)}
+.rs-dot{width:7px;height:7px;border-radius:50%;background:var(--rc,#B9BEE9);box-shadow:0 0 6px var(--rc,#B9BEE9);animation:breathe 2.4s ease-in-out infinite}
+.app.calm .rs-dot{animation:none}
+
+/* 頭像下方：徽章＋等級合成一個膠囊 */
+.p-lvx{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;border-radius:999px;white-space:nowrap;box-shadow:0 0 0 3px var(--bg2),0 0 14px color-mix(in srgb,var(--rc,#B9BEE9) 45%,transparent)}
+.p-lvx .p-rb{filter:none!important}
+.p-lvx .p-lv{position:static;transform:none;box-shadow:none;padding:0;font-weight:700;letter-spacing:.02em}
+.p-lvx{gap:7px!important;height:30px;padding:0 14px 0 30px!important;border:1px solid transparent!important;
+  background:linear-gradient(180deg,rgba(44,50,120,.96),rgba(16,20,58,.96)) padding-box,
+             linear-gradient(100deg,var(--rc,#B9BEE9),rgba(111,227,214,.85) 55%,rgba(138,124,255,.9)) border-box!important;
+  box-shadow:0 0 0 3px var(--bg2),inset 0 1px 0 rgba(255,255,255,.14),0 6px 16px -6px rgba(0,0,0,.6),0 0 18px -4px color-mix(in srgb,var(--rc,#B9BEE9) 70%,transparent)!important}
+.p-lvx .p-rb{position:absolute!important;left:-8px;top:50%;transform:translateY(-50%);width:36px!important;height:36px!important;
+  filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#B9BEE9) 80%,transparent))!important}
+.p-lvx .p-lv{display:flex;align-items:baseline;gap:3px;font-size:17px!important;line-height:1;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#FFFFFF,#CFC9FF);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.p-lvx .p-lv small{font-size:10px;letter-spacing:.14em;font-weight:700;-webkit-text-fill-color:currentColor;color:var(--muted)}
+
+/* 階級名稱膠囊：與等級牌同一套玻璃＋漸層描邊 */
+.p-chips .p-rank{min-height:32px;border:1px solid transparent!important;
+  background:linear-gradient(180deg,rgba(36,42,104,.85),rgba(16,20,58,.85)) padding-box,
+             linear-gradient(100deg,color-mix(in srgb,var(--rc,#B9BEE9) 80%,transparent),rgba(138,124,255,.35)) border-box!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.p-chips .p-rank span{color:var(--text)}
+.p-chips .p-rank small{color:color-mix(in srgb,var(--rc,#B9BEE9) 80%,#9AA0D0)}
+.p-chips .p-sign{min-height:32px}
+
+/* 徽章光圈收斂：隱藏外圈光暈，只留很淡的陰影 */
+.p-lvx .rb-halo,.av-rank .rb-halo{display:none}
+.p-lvx .p-rb{filter:drop-shadow(0 0 2px color-mix(in srgb,var(--rc,#B9BEE9) 50%,transparent))!important}
+
+/* 等級牌＋階級合成一塊：徽章 LV 1｜見習觀星者 */
+.p-lvx{padding-right:6px!important}
+.lvx-sep{width:1px;height:16px;background:linear-gradient(180deg,transparent,rgba(232,233,255,.35),transparent);margin:0 2px}
+.p-lvx .p-rank{all:unset;cursor:pointer;display:inline-flex;align-items:center;height:26px;padding:0 10px 0 3px!important;margin:0!important;border:0!important;background:none!important;box-shadow:none!important;min-height:0!important;border-radius:13px;font-size:14px;font-weight:700;color:var(--text);white-space:nowrap}
+.p-lvx .p-rank span{color:var(--text)}
+.p-lvx .p-rank:active{background:rgba(255,255,255,.08)}
+.p-lvx .p-rank:focus-visible{outline:2px solid var(--ion);outline-offset:1px}
+
+/* 等級牌移到頭像下方，不再與頭像重疊 */
+.p-lvx{bottom:-30px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 6px 16px -6px rgba(0,0,0,.6),0 0 18px -4px color-mix(in srgb,var(--rc,#B9BEE9) 70%,transparent)!important}
+.p-slide .pname{margin-top:50px!important}
+.p-slide .pname+.p-chips{margin-top:14px!important}
+.p-slide .pmotto{margin-top:14px}
+.rk-card{isolation:isolate}
+.rk-sky{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.rk-sky .rk-st{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff;box-shadow:0 0 5px rgba(255,255,255,.75);opacity:.2;animation:rkTw var(--t) ease-in-out var(--d) infinite}
+.rk-sky .rk-st.x{border-radius:0;background:color-mix(in srgb,var(--rc,#B9BEE9) 55%,#fff);box-shadow:none;filter:drop-shadow(0 0 3px var(--rc,#B9BEE9));clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+.rk-sky .rk-met{position:absolute;top:var(--y);left:var(--x);width:74px;height:1.6px;border-radius:2px;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--rc,#B9BEE9) 60%,transparent) 30%,transparent);opacity:0;transform:rotate(-29deg);animation:rkMet var(--t) linear var(--d) infinite}
+.rk-sky .rk-neb{position:absolute;width:220px;height:160px;border-radius:50%;left:var(--x);top:var(--y);background:radial-gradient(closest-side,color-mix(in srgb,var(--rc,#B9BEE9) 22%,transparent),transparent);filter:blur(6px);animation:rkNeb 14s ease-in-out infinite alternate}
+.app.calm .rk-sky *,#device:has(.app.calm) .rk-sky *{animation:none!important}
+.app.calm .rk-sky .rk-met{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  .rk-sky *{animation:none!important}
+  .rk-sky .rk-met{display:none}
+}
+
+/* 動畫 */
+@keyframes rbTw {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.72)}
+}
+@keyframes rbHalo {0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}
+}
+@keyframes rbShine {0%,70%,100%{stroke-opacity:.12}80%{stroke-opacity:.55}
+}
+@keyframes rbIn {from{transform:scale(.6) rotate(-25deg);opacity:0}to{transform:none;opacity:1}
+}
+@keyframes rkFloat {0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}
+}
+@keyframes draw {to{stroke-dashoffset:0}
+}
+@keyframes rkTw {0%,100%{opacity:.12;transform:scale(.55)}50%{opacity:.95;transform:scale(1)}
+}
+@keyframes rkMet {0%,82%{opacity:0;transform:translate(0,0) rotate(-29deg)}84%{opacity:1}94%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}100%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}
+}
+@keyframes rkNeb {from{transform:translate(0,0) scale(1)}to{transform:translate(-18px,10px) scale(1.12)}
+}

@@ -1,0 +1,37 @@
+/* 慶祝畫面：星座完成、升級、徽章解鎖 */
+#conDone{background:rgba(5,7,20,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.cd-card{text-align:center;color:#E8E9FF;max-width:320px;animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+.cd-k{font-size:13px;letter-spacing:.3em;padding-left:.3em;color:#FFE7A3}
+.cd-card h2{margin:0;font-size:30px;background:linear-gradient(180deg,#fff,#BDB5FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cd-la{margin:2px 0 0;color:#6FE3D6;font-size:13px}
+.cd-f{margin:10px 0 18px;color:#B9BEEA;font-size:14px;line-height:1.7}
+.cd-line{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease-out forwards}
+.cd-star{opacity:0;animation:fadeA .3s ease-out forwards}
+.app.calm .cd-line{animation:none;stroke-dashoffset:0}
+.app.calm .cd-star{animation:none;opacity:1}
+.overlay{position:absolute;inset:0;z-index:40;display:none;place-items:center;background:rgba(8,10,28,.75);padding:24px}
+.overlay.show{display:grid}
+.lvcard{text-align:center;color:#E8E9FF;animation:pop .6s cubic-bezier(.2,1.4,.4,1)}
+.lvcard .big{font-size:76px;line-height:1;font-weight:700;background:linear-gradient(180deg,#FFD36F,#FF8FD0 60%,#8A7CFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lvcard h2{margin:6px 0 2px;font-size:24px}
+.lvcard p{margin:0 0 20px;color:#B9BEEA}
+.cd-btns{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.cd-btns .btn{min-width:120px}
+.ach-pop{position:absolute;left:50%;top:70px;z-index:45;display:flex;align-items:center;gap:12px;min-width:250px;padding:12px 18px 12px 12px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(60,48,120,.97),rgba(20,24,64,.97));border:1px solid rgba(255,211,111,.55);box-shadow:0 18px 40px -12px rgba(0,0,0,.7),0 0 30px -8px rgba(255,180,92,.6);
+  transform:translate(-50%,-30px) scale(.9);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .25s}
+.ach-pop.show{transform:translate(-50%,0) scale(1);opacity:1;pointer-events:auto;cursor:pointer}
+.ap-ic{place-items:center}
+.ap-ic .ach-ic{width:30px;height:30px}
+.ap-t{display:flex;flex-direction:column;gap:1px}
+.ap-t small{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--flare)}
+.ap-t b{font-size:17px}
+.ap-t span{font-size:12px;color:var(--muted)}
+.ap-ic{width:60px;height:60px;border-radius:0;background:none;box-shadow:none;display:block}
+.ach-pop.show .ap-ic .cr{animation:crPop 1s cubic-bezier(.2,1.4,.4,1) both}
+
+/* 動畫 */
+@keyframes fadeA {to{opacity:1}
+}
+@keyframes crPop {0%{transform:scale(.3) rotate(-35deg);filter:brightness(3) saturate(0)}100%{transform:none;filter:none}
+}

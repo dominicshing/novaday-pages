@@ -1,0 +1,78 @@
+/* 「我的」頁：個人卡片、統計、心情洞察 */
+.stat{padding:12px 12px 10px;text-align:left;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;right:-18px;top:-18px;width:56px;height:56px;border-radius:50%;background:var(--sc);opacity:.12;filter:blur(8px)}
+.stat svg{width:18px;height:18px;display:block;fill:none;stroke:var(--sc);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px;filter:drop-shadow(0 0 4px var(--sc))}
+.stat b{display:block;font-size:21px;line-height:1.15;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.sec-t{font-size:16px;margin:24px 0 10px}
+.sec-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:24px}
+.sec-row .sec-t{margin:0}
+.p-sign{display:inline-flex;align-items:center;gap:4px;margin:10px 0 0 6px;min-height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,211,111,.4);background:rgba(7,10,28,.4);font-size:13px;font-weight:600;color:#FFE7A3}
+.me-hero{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;margin:-12px -16px 0;padding:24px 16px 20px;text-align:center;overflow:hidden;
+  background:radial-gradient(ellipse 70% 100% at 50% 0%,rgba(138,124,255,.3),transparent 70%)}
+.mh-stars{position:absolute;inset:0;pointer-events:none;opacity:.8;
+  background:radial-gradient(1.2px 1.2px at 12% 22%,#fff,transparent),radial-gradient(1px 1px at 26% 70%,rgba(255,255,255,.7),transparent),radial-gradient(1.4px 1.4px at 78% 18%,#FFE7A3,transparent),radial-gradient(1px 1px at 88% 60%,rgba(255,255,255,.7),transparent),radial-gradient(1px 1px at 64% 40%,rgba(255,255,255,.5),transparent),radial-gradient(1.2px 1.2px at 40% 12%,rgba(111,227,214,.9),transparent)}
+.mh-av{position:relative;flex:none;padding:0;border:0;background:none;border-radius:50%;cursor:pointer}
+.mh-av .me-av{width:108px;height:108px;overflow:hidden;box-shadow:0 0 0 6px rgba(138,124,255,.12),0 10px 34px -8px rgba(138,124,255,.9);transition:transform .15s}
+.mh-av:active .me-av{transform:scale(.95)}
+.mh-av:focus-visible{outline:none}
+.mh-av:focus-visible .me-av{outline:2px solid var(--ion);outline-offset:4px}
+.mh-t{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;max-width:100%}
+.mh-t b{font-size:22px;line-height:1.3;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mh-t small{font-size:14px;color:var(--muted);line-height:1.5;max-width:30ch}
+.mh-t small:empty,.mh-t span:empty{display:none}
+.mh-t span{display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:600;color:#FFE7A3;border:1px solid rgba(255,211,111,.4);background:rgba(255,180,92,.1)}
+.me-card{margin-top:14px;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.me-card.flash{animation:secFlash 1.6s ease-out}
+.mc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;min-height:32px}
+.mc-h h3{margin:0;font-size:15px;font-weight:700;color:var(--text)}
+.mc-note{font-size:12px;color:var(--muted);text-align:right}
+.mc-link{background:none;border:0;padding:0 2px;min-height:32px;color:var(--ion);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mc-note .mc-link{font-size:12px;min-height:0;text-decoration:underline;text-underline-offset:3px}
+.me-card .avs{gap:8px!important;margin-top:0}
+.me-card .mf:first-of-type{margin-top:0}
+.me-card .mf+.mf{margin-top:14px}
+.me-card .bd-sign{margin-top:12px}
+.me-foot{margin:16px 4px 4px;text-align:center;font-size:12px;color:var(--muted)}
+
+/* 我的：精簡數據列、徽章收合 */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;padding:12px 4px}
+.stat-row .stat{background:none;border:0;box-shadow:none;padding:2px 6px;text-align:center;border-radius:0}
+.stat-row .stat svg{margin:0 auto 4px;width:16px;height:16px}
+.stat-row .stat b{font-size:19px}
+.stat-row .stat[hidden]{display:none}
+.stat-row .stat.panel{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.stat-row .stat.panel::before,.stat-row .stat.panel::after{display:none!important}
+.stat-row .stat+.stat{border-left:1px solid var(--line)!important}
+
+/* 心情洞察 */
+.insights{display:grid;gap:8px;margin-top:10px}
+.ins{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.ins-ic{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(111,227,214,.12);color:var(--ion)}
+.ins.dn .ins-ic{background:rgba(127,178,255,.12);color:#9CC2FF}
+.ins-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ins>span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ins b{font-size:15px}
+.ins small{font-size:12px;color:var(--muted)}
+.ins-ar{font-style:normal;font-size:18px;font-weight:700;color:var(--ion)}
+.ins.dn .ins-ar{color:#9CC2FF}
+.ins-empty{padding:14px;border-radius:14px;border:1px dashed var(--line);text-align:center;color:var(--muted);font-size:13px}
+.ins-empty b{color:var(--ion)}
+
+/* 編輯器建議 */
+.sug{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sug[hidden]{display:none}
+.sug button{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 11px;border-radius:16px;border:1px solid var(--line);background:rgba(232,233,255,.05);color:var(--muted);font-size:13px}
+.sug button .mi-ic{width:13px;height:13px}
+.sug button[aria-pressed="true"]{color:var(--text);border-color:var(--ion);background:rgba(111,227,214,.14)}
+
+/* 「我的」各區塊標題圖示、星光足跡進場與今日提示 */
+.sec-row .sec-t{display:flex;align-items:center;gap:8px}
+.sec-ic{flex:none;width:21px;height:21px;color:var(--ion);filter:drop-shadow(0 0 4px rgba(111,227,214,.5))}
+.sec-ic .fi{fill:rgba(111,227,214,.14)}
+.sec-ic .st{fill:currentColor}
+.sec-ic .o{stroke-width:1.9}
+
+/* 動畫 */
+@keyframes secFlash {0%,40%{background:rgba(255,180,92,.14);box-shadow:0 0 0 8px rgba(255,180,92,.14)}100%{background:transparent;box-shadow:0 0 0 8px transparent}
+}

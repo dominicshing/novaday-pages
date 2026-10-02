@@ -6,16 +6,16 @@
     python3 tools/build_single_html.py out.html   # 指定輸出路徑
 
 做法：
-- index.html 的 <link rel="stylesheet" href="css/..."> 依順序內嵌成一個 <style>
-- js/core/000-error-overlay.js 內嵌成獨立 <script>
-- 其餘 js/ 依 manifest.json 順序串接，外面包一層 (function(){ … })();
+- index.html 的 <link rel="stylesheet" href="src/css/..."> 依順序內嵌成一個 <style>
+- src/js/core/error-overlay.js 內嵌成獨立 <script>
+- 其餘 src/js/ 依 build-order.json 順序串接，外面包一層 (function(){ … })();
   （單檔版所有程式共用一個函式作用域，跟分檔版的全域作用域行為相同）
 """
 import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'dist', 'novaday.html')
-man = json.load(open(os.path.join(ROOT, 'manifest.json'), encoding='utf8'))
+man = json.load(open(os.path.join(ROOT, 'build-order.json'), encoding='utf8'))
 read = lambda rel: open(os.path.join(ROOT, rel), encoding='utf8').read()
 
 lines = read('index.html').split('\n')
@@ -26,9 +26,9 @@ while i < len(lines):
     if ln.startswith('<!-- ===== 樣式'):
         i += 1
         css = []
-        while i < len(lines) and lines[i].startswith('<link rel="stylesheet" href="css/'):
+        while i < len(lines) and lines[i].startswith('<link rel="stylesheet" href="src/css/'):
             css.append(re.search(r'href="([^"]+)"', lines[i]).group(1)); i += 1
-        assert css == man['css'], 'index.html 的 CSS 順序和 manifest.json 不一致'
+        assert css == man['css'], 'index.html 的 CSS 順序和 build-order.json 不一致'
         res.append('<style>')
         res.append(''.join(read(c) for c in css).rstrip('\n'))
         res.append('</style>')
@@ -36,9 +36,9 @@ while i < len(lines):
     if ln.startswith('<!-- ===== 程式'):
         i += 1
         js = []
-        while i < len(lines) and lines[i].startswith('<script src="js/'):
+        while i < len(lines) and lines[i].startswith('<script src="src/js/'):
             js.append(re.search(r'src="([^"]+)"', lines[i]).group(1)); i += 1
-        assert js[0] == man['error_overlay'] and js[1:] == man['js'], 'index.html 的 JS 順序和 manifest.json 不一致'
+        assert js[0] == man['error_overlay'] and js[1:] == man['js'], 'index.html 的 JS 順序和 build-order.json 不一致'
         res += ['<script>', read(js[0]).rstrip('\n'), '</script>', '<script>', '(function(){']
         res.append(''.join(read(j) for j in js[1:]).rstrip('\n'))
         res += ['})();', '</script>']

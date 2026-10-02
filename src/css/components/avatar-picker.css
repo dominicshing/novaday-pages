@@ -1,0 +1,143 @@
+/* 頭像：選擇頭像、上傳照片、裁切照片 */
+.avs{display:grid;grid-template-columns:repeat(6,1fr);margin-top:8px}
+.av{aspect-ratio:1;min-height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:24px;line-height:1;display:grid;place-items:center;padding:0}
+.av[aria-pressed="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion)}
+.avs{gap:10px!important}
+.av{transition:transform .15s}
+.av:active{transform:scale(.9)}
+.av[aria-checked="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion);transform:scale(1.06)}
+
+/* 照片選項 */
+.ao{padding-top:8px}
+.ao-h{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.ao-av{flex:none;width:60px;height:60px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px var(--line)}
+.ao-av .av-img{width:100%;height:100%}
+.ao-h h2{margin:0;font-size:17px}
+.ao-h p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.ao-list{display:flex;flex-direction:column;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.ao-i{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 16px;background:none;border:0;border-bottom:1px solid var(--line);color:var(--text);font:inherit;font-size:15px;text-align:left;cursor:pointer}
+.ao-i:last-child{border-bottom:0}
+.ao-i[hidden]{display:none}
+.ao-i:active{background:rgba(232,233,255,.05)}
+.ao-i svg{width:20px;height:20px;fill:none;stroke:var(--ion);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ao-i.danger{color:var(--danger)}
+.ao-i.danger svg{stroke:var(--danger)}
+.ao-cancel{width:100%;margin-top:10px;min-height:50px}
+
+/* 星空頭像：向量圖示尺寸與動畫 */
+.av-svg{display:block;width:1.8em;height:1.8em;overflow:visible;pointer-events:none}
+.p-av .av-svg{width:70%;height:auto;aspect-ratio:1;font-size:inherit}
+.avs .av .av-svg,.ob-av button .av-svg{width:84%;height:84%}
+.avs .av{background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235 72%)}
+.ic .va{transform-box:view-box;transform-origin:var(--o,24px 24px);animation-delay:var(--dl,0s)}
+.ic .vrock{animation:kvRock 4.5s ease-in-out infinite}
+.ic .vtilt{animation:kvTilt 5s ease-in-out infinite}
+.ic .vfloat{animation:kvFloat 3.6s ease-in-out infinite}
+.ic .vpulse{animation:kvPulse 2.8s ease-in-out infinite}
+.ic .vhalo{animation:kvHalo 3.4s ease-in-out infinite}
+.ic .vspin{animation:kvSpin 18s linear infinite}
+.ic .vspin.vslow{animation-duration:40s}
+.ic .vspin.vrev{animation-direction:reverse;animation-duration:24s}
+.ic .vorbit{animation:kvSpin 5s linear infinite}
+.ic .vtw{animation:kvTw 2.4s ease-in-out infinite}
+.ic .vtw.vb{animation-delay:calc(var(--dl,0s) - .8s)}
+.ic .vtw.vc{animation-delay:calc(var(--dl,0s) - 1.6s)}
+.ic .vflick{animation:kvFlick 1.3s ease-in-out infinite}
+.ic .vcruise{animation:kvCruise 3s ease-in-out infinite}
+.ic .vstreak{animation:kvStreak 3.2s cubic-bezier(.3,.6,.4,1) infinite}
+.ic .vdraw{stroke-dasharray:1;animation:kvDraw 5s ease-in-out infinite;animation-delay:var(--dl,0s)}
+.ic .vd1{animation:kvD1 6s ease-in-out infinite}
+.ic .vd2{animation:kvD2 7s ease-in-out infinite}
+.ic .vd3{animation:kvD3 5s ease-in-out infinite}
+.ic .vnod{animation:kvNod 5s ease-in-out infinite}
+.ic .vblink{animation:kvBlink 4.2s ease-in-out infinite}
+.ic .vtwitch{animation:kvTwitch 3.8s ease-in-out infinite}
+.ic .vswim{animation:kvSwim 4s ease-in-out infinite}
+.ic .vrise{animation:kvRise 2.6s ease-out infinite}
+.ic .vrise.vb{animation-delay:calc(var(--dl,0s) - .9s)}
+.ic .vrise.vc{animation-delay:calc(var(--dl,0s) - 1.7s)}
+.ic .vsway{animation:kvSway 3s ease-in-out infinite}
+.app.calm .ic *,#device:has(.app.calm) .ic *{animation:none!important}
+
+@media (prefers-reduced-motion:reduce){
+  .ic *{animation:none!important}
+}
+
+/* 自訂頭像 */
+.av-img{display:block;width:1.6em;height:1.6em;border-radius:50%;object-fit:cover}
+.p-av .av-img{width:66%;height:auto;aspect-ratio:1;box-shadow:0 0 0 2px rgba(255,255,255,.08)}
+
+/* 裁切 */
+.crop-sheet{top:60px}
+.crop-body{display:flex;flex-direction:column;align-items:center;padding-top:16px}
+.crop-stage{position:relative;width:min(100%,320px);aspect-ratio:1;border-radius:20px;overflow:hidden;background:#05071a;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.crop-stage:active{cursor:grabbing}
+.crop-stage img{position:absolute;left:50%;top:50%;max-width:none;transform-origin:center;pointer-events:none;will-change:transform}
+.crop-mask{position:absolute;inset:7%;border-radius:50%;box-shadow:0 0 0 999px rgba(5,7,26,.62);outline:2px solid rgba(111,227,214,.85);outline-offset:0;pointer-events:none}
+.crop-mask::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(90deg,transparent 33.2%,rgba(255,255,255,.18) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.18) 66.6%,transparent 66.8%),linear-gradient(transparent 33.2%,rgba(255,255,255,.18) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.18) 66.6%,transparent 66.8%);opacity:0;transition:opacity .2s}
+.crop-stage.drag .crop-mask::after{opacity:1}
+.crop-tip{margin:12px 0 4px;font-size:12px;color:var(--muted);text-align:center}
+.crop-zoom{display:flex;align-items:center;gap:10px;width:min(100%,320px)}
+.crop-zoom input{flex:1;accent-color:var(--ion);min-height:44px}
+.crop-zoom svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.crop-prevs{display:flex;align-items:center;gap:14px;margin-top:14px;color:var(--muted);font-size:12px}
+.crop-prevs canvas{border-radius:50%;background:#0C1030;box-shadow:0 0 0 1px var(--line)}
+#cropPv1{width:60px;height:60px}
+#cropPv2{width:38px;height:38px}
+#cropPv3{width:24px;height:24px}
+
+/* 照片頭像格：沿用 710 的漸層外框；選取時仍維持青綠光環 */
+.ob-av button.av-up2{position:relative;overflow:visible}
+.avs .av.av-up2,.ob-av button.av-up2{position:relative;overflow:visible;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
+.av-up2 .avp-ic{display:grid;place-items:center;width:46%;height:46%}
+.av-up2 .avp-ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(138,124,255,.85))}
+.avs .av.av-up2.has,.ob-av button.av-up2.has{border:1.5px solid rgba(111,227,214,.45);background:#0C1030}
+.av-up2.has .av-img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.av-up2.has .avp-ic{position:absolute;right:-2px;bottom:-2px;width:38%;height:38%;min-width:18px;min-height:18px;border-radius:50%;background:var(--ion);color:#07231F;box-shadow:0 0 0 2.5px #141a4a}
+.av-up2.has .avp-ic svg{width:62%;height:62%;filter:none;stroke-width:2.2}
+.avs .av.av-up2[aria-checked="true"],.ob-av button.av-up2[aria-checked="true"]{border-color:var(--ion);background:#0C1030}
+.av-up2:active{transform:scale(.92)}
+
+/* 「上傳照片」面板標題圖示：與相機格同款漸層外框 */
+#asrIc{display:grid;place-items:center;border:1.5px solid transparent;background:radial-gradient(circle at 40% 30%,#2A2F7A,#0E1235 72%) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;color:#E8E9FF;box-shadow:0 0 16px -6px rgba(138,124,255,.9)}
+#asrIc svg{width:46%;height:46%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(138,124,255,.85))}
+
+/* 動畫 */
+@keyframes kvRock {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(5deg)}
+}
+@keyframes kvTilt {0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}
+}
+@keyframes kvFloat {0%,100%{transform:translateY(1.4px)}50%{transform:translateY(-1.4px)}
+}
+@keyframes kvPulse {0%,100%{transform:scale(.9)}50%{transform:scale(1.06)}
+}
+@keyframes kvHalo {0%,100%{filter:drop-shadow(0 0 2px #FFE7A3)}50%{filter:drop-shadow(0 0 7px #FFE7A3)}
+}
+@keyframes kvTw {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.55)}
+}
+@keyframes kvFlick {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.92)}
+}
+@keyframes kvCruise {0%,100%{transform:translate(-1px,1px)}50%{transform:translate(1.5px,-1.5px)}
+}
+@keyframes kvStreak {0%{transform:translate(-16px,16px);opacity:0}25%{opacity:1}60%{transform:translate(0,0);opacity:1}85%,100%{transform:translate(6px,-6px);opacity:0}
+}
+@keyframes kvDraw {0%{stroke-dashoffset:1}45%,85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:.2}
+}
+@keyframes kvD1 {0%,100%{transform:translate(0,0)}50%{transform:translate(2px,1.5px)}
+}
+@keyframes kvD2 {0%,100%{transform:translate(0,0)}50%{transform:translate(-2px,-1px)}
+}
+@keyframes kvD3 {0%,100%{transform:translate(0,0)}50%{transform:translate(-1.5px,2px)}
+}
+@keyframes kvNod {0%,100%{transform:rotate(3deg)}50%{transform:rotate(-5deg)}
+}
+@keyframes kvBlink {0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.1)}
+}
+@keyframes kvTwitch {0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-12deg)}80%{transform:rotate(2deg)}85%{transform:rotate(-7deg)}90%{transform:rotate(0)}
+}
+@keyframes kvSwim {0%,100%{transform:translateY(1.2px) rotate(2deg)}50%{transform:translateY(-1.2px) rotate(-2deg)}
+}
+@keyframes kvRise {0%{transform:translateY(5px) scale(.4);opacity:0}30%{opacity:1}100%{transform:translateY(-4px) scale(1);opacity:0}
+}
+@keyframes kvSway {0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}
+}

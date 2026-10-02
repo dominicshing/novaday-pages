@@ -1,0 +1,66 @@
+/* 星光足跡（半年熱度圖） */
+
+/* 星光足跡（半年熱度圖） */
+.foot{padding:14px 14px 12px;margin-top:10px}
+.fp-stat{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:12px}
+.fp-stat b{color:var(--text);font-size:15px;margin:0 2px;font-variant-numeric:tabular-nums}
+.fp-wrap{display:grid;grid-template-columns:18px 1fr;gap:4px}
+.fp-wd{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;font-size:9px;color:var(--muted);line-height:1;padding-top:15px}
+.fp-wd span{display:flex;align-items:center}
+.fp-mo{position:relative;height:12px;font-size:10px;color:var(--muted);margin-bottom:3px}
+.fp-mo span{position:absolute;top:0;white-space:nowrap}
+.fp-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,auto);grid-auto-columns:minmax(0,1fr);gap:3px;touch-action:manipulation}
+.fp-grid i{display:block;aspect-ratio:1;position:relative;cursor:pointer}
+
+/* 未點亮的日子：暗淡的星星輪廓 */
+.fp-grid i::before{content:"";position:absolute;clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+
+/* 有寫的日子：心情星星（和全 App 的心情星星同形同色，小尺寸不放表情） */
+.fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 38%,transparent) 0,transparent 68%)}
+.fp-grid i.on::before{content:"";position:absolute;inset:-14%;background:radial-gradient(circle at 42% 36%,#fff 0,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);
+  clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+.fp-grid i.today::after,.fp-grid i.sel::after{content:"";position:absolute;border-radius:50%;box-shadow:0 0 0 1.5px rgba(232,233,255,.7)}
+.fp-grid i.today:not(.on)::before{background:rgba(232,233,255,.3)}
+.fp-grid i.sel{z-index:1}
+.fp-grid i.sel::after{box-shadow:0 0 0 2px #fff,0 0 8px 1px rgba(255,255,255,.35)}
+.fp-leg{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:10px;font-size:11px;color:var(--muted)}
+.fp-leg .moon{width:17px;height:17px}
+.fp-tip{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(232,233,255,.05);border:1px solid var(--line);font-size:13px}
+.fp-tip .moon{width:18px;height:18px;flex:none}
+.fp-tip button{flex:none;background:none;border:0;color:var(--ion);font-size:13px;min-height:32px;padding:0 4px}
+
+/* 星光足跡優化 */
+.fp-grid i::before{inset:12%;background:rgba(232,233,255,.075)}
+.fp-grid i.fut{visibility:visible;cursor:default}
+.fp-grid i.fut::before{inset:40%;border-radius:50%;clip-path:none;background:rgba(232,233,255,.07)}
+.fp-grid.big i.on{background:none}
+.fp-grid.big i.on::before{display:none}
+.fp-grid.big i .moon{position:absolute}
+.fp-tip{border-color:color-mix(in srgb,var(--c,#8A7CFF) 40%,transparent)}
+.fp-tip .moon.big{width:30px;height:30px;margin:0}
+.fp-tip span{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;flex:1;min-width:0}
+.fp-tip span b{font-size:14px;font-weight:600}
+.fp-tip span small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-tip.empty .fp-es{flex:none;width:26px;height:26px;background:rgba(232,233,255,.18);clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+
+/* 捲到星光足跡時，星星依序亮起（每次打開「我的」頁一次） */
+.fp-grid.intro i.on::before,.fp-grid.intro i.on .moon{animation:fpLit .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--col,0) * 28ms)}
+
+/* 今天還沒寫：今天那顆星輕輕呼吸，邀請點亮 */
+.fp-grid i.today:not(.on)::before{animation:fpToday 2.4s ease-in-out infinite}
+.app.calm .fp-grid *,.app.calm .fp-grid *::before{animation:none!important}
+
+@media (prefers-reduced-motion:reduce){
+  .fp-grid *,.fp-grid *::before{animation:none!important}
+}
+.fp-leg .fp-cta{margin-right:auto;background:none;border:0;padding:0;color:var(--ion);font:inherit;font-size:12px;min-height:28px}
+.fp-grid i.on.m3::before,.fp-grid i.on.m4::before{inset:12%}
+.fp-grid.big i .moon{inset:12%!important;width:76%!important;height:76%!important}
+.fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent) 0,transparent 55%)}
+.fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
+
+/* 動畫 */
+@keyframes fpLit {0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1;transform:none}
+}
+@keyframes fpToday {0%,100%{background:rgba(232,233,255,.14);transform:scale(.9)}50%{background:rgba(111,227,214,.55);transform:scale(1.08)}
+}

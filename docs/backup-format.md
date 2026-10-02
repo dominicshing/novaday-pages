@@ -4,10 +4,10 @@
 
 - 目前版本：**1**（第一個正式版本，之前沒有對外的備份格式，不需要相容舊格式）
 - 網頁版實作：
-  - 匯出：`js/screens/log/470-collapse.js` 的 `backupZip()`
-  - 還原：`js/features/480-backup-restore.js` 的 `imLoadZip()`、`cleanEntry()`、`cleanProf()`
-  - zip 讀寫：`js/core/096-zip.js`
-  - 照片儲存（IndexedDB）：`js/core/097-photo-store.js`
+  - 匯出：`src/js/features/backup/export.js` 的 `backupZip()`
+  - 還原：`src/js/features/backup/restore.js` 的 `imLoadZip()`、`cleanEntry()`、`cleanProf()`
+  - zip 讀寫：`src/js/core/zip.js`
+  - 照片儲存（IndexedDB）：`src/js/core/photo-store.js`
 
 ## 1. 檔案
 

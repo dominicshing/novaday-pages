@@ -1,0 +1,26 @@
+/* 密碼鎖 */
+#lock{position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;justify-content:space-between;padding:60px 32px calc(26px + env(safe-area-inset-bottom));
+  background:radial-gradient(120% 70% at 50% 0%,#221E5E 0%,#0B0E2A 55%,#070A1C 100%);animation:fadein .25s ease}
+#lock[hidden]{display:none}
+#lock.out{opacity:0;transform:scale(1.03);transition:opacity .3s,transform .3s}
+.lk-top{text-align:center}
+.lk-svg{width:64px;height:64px;filter:drop-shadow(0 0 20px rgba(138,124,255,.5))}
+.lk-top h2{margin:16px 0 6px;font-size:22px}
+.lk-top p{margin:0;min-height:20px;font-size:14px;color:#C4C8EE}
+.lk-dots{display:flex;justify-content:center;gap:18px;margin-top:26px}
+.lk-dots i{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(232,233,255,.5);transition:background .15s,transform .15s}
+.lk-dots i.on{background:var(--ion);border-color:var(--ion);box-shadow:0 0 10px var(--ion);transform:scale(1.1)}
+.lk-dots.shake{animation:lkShake .4s}
+.lk-pad{display:grid;grid-template-columns:repeat(3,72px);gap:18px 26px;justify-content:center}
+.lk-pad button{width:72px;height:72px;border-radius:50%;border:1px solid rgba(232,233,255,.14);background:rgba(232,233,255,.06);color:var(--text);font-size:28px;font-weight:500;font-variant-numeric:tabular-nums;display:grid;place-items:center;padding:0}
+.lk-pad button:active{background:rgba(138,124,255,.3)}
+.lk-pad button[data-k=del]{background:none;border-color:transparent}
+.lk-pad svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round}
+.lk-foot{display:flex;justify-content:center;gap:24px}
+.lk-link{min-height:44px;background:none;border:0;color:var(--muted);font-size:14px}
+.lk-link[hidden]{display:none}
+.device.privacy .app,.device.privacy .layer{filter:blur(24px)}
+
+/* 動畫 */
+@keyframes lkShake {20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}
+}

@@ -1,0 +1,76 @@
+/* 首頁頂部列：品牌、日期、問候語、觀星天數、頭像；捲動後的精簡列 */
+.avatar-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:22px;line-height:1;display:grid;place-items:center;padding:0;box-shadow:0 0 16px -4px var(--nebula);flex:none}
+.home-top{position:relative;top:auto;background:none}
+.ht-main{min-width:0}
+.ht-brand{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--muted)}
+.brand-t{font-family:"Chakra Petch",system-ui,sans-serif;font-weight:600;letter-spacing:.08em}
+.ht-brand .brand-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.cb-title .brand-t{letter-spacing:.14em;text-transform:uppercase}
+.ht-logo{width:22px;height:22px;flex:none;overflow:visible;border-radius:6px;filter:drop-shadow(0 0 5px rgba(138,124,255,.5))}
+.ht-greet{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:linear-gradient(90deg,#FFFFFF,#D6D1FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ht-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;font-variant-numeric:tabular-nums}
+.ht-day{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;color:var(--flare);
+  background:rgba(255,180,92,.1);border:1px solid rgba(255,180,92,.3)}
+.home-top .avatar-btn{position:relative;border:2px solid transparent;
+  background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;
+  box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
+.home-top .avatar-btn:active{transform:scale(.94)}
+.compact-bar{position:absolute;left:0;right:0;top:0;z-index:9;height:48px;align-items:center;justify-content:center;pointer-events:none;
+  background:rgba(9,12,34,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid rgba(138,124,255,.18);
+  opacity:0;transform:translateY(-6px);transition:opacity .22s,transform .22s}
+.compact-bar.show{opacity:1;transform:none}
+.compact-bar.show .cb-title,.compact-bar.show .cb-av{pointer-events:auto}
+.cb-title{background:none;border:0;color:var(--text);min-height:44px;padding:0 12px;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700}
+.cb-title .ht-logo{width:20px;height:20px}
+.cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
+  background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
+
+@media (min-width:600px){
+  .compact-bar{top:54px}
+}
+
+/* 滾動 app bar：左品牌、中日期、右頭像 */
+.compact-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:0 12px}
+.compact-bar .cb-title{padding:0 4px!important;overflow:hidden}
+.compact-bar .cb-title{justify-self:start;padding:0 8px;font-size:14px;gap:7px}
+.compact-bar .cb-title .brand-t{letter-spacing:.1em;font-size:13px}
+.cb-date{justify-self:center;background:none;border:0;min-height:44px;padding:0 10px;color:var(--text);font-size:14px;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px}
+.cb-date small{font-size:12px;font-weight:500;color:var(--muted)}
+.compact-bar .cb-av{justify-self:end}
+.compact-bar.show .cb-date{pointer-events:auto}
+
+@media (max-width:379px){
+  .compact-bar .cb-title .brand-t{display:none}
+}
+.home-top{align-items:center!important;padding:10px 16px 8px!important}
+.ht-main{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center}
+.ht-brand{grid-row:1/3}
+.ht-brand .brand-t{display:none}
+.ht-brand .ht-logo{width:36px!important;height:36px!important}
+.ht-sub{margin:0!important;font-size:12px!important;letter-spacing:.04em;color:var(--muted)!important}
+.ht-row2{display:flex;align-items:center;gap:8px;min-width:0}
+.ht-greet{margin:0!important;font-size:20px!important;line-height:1.3!important;min-width:0}
+.ht-row2 .ht-day{flex:none}
+.home-top .avatar-btn{width:38px!important;height:38px!important;margin-top:0!important;font-size:19px!important}
+
+/* 頭像右下角的階級徽章 */
+.avatar-btn,.cb-av{position:relative;overflow:visible}
+.av-rank{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;pointer-events:none;line-height:0;filter:drop-shadow(0 0 3px rgba(0,0,0,.45))}
+.av-rank.sm{width:13px;height:13px;right:-2px;bottom:-2px}
+.compact-bar .cb-av{position:relative!important;top:auto!important;right:auto!important;transform:none!important}
+.av-rank .rbadge{width:100%;height:100%;display:block}
+.ht-row2 .ht-day{position:relative;display:inline-flex;align-items:center;gap:3px;height:26px;padding:0 10px 0 3px!important;border-radius:999px;font-size:12px!important;line-height:1;overflow:hidden;
+  color:#FFE3B8;background:linear-gradient(rgba(14,16,48,.9),rgba(14,16,48,.9)) padding-box,linear-gradient(120deg,#FFB45C,#FF8FD0 55%,#8A7CFF) border-box;border:1px solid transparent;box-shadow:0 0 14px -4px rgba(255,180,92,.55)}
+.ht-day .hd-ic{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-right:3px;background:radial-gradient(circle at 35% 30%,#FFE7A3,#FFB45C 60%,#E07A3A);box-shadow:0 0 8px rgba(255,180,92,.7)}
+.ht-day .hd-ic svg{width:13px;height:13px;fill:#3A1E08}
+.ht-day .hd-ic svg .s{fill:#fff}
+.ht-day .hd-t{color:#E6D9C4;font-weight:500;letter-spacing:.02em}
+.ht-day b{font-size:15px;font-weight:800;margin:0 1px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF3D6,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ht-day::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:hdSweep 5.5s ease-in-out infinite}
+.ht-row2 .ht-greet{display:block!important;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ht-row2 .ht-day{padding-right:9px!important}
+
+/* 動畫 */
+@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}
+}

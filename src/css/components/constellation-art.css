@@ -1,0 +1,53 @@
+/* 星座圖：連線、星點、星座剪影與星塵效果、下一顆星的光圈 */
+
+/* 星座虛影：淡淡的神話圖形，放在星星與連線後面 */
+.cfig,.cfx{pointer-events:none}
+
+/* 虛影動畫：淡入滑入、緩慢游動（影子反向移動做出景深）、身上一道柔光掃過 */
+.cfx-fade{animation:cfxIn 1.4s cubic-bezier(.2,.8,.2,1) both}
+.cfx-swim{transform-box:fill-box;transform-origin:50% 50%;animation:cfxGlide 1.4s cubic-bezier(.2,.8,.2,1) both,cfxSwim 7s ease-in-out 1.4s infinite}
+.cfx-sh{animation:cfxShadow 7s ease-in-out 1.4s infinite}
+.cfx-sheen{animation:cfxSheen 9s ease-in-out 2s infinite}
+
+@media (prefers-reduced-motion:reduce){
+  .cfx *{animation:none!important}
+  .cfx-sheen{display:none}
+}
+.cl-dash{stroke-dasharray:2 5;stroke:rgba(232,233,255,.34);stroke-width:1.1}
+.cl-on{stroke-width:1.8;stroke-linecap:round}
+.cstar{cursor:pointer}
+.cstar .core{animation:twinkle 3.2s ease-in-out infinite}
+.cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
+.nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
+.app.calm .cstar .core,.app.calm .nextring{animation:none}
+
+@media (prefers-reduced-motion:reduce){
+  .cstar .core,.nextring{animation:none}
+}
+
+/* 星塵剪影：亮星閃爍、星雲緩慢呼吸（靜態場合沿用上方 .cfx * 的關閉規則） */
+.cfx-tw path{transform-box:fill-box;transform-origin:center;animation:cfxTw 2.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+.cfx-neb{animation:cfxNeb 6s ease-in-out infinite}
+.nextring{animation-duration:1.8s}
+
+/* 動畫 */
+@keyframes fresh {from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}
+}
+@keyframes cfxIn {from{opacity:0}to{opacity:1}
+}
+@keyframes cfxGlide {from{transform:translate(-12px,10px) rotate(3deg)}to{transform:none}
+}
+@keyframes cfxSwim {0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-5px,-6px) rotate(-1.6deg)}
+}
+@keyframes cfxShadow {0%,100%{transform:translate(4px,12px);opacity:.55}50%{transform:translate(8px,19px);opacity:.38}
+}
+@keyframes cfxSheen {0%{transform:translateX(0);opacity:0}8%{opacity:1}38%{transform:translateX(400px);opacity:1}45%,100%{transform:translateX(400px);opacity:0}
+}
+@keyframes twinkle {0%,100%{opacity:1}50%{opacity:.72}
+}
+@keyframes nextp {0%,100%{transform:scale(.8);opacity:.9}50%{transform:scale(1.4);opacity:.25}
+}
+@keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}
+}
+@keyframes cfxNeb {0%,100%{opacity:.26}50%{opacity:.4}
+}

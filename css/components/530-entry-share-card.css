@@ -1,6 +1,0 @@
-/* R13：日記分享圖卡 */
-.dv-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;margin-top:16px;border-radius:14px;border:1px solid rgba(138,124,255,.45);background:rgba(138,124,255,.1);color:var(--text);font-size:15px;font-weight:600;transition:transform .14s}
-.dv-share:active{transform:scale(.98)}
-.dv-share svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-.sh-opt{grid-template-columns:1fr 1fr;margin-top:12px}
-

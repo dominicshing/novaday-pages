@@ -1,0 +1,84 @@
+/* 星曆（月曆）與當日紀錄面板 */
+.today-btn{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,180,92,.45);background:rgba(255,180,92,.1);color:var(--flare);font-size:13px;font-weight:600}
+.cal-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cal-head .icon-btn{width:40px;height:40px}
+.cal-title{text-align:center}
+.cal-title strong{display:block;font-size:19px;line-height:1.25}
+.cal-title small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.cal-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cal-sum div{padding:9px 10px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-align:center}
+.cal-sum b{display:flex;align-items:center;justify-content:center;gap:5px;font-size:19px;line-height:1.2;font-variant-numeric:tabular-nums}
+.cal-sum b .moon{width:18px;height:18px}
+.cal-sum small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.cal{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px;padding:10px 8px 8px;overflow:hidden;touch-action:pan-y;
+  background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(138,124,255,.16),transparent 70%),var(--surface)}
+.cal.slide-l{animation:calL .32s ease-out}
+.cal.slide-r{animation:calR .32s ease-out}
+.cal .dow{text-align:center;color:var(--muted);font-size:12px;padding:2px 0 4px}
+.cal .dow.we{color:rgba(255,180,92,.7)}
+.cal-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:2}
+.cal-lines line{stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease-out forwards}
+.cell{position:relative;z-index:1;aspect-ratio:1;min-height:42px;border:1px solid transparent;border-radius:12px;background:none;padding:0;color:var(--text);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-variant-numeric:tabular-nums;font-size:14px;line-height:1.1}
+.cell .n{position:relative;z-index:1}
+.cell .cs{position:relative;z-index:3;width:17px;height:17px;display:block;margin-top:1px;filter:drop-shadow(0 0 4px var(--dot))}
+.cell .cs.big{width:21px;height:21px}
+.cell .cnt{position:absolute;bottom:3px;right:5px;font-size:9px;color:var(--muted);font-weight:600;z-index:3}
+.cell .ev{position:absolute;top:3px;left:4px;font-size:10px;line-height:1;color:#FFE7A3;display:flex;z-index:3}
+.cell.has{background:rgba(138,124,255,.1)}
+.cell.today{color:var(--flare);font-weight:700;box-shadow:inset 0 0 0 1.5px rgba(255,180,92,.7)}
+.cell.future{color:rgba(232,233,255,.38)}
+.cell[aria-pressed="true"]{border-color:var(--ion);background:rgba(111,227,214,.12);box-shadow:0 0 12px -4px var(--ion)}
+.cell:disabled{visibility:hidden}
+.cell:not(:disabled):active{transform:scale(.94)}
+.cal-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;margin-top:8px;font-size:12px;color:var(--muted)}
+.cal-legend span{display:inline-flex;align-items:center;gap:4px}
+.cal-legend svg{width:12px;height:12px}
+.cal-legend .moon{width:11px;height:11px}
+.dp{margin-top:16px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--surface)}
+.dp-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dp-h strong{display:block;font-size:17px;white-space:nowrap}
+.dp-h>div:first-child{min-width:0}
+.dp-h small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.dp-moon{display:flex;align-items:center;gap:8px;text-align:right;font-size:12px;color:var(--muted);flex:none}
+.dp-moon .moon{width:30px;height:30px}
+.dp-moon b{display:block;color:var(--text);font-size:13px}
+.dp-ev{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.dp-ev span{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:12px;background:rgba(255,211,111,.1);border:1px solid rgba(255,211,111,.3);color:#FFE7A3}
+.dp-list{margin-top:12px}
+.dp-empty{margin-top:12px;padding:16px 12px;border-radius:14px;border:1px dashed var(--line);text-align:center;color:var(--muted);font-size:14px}
+.dp-empty .btn{margin-top:10px}
+.app.calm .cal-lines line{animation:none;stroke-dashoffset:0}
+.app.calm .cal.slide-l,.app.calm .cal.slide-r{animation:none}
+
+@media (prefers-reduced-motion:reduce){
+  .cal-lines line{animation:none;stroke-dashoffset:0}
+  .cal.slide-l,.cal.slide-r{animation:none}
+}
+
+/* 星曆：月相標記更清楚 */
+.cell .ev{gap:2px}
+.cell .ev .moon{width:13px;height:13px}
+.cell .ev .moon circle{stroke:#C9CCF0;stroke-width:1.2}
+.cell .ev .zgi{width:11px;height:11px;stroke-width:2.4}
+.cal-legend .moon circle{stroke:#C9CCF0;stroke-width:1.2}
+.cal-legend .zgi{width:12px;height:12px}
+.cal-sum b i{font-style:normal;font-size:13px;font-weight:500;color:var(--muted)}
+.dp-empty.es{padding:18px 12px}
+
+/* 圖鑑頁 */
+.cal-sum b.cs-mood{display:flex;align-items:center;justify-content:center;gap:5px}
+.cal-sum b.cs-mood span{font-size:15px}
+
+@media (max-width:360px){
+  .cell{min-height:0;border-radius:10px}
+  .cal{gap:2px;padding:8px 5px 6px}
+  .cal .dow{font-size:11px}
+  .cal-sum small{font-size:11px}
+}
+
+/* 動畫 */
+@keyframes calL {from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}
+}
+@keyframes calR {from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}
+}

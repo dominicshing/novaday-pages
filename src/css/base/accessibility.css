@@ -1,0 +1,10 @@
+/* 無障礙：放大小按鈕的可點範圍、統一鍵盤焦點樣式、小螢幕調整
+   （放在元件之後、畫面之前：焦點框要蓋過元件的 outline，但生日滾輪要再蓋過它） */
+#cbAv::before,.rk-dot::before,#pRankChip::before,.fo-x::before{content:"";position:absolute;inset:-8px}
+.rk-dot,#pRankChip{position:relative}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--ion);outline-offset:2px}
+.field:focus-visible{outline-offset:0}
+
+@media (max-width:360px){
+  .ht-greet{font-size:18px!important}
+}

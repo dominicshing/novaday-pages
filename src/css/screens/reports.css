@@ -1,0 +1,58 @@
+/* 月報與年度回顧 */
+.cal-rp{display:block;margin:8px auto 0;min-height:36px;padding:0 14px;background:none;border:0;color:var(--flare);font-size:13px;font-weight:600}
+
+/* 月報內容 */
+.rp-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.rp-nav span{font-size:14px;color:var(--muted);font-weight:600}
+.rp-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:20px}
+.rp-nav button:disabled{opacity:.3}
+.rp-hero{display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:18px;background:radial-gradient(120% 140% at 0% 0%,rgba(255,180,92,.18),transparent 60%),var(--surface);border:1px solid rgba(255,180,92,.3)}
+.rp-big b{display:block;font-size:44px;line-height:1;font-weight:800;background:linear-gradient(180deg,#FFE7A3,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rp-big small{font-size:13px;color:var(--muted)}
+.rp-ring{position:relative;width:72px;height:72px}
+.rp-ring svg{width:100%;height:100%}
+.rr-b{fill:none;stroke:rgba(255,180,92,.16);stroke-width:6}
+.rr-f{fill:none;stroke:var(--flare);stroke-width:6;stroke-linecap:round}
+.rp-ring span{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:700}
+.rp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.rp-grid div{padding:10px 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-align:center}
+.rp-grid b{display:block;font-size:18px;font-variant-numeric:tabular-nums}
+.rp-grid small{color:var(--muted)}
+.rp-sec{margin-top:18px}
+.rp-sec h4{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.rp-sec p{margin:8px 0 0;font-size:14px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.rp-sec p .moon{width:16px;height:16px}
+.rp-bar{display:flex;gap:3px;height:14px;border-radius:7px;overflow:hidden}
+.rp-bar i{background:var(--c);box-shadow:0 0 8px color-mix(in srgb,var(--c) 60%,transparent)}
+.rp-cons{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rp-cons button{padding:6px 4px 8px;border-radius:14px;border:1px solid rgba(111,227,214,.4);background:var(--surface);color:var(--text);text-align:center}
+.rp-cons svg{width:100%;height:auto;display:block}
+.rp-cons .cfx *{animation:none!important}
+.rp-cons b{font-size:13px}
+.rp-tags{display:flex;flex-wrap:wrap;gap:6px}
+.rp-tags .chip{margin:0!important;position:static!important}
+.rp-tags .chip em{font-style:normal;margin-left:6px;color:var(--muted);font-size:12px}
+.rp-tags .chip.top{border-color:var(--flare);color:#FFE7A3}
+.rp-e{display:flex;flex-direction:column;gap:2px;width:100%;margin-top:8px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);text-align:left}
+.rp-e small{font-size:12px;color:var(--ion)}
+.rp-e b{font-size:15px}
+.rp-e span{font-size:12px;color:var(--muted)}
+.rp-foot{margin-top:16px!important;justify-content:center;color:var(--muted);font-size:13px!important}
+.rp-grid small{font-size:12px}
+
+@media (max-width:360px){
+  .rp-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* 年度回顧 */
+.rp-mode{grid-template-columns:1fr 1fr;margin:0 0 12px}
+.ry-months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;align-items:end}
+.ry-m{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0;background:none;border:0;color:var(--muted);min-width:0}
+.ry-col{position:relative;display:flex;align-items:flex-end;width:100%;height:84px;border-radius:6px;background:rgba(232,233,255,.05);overflow:hidden}
+.ry-col i{display:block;width:100%;border-radius:6px 6px 3px 3px;background:var(--c);box-shadow:0 0 10px -2px var(--c)}
+.ry-m small{font-size:11px;font-variant-numeric:tabular-nums}
+.ry-m.fut{opacity:.35}
+.rp-sec p.ry-note{display:block;line-height:1.6;color:var(--muted)}
+.rp-sec p.ry-note b{color:var(--text)}
+.ry-m:not(:disabled):active .ry-col{transform:scale(.94)}
+.rp-tags .chip .mi-ic{width:13px;height:13px;margin-right:3px;vertical-align:-2px}

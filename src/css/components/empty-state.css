@@ -1,0 +1,21 @@
+/* 空狀態插圖與提示 */
+.empty{text-align:center;color:var(--muted);padding:36px 12px}
+.empty .btn{margin-top:12px}
+
+/* 心情曲線資料不足、清除確認 */
+.en-empty{padding:22px 10px 10px;text-align:center}
+.en-empty p{margin:10px 0 0;font-size:14px;color:var(--muted)}
+.en-empty b{color:var(--ion)}
+.ee-dots{display:flex;justify-content:center;gap:10px}
+.ee-dots i{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(232,233,255,.3)}
+.ee-dots i.on{background:var(--ion);border-color:var(--ion);box-shadow:0 0 8px var(--ion)}
+
+/* 統一的空白狀態 */
+.es{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:28px 16px;color:var(--muted)}
+.es svg.es-art{width:92px;height:56px;overflow:visible;margin-bottom:4px}
+.es-art line{stroke:rgba(138,124,255,.45);stroke-width:1;stroke-dasharray:2 3}
+.es-art circle{fill:rgba(232,233,255,.5)}
+.es-art circle.hi{fill:var(--ion);filter:drop-shadow(0 0 5px var(--ion))}
+.es b{color:var(--text);font-size:15px}
+.es p{margin:0;font-size:13px;line-height:1.55}
+.es .btn{margin-top:10px}

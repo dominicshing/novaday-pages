@@ -1,4 +1,0 @@
-/* 圖鑑卡片：星座剪影不溢出卡片、不攔截旁邊卡片的點擊 */
-.at-card{overflow:hidden}
-.at-card svg,.sky-c svg,.rp-cons svg,.tc-star svg,.dv-star svg{pointer-events:none}
-

@@ -1,0 +1,146 @@
+/* 星座圖鑑、星座詳情、今晚觀星指引 */
+.at-card .cfx *,.sky-c .cfx *,.ed-star .cfx *,.app.calm .cfx *{animation:none!important}
+.at-card .cfx-sheen,.sky-c .cfx-sheen,.ed-star .cfx-sheen,.app.calm .cfx-sheen{display:none}
+.at-h{margin:18px 0 8px;font-size:14px;color:var(--muted);font-weight:600}
+.at-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.at-card{min-width:0;border-radius:14px;border:1px solid var(--line);background:var(--surface);text-align:center;color:var(--text)}
+.at-card svg{width:100%;height:auto;display:block}
+.at-card b{display:block;font-size:13px;font-weight:600}
+.at-card small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.at-card.done{border-color:rgba(111,227,214,.45)}
+.at-card.cur{border-color:var(--flare)}
+.cn-hero{position:relative;margin:-12px -16px 0;overflow:hidden;touch-action:pan-y;
+  background:radial-gradient(ellipse at 50% 42%,rgba(138,124,255,.2),transparent 72%);
+  -webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.cn-sky{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cn-fig{position:relative;width:100%;height:auto;display:block}
+.cn-nav{position:absolute;top:46%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid rgba(138,124,255,.28);
+  background:rgba(10,13,36,.45);color:var(--text);display:grid;place-items:center;padding:0;opacity:.8;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.cn-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cn-nav.l{left:10px}
+.cn-nav.r{right:10px}
+.cn-nav:active{transform:translateY(-50%) scale(.92)}
+.cn-pos{position:absolute;top:10px;right:14px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.cn-in-r{animation:calL .32s cubic-bezier(.2,.8,.2,1)}
+.cn-in-l{animation:calR .32s cubic-bezier(.2,.8,.2,1)}
+.app.calm .cn-in-r,.app.calm .cn-in-l{animation:none}
+
+@media (prefers-reduced-motion:reduce){
+  .cn-in-r,.cn-in-l{animation:none}
+}
+.cn-h{text-align:center;margin-top:6px}
+.cn-h h3{margin:0;font-size:24px}
+.cn-h p{margin:2px 0 0;color:var(--ion);font-size:13px}
+.cn-f{margin:12px 0 0;font-size:15px;line-height:1.75;text-align:center;color:#D6D9F5}
+.cn-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.cn-info div{padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:14px}
+.cn-info small{display:block;font-size:12px;color:var(--muted)}
+.cn-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cn-list button{min-height:36px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:12px;color:var(--text);display:inline-flex;align-items:center;gap:4px}
+.cn-z{width:100%;margin-top:14px}
+#cdFig{width:100%;height:auto;display:block}
+.cn-info .cn-vis{display:block;width:100%;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:14px;text-align:left;font-family:inherit;color:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
+.cn-info .cn-vis:active{background:rgba(138,124,255,.14)}
+.cn-info .cn-vis .go{display:block;margin-top:3px;font-size:12px;color:var(--ion)}
+.cn-info .vz-ok{color:var(--ion)}
+.cn-info .vz-low{color:var(--flare)}
+.cn-info .vz-no{color:#FF8FA0}
+#atTop{background:rgba(7,10,28,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.at-hero{display:flex;align-items:center;gap:14px;margin-top:4px;padding:14px;position:relative;overflow:hidden;
+  background:radial-gradient(120% 140% at 100% 0%,rgba(255,180,92,.14),transparent 55%),var(--surface)}
+.ah-ring{position:relative;flex:none;width:72px;height:72px}
+.ah-ring svg{width:100%;height:100%}
+.ah-bg{fill:none;stroke:rgba(138,124,255,.18);stroke-width:6}
+.ah-fg{fill:none;stroke:url(#pG);stroke:var(--ion);stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 4px rgba(111,227,214,.6))}
+.ah-ring span{position:absolute;inset:0;display:flex;align-items:baseline;justify-content:center;padding-top:22px;gap:2px}
+.ah-ring b{font-size:22px;line-height:1}
+.ah-ring small{font-size:12px;color:var(--muted)}
+.ah-cur{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left;background:none;border:0;padding:0;color:var(--text);position:relative;z-index:1}
+.ah-cur small{font-size:12px;color:var(--flare);font-weight:600}
+.ah-cur b{font-size:19px}
+.ah-cur span{font-size:12px}
+.ah-fig{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:120px;height:94px;opacity:.9;pointer-events:none}
+.ah-fig .cfx *{animation:none!important}
+.ah-fig .cfx-sheen{display:none}
+.at-tabs{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:6px;overflow-x:auto;margin:16px 0 0;scrollbar-width:none}
+.at-tabs::-webkit-scrollbar{display:none}
+.at-tabs button{min-width:0;justify-content:center;white-space:nowrap;min-height:36px;padding:0 8px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.at-tabs button em{font-style:normal;font-size:12px;opacity:.75}
+.at-tabs button[aria-selected="true"]{color:#07231F;background:var(--ion);border-color:var(--ion);font-weight:700}
+.at-tabs button[aria-selected="true"] em{opacity:.8}
+.at-note{margin:10px 2px 10px;font-size:12px;color:var(--muted)}
+.at-link{background:none;border:0;color:var(--ion);font-size:12px;text-decoration:underline;text-underline-offset:2px}
+.at-card{position:relative;padding:8px 4px 10px}
+.at-card.lock svg{opacity:.62;filter:saturate(.6)}
+.at-card.lock b{color:#C9CCEA}
+.at-card.done{background:linear-gradient(180deg,rgba(111,227,214,.1),var(--surface) 60%)}
+.at-card.cur{background:linear-gradient(180deg,rgba(255,180,92,.12),var(--surface) 60%)}
+.at-card.cur small{color:var(--flare)}
+.at-card.done small{color:var(--ion)}
+.at-bd{position:absolute;top:6px;right:6px;z-index:2;width:18px;height:18px;border-radius:50%;display:grid;place-items:center}
+.at-bd.ok{background:var(--ion)}
+.at-bd.ok svg{width:12px;height:12px;fill:none;stroke:#07231F;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.at-bd.now{background:var(--flare);box-shadow:0 0 0 3px rgba(255,180,92,.25);width:10px;height:10px;top:9px;right:9px;animation:breathe 2.4s ease-in-out infinite}
+.app.calm .at-bd.now{animation:none}
+
+/* 圖鑑：搜尋、固定分類列、星點進度 */
+#atTop{flex-direction:column;align-items:stretch;gap:0;padding-bottom:10px}
+#atTop .log-hrow .icon-btn svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.at-search{margin-top:8px}
+.at-search[hidden]{display:none}
+#atTop .at-tabs{margin-top:10px}
+.ah-foot{display:flex;justify-content:space-between;gap:10px;margin:8px 4px 0;font-size:12px;color:var(--muted)}
+.ah-foot b{color:var(--text);font-weight:700}
+.ah-cur span{color:var(--ion)!important}
+.at-dots{display:flex;justify-content:center;gap:3px;margin-top:5px}
+.at-dots i{width:5px;height:5px;border-radius:50%;background:rgba(232,233,255,.18)}
+.at-dots i[style]{background:var(--c);box-shadow:0 0 4px var(--c)}
+.at-card{content-visibility:auto;contain-intrinsic-size:auto 150px}
+.at-note{margin-top:12px}
+
+/* 圖鑑 */
+.ah-nx{display:block;margin-top:3px;font-style:normal;font-size:12px;color:var(--muted)}
+.at-tag{position:absolute;top:6px;left:6px;z-index:2;font-style:normal;font-size:11px;font-weight:700;line-height:1;padding:4px 6px;border-radius:8px}
+.at-tag.nx{background:rgba(138,124,255,.9);color:#fff}
+.at-tag.me{background:rgba(255,180,92,.92);color:#231500;left:auto;right:6px;top:auto;bottom:40px}
+.at-card small .vz-ok{color:var(--ion)}
+.at-card small .vz-low{color:var(--flare)}
+.at-card small .vz-no{color:#FF8FA0}
+.at-mon{display:inline-flex;align-items:center;gap:2px;margin-right:8px;padding:2px;border-radius:14px;background:rgba(232,233,255,.06);border:1px solid var(--line);vertical-align:middle}
+.at-mon b{font-size:13px;color:var(--text);min-width:40px;text-align:center}
+.at-mon button{width:28px;height:28px;border-radius:50%;background:none;border:0;color:var(--muted);font-size:18px;line-height:1}
+.at-note{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.cn-next{width:100%;margin-top:12px;border-color:rgba(138,124,255,.5);color:#D6D1FF}
+.cn-next.on{background:rgba(138,124,255,.18);border-color:var(--nebula);color:var(--text)}
+
+/* 今晚觀星指引 */
+.cn-tonight{display:flex;align-items:center;gap:14px;width:100%;margin-top:8px;padding:12px 14px;border-radius:14px;text-align:left;color:var(--text);
+  background:radial-gradient(120% 140% at 0% 50%,rgba(111,227,214,.12),transparent 60%),var(--surface);border:1px solid rgba(111,227,214,.28)}
+.cn-tonight.off{cursor:pointer;border-style:solid;border-color:var(--line);font:inherit}
+.cn-tonight.none{border-color:var(--line)}
+.dome{flex:none;width:92px;height:92px;overflow:visible}
+.dome .d-h{fill:rgba(20,26,70,.7);stroke:rgba(138,124,255,.5);stroke-width:1.2}
+.dome .d-g{fill:none;stroke:rgba(138,124,255,.18);stroke-width:.8}
+.dome .d-t{font-size:9px;fill:var(--muted);font-weight:600}
+.dome .d-t.s{fill:var(--flare)}
+.dome .d-l{stroke:rgba(111,227,214,.45);stroke-width:1;stroke-dasharray:2 2}
+.dome .d-halo{fill:rgba(111,227,214,.2)}
+.dome .d-star{fill:#A9F2EA;filter:drop-shadow(0 0 3px #6FE3D6);transform-box:fill-box;transform-origin:center;animation:mstA 2.6s ease-in-out infinite}
+.dome .d-me{fill:#fff}
+.app.calm .dome .d-star{animation:none}
+.tn-t{display:flex;flex-direction:column;gap:2px;min-width:0;line-height:1.4}
+.tn-t small{font-size:12px;color:var(--ion);font-weight:600}
+.tn-t b{font-size:17px}
+.tn-t span{font-size:12px;color:var(--muted)}
+.cn-tonight.off .tn-t small{color:var(--muted)}
+.cn-tonight.off .tn-t b{font-size:15px;color:var(--ion)}
+
+/* 紅光夜視模式：全畫面轉為暗紅色階 */
+.device.red{filter:grayscale(1) sepia(1) hue-rotate(-45deg) saturate(7) brightness(.62) contrast(1.1)}
+#atMp,#atMn{width:34px!important;height:34px!important}
+.at-link{padding:8px 2px!important;margin:-8px 0!important}
+
+/* 圖鑑卡片：星座剪影不溢出卡片、不攔截旁邊卡片的點擊 */
+.at-card{overflow:hidden}
+.at-card svg,.sky-c svg,.rp-cons svg,.tc-star svg,.dv-star svg{pointer-events:none}
+.cn-info .cv-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

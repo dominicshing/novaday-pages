@@ -1,5 +1,0 @@
-/* R20：詳情左右滑動切換 */
-#dBody{touch-action:pan-y}
-#dBody .dv{will-change:transform}
-#dBody.swiping .dv{transition:none}
-#dBody .dv.slide{transition:transform .2s ease,opacity .2s ease}

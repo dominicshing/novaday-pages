@@ -1,0 +1,37 @@
+/* 電腦預覽的 iPhone 外框與系統狀態列（只在寬螢幕顯示），以及減少動態效果時的覆寫 */
+.device{position:relative;height:100%}
+.hw,.sys-status,.sys-island{display:none}
+
+@media (min-width:600px){
+  /* place-content 讓 844px 高的格線軌道在較矮的視窗中仍置中（transform 縮放不影響版面尺寸） */
+  body{display:grid;place-items:center;place-content:center;background:radial-gradient(ellipse at 50% 20%,#1A1F55,#04050F 70%)}
+  /* 全螢幕圖層與狀態列裁成機身圓角，避免直角超出外框 */
+  .device>.layer,.device>.overlay,.device>.lock,.device>.onb{clip-path:inset(0 round 56px)}
+  .device>.sys-status{clip-path:inset(0 round 56px 56px 0 0)}
+  .device{width:390px;height:844px;flex:none;border-radius:56px;transform-origin:center center;
+      box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
+  .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
+  /* 引導頁是 .app 的兄弟元素，同樣要讓出模擬狀態列 */
+  .device>.onb{padding-top:54px}
+  .hw{display:block;position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#3A3D48,#7A7E8C 50%,#3A3D48)}
+  .hw.action{left:-19px;top:128px;height:32px}
+  .hw.vol-up{left:-19px;top:188px;height:60px}
+  .hw.vol-down{left:-19px;top:262px;height:60px}
+  .hw.power{right:-19px;top:220px;height:96px}
+  .sys-status{display:grid;grid-template-columns:1fr 126px 1fr;align-items:center;position:absolute;top:0;left:0;right:0;height:54px;z-index:60;pointer-events:none;
+      color:#fff;font-family:-apple-system,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;padding:4px 18px 0;background:rgba(7,10,28,.92)}
+  .sys-time{justify-self:center;font-size:17px;font-weight:600;letter-spacing:-.01em;padding-left:10px;font-variant-numeric:tabular-nums}
+  .sys-icons{justify-self:center;display:flex;align-items:center;gap:6px;padding-right:6px}
+  .sys-icons svg{display:block;fill:#fff}
+  .sys-island{display:block;position:absolute;top:11px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:20px;background:#000;z-index:61;pointer-events:none}
+  .sys-island::after{content:"";position:absolute;right:22px;top:12px;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2B3350,#0A0C16 60%)}
+  .tabbar{height:76px;padding-bottom:12px}
+  .sheet{top:62px;padding-bottom:10px}
+  .sheet.short{top:auto}
+  .edbar{margin-bottom:-10px;padding-bottom:20px}
+  .toast{top:62px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .orb,.halo,.fresh-ring,.lvcard,.screen.active{animation:none}
+}

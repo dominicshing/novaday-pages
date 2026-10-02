@@ -1,0 +1,68 @@
+/* 首頁：今日卡片、星空圖、回憶卡、月報入口 */
+.sky-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:16px}
+.sky-k{font-size:12px;color:var(--muted)}
+.sky-t h2{margin:1px 0 0;font-size:24px;line-height:1.2}
+.sky-l{display:block;font-size:12px;color:var(--ion);margin-top:2px}
+.atlas-btn{flex:none;display:grid;grid-template-columns:auto auto;align-items:center;column-gap:6px;padding:7px 12px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);text-align:left;min-height:44px}
+.atlas-btn svg{grid-row:span 2;width:22px;height:22px;fill:none;stroke:var(--flare);stroke-width:1.7;stroke-linejoin:round}
+.atlas-btn span{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.2}
+.atlas-btn b{color:var(--text);font-size:16px}
+.atlas-btn small{font-size:12px;color:var(--muted);line-height:1.2}
+.sky-dots{display:flex;flex-wrap:wrap;justify-content:center;margin-top:2px}
+
+/* 所有圓點同一尺寸：外框畫在內側（border-box），不另外往外撐 */
+.sky-dots{gap:7px;align-items:center}
+.sky-dots i{flex:none;width:10px;height:10px;border-radius:50%;background:rgba(232,233,255,.16)}
+.sky-dots i.on{background:var(--c);box-shadow:0 0 5px color-mix(in srgb,var(--c) 70%,transparent)}
+
+/* 下一顆：用向量圓環畫，任何螢幕倍率下粗細都一致 */
+.sky-dots i.nx{background:none;border-radius:0}
+.sky-dots i.nx svg{display:block;width:100%;height:100%;overflow:visible}
+.sky-dots i.nx circle{fill:none;stroke:var(--flare);stroke-width:3.2}
+.today-card{--c:var(--m2);display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:8px 12px 8px 8px;border-radius:16px;text-align:left;color:var(--text);cursor:pointer;
+  background:radial-gradient(120% 140% at 0% 50%,color-mix(in srgb,var(--c) 22%,transparent),rgba(22,28,72,.6) 60%);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.today-card[hidden]{display:none}
+.tc-star{flex:none;width:84px;height:54px;display:grid;place-items:center}
+.tc-star svg{width:84px;height:54px;overflow:visible}
+.tc-star .cfx *{animation:none!important}
+.tc-star .cfx-sheen{display:none}
+.tc-star>.moon{width:30px;height:30px}
+.tc-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.35}
+.tc-t small{font-size:12px;color:var(--ion);font-weight:600}
+.tc-t b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-t>span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
+.tc-go{flex:none;color:var(--muted);font-size:20px}
+
+/* 回憶卡、月報入口 */
+.mem-card,.rp-open{--c:var(--nebula);display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 12px 12px 12px;border-radius:16px;text-align:left;color:var(--text);cursor:pointer;
+  background:radial-gradient(120% 140% at 0% 50%,color-mix(in srgb,var(--c) 18%,transparent),rgba(22,28,72,.6) 60%);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);font:inherit}
+.mem-card[hidden]{display:none}
+.mem-ic,.rpc-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(232,233,255,.07);color:var(--c)}
+.mem-ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rpc-ic{color:var(--flare);font-size:20px;background:rgba(255,180,92,.12)}
+#rpCard,.rp-open{--c:var(--flare)}
+.mem-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.4}
+.mem-t small{font-size:12px;font-weight:600;color:var(--c)}
+.mem-t b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mem-t>span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
+.rp-open{margin-top:12px}
+:where(.mem-card,.rp-open,.at-card,.ins,.cn-tonight.off,.qn-moods button,.li:is(button,label),.cn-tonight .red-q,.qn-go,.qn-more){transition:transform .14s ease,background-color .2s,border-color .2s}
+:where(.mem-card,.rp-open,.at-card,.ins,.cn-tonight.off):active{transform:scale(.975)}
+
+/* 「正在點亮」與星座名同一行、圖鑑按鈕用導航欄圖示、下一顆星圓環動畫 */
+.sky-tr{display:flex;align-items:center;gap:8px;min-width:0}
+.sky-tr .sky-k{flex:none;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;color:var(--flare);background:rgba(255,180,92,.12);border:1px solid rgba(255,180,92,.35);line-height:1.5}
+.sky-tr h2{margin:0;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.atlas-btn svg.nic{color:var(--flare);stroke:none;fill:none;width:24px;height:24px;filter:drop-shadow(0 0 4px rgba(255,180,92,.45))}
+.atlas-btn svg.nic .fi{fill:rgba(255,180,92,.12)}
+.atlas-btn svg.nic .st{fill:currentColor}
+.sky-dots i.nx{position:relative;animation:nxDot 1.8s ease-in-out infinite}
+.app.calm .sky-dots i.nx,.app.calm .sky-dots i.nx::after{animation:none}
+
+@media (prefers-reduced-motion:reduce){
+  .sky-dots i.nx,.sky-dots i.nx::after{animation:none}
+}
+
+/* 動畫 */
+@keyframes nxDot {0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,180,92,0))}50%{transform:scale(1.25);filter:drop-shadow(0 0 5px rgba(255,180,92,.9))}
+}

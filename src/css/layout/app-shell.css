@@ -1,0 +1,44 @@
+/* App 外殼：整體版面、各分頁畫面、頁首、下拉重新整理 */
+.app{position:relative;height:100%;display:flex;flex-direction:column;overflow:hidden;overflow:clip;background:radial-gradient(ellipse 90% 45% at 90% 4%,rgba(138,124,255,.22),transparent 62%),radial-gradient(ellipse 70% 40% at 0% 62%,rgba(111,227,214,.10),transparent 60%),radial-gradient(ellipse 80% 40% at 70% 105%,rgba(255,143,208,.13),transparent 60%),var(--bg)}
+#sky{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.screens{position:relative;flex:1;min-height:0;z-index:1}
+.screen{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  padding:0 16px 28px;display:none}
+.screen.active{display:block;animation:fadein .22s ease-out}
+.top{position:sticky;top:0;z-index:3;margin:0 -16px;padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:linear-gradient(rgba(7,10,28,.92) 62%,transparent)}
+.top h1{margin:0;font-size:26px;line-height:1.2;font-weight:700}
+.sub{color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+/* 下拉重新整理指示器 */
+.ptr{position:absolute;top:0;left:50%;z-index:5;width:38px;height:38px;margin-left:-19px;display:grid;place-items:center;border-radius:50%;background:rgba(20,23,63,.92);border:1px solid var(--line);box-shadow:0 8px 20px -8px rgba(138,124,255,.9);opacity:0;transform:translateY(-44px);pointer-events:none}
+.ptr svg{width:18px;height:18px;fill:var(--muted);transition:fill .2s}
+.ptr.ready svg,.ptr.go svg{fill:#FFE7A3}
+.ptr.go svg{animation:kvSpin .8s linear infinite}
+.ptr.back,.screen.ptr-back{transition:transform .25s ease,opacity .25s ease}
+
+/* 固定標題列的漸層淡出區不攔截點擊，只有標題列裡的按鈕、輸入框可點 */
+.top{pointer-events:none}
+.top>*,.top button,.top input,.top label{pointer-events:auto}
+
+/* 分頁標題旁的圖示（與底部分頁列一致） */
+.top h1{display:flex;align-items:center;gap:10px}
+
+/* 星光圖示組：底部分頁列＋分頁標題共用。未選中＝線條；選中＝發光實心星＋淡色填滿 */
+.nic{overflow:visible}
+.nic .o{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nic .dl{stroke-dasharray:1.2 2.6;stroke-width:1.6}
+.nic .st{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;transition:fill .25s}
+.nic .dt{fill:currentColor;stroke:none}
+.nic .fi{transition:fill .25s}
+.h1-ic{flex:none;width:28px;height:28px;color:var(--ion);filter:drop-shadow(0 0 5px rgba(111,227,214,.55))}
+.h1-ic .o{stroke-width:2}
+.h1-ic .fi{fill:rgba(111,227,214,.16)}
+.h1-ic .st{fill:currentColor}
+
+/* 動畫 */
+@keyframes fadein {from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}
+}
+@keyframes kvSpin {to{transform:rotate(360deg)}
+}

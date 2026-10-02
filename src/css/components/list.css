@@ -1,0 +1,36 @@
+/* 設定式清單：分類標題、清單列、開關、右側數值 */
+.list{overflow:hidden}
+.li{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;min-height:54px;padding:10px 16px;background:none;border:0;border-bottom:1px solid var(--line);text-align:left;font-size:15px}
+.list .li:last-child{border-bottom:0}
+.li small{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.li .chev{color:var(--muted);font-size:20px}
+.li.danger{color:var(--danger)}
+.li input[type=time]{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:16px;min-height:40px}
+.li.off{opacity:.45}
+.sw{width:52px;height:32px;border-radius:16px;border:1px solid var(--line);background:var(--surface2);position:relative;flex:none;padding:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--muted);transition:left .2s}
+.sw[aria-checked="true"]{background:var(--ion);border-color:var(--ion);box-shadow:0 0 12px -2px var(--ion)}
+.sw[aria-checked="true"]::after{left:23px;background:var(--on-accent)}
+
+/* 設定頁分類標題 */
+.set-h{margin:22px 8px 8px;font-size:12px;font-weight:600;line-height:1.4;color:var(--muted);letter-spacing:.12em}
+.set-h.first{margin-top:2px}
+
+/* 分類標題圖示 */
+.set-h{display:flex;align-items:center;gap:6px}
+.set-h svg{flex:none;width:14px;height:14px;fill:none;stroke:var(--c,currentColor);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* 最後一列後面接著隱藏列時（例如關閉提醒時的「提醒時間」），不顯示底線 */
+.list .li:has(+ .li[hidden]:last-child){border-bottom:0}
+.list .dv-item:last-child{border-bottom:0}
+
+/* 開發者工具（第二批）：隱藏入口、快轉、元件總覽、資料檢視器、錯誤紀錄、觸控範圍、FPS */
+.set-h[hidden],.list[hidden]{display:none}
+.li-l{display:flex;align-items:center;gap:12px;min-width:0}
+.li-ic{width:32px;height:32px;border-radius:9px;flex:none;display:grid;place-items:center;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.li-ic svg{width:18px;height:18px;fill:none;stroke:var(--ic);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* 所在地區 */
+.li-v{margin-left:auto;color:var(--muted);font-size:14px;white-space:nowrap}
+.li-v+.chev{margin-left:-4px}
+:where(.li:is(button,label)):active{background:rgba(232,233,255,.05)}

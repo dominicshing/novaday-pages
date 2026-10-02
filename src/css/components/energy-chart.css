@@ -1,0 +1,30 @@
+/* 心情能量圖表 */
+.energy{padding:14px 10px 12px;margin-top:10px}
+.insight{margin:0 6px 8px;font-size:15px;line-height:1.6}
+.insight .hl{display:block;font-size:16px;font-weight:600;line-height:1.5}
+.insight .mt{white-space:nowrap}
+.insight .s2{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
+#enChart{width:100%;display:block;overflow:visible}
+.en-grid{stroke:rgba(138,124,255,.16);stroke-dasharray:2 4}
+.en-xlab{font-size:9.5px;fill:var(--muted)}
+.ecurve{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.1s ease-out .1s forwards}
+.earea{opacity:0;animation:fadeA .8s ease-out .6s forwards}
+.egap{fill:none;stroke:rgba(154,160,207,.4);stroke-width:1.2;stroke-dasharray:3 4}
+.edot{cursor:pointer;outline:none}
+.edot:focus-visible .v{stroke:#fff;stroke-width:2}
+.en-empty{font-size:12px;fill:var(--muted);text-anchor:middle}
+.en-dist{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 2px 0;text-align:center}
+.ed-cell{padding:8px 2px 7px;border-radius:12px;background:var(--surface2);border-bottom:2px solid var(--c)}
+.ed-cell .e{display:block;font-size:18px;line-height:1.2}
+.ed-cell b{display:block;font-size:14px;margin-top:3px;font-variant-numeric:tabular-nums}
+.ed-cell small{display:block;font-size:12px;color:var(--muted)}
+.ed-cell.zero{opacity:.38}
+.en-dist .chip{font-size:12px;color:var(--muted)}
+.en-dist .chip b{color:var(--text);font-weight:600;margin-left:2px}
+.app.calm .ecurve{animation:none;stroke-dashoffset:0}
+.app.calm .earea{animation:none;opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  .ecurve{animation:none;stroke-dashoffset:0}
+  .earea{animation:none;opacity:1}
+}

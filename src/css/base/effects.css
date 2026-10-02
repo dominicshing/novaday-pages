@@ -1,0 +1,22 @@
+/* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
+.comet{position:fixed;z-index:30;width:14px;height:14px;border-radius:50%;pointer-events:none;background:var(--flare);
+  box-shadow:0 0 14px 4px var(--flare),0 0 40px 10px var(--nebula);transition:transform .75s cubic-bezier(.5,0,.3,1)}
+.spark{position:fixed;z-index:30;width:6px;height:6px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
+.floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
+.toast{position:absolute;left:50%;top:12px;transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
+  padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (prefers-reduced-motion:reduce){
+  .comet{transition:none}
+}
+.red-q{flex:none;align-self:flex-start;margin-left:auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgba(255,107,107,.4);background:rgba(255,107,107,.08);color:#FF8F8F}
+.red-q svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round}
+.red-q[aria-pressed="true"]{background:#FF6B6B;color:#2A0000;border-color:#FF6B6B}
+
+/* 動畫 */
+@keyframes spark {to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}
+}
+@keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}
+}

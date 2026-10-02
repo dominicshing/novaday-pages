@@ -1,0 +1,16 @@
+/* 黃道十二宮符號與轉動的星座環 */
+.zg{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:24px;color:#FFE7A3;
+  background:radial-gradient(circle at 40% 30%,#3A2E6E,#140F3A);box-shadow:0 0 0 1px rgba(255,211,111,.4),0 0 16px -4px #FFB45C}
+
+/* 自繪十二星座符號：不依賴系統字型，確保置中 */
+.zgi{width:1em;height:1em;flex:none;vertical-align:-.14em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.zgi.st4{fill:currentColor;stroke:none}
+.zg{font-family:inherit;line-height:0}
+.zg .zgi{width:52%;height:52%;vertical-align:0;display:block}
+.fo-ring g{fill:none;stroke:#FFE7A3;stroke-opacity:.5;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fo-el{display:grid;place-items:center;min-width:20px;height:18px;padding:0 4px;line-height:1}
+.zo{position:relative;flex:none;display:grid;place-items:center;padding:13px}
+.zo.sm{padding:11px}
+.zo.lg{padding:22px;margin:0 auto 6px;display:grid;width:max-content}
+.zo .zg{position:relative;z-index:1;margin:0!important}
+.zo .fo-ring{position:absolute;inset:0}

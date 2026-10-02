@@ -1,0 +1,10 @@
+/* 基本重設：盒模型、字型、按鈕預設樣式、[hidden] */
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+[hidden]{display:none!important}
+*,*::before,*::after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
+body{margin:0;height:100%;color:var(--text);background:var(--bg);overflow:hidden;
+  font-family:"Chakra Petch","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+:focus-visible{outline:2px solid var(--ion);outline-offset:2px}
