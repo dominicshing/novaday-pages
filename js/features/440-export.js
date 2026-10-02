@@ -1,14 +1,15 @@
 /* ---------- Export ---------- */
 let fmt='full';
-const BK_PROF=['avatar','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
+const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
 function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{app:'Novaday',kind:'backup',v:1,at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
-const EX_HINT={full:'包含所有紀錄、<b>照片</b>、個人資料和星座進度，可以用「從備份還原」完整還原。<b>建議選這個。</b>',
-  json:'結構化的紀錄資料（不含照片），也可以用來還原紀錄。',text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
-function exportText(real){if(fmt==='full'){const o=backupObj();if(!real)o.entries=o.entries.map(e=>e.photo?{...e,photo:'（照片）',...(e.photoMore?{photoMore:e.photoMore.map(()=>'（照片）')}:{})}:e);return JSON.stringify(o,null,real?0:2)}
+const EX_HINT={full:'包含所有紀錄、<b>照片、影片</b>、個人資料和星座進度，可以用「從備份還原」完整還原。<b>建議選這個。</b>',
+  json:'結構化的紀錄資料（不含照片和影片檔），也可以用來還原紀錄。',text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
+function exportText(real){if(fmt==='full'){const o=backupObj();if(!real&&o.profile.photoAv)o.profile={...o.profile,photoAv:'（照片）'};if(!real)o.entries=o.entries.map(e=>e.photo?{...e,photo:'（照片）',...(e.photoMore?{photoMore:e.photoMore.map(()=>'（照片）')}:{})}:e);return JSON.stringify(o,null,real?0:2)}
   if(fmt==='json')return JSON.stringify(sorted().map(({photo,photoMore,...e})=>({...e,hasPhoto:!!photo})),null,2);
   return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
 function refreshEx(){$('exOut').value=exportText();document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
-  const ph=entries.reduce((t,e)=>t+photoCount(e),0);$('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}。`:'')}
+  const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
+  $('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}${vd?`、${vd} 部影片`:''}。${vd?'因為有影片，「下載檔案」會存成 <b>.zip</b>（「複製內容」不含影片）。':''}`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};
 let rgAfter=null;
 function renderRegion(){const cur=prof.region;
@@ -27,7 +28,7 @@ function geoRegion(done){if(!navigator.geolocation){toast('這個裝置無法取
     ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})}
 $('rgGeo').onclick=()=>geoRegion(setRegion);
 document.querySelectorAll('#exporter .exseg button').forEach(b=>b.onclick=()=>{fmt=b.dataset.f;refreshEx()});
-$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText(true));toast('已複製內容')}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
+$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText(true));toast(fmt!=='text'&&entries.some(hasVideo)?'已複製內容（不含影片檔，要備份影片請用「下載檔案」）':'已複製內容',3000)}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
 function openWipe(){$('wpMsg').innerHTML=`這會永久刪除全部 <b>${entries.length}</b> 則紀錄，已點亮的星座和徽章進度也會歸零，<b>無法復原</b>。建議先匯出一份備份。`;
   $('wpIn').value='';$('wpGo').disabled=true;openSheet('wipeSheet')}
 $('wpIn').addEventListener('input',()=>{$('wpGo').disabled=$('wpIn').value.trim()!=='刪除'});

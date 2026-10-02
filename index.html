@@ -479,8 +479,8 @@
       <div class="grab"></div>
       <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="imTitle">從備份還原</h2><span></span></div>
       <div class="sb">
-        <p class="ex-note">選擇之前下載的備份檔（.json），或把備份內容貼在下面。已經在這台裝置上的紀錄不會重複匯入。</p>
-        <label class="im-file"><input type="file" id="imFile" accept=".json,application/json,text/plain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">支援「完整備份」和「JSON」格式</small></span></label>
+        <p class="ex-note">選擇之前下載的備份檔（.zip 或 .json），或把備份內容貼在下面。已經在這台裝置上的紀錄不會重複匯入。</p>
+        <label class="im-file"><input type="file" id="imFile" accept=".zip,.json,application/zip,application/json,text/plain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">支援「完整備份」（.zip／.json）和「JSON」格式</small></span></label>
         <textarea class="field" id="imIn" placeholder="或把備份內容貼在這裡…" aria-label="貼上備份內容" style="min-height:120px;font-size:13px"></textarea>
         <div class="im-prev" id="imPrev" aria-live="polite" hidden></div>
         <label class="im-prof" id="imProfRow" hidden><input type="checkbox" id="imProf"><span>同時還原個人資料<small>暱稱、頭像、生日、地區與星座點亮順序</small></span></label>
@@ -845,6 +845,7 @@
 <script src="js/core/080-profile.js"></script>
 <script src="js/core/090-storage.js"></script>
 <script src="js/core/095-media-store.js"></script>
+<script src="js/core/096-zip.js"></script>
 <script src="js/logic/100-xp-streak.js"></script>
 <script src="js/data/110-achievements.js"></script>
 <script src="js/ui/art/120-crystal.js"></script>
