@@ -89,6 +89,7 @@
     "js/core/090-storage.js",
     "js/core/095-media-store.js",
     "js/core/096-zip.js",
+    "js/core/097-photo-store.js",
     "js/logic/100-xp-streak.js",
     "js/data/110-achievements.js",
     "js/ui/art/120-crystal.js",

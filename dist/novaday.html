@@ -2171,6 +2171,12 @@ html{overflow:hidden}
 .im-prof small{display:block;font-size:12px;color:var(--muted)}
 .im-go{width:100%;min-height:50px;margin-top:14px;font-size:16px}
 
+/* 匯出：完整備份（.zip）／純文字 兩種；完整備份顯示數量摘要，不顯示文字預覽 */
+#exporter .exseg{grid-template-columns:repeat(2,1fr)}
+#exOut[hidden],#copyEx[hidden]{display:none}
+.ex-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.ex-sum b{display:block;font-size:22px;font-weight:700;color:var(--text);line-height:1.2}
+.ex-sum{font-size:12px;color:var(--muted);text-align:center}
 /* R12：搜尋高亮、摘要、建議 */
 mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px rgba(255,199,68,.25)}
 .search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none}
@@ -3129,9 +3135,8 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
       <div class="grab"></div>
       <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="imTitle">從備份還原</h2><span></span></div>
       <div class="sb">
-        <p class="ex-note">選擇之前下載的備份檔（.zip 或 .json），或把備份內容貼在下面。已經在這台裝置上的紀錄不會重複匯入。</p>
-        <label class="im-file"><input type="file" id="imFile" accept=".zip,.json,application/zip,application/json,text/plain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">支援「完整備份」（.zip／.json）和「JSON」格式</small></span></label>
-        <textarea class="field" id="imIn" placeholder="或把備份內容貼在這裡…" aria-label="貼上備份內容" style="min-height:120px;font-size:13px"></textarea>
+        <p class="ex-note">選擇之前下載的 Novaday 完整備份（.zip），紀錄、照片、影片和個人資料都會一起還原。已經在這台裝置上的紀錄不會重複匯入。</p>
+        <label class="im-file"><input type="file" id="imFile" accept=".zip,application/zip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">Novaday 完整備份（.zip）</small></span></label>
         <div class="im-prev" id="imPrev" aria-live="polite" hidden></div>
         <label class="im-prof" id="imProfRow" hidden><input type="checkbox" id="imProf"><span>同時還原個人資料<small>暱稱、頭像、生日、地區與星座點亮順序</small></span></label>
         <button type="button" class="btn primary im-go" id="imGo" disabled>匯入</button>
@@ -3147,7 +3152,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
       <div class="sh"><span></span><h2 id="exTitle">匯出與備份</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
       <div class="sb">
         <p class="ex-note">所有紀錄只存在這台裝置的瀏覽器裡。定期下載一份備份，換手機或清除瀏覽器資料時就能還原。</p>
-        <div class="exseg" role="radiogroup" aria-label="匯出格式"><button type="button" role="radio" id="fmtFull" data-f="full">完整備份</button><button type="button" role="radio" id="fmtJson" data-f="json">JSON</button><button type="button" role="radio" id="fmtText" data-f="text">純文字</button></div>
+        <div class="exseg" role="radiogroup" aria-label="匯出格式"><button type="button" role="radio" id="fmtFull" data-f="full">完整備份</button><button type="button" role="radio" id="fmtText" data-f="text">純文字</button></div>
         <p class="ex-hint" id="exHint"></p>
         <textarea class="field" id="exOut" readonly aria-label="匯出內容預覽" style="min-height:180px;font-size:13px"></textarea>
         <div class="row ex-act"><button class="btn" id="dlEx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg>下載檔案</button><button class="btn primary" id="copyEx"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg>複製內容</button></div>
@@ -3732,7 +3737,7 @@ let entries=[];
 function load(){try{entries=JSON.parse(localStorage.getItem(KEY)||'[]')||[]}catch(e){entries=[]}
   let s=false;try{s=!!localStorage.getItem(SEEDED)}catch(e){}
   if(!entries.length&&!s){seed();try{localStorage.setItem(SEEDED,'1')}catch(e){}}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(entries));return true}catch(e){toast('儲存空間已滿，請移除部分照片後再試');return false}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(entries.map(phPack)));return true}catch(e){toast('儲存空間已滿，請移除部分照片後再試');return false}}
 function seed(){const t=new Date(),a=n=>{const d=new Date(t);d.setDate(d.getDate()-n);return ymd(d)};
   entries=[
    {id:'s1',sample:1,date:a(1),time:'08:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上的咖啡特別好喝。',mood:3,tags:['開始'],loc:'家',photo:null},
@@ -3757,8 +3762,10 @@ const hasMedia=e=>!!(e&&(e.photo||hasVideo(e)));
 const untitled=e=>e&&!(e.body||'').trim()?(hasVideo(e)?'影片紀錄':e.photo?'照片紀錄':'未命名紀錄'):'未命名紀錄';
 const fmtDur=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 /* 清掉沒有任何紀錄或草稿用到的影片檔（刪除紀錄時先保留，讓「復原」還能用；下次開 App 才清） */
-async function mediaGC(){const keep=new Set(entries.filter(hasVideo).map(e=>e.video.id));
-  try{const d=JSON.parse(localStorage.getItem('orbitlog.draft.v1')||'null');if(d&&d.video&&d.video.id)keep.add(d.video.id)}catch(e){}
+/* 照片（p 開頭）也一起整理：紀錄、草稿、開發者工具收起的紀錄，或這次開啟後用過的，都保留 */
+async function mediaGC(){if(phPend.size)return;const keep=new Set(phURL.keys()),scan=t=>{if(!t)return;for(const m of t.matchAll(/idb:(p\w+)/g))keep.add(m[1]);for(const m of t.matchAll(/"id":"(v\w{4,})"/g))keep.add(m[1])};
+  ['orbitlog.entries.v1','orbitlog.draft.v1','novaday.dev.stash'].forEach(k=>{try{scan(localStorage.getItem(k))}catch(e){}});
+  entries.filter(hasVideo).forEach(e=>keep.add(e.video.id));
   for(const k of await mediaKeys())if(!keep.has(k))await mediaDel(k)}
 /* ---------- ZIP：完整備份含影片時打包成 .zip（不壓縮，影片本來就是壓縮過的格式），還原時讀回 ---------- */
 const CRC_T=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
@@ -3792,7 +3799,34 @@ async function zipOpen(file){const L=file.size,tail=new Uint8Array(await file.sl
     if(f.m===8&&window.DecompressionStream)return new Blob([await new Response(raw.stream().pipeThrough(new DecompressionStream('deflate-raw'))).blob()],{type:type||''});
     throw new Error('method')}
   return{names,find,get}}
-const isZipFile=f=>/\.zip$/i.test(f.name)||/zip/.test(f.type);
+/* ---------- 照片：檔案存在 IndexedDB（和影片同一個 store，鍵以 p 開頭），沒有 localStorage 的 5 MB 限制 ----------
+   localStorage 裡的紀錄只記 "idb:<鍵>"；記憶體裡的紀錄用 object URL（剛選的新照片暫時是 data URL），其他程式照常當成圖片網址使用 */
+const PH_REF='idb:',phURL=new Map(),phKey=new Map(),phPend=new Set();
+/* 寫入 IndexedDB；phFlush() 等全部寫完，回傳是否都成功 */
+function phPut(k,b){const p=mediaPut(k,b).then(()=>true,()=>{toast('照片無法儲存，可能是裝置空間不足',3000);return false});phPend.add(p);p.then(()=>phPend.delete(p));return p}
+const phFlush=async()=>(await Promise.all([...phPend])).every(Boolean);
+const phNewKey=()=>'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+function dataURLBlob(u){const m=/^data:([^;,]+);base64,(.*)$/.exec(u||'');if(!m)return null;const b=atob(m[2]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m[1]})}
+/* 放進一張照片（Blob），回傳可以直接當 <img src> 的網址 */
+function phFromBlob(blob){const k=phNewKey(),u=URL.createObjectURL(blob);phURL.set(k,u);phKey.set(u,k);phPut(k,blob);return u}
+/* 記憶體網址 → 儲存用的參照；新的 data URL 會在這時寫進 IndexedDB */
+function phRef(src){if(typeof src!=='string'||!src||src.startsWith(PH_REF))return src||null;let k=phKey.get(src);
+  if(!k&&src.startsWith('data:image/')){const b=dataURLBlob(src);if(!b)return null;k=phNewKey();phURL.set(k,src);phKey.set(src,k);phPut(k,b)}
+  return k?PH_REF+k:null}
+const phSrc=r=>typeof r==='string'&&r.startsWith(PH_REF)?phURL.get(r.slice(PH_REF.length))||null:r||null;
+const phIsSrc=u=>typeof u==='string'&&(phKey.has(u)||/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u));
+/* 取得照片檔：備份時用 */
+async function phBlob(src){if(typeof src!=='string')return null;if(src.startsWith('data:'))return dataURLBlob(src);const k=phKey.get(src)||(src.startsWith(PH_REF)?src.slice(PH_REF.length):null);return k?await mediaGet(k):null}
+/* 儲存前：紀錄裡的照片換成參照 */
+function phPack(e){if(!e||!(e.photo||e.photoMore||(e.video&&e.video.poster)))return e;const o={...e};
+  if(o.photo)o.photo=phRef(o.photo);if(Array.isArray(o.photoMore)){o.photoMore=o.photoMore.map(phRef).filter(Boolean);if(!o.photoMore.length)delete o.photoMore}
+  if(o.video&&o.video.poster)o.video={...o.video,poster:phRef(o.video.poster)};return o}
+/* 載入後：把參照換回可顯示的網址；暫時讀不到的保留參照（不會因此被存檔刪掉）。舊資料裡的 data URL 一併搬進 IndexedDB，回傳搬了幾張 */
+async function phHydrate(list,extra){const refs=new Set(extra||[]),each=f=>list.forEach(e=>{if(!e)return;f(e,'photo');if(Array.isArray(e.photoMore))e.photoMore.forEach((_,i)=>f(e.photoMore,i));if(e.video)f(e.video,'poster')});
+  each((o,k)=>{const v=o[k];if(typeof v==='string'&&v.startsWith(PH_REF))refs.add(v.slice(PH_REF.length))});
+  for(const k of refs){if(phURL.has(k))continue;const b=await mediaGet(k);if(b){const u=URL.createObjectURL(b);phURL.set(k,u);phKey.set(u,k)}}
+  let moved=0;each((o,k)=>{const v=o[k];if(typeof v!=='string')return;if(v.startsWith(PH_REF))o[k]=phSrc(v)||v;else if(v.startsWith('data:image/')){phRef(v);moved++}});
+  return moved}
 /* ---------- Game logic ---------- */
 /* XP 規則：獎勵「持續」與「回顧」，不看字數
    每天第一則 +20，連續加成每天 +2（上限 +20）；同一天其他紀錄 +5；照片 +5、地點 +5、回答今日星語 +10；回顧 7 天前的紀錄每則 +5（一次） */
@@ -5009,34 +5043,27 @@ function openPhotoViewer(P,i){const t=$('pvTrack');t.innerHTML=P.map((u,j)=>`<di
   t.onscroll=upd;openSheet('phViewer');requestAnimationFrame(()=>{t.scrollLeft=i*t.clientWidth;upd()})}
 document.addEventListener('keydown',e=>{if(!$('phViewer').classList.contains('open'))return;const t=$('pvTrack');if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();t.scrollBy({left:(e.key==='ArrowRight'?1:-1)*t.clientWidth,behavior:reduce?'auto':'smooth'})}});
 $('pvTrack').addEventListener('click',e=>{if(e.target===$('pvTrack')||e.target.classList.contains('pv-s'))closeSheet('phViewer')});
-/* ---------- R19：儲存空間 ---------- */
-const ST_QUOTA=5*1024*1024; /* 大多數瀏覽器的 localStorage 上限約 5 MB（以字元計） */
-function storeUse(){let total=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);total+=k.length+(localStorage.getItem(k)||'').length}}catch(e){}
-  let photo=0,pn=0;entries.forEach(e=>entryPhotos(e).forEach(u=>{photo+=u.length;pn++}));
-  const text=Math.max(0,JSON.stringify(entries.map(({photo,photoMore,...e})=>e)).length),other=Math.max(0,total-photo-text);
-  return{total,photo,pn,text,other,pct:Math.min(100,total/ST_QUOTA*100)}}
-const fmtB=n=>n>=1048576?(n/1048576).toFixed(n>=10485760?0:1)+' MB':n>=1024?Math.round(n/1024)+' KB':n+' B';
-function renderStoreRow(){const u=storeUse(),v=$('stVal');if(!v)return;v.textContent=`${Math.round(u.pct)}%`;v.classList.toggle('warn',u.pct>=80);
-  $('stSub').textContent=u.pct>=80?'快滿了，建議壓縮照片或下載備份':`已使用 ${fmtB(u.total)}`}
-function renderStore(){const u=storeUse(),w=x=>(x/ST_QUOTA*100).toFixed(2)+'%';
-  const est=u.pn?Math.max(0,Math.floor((ST_QUOTA-u.total)/(u.photo/u.pn))):null;
-  $('stBody').innerHTML=`<p class="ex-note">所有紀錄都存在這台裝置的瀏覽器裡，容量大約 5 MB。</p>
-    <div class="st-hero"><b>${u.pct<1&&u.total?'<1':Math.round(u.pct)}%</b><span>已使用 ${fmtB(u.total)} / 約 5 MB</span></div>
-    <div class="st-bar" role="img" aria-label="照片 ${fmtB(u.photo)}、文字 ${fmtB(u.text)}、其他 ${fmtB(u.other)}"><i class="p" style="width:${w(u.photo)}"></i><i class="t" style="width:${w(u.text)}"></i><i class="o" style="width:${w(u.other)}"></i></div>
-    <div class="st-leg"><div><i style="background:#A99EFF"></i><span>照片（${u.pn} 張）</span><b>${fmtB(u.photo)}</b></div><div><i style="background:#6FE3D6"></i><span>文字紀錄（${entries.length} 則）</span><b>${fmtB(u.text)}</b></div><div><i style="background:#6FA8FF"></i><span>設定與進度</span><b>${fmtB(u.other)}</b></div></div>
-    ${u.pct>=80?`<div class="st-tip">空間快用完了。空間滿了以後，新的紀錄會無法儲存。建議先下載完整備份，再壓縮照片或移除不需要的照片。</div>`
-      :`<div class="st-tip ok">${est!=null?`以目前照片的平均大小，大約還能再放 <b>${est}</b> 張照片。`:'文字紀錄很省空間，寫好幾年也用不完。照片會佔比較多空間。'}</div>`}
-    <div class="st-act">${u.pn?`<button type="button" class="btn two" id="stShrink">壓縮所有照片<small>縮小成 720px，畫質稍降，通常可省下 30–50%</small></button>`:''}<button type="button" class="btn" id="stBackup">下載完整備份</button></div>`;
-  if($('stShrink'))$('stShrink').onclick=shrinkPhotos;
+/* ---------- 儲存空間：文字紀錄在 localStorage，照片和影片在 IndexedDB；總容量由瀏覽器依裝置剩餘空間決定 ---------- */
+const fmtB=n=>n>=1073741824?(n/1073741824).toFixed(1)+' GB':n>=1048576?(n/1048576).toFixed(n>=10485760?0:1)+' MB':n>=1024?Math.round(n/1024)+' KB':n+' B';
+async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);text+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}
+  let photo=0,video=0;for(const k of await mediaKeys()){const b=await mediaGet(k);if(b){if(k[0]==='p')photo+=b.size;else video+=b.size}}
+  let quota=0,usage=0,kept=false;try{const e=await navigator.storage.estimate();quota=e.quota||0;usage=e.usage||0;kept=await navigator.storage.persisted()}catch(e){}
+  const total=text+photo+video,pn=entries.reduce((t,e)=>t+photoCount(e),0),vn=entries.filter(hasVideo).length;
+  return{text,photo,video,pn,vn,total,quota,kept,free:quota?Math.max(0,quota-Math.max(usage,total)):0,pct:quota?Math.min(100,Math.max(usage,total)/quota*100):0}}
+async function renderStoreRow(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
+  $('stSub').textContent=u.pct>=90?'裝置空間快滿了，建議下載備份並移除部分影片':`照片 ${u.pn} 張・影片 ${u.vn} 部`}
+async function renderStore(){const u=await storeUse(),T=Math.max(1,u.total),w=x=>(x/T*100).toFixed(2)+'%';
+  $('stBody').innerHTML=`<p class="ex-note">紀錄、照片和影片都存在這台裝置的瀏覽器裡。照片和影片沒有固定上限，可用空間由瀏覽器依裝置剩餘空間決定。</p>
+    <div class="st-hero"><b>${fmtB(u.total)}</b><span>${u.quota?`這個網站還可以使用約 ${fmtB(u.free)}`:'已使用'}</span></div>
+    <div class="st-bar" role="img" aria-label="照片 ${fmtB(u.photo)}、影片 ${fmtB(u.video)}、文字與設定 ${fmtB(u.text)}"><i class="p" style="width:${w(u.photo)}"></i><i style="width:${w(u.video)};background:#FFB45C"></i><i class="t" style="width:${w(u.text)}"></i></div>
+    <div class="st-leg"><div><i style="background:#A99EFF"></i><span>照片（${u.pn} 張）</span><b>${fmtB(u.photo)}</b></div><div><i style="background:#FFB45C"></i><span>影片（${u.vn} 部）</span><b>${fmtB(u.video)}</b></div><div><i style="background:#6FE3D6"></i><span>文字紀錄與設定（${entries.length} 則）</span><b>${fmtB(u.text)}</b></div></div>
+    ${u.pct>=90?`<div class="st-tip">裝置空間快用完了，新的照片和影片可能無法儲存。建議先下載完整備份，再移除不需要的影片。</div>`
+      :`<div class="st-tip ok">${u.kept?'已設為長期保存：瀏覽器不會因為空間不足而自動清掉這些資料。':'瀏覽器在裝置空間不足時，可能會清掉網站資料。記得定期下載完整備份。'}</div>`}
+    <div class="st-act"><button type="button" class="btn" id="stBackup">下載完整備份</button></div>`;
   $('stBackup').onclick=()=>{closeSheet('storeSheet');fmt='full';refreshEx();openSheet('exporter')}}
-function shrinkOne(src){return new Promise(res=>{const img=new Image();img.onload=()=>{const sc=Math.min(1,720/Math.max(img.width,img.height)),c=document.createElement('canvas');
-  c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);const out=c.toDataURL('image/jpeg',.62);res(out.length<src.length?out:src)};img.onerror=()=>res(src);img.src=src})}
-async function shrinkPhotos(){const u0=storeUse();const k=await ask('壓縮所有照片？',`會把 ${u0.pn} 張照片縮小並重新壓縮，畫質會稍微降低，而且無法復原。建議先下載一份完整備份。`,[{k:'cancel',t:'取消'},{k:'ok',t:'壓縮照片'}]);if(k!=='ok')return;
-  const b=$('stShrink');if(b){b.disabled=true;b.firstChild.textContent='壓縮中…'}
-  const before=entries.map(e=>[e.photo,e.photoMore]);for(const e of entries){if(e.photo)e.photo=await shrinkOne(e.photo);if(Array.isArray(e.photoMore)){const m=[];for(const u of e.photoMore)m.push(await shrinkOne(u));e.photoMore=m}}
-  if(!save()){entries.forEach((e,i)=>{e.photo=before[i][0];e.photoMore=before[i][1]});toast('壓縮失敗，照片沒有變動',3000);renderStore();return}
-  const u1=storeUse();render();renderStore();toast(`完成！省下 ${fmtB(Math.max(0,u0.total-u1.total))}`,3000)}
-$('liStore').onclick=()=>{renderStore();openSheet('storeSheet')};
+$('liStore').onclick=async()=>{await renderStore();openSheet('storeSheet')};
+/* 請瀏覽器長期保存資料（不保證同意；Safari 加到主畫面後通常會同意） */
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persisted().then(p=>p||navigator.storage.persist()).catch(()=>{})}catch(e){}
 /* ---------- R15：標籤管理 ---------- */
 let tgOpen=null;
 function tagStats(){const m={};entries.forEach(e=>(e.tags||[]).forEach(t=>{const o=m[t]||(m[t]={n:0,last:''});o.n++;if(e.date>o.last)o.last=e.date}));return m}
@@ -5372,13 +5399,13 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
 function updWhen(){const d=$('fDate').value||ymd(new Date()),t=$('fTime').value;$('whenTxt').textContent=(d===ymd(new Date())?'今天':fmtDay(d))+(t?' '+t:'');$('whenBtn').setAttribute('aria-expanded',!$('xDate').hidden)}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
-const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curVideo&&curVideo.id,curPrompt]);
+const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);
 const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
   if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
-  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,video:curVideo,prompt:curPrompt};
+  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos.map(phRef).filter(Boolean),video:curVideo,prompt:curPrompt};
   try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已自動儲存'}
   catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已儲存（不含照片）'}catch(e2){$('draftState').textContent='草稿無法儲存'}}}
 function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto||curVideo)}
@@ -5403,7 +5430,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   const d=readDraft();let restored=false;
   if(draftHas(d)&&(d.editing||null)===editing){
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
-    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
+    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<i class="lbi" aria-hidden="true">✦</i>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
@@ -5460,7 +5487,6 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
-  if(data.photo&&typeof storeUse==='function'){const u=storeUse();if(u.pct>=85)setTimeout(()=>toast(`儲存空間已用 ${Math.round(u.pct)}%，可到「我的 → 設定 → 儲存空間」壓縮照片`,3600),2500)}
   clearDraft();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
   if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);await launch()}
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
@@ -5472,8 +5498,8 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(newAch.length>2){prof.achNew=[...new Set([...(prof.achNew||[]),...newAch.map(a=>a.id)])];saveProf();renderAchDot();toast(`還解鎖了 ${newAch.length-2} 個徽章，到「我的」看看`,3200)}
   if(wasEdit&&!newAch.length)toast(gained>0?`已儲存，額外獲得 ${gained} XP`:'已儲存變更')});
 function loadPhoto(f){return new Promise(res=>{const r=new FileReader();r.onerror=()=>res(null);
-  r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');
-    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};
+  r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');
+    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};
     img.onerror=()=>res(null);img.src=r.result};r.readAsDataURL(f)})}
 $('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
   if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}
@@ -5552,15 +5578,14 @@ let tt;function toast(m,ms){const t=$('toast');t.textContent=m;t.classList.add('
 /* ---------- Export ---------- */
 let fmt='full';
 const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
-function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{app:'Novaday',kind:'backup',v:1,at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
-const EX_HINT={full:'包含所有紀錄、<b>照片、影片</b>、個人資料和星座進度，可以用「從備份還原」完整還原。<b>建議選這個。</b>',
-  json:'結構化的紀錄資料（不含照片和影片檔），也可以用來還原紀錄。',text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
-function exportText(real){if(fmt==='full'){const o=backupObj();if(!real&&o.profile.photoAv)o.profile={...o.profile,photoAv:'（照片）'};if(!real)o.entries=o.entries.map(e=>e.photo?{...e,photo:'（照片）',...(e.photoMore?{photoMore:e.photoMore.map(()=>'（照片）')}:{})}:e);return JSON.stringify(o,null,real?0:2)}
-  if(fmt==='json')return JSON.stringify(sorted().map(({photo,photoMore,...e})=>({...e,hasPhoto:!!photo})),null,2);
-  return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
-function refreshEx(){$('exOut').value=exportText();document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
+function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
+const EX_HINT={full:'下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。',
+  text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
+function exportText(){return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
+function refreshEx(){const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
+  $('exOut').hidden=$('copyEx').hidden=full;if(!full)$('exOut').value=exportText();$('dlEx').classList.toggle('primary',full);
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
-  $('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}${vd?`、${vd} 部影片`:''}。「下載檔案」會存成 <b>.zip</b>，照片和影片是裡面的獨立檔案${vd?'；「複製內容」不含影片':''}。`:'')}
+  $('exHint').innerHTML=EX_HINT[fmt]+(full?`<span class="ex-sum"><span><b>${entries.length}</b>則紀錄</span><span><b>${ph}</b>張照片</span><span><b>${vd}</b>部影片</span></span>`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};
 let rgAfter=null;
 function renderRegion(){const cur=prof.region;
@@ -5579,7 +5604,7 @@ function geoRegion(done){if(!navigator.geolocation){toast('這個裝置無法取
     ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})}
 $('rgGeo').onclick=()=>geoRegion(setRegion);
 document.querySelectorAll('#exporter .exseg button').forEach(b=>b.onclick=()=>{fmt=b.dataset.f;refreshEx()});
-$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText(true));toast(fmt!=='text'&&entries.some(hasVideo)?'已複製內容（不含影片檔，要備份影片請用「下載檔案」）':'已複製內容',3000)}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
+$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText());toast('已複製內容')}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
 function openWipe(){$('wpMsg').innerHTML=`這會永久刪除全部 <b>${entries.length}</b> 則紀錄，已點亮的星座和徽章進度也會歸零，<b>無法復原</b>。建議先匯出一份備份。`;
   $('wpIn').value='';$('wpGo').disabled=true;openSheet('wipeSheet')}
 $('wpIn').addEventListener('input',()=>{$('wpGo').disabled=$('wpIn').value.trim()!=='刪除'});
@@ -5724,21 +5749,20 @@ async function saveFile(name,data,type){const blob=data instanceof Blob?data:new
   if(dl){try{await dl.save({filename:name,data:typeof data==='string'?data:blob});return true}catch(e){if(e&&e.code==='declined')return false}}
   const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),120000);return true}
 const VID_EXT={'video/mp4':'mp4','video/quicktime':'mov','video/webm':'webm','video/x-m4v':'m4v','video/3gpp':'3gp'},IMG_EXT={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'};
-/* 完整備份第 2 版（格式見 docs/backup-format.md）：zip 裡放 novaday-backup.json，照片、影片都是獨立檔案，JSON 只記路徑 */
+/* 完整備份（格式見 docs/backup-format.md）：zip 裡放 novaday-backup.json，照片、影片都是獨立檔案，JSON 只記路徑 */
 async function backupZip(onStep){const o=backupObj(),files=[],man=[],vids=new Map(),safe=s=>String(s).replace(/[^\w-]/g,'').slice(0,40)||'x';let nPh=0,miss=0;
-  const addImg=(data,name)=>{const m=/^data:(image\/[\w+.-]+);base64,([A-Za-z0-9+/=]+)$/.exec(data||'');if(!m)return null;
-    const bin=atob(m[2]),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
-    const path=`photos/${name}.${IMG_EXT[m[1]]||'jpg'}`;files.push({name:path,data:u});man.push({path,type:m[1],size:u.length});return path};
+  const addImg=async(src,name)=>{const b=await phBlob(src);if(!b||!b.size)return null;const t=IMG_EXT[b.type]?b.type:'image/jpeg';
+    const path=`photos/${name}.${IMG_EXT[t]}`;files.push({name:path,data:b});man.push({path,type:t,size:b.size});return path};
   const ents=[];
   for(const e of o.entries){const{photo,photoMore,video,hasPhoto,dev,...r}=e,id=safe(e.id);['sample','fav','edited'].forEach(k=>{if(r[k])r[k]=true;else delete r[k]});
-    const ph=[photo,...(photoMore||[])].filter(Boolean).map((d,i)=>addImg(d,`${id}-${i+1}`)).filter(Boolean);if(ph.length){r.photos=ph;nPh+=ph.length}
-    if(video&&video.id){const vid=safe(video.id);r.video={id:video.id,dur:Number(video.dur)||0,poster:video.poster?addImg(video.poster,`${vid}-poster`):null};
+    const ph=[];for(const[i,s]of[photo,...(photoMore||[])].filter(Boolean).entries()){const p=await addImg(s,`${id}-${i+1}`);if(p)ph.push(p)}if(ph.length){r.photos=ph;nPh+=ph.length}
+    if(video&&video.id){const vid=safe(video.id);r.video={id:video.id,dur:Number(video.dur)||0,poster:video.poster?await addImg(video.poster,`${vid}-poster`):null};
       if(!vids.has(video.id)){const b=await mediaGet(video.id);let v=null;
         if(b){const path=`videos/${vid}.${VID_EXT[b.type]||'mp4'}`;v={path,type:b.type||'video/mp4',size:b.size};files.push({name:path,data:b});man.push(v)}else miss++;vids.set(video.id,v)}
       const v=vids.get(video.id);if(v){r.video.file=v.path;r.video.type=v.type}}
     ents.push(r)}
-  const P={...o.profile};if(P.photoAv){P.photoAv=addImg(P.photoAv,'avatar');if(!P.photoAv)delete P.photoAv}
-  const out={app:'Novaday',kind:'backup',v:2,at:o.at,platform:'web',profile:P,reviews:o.reviews,entries:ents,files:man};
+  const P={...o.profile};if(P.photoAv){P.photoAv=await addImg(P.photoAv,'avatar');if(!P.photoAv)delete P.photoAv}
+  const out={app:'Novaday',kind:'backup',v:1,at:o.at,platform:'web',profile:P,reviews:o.reviews,entries:ents,files:man};
   files.unshift({name:'novaday-backup.json',data:new TextEncoder().encode(JSON.stringify(out))});
   return{blob:await zipBuild(files,onStep),n:[...vids.values()].filter(Boolean).length,ph:nPh,miss}}
 let dlBusy=false;
@@ -5746,27 +5770,32 @@ $('dlEx').onclick=async()=>{if(dlBusy)return;const d=ymd(new Date());dlBusy=true
   try{if(fmt==='full'){const big=entries.some(hasVideo);toast(big?'正在打包照片和影片…':'正在打包備份…',60000);
       const z=await backupZip((i,n)=>{if(big&&n>3)toast(`正在打包照片和影片…（${i} / ${n}）`,60000)});
       if(await saveFile(`Novaday-backup-${d}.zip`,z.blob))toast(`已下載完整備份（${entries.length} 則紀錄${z.ph?`、${z.ph} 張照片`:''}${z.n?`、${z.n} 部影片`:''}）${z.miss?`・${z.miss} 部影片的檔案已不在這台裝置上`:''}`,3600)}
-    else{const js=fmt!=='text';if(await saveFile(`Novaday-entries-${d}.${js?'json':'txt'}`,exportText(true),js?'application/json':'text/plain;charset=utf-8'))toast('已下載檔案')}}
-  catch(e){toast(e&&e.message==='too-big'?'影片太多，備份超過 4 GB，請先移除部分影片':'無法下載，請改用「複製內容」',3600)}
+    else if(await saveFile(`Novaday-entries-${d}.txt`,exportText(),'text/plain;charset=utf-8'))toast('已下載檔案')}
+  catch(e){toast(e&&e.message==='too-big'?'影片太多，備份超過 4 GB，請先移除部分影片':'無法下載，請再試一次',3600)}
   finally{dlBusy=false;$('dlEx').disabled=false}};
 
-/* ---------- R11：從備份還原 ---------- */
+/* ---------- 從備份還原：只接受 Novaday 完整備份 .zip（格式見 docs/backup-format.md） ---------- */
 let imData=null;
+const BK_PATH=/^(photos|videos)\/[\w.-]+$/,BK_MIME={jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
+const blobDataURL=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result));r.onerror=rej;r.readAsDataURL(b)});
+/* 預覽階段的照片：先用暫時網址，確定匯入時才寫進 IndexedDB */
+const imBlobs=new Map();
+function imFreeBlobs(){imBlobs.forEach((_,u)=>URL.revokeObjectURL(u));imBlobs.clear()}
+const imPhotoOK=u=>typeof u==='string'&&imBlobs.has(u);
 function cleanEntry(o){if(!o||typeof o!=='object')return null;
   const date=typeof o.date==='string'?o.date:'';if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||isNaN(parse(date).getTime()))return null;
   const st=(v,n)=>typeof v==='string'?v.slice(0,n):'';
   const e={id:st(o.id,40).replace(/[^\w-]/g,'')||(Date.now().toString(36)+Math.random().toString(36).slice(2,8)),date,time:/^\d{2}:\d{2}$/.test(o.time)?o.time:'',
     title:st(o.title,200).trim(),body:st(o.body,50000).trim(),mood:Number.isInteger(o.mood)&&o.mood>=0&&o.mood<=4?o.mood:2,
     tags:Array.isArray(o.tags)?[...new Set(o.tags.filter(t=>typeof t==='string').map(t=>t.trim().slice(0,30)).filter(Boolean))].slice(0,20):[],
-    loc:st(o.loc,120).trim(),photo:typeof o.photo==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.photo)?o.photo:null};
+    loc:st(o.loc,120).trim(),photo:null};
   if(typeof o.prompt==='string'&&o.prompt)e.prompt=o.prompt.slice(0,200);
   if(o.sample)e.sample=1;if(o.edited)e.edited=1;if(o.fav)e.fav=1;
-  if(e.photo&&Array.isArray(o.photoMore)){const m=o.photoMore.filter(u=>typeof u==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0,9);if(m.length)e.photoMore=m}
-  /* 影片檔不在備份裡；同一台裝置還原時仍可從 IndexedDB 找回 */
-  if(!e.photo&&o.video&&typeof o.video.id==='string'&&/^v\w{1,40}$/.test(o.video.id))e.video={id:o.video.id,dur:Number(o.video.dur)||0,poster:typeof o.video.poster==='string'&&/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(o.video.poster)?o.video.poster:null};
+  const ph=(Array.isArray(o.photos)?o.photos:[]).filter(imPhotoOK).slice(0,10);if(ph.length){e.photo=ph[0];if(ph.length>1)e.photoMore=ph.slice(1)}
+  if(!e.photo&&o.video&&typeof o.video.id==='string'&&/^v\w{1,40}$/.test(o.video.id))e.video={id:o.video.id,dur:Number(o.video.dur)||0,poster:imPhotoOK(o.video.poster)?o.video.poster:null};
   return e.title||e.body||e.photo||e.video?e:null}
 function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
-  {const av=AV_LEGACY[p.avatar]||p.avatar;if(AVATARS.includes(av))r.avatar=av}
+  if(typeof p.avatar==='string'&&AVATARS.includes(p.avatar))r.avatar=p.avatar;
   if(typeof p.photoAv==='string'&&p.photoAv.length<600000&&PHOTO_RE.test(p.photoAv)){r.photoAv=p.photoAv;if(p.avatar==='photo')r.avatar='photo'}
   ['name','ship','motto'].forEach(k=>{if(typeof p[k]==='string'&&p[k].trim())r[k]=p[k].trim().slice(0,k==='motto'?60:20)});
   ['since','birthday'].forEach(k=>{if(typeof p[k]==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(p[k]))r[k]=p[k]});
@@ -5776,85 +5805,75 @@ function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
   if(typeof p.nextPick==='string'&&CON[p.nextPick])r.nextPick=p.nextPick;
   return Object.keys(r).length?r:null}
 const sig=e=>[e.date,e.time,e.title,e.body].join('\u0001');
-function parseBackup(txt){let o;if(txt&&typeof txt==='object')o=txt;else{txt=(txt||'').trim();if(!txt)return null;
-  try{o=JSON.parse(txt)}catch(_){return{err:txt.startsWith('【')?'這是「純文字」格式，無法用來還原。請改用「完整備份」或「JSON」格式匯出的內容。':'看不懂這份內容，請確認是 Novaday 匯出的備份檔。'}}}
-  const raw=Array.isArray(o)?o:o&&Array.isArray(o.entries)?o.entries:null;
-  if(!raw)return{err:'這份檔案裡找不到紀錄，請確認是 Novaday 匯出的備份檔。'};
+/* 讀取 zip：找到 novaday-backup.json，照片讀成暫時網址，影片留到匯入時再寫入 */
+async function imLoadZip(f){let z;try{z=await zipOpen(f)}catch(_){return{err:'無法讀取這個檔案，請選擇 Novaday 的完整備份（.zip），或重新下載一次備份。'}}
+  let o;try{const b=await z.get('novaday-backup.json');o=b&&JSON.parse(await b.text())}catch(_){o=null}
+  if(!o||o.app!=='Novaday'||o.kind!=='backup'||!Array.isArray(o.entries))return{err:'這個 zip 不是 Novaday 的完整備份，請確認選對檔案。'};
+  const types={};(Array.isArray(o.files)?o.files:[]).forEach(x=>{if(x&&typeof x.path==='string'&&typeof x.type==='string')types[x.path]=x.type});
+  const img=async p=>{if(typeof p!=='string'||!BK_PATH.test(p)||!p.startsWith('photos/'))return null;
+    try{const t=types[p]||BK_MIME[p.split('.').pop().toLowerCase()]||'image/jpeg',b=await z.get(p,t);if(!b||!b.size||b.size>20e6)return null;
+      const bl=b.type?b:new Blob([b],{type:t}),u=URL.createObjectURL(bl);imBlobs.set(u,bl);return u}catch(_){return null}};
+  const raw=[],media=[];let lost=0;
+  for(const e of o.entries){if(!e||typeof e!=='object'){raw.push(e);continue}const r={...e},want=Array.isArray(e.photos)?e.photos.slice(0,10):[];
+    r.photos=[];for(const p of want){const u=await img(p);if(u)r.photos.push(u)}if(r.photos.length<want.length)lost++;
+    if(e.video&&typeof e.video==='object'){r.video={...e.video,poster:await img(e.video.poster)};const v=e.video;
+      if(typeof v.file==='string'&&BK_PATH.test(v.file)&&v.file.startsWith('videos/')&&typeof v.id==='string'&&/^v\w{1,40}$/.test(v.id)&&!media.some(m=>m.id===v.id)&&z.find(v.file))
+        media.push({id:v.id,file:v.file,type:typeof v.type==='string'?v.type:types[v.file]||'video/mp4'})}
+    raw.push(r)}
+  const P=o.profile&&typeof o.profile==='object'?{...o.profile}:null;
+  if(P&&'photoAv' in P){try{const t=types[P.photoAv]||BK_MIME[String(P.photoAv).split('.').pop().toLowerCase()]||'image/jpeg',b=typeof P.photoAv==='string'&&BK_PATH.test(P.photoAv)?await z.get(P.photoAv,t):null;
+    if(b&&b.size)P.photoAv=await blobDataURL(b.type?b:new Blob([b],{type:t}));else delete P.photoAv}catch(_){delete P.photoAv}}
   const list=raw.map(cleanEntry).filter(Boolean),bad=raw.length-list.length;
-  const ids=new Set(entries.map(e=>e.id)),sigs=new Set(entries.map(sig)),seen=new Set();
-  const fresh=[],dup=[];
+  const ids=new Set(entries.map(e=>e.id)),sigs=new Set(entries.map(sig)),seen=new Set(),fresh=[],dup=[];
   list.forEach(e=>{if(ids.has(e.id)||sigs.has(sig(e))||seen.has(e.id)){dup.push(e);return}seen.add(e.id);fresh.push(e)});
-  const lost=raw.filter(r=>r&&r.hasPhoto&&(!r.photo||o.v>=2)).length;   /* 第 2 版：hasPhoto 表示 zip 裡少了部分照片 */
-  const media=!Array.isArray(o)&&Array.isArray(o.media)?o.media.filter(m=>m&&typeof m.id==='string'&&/^v\w{1,40}$/.test(m.id)&&typeof m.file==='string'&&/^videos\/[\w.-]+$/.test(m.file)):[];
-  const vidIds=[...new Set(list.filter(e=>e.video).map(e=>e.video.id))];
-  return{fresh,dup,bad,lost,media,vidIds,vmiss:0,total:raw.length,profile:Array.isArray(o)?null:cleanProf(o.profile),reviews:!Array.isArray(o)&&o.reviews&&typeof o.reviews==='object'?o.reviews:null}}
-/* 第 2 版備份：照片、影片是 zip 裡的檔案，JSON 只記路徑。先把照片讀成網頁版內部用的 data URL，影片留給 imRestoreVideos */
-const BK_PATH=/^(photos|videos)\/[\w.-]+$/,BK_MIME={jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
-const blobDataURL=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result));r.onerror=rej;r.readAsDataURL(b)});
-async function bkV2In(o,z){const types={};(Array.isArray(o.files)?o.files:[]).forEach(f=>{if(f&&typeof f.path==='string'&&typeof f.type==='string')types[f.path]=f.type});
-  const img=async p=>{if(!z||typeof p!=='string'||!BK_PATH.test(p)||!p.startsWith('photos/'))return null;
-    try{const t=types[p]||BK_MIME[p.split('.').pop().toLowerCase()]||'image/jpeg',b=await z.get(p,t);if(!b||!b.size||b.size>20e6)return null;return await blobDataURL(b.type?b:new Blob([b],{type:t}))}catch(_){return null}};
-  const media=[],ents=[];
-  for(const e of Array.isArray(o.entries)?o.entries:[]){if(!e||typeof e!=='object'){ents.push(e);continue}const{photos,video,...r}=e;
-    const want=Array.isArray(photos)?photos.slice(0,10):[],ph=[];for(const p of want){const u=await img(p);if(u)ph.push(u)}
-    if(ph.length){r.photo=ph[0];if(ph.length>1)r.photoMore=ph.slice(1)}if(ph.length<want.length)r.hasPhoto=true;
-    if(video&&typeof video==='object'){r.video={id:video.id,dur:video.dur,poster:await img(video.poster)};
-      if(typeof video.file==='string'&&BK_PATH.test(video.file)&&video.file.startsWith('videos/')&&!media.some(m=>m.id===video.id))media.push({id:video.id,file:video.file,type:typeof video.type==='string'?video.type:'video/mp4'})}
-    ents.push(r)}
-  const P=o.profile&&typeof o.profile==='object'?{...o.profile}:{};if('photoAv' in P){const u=await img(P.photoAv);if(u)P.photoAv=u;else delete P.photoAv}
-  return{...o,profile:P,entries:ents,media}}
-/* 讀取備份內容（第 1 版或第 2 版、zip 或純 JSON） */
-async function imLoad(txt,z){txt=(txt||'').trim();if(!txt)return null;let o;try{o=JSON.parse(txt)}catch(_){return parseBackup(txt)}
-  if(o&&!Array.isArray(o)&&o.v>=2)o=await bkV2In(o,z);const d=parseBackup(o);if(d&&!d.err&&z)d.zip=z;return d}
+  const vidIds=[...new Set(list.filter(e=>e.video).map(e=>e.video.id))],have=new Set(await mediaKeys()),inZip=new Set(media.map(m=>m.id));
+  return{z,fresh,dup,bad,lost,media,vmiss:vidIds.filter(id=>!have.has(id)&&!inZip.has(id)).length,newer:o.v>1,
+    profile:cleanProf(P),reviews:o.reviews&&typeof o.reviews==='object'&&o.reviews.ids&&typeof o.reviews.ids==='object'?o.reviews:null}}
+const imNote=(t,c='var(--flare)')=>`<small style="display:block;margin-top:6px;color:${c}">${t}</small>`;
 function renderImport(){const d=imData,pv=$('imPrev');
   $('imProfRow').hidden=!(d&&!d.err&&d.profile);
   if(!d){pv.hidden=true;$('imGo').disabled=true;$('imGo').textContent='匯入';return}
   pv.hidden=false;pv.classList.toggle('bad',!!d.err);
   if(d.err){pv.textContent=d.err;$('imGo').disabled=true;$('imGo').textContent='匯入';return}
-  const ds=d.fresh.map(e=>e.date).sort(),span=ds.length?(ds[0]===ds[ds.length-1]?fmtDay(ds[0]).split('・')[0]:`${ds[0].replace(/-/g,'/')} – ${ds[ds.length-1].replace(/-/g,'/')}`):'';
+  const ds=d.fresh.map(e=>e.date).sort(),span=ds.length?(ds[0]===ds[ds.length-1]?fmtDay(ds[0]).split('・')[0]:`${ds[0].replace(/-/g,'/')} – ${ds[ds.length-1].replace(/-/g,'/')}`):'',
+    np=d.fresh.reduce((t,e)=>t+photoCount(e),0);
   pv.innerHTML=`${d.fresh.length?`找到 <b>${d.fresh.length}</b> 則可以匯入的紀錄`:'這份備份裡的紀錄都已經在這台裝置上了'}${span?`<br><small style="color:var(--muted)">${span}</small>`:''}
     <div class="ip-n"><span><b>${d.fresh.length}</b>新紀錄</span><span><b>${d.dup.length}</b>已存在</span>${d.bad?`<span><b>${d.bad}</b>無法讀取</span>`:''}</div>
-    ${d.zip&&d.media.length?`<small style="display:block;margin-top:6px;color:var(--teal,#6FE3D6)">含 ${d.media.length} 部影片，匯入時會一起還原</small>`:''}
-    ${d.lost?`<small style="display:block;margin-top:6px;color:var(--flare)">有 ${d.lost} 則紀錄的照片不在這份備份裡，匯入後會缺少照片。</small>`:''}
-    ${d.vmiss?`<small style="display:block;margin-top:6px;color:var(--flare)">有 ${d.vmiss} 部影片的檔案不在這份備份裡，也不在這台裝置上，匯入後只會顯示封面。請改用含影片的 .zip 完整備份。</small>`:''}`;
+    ${np||d.media.length?imNote(`含 ${np?`${np} 張照片`:''}${np&&d.media.length?'、':''}${d.media.length?`${d.media.length} 部影片`:''}，會一起還原`,'var(--teal,#6FE3D6)'):''}
+    ${d.lost?imNote(`有 ${d.lost} 則紀錄的照片不在這份備份裡，匯入後會缺少照片。`):''}
+    ${d.vmiss?imNote(`有 ${d.vmiss} 部影片的檔案不在這份備份裡，也不在這台裝置上，匯入後只會顯示封面。`):''}
+    ${d.newer?imNote('這份備份來自較新版本的 Novaday，部分內容可能無法還原。'):''}`;
   const canP=d.profile&&$('imProf').checked;
   $('imGo').disabled=!d.fresh.length&&!canP;
-  $('imGo').textContent=d.fresh.length?`匯入 ${d.fresh.length} 則紀錄`:canP?'還原個人資料':'沒有新的紀錄';}
-/* 影片檔：備份裡（zip）或這台裝置上都沒有的，提醒匯入後只剩封面 */
-async function imCheckVideos(d){if(!d||d.err||!d.vidIds.length)return;const have=new Set(await mediaKeys()),inZip=new Set(d.zip?d.media.filter(m=>d.zip.find(m.file)).map(m=>m.id):[]);
-  d.vmiss=d.vidIds.filter(id=>!have.has(id)&&!inZip.has(id)).length;if(imData===d)renderImport()}
-function openImport(){imData=null;imFileTxt='';imZip=null;$('imIn').value='';$('imFile').value='';$('imFileN').textContent='支援「完整備份」（.zip／.json）和「JSON」格式';
+  $('imGo').textContent=d.fresh.length?`匯入 ${d.fresh.length} 則紀錄`:canP?'還原個人資料':'沒有新的紀錄'}
+function openImport(){imFreeBlobs();imData=null;$('imFile').value='';$('imFileN').textContent='Novaday 完整備份（.zip）';
   $('imProf').checked=entries.every(isSample);renderImport();openSheet('importSheet')}
 $('liImport').onclick=openImport;
 $('exToIm').onclick=()=>{closeSheet('exporter');openImport()};
-let imT=null,imFileTxt='',imZip=null;$('imIn').addEventListener('input',()=>{clearTimeout(imT);imT=setTimeout(async()=>{const v=$('imIn').value,d=await imLoad(v||imFileTxt,v?null:imZip);if($('imIn').value!==v)return;imData=d;renderImport();imCheckVideos(d)},250)});
 $('imProf').addEventListener('change',renderImport);
-$('imFile').addEventListener('change',async()=>{const f=$('imFile').files[0];if(!f)return;clearTimeout(imT);imZip=null;
-  if(isZipFile(f)){$('imFileN').textContent='已選擇：'+f.name;$('imIn').value='';
-    try{const z=await zipOpen(f),jn=z.find('novaday-backup.json')||z.names.find(x=>/\.json$/i.test(x)),jb=jn&&await z.get(jn.split('/').pop());
-      if(!jb){imData={err:'這個 zip 裡找不到 Novaday 備份，請確認是 Novaday 匯出的完整備份。'};renderImport();return}
-      imFileTxt=await jb.text();imZip=z;$('imFileN').textContent='正在讀取備份…';imData=await imLoad(imFileTxt,z);$('imFileN').textContent='已選擇：'+f.name}
-    catch(_){imData={err:'無法讀取這個 zip 檔，請確認檔案完整，或重新下載一次備份。'}}
-    renderImport();imCheckVideos(imData);return}
-  if(f.size>60*1024*1024){imData={err:'檔案太大了，無法讀取。'};renderImport();return}
-  $('imFileN').textContent='已選擇：'+f.name;const r=new FileReader();
-  r.onload=async()=>{const t=String(r.result||'');imFileTxt=t;$('imIn').value='';imData=await imLoad(t,null);renderImport();imCheckVideos(imData)};
-  r.onerror=()=>{imData={err:'讀取檔案失敗，請再試一次。'};renderImport()};r.readAsText(f)});
-$('imGo').onclick=()=>{const d=imData;if(!d||d.err)return;
-  const before=entries.slice(),pBefore=JSON.stringify(prof),doP=d.profile&&$('imProf').checked;
-  const real=d.fresh.filter(e=>!isSample(e)).length;let dropped=0;
-  if(real&&entries.length&&entries.every(isSample)){dropped=entries.length;entries=[]}
-  entries=entries.concat(d.fresh);
-  if(doP){Object.assign(prof,d.profile);if(d.reviews&&!Object.keys(reviews.ids||{}).length){Object.assign(reviews,d.reviews);saveReviews()}}
-  if(!save()){entries=before;prof=Object.assign(prof,JSON.parse(pBefore));toast('儲存空間不足，匯入失敗',3000);return}
-  const early=entries.map(e=>e.date).sort()[0];if(early&&(!prof.since||early<prof.since))prof.since=early;
-  saveProf();closeSheet('importSheet');render();if(typeof renderMe==='function')renderMe();
-  const msg=`已匯入 ${d.fresh.length} 則紀錄${doP?'，並還原個人資料':''}${dropped?'（範例紀錄已移除）':''}`;
-  if(d.zip&&d.media.length)imRestoreVideos(d,msg);else toast(msg,3200)};
-/* 把 zip 裡的影片放回 IndexedDB（這台裝置已經有的就跳過） */
+$('imFile').addEventListener('change',async()=>{const f=$('imFile').files[0];if(!f)return;imFreeBlobs();imData=null;renderImport();
+  $('imFileN').textContent='正在讀取：'+f.name;imData=await imLoadZip(f);$('imFileN').textContent='已選擇：'+f.name;renderImport()});
+let imBusy=false;
+$('imGo').onclick=async()=>{const d=imData;if(!d||d.err||imBusy)return;imBusy=true;$('imGo').disabled=true;
+  try{const before=entries.slice(),pBefore=JSON.stringify(prof),rBefore=JSON.stringify(reviews),doP=d.profile&&$('imProf').checked;
+    /* 照片寫進 IndexedDB（確定匯入才寫），全部成功才更新紀錄 */
+    const keep=u=>u&&imBlobs.has(u)?phFromBlob(imBlobs.get(u)):u;
+    const add=d.fresh.map(e=>{const x={...e};if(x.photo)x.photo=keep(x.photo);if(x.photoMore)x.photoMore=x.photoMore.map(keep);if(x.video&&x.video.poster)x.video={...x.video,poster:keep(x.video.poster)};return x});
+    if(!(await phFlush())){toast('照片無法儲存，可能是裝置空間不足，匯入已取消',3600);return}
+    const real=add.filter(e=>!isSample(e)).length;let dropped=0;
+    if(real&&entries.length&&entries.every(isSample)){dropped=entries.length;entries=[]}
+    entries=entries.concat(add);
+    if(doP){Object.assign(prof,d.profile);if(d.reviews&&!Object.keys(reviews.ids||{}).length){Object.assign(reviews,d.reviews);saveReviews()}}
+    if(!save()){entries=before;Object.assign(prof,JSON.parse(pBefore));Object.assign(reviews,JSON.parse(rBefore));toast('無法儲存，匯入已取消',3000);return}
+    const early=entries.map(e=>e.date).sort()[0];if(early&&(!prof.since||early<prof.since))prof.since=early;
+    saveProf();closeSheet('importSheet');render();if(typeof renderMe==='function')renderMe();
+    const msg=`已匯入 ${add.length} 則紀錄${doP?'，並還原個人資料':''}${dropped?'（範例紀錄已移除）':''}`;
+    if(d.media.length)await imRestoreVideos(d,msg);else toast(msg,3200);imFreeBlobs();imData=null}
+  finally{imBusy=false;$('imGo').disabled=false}};
+/* 把 zip 裡的影片放回 IndexedDB（這台裝置已經有的就跳過，重複的紀錄也會補回影片） */
 async function imRestoreVideos(d,msg){const have=new Set(await mediaKeys()),todo=d.media.filter(m=>!have.has(m.id));let ok=0,bad=0;
   for(let i=0;i<todo.length;i++){toast(`${msg}・正在還原影片（${i+1} / ${todo.length}）`,60000);
-    try{const b=await d.zip.get(todo[i].file,todo[i].type);if(b&&b.size){await mediaPut(todo[i].id,b.type?b:new Blob([b],{type:todo[i].type}));ok++}else bad++}catch(_){bad++}}
+    try{const b=await d.z.get(todo[i].file,todo[i].type);if(b&&b.size){await mediaPut(todo[i].id,b.type?b:new Blob([b],{type:todo[i].type}));ok++}else bad++}catch(_){bad++}}
   toast(`${msg}${ok?`，還原 ${ok} 部影片`:''}${bad?`・${bad} 部影片無法還原`:''}`,3600);if(typeof renderLog==='function')renderLog()}
 $('qnText').addEventListener('input',qnSync);
 $('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnText').value.trim();if(!t)return;
@@ -6119,8 +6138,8 @@ $('dvAchM').querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.m)
 function devEmptyOff(){let st=[];try{st=JSON.parse(localStorage.getItem(DV_STASH)||'[]')||[]}catch(_){}
   const ids=new Set(entries.map(e=>e.id));entries=[...st.filter(e=>!ids.has(e.id)),...entries];if(!save())return false;
   try{localStorage.removeItem(DV_STASH)}catch(_){}delete prof.devEmpty;saveProf();return true}
-$('swDvEmpty').onclick=()=>{if(prof.devEmpty){if(devEmptyOff()){devRefresh();toast('紀錄已放回')}return}
-  try{localStorage.setItem(DV_STASH,JSON.stringify(entries))}catch(_){toast('儲存空間不足，無法收起紀錄');return}
+$('swDvEmpty').onclick=async()=>{if(prof.devEmpty){if(devEmptyOff()){await phHydrate(entries);devRefresh();toast('紀錄已放回')}return}   /* 收起的紀錄裡照片是 idb: 參照，放回後再讀回來 */
+  try{localStorage.setItem(DV_STASH,JSON.stringify(entries.map(phPack)))}catch(_){toast('儲存空間不足，無法收起紀錄');return}
   const n=entries.length;entries=[];save();prof.devEmpty=1;saveProf();devRefresh();toast(`已暫時收起 ${n} 則紀錄`)};
 
 /* 模擬日期：儲存與實際時間的差，重新載入後由 005-dev-clock.js 套用 */
@@ -6254,8 +6273,12 @@ $('dvHide').onclick=()=>{prof.devOn=0;saveProf();devSecSync();closeSheet('devShe
 
 $('liDev').onclick=devOpen;
 devSecSync();devFsApply();devSlowApply();devFrameApply();devTouchApply();devFpsApply();devPill();
-load();if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
-setTimeout(()=>mediaGC().catch(()=>{}),4000);
+(async()=>{load();
+/* 照片存在 IndexedDB：先讀回來再畫面；舊資料的照片順便搬過去（全部寫入成功才改存檔） */
+{let dr=[];try{const d=JSON.parse(localStorage.getItem(DKEY)||'null');dr=(d&&Array.isArray(d.photos)?d.photos:[]).filter(r=>typeof r==='string'&&r.startsWith(PH_REF)).map(r=>r.slice(PH_REF.length))}catch(e){}
+  try{if(await phHydrate(entries,dr)&&await phFlush())save()}catch(e){}}
+if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
+setTimeout(()=>mediaGC().catch(()=>{}),4000)})();
 })();
 </script>
 </body>

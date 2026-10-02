@@ -66,13 +66,13 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
 function updWhen(){const d=$('fDate').value||ymd(new Date()),t=$('fTime').value;$('whenTxt').textContent=(d===ymd(new Date())?'今天':fmtDay(d))+(t?' '+t:'');$('whenBtn').setAttribute('aria-expanded',!$('xDate').hidden)}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
-const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.reduce((t,u)=>t+u.length,0),curVideo&&curVideo.id,curPrompt]);
+const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);
 const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
   if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
-  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos,video:curVideo,prompt:curPrompt};
+  const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos.map(phRef).filter(Boolean),video:curVideo,prompt:curPrompt};
   try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已自動儲存'}
   catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已儲存（不含照片）'}catch(e2){$('draftState').textContent='草稿無法儲存'}}}
 function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto||curVideo)}
@@ -97,7 +97,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   const d=readDraft();let restored=false;
   if(draftHas(d)&&(d.editing||null)===editing){
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
-    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos(Array.isArray(d.photos)?d.photos:(d.photo?[d.photo]:[]),true);
+    if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<i class="lbi" aria-hidden="true">✦</i>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
@@ -154,7 +154,6 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
-  if(data.photo&&typeof storeUse==='function'){const u=storeUse();if(u.pct>=85)setTimeout(()=>toast(`儲存空間已用 ${Math.round(u.pct)}%，可到「我的 → 設定 → 儲存空間」壓縮照片`,3600),2500)}
   clearDraft();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
   if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);await launch()}
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
@@ -166,8 +165,8 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(newAch.length>2){prof.achNew=[...new Set([...(prof.achNew||[]),...newAch.map(a=>a.id)])];saveProf();renderAchDot();toast(`還解鎖了 ${newAch.length-2} 個徽章，到「我的」看看`,3200)}
   if(wasEdit&&!newAch.length)toast(gained>0?`已儲存，額外獲得 ${gained} XP`:'已儲存變更')});
 function loadPhoto(f){return new Promise(res=>{const r=new FileReader();r.onerror=()=>res(null);
-  r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,900/Math.max(img.width,img.height)),c=document.createElement('canvas');
-    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};
+  r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');
+    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};
     img.onerror=()=>res(null);img.src=r.result};r.readAsDataURL(f)})}
 $('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
   if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}

@@ -76,8 +76,8 @@ $('dvAchM').querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.m)
 function devEmptyOff(){let st=[];try{st=JSON.parse(localStorage.getItem(DV_STASH)||'[]')||[]}catch(_){}
   const ids=new Set(entries.map(e=>e.id));entries=[...st.filter(e=>!ids.has(e.id)),...entries];if(!save())return false;
   try{localStorage.removeItem(DV_STASH)}catch(_){}delete prof.devEmpty;saveProf();return true}
-$('swDvEmpty').onclick=()=>{if(prof.devEmpty){if(devEmptyOff()){devRefresh();toast('紀錄已放回')}return}
-  try{localStorage.setItem(DV_STASH,JSON.stringify(entries))}catch(_){toast('儲存空間不足，無法收起紀錄');return}
+$('swDvEmpty').onclick=async()=>{if(prof.devEmpty){if(devEmptyOff()){await phHydrate(entries);devRefresh();toast('紀錄已放回')}return}   /* 收起的紀錄裡照片是 idb: 參照，放回後再讀回來 */
+  try{localStorage.setItem(DV_STASH,JSON.stringify(entries.map(phPack)))}catch(_){toast('儲存空間不足，無法收起紀錄');return}
   const n=entries.length;entries=[];save();prof.devEmpty=1;saveProf();devRefresh();toast(`已暫時收起 ${n} 則紀錄`)};
 
 /* 模擬日期：儲存與實際時間的差，重新載入後由 005-dev-clock.js 套用 */

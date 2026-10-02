@@ -26,3 +26,9 @@
 .im-prof small{display:block;font-size:12px;color:var(--muted)}
 .im-go{width:100%;min-height:50px;margin-top:14px;font-size:16px}
 
+/* 匯出：完整備份（.zip）／純文字 兩種；完整備份顯示數量摘要，不顯示文字預覽 */
+#exporter .exseg{grid-template-columns:repeat(2,1fr)}
+#exOut[hidden],#copyEx[hidden]{display:none}
+.ex-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.ex-sum b{display:block;font-size:22px;font-weight:700;color:var(--text);line-height:1.2}
+.ex-sum{font-size:12px;color:var(--muted);text-align:center}

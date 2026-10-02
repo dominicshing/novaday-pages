@@ -479,9 +479,8 @@
       <div class="grab"></div>
       <div class="sh"><button type="button" class="txt-btn l" data-close>取消</button><h2 id="imTitle">從備份還原</h2><span></span></div>
       <div class="sb">
-        <p class="ex-note">選擇之前下載的備份檔（.zip 或 .json），或把備份內容貼在下面。已經在這台裝置上的紀錄不會重複匯入。</p>
-        <label class="im-file"><input type="file" id="imFile" accept=".zip,.json,application/zip,application/json,text/plain"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">支援「完整備份」（.zip／.json）和「JSON」格式</small></span></label>
-        <textarea class="field" id="imIn" placeholder="或把備份內容貼在這裡…" aria-label="貼上備份內容" style="min-height:120px;font-size:13px"></textarea>
+        <p class="ex-note">選擇之前下載的 Novaday 完整備份（.zip），紀錄、照片、影片和個人資料都會一起還原。已經在這台裝置上的紀錄不會重複匯入。</p>
+        <label class="im-file"><input type="file" id="imFile" accept=".zip,application/zip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M12 11v6M9.5 14.5L12 17l2.5-2.5"/></svg><span><b>選擇備份檔</b><small id="imFileN">Novaday 完整備份（.zip）</small></span></label>
         <div class="im-prev" id="imPrev" aria-live="polite" hidden></div>
         <label class="im-prof" id="imProfRow" hidden><input type="checkbox" id="imProf"><span>同時還原個人資料<small>暱稱、頭像、生日、地區與星座點亮順序</small></span></label>
         <button type="button" class="btn primary im-go" id="imGo" disabled>匯入</button>
@@ -497,7 +496,7 @@
       <div class="sh"><span></span><h2 id="exTitle">匯出與備份</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
       <div class="sb">
         <p class="ex-note">所有紀錄只存在這台裝置的瀏覽器裡。定期下載一份備份，換手機或清除瀏覽器資料時就能還原。</p>
-        <div class="exseg" role="radiogroup" aria-label="匯出格式"><button type="button" role="radio" id="fmtFull" data-f="full">完整備份</button><button type="button" role="radio" id="fmtJson" data-f="json">JSON</button><button type="button" role="radio" id="fmtText" data-f="text">純文字</button></div>
+        <div class="exseg" role="radiogroup" aria-label="匯出格式"><button type="button" role="radio" id="fmtFull" data-f="full">完整備份</button><button type="button" role="radio" id="fmtText" data-f="text">純文字</button></div>
         <p class="ex-hint" id="exHint"></p>
         <textarea class="field" id="exOut" readonly aria-label="匯出內容預覽" style="min-height:180px;font-size:13px"></textarea>
         <div class="row ex-act"><button class="btn" id="dlEx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg>下載檔案</button><button class="btn primary" id="copyEx"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg>複製內容</button></div>
@@ -846,6 +845,7 @@
 <script src="js/core/090-storage.js"></script>
 <script src="js/core/095-media-store.js"></script>
 <script src="js/core/096-zip.js"></script>
+<script src="js/core/097-photo-store.js"></script>
 <script src="js/logic/100-xp-streak.js"></script>
 <script src="js/data/110-achievements.js"></script>
 <script src="js/ui/art/120-crystal.js"></script>

@@ -30,4 +30,3 @@ async function zipOpen(file){const L=file.size,tail=new Uint8Array(await file.sl
     if(f.m===8&&window.DecompressionStream)return new Blob([await new Response(raw.stream().pipeThrough(new DecompressionStream('deflate-raw'))).blob()],{type:type||''});
     throw new Error('method')}
   return{names,find,get}}
-const isZipFile=f=>/\.zip$/i.test(f.name)||/zip/.test(f.type);
