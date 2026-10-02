@@ -9,7 +9,7 @@ function exportText(real){if(fmt==='full'){const o=backupObj();if(!real&&o.profi
   return sorted().map(e=>`【${fmtDay(e.date)} ${e.time||''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
 function refreshEx(){$('exOut').value=exportText();document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
-  $('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}${vd?`、${vd} 部影片`:''}。${vd?'因為有影片，「下載檔案」會存成 <b>.zip</b>（「複製內容」不含影片）。':''}`:'')}
+  $('exHint').innerHTML=EX_HINT[fmt]+(fmt==='full'?`<br>共 ${entries.length} 則紀錄${ph?`、${ph} 張照片`:''}${vd?`、${vd} 部影片`:''}。「下載檔案」會存成 <b>.zip</b>，照片和影片是裡面的獨立檔案${vd?'；「複製內容」不含影片':''}。`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};
 let rgAfter=null;
 function renderRegion(){const cur=prof.region;

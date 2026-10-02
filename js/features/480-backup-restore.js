@@ -24,18 +24,36 @@ function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
   if(typeof p.nextPick==='string'&&CON[p.nextPick])r.nextPick=p.nextPick;
   return Object.keys(r).length?r:null}
 const sig=e=>[e.date,e.time,e.title,e.body].join('\u0001');
-function parseBackup(txt){txt=(txt||'').trim();if(!txt)return null;
-  let o;try{o=JSON.parse(txt)}catch(_){return{err:txt.startsWith('【')?'這是「純文字」格式，無法用來還原。請改用「完整備份」或「JSON」格式匯出的內容。':'看不懂這份內容，請確認是 Novaday 匯出的備份檔。'}}
+function parseBackup(txt){let o;if(txt&&typeof txt==='object')o=txt;else{txt=(txt||'').trim();if(!txt)return null;
+  try{o=JSON.parse(txt)}catch(_){return{err:txt.startsWith('【')?'這是「純文字」格式，無法用來還原。請改用「完整備份」或「JSON」格式匯出的內容。':'看不懂這份內容，請確認是 Novaday 匯出的備份檔。'}}}
   const raw=Array.isArray(o)?o:o&&Array.isArray(o.entries)?o.entries:null;
   if(!raw)return{err:'這份檔案裡找不到紀錄，請確認是 Novaday 匯出的備份檔。'};
   const list=raw.map(cleanEntry).filter(Boolean),bad=raw.length-list.length;
   const ids=new Set(entries.map(e=>e.id)),sigs=new Set(entries.map(sig)),seen=new Set();
   const fresh=[],dup=[];
   list.forEach(e=>{if(ids.has(e.id)||sigs.has(sig(e))||seen.has(e.id)){dup.push(e);return}seen.add(e.id);fresh.push(e)});
-  const lost=raw.filter(r=>r&&r.hasPhoto&&!r.photo).length;
+  const lost=raw.filter(r=>r&&r.hasPhoto&&(!r.photo||o.v>=2)).length;   /* 第 2 版：hasPhoto 表示 zip 裡少了部分照片 */
   const media=!Array.isArray(o)&&Array.isArray(o.media)?o.media.filter(m=>m&&typeof m.id==='string'&&/^v\w{1,40}$/.test(m.id)&&typeof m.file==='string'&&/^videos\/[\w.-]+$/.test(m.file)):[];
   const vidIds=[...new Set(list.filter(e=>e.video).map(e=>e.video.id))];
   return{fresh,dup,bad,lost,media,vidIds,vmiss:0,total:raw.length,profile:Array.isArray(o)?null:cleanProf(o.profile),reviews:!Array.isArray(o)&&o.reviews&&typeof o.reviews==='object'?o.reviews:null}}
+/* 第 2 版備份：照片、影片是 zip 裡的檔案，JSON 只記路徑。先把照片讀成網頁版內部用的 data URL，影片留給 imRestoreVideos */
+const BK_PATH=/^(photos|videos)\/[\w.-]+$/,BK_MIME={jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
+const blobDataURL=b=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result));r.onerror=rej;r.readAsDataURL(b)});
+async function bkV2In(o,z){const types={};(Array.isArray(o.files)?o.files:[]).forEach(f=>{if(f&&typeof f.path==='string'&&typeof f.type==='string')types[f.path]=f.type});
+  const img=async p=>{if(!z||typeof p!=='string'||!BK_PATH.test(p)||!p.startsWith('photos/'))return null;
+    try{const t=types[p]||BK_MIME[p.split('.').pop().toLowerCase()]||'image/jpeg',b=await z.get(p,t);if(!b||!b.size||b.size>20e6)return null;return await blobDataURL(b.type?b:new Blob([b],{type:t}))}catch(_){return null}};
+  const media=[],ents=[];
+  for(const e of Array.isArray(o.entries)?o.entries:[]){if(!e||typeof e!=='object'){ents.push(e);continue}const{photos,video,...r}=e;
+    const want=Array.isArray(photos)?photos.slice(0,10):[],ph=[];for(const p of want){const u=await img(p);if(u)ph.push(u)}
+    if(ph.length){r.photo=ph[0];if(ph.length>1)r.photoMore=ph.slice(1)}if(ph.length<want.length)r.hasPhoto=true;
+    if(video&&typeof video==='object'){r.video={id:video.id,dur:video.dur,poster:await img(video.poster)};
+      if(typeof video.file==='string'&&BK_PATH.test(video.file)&&video.file.startsWith('videos/')&&!media.some(m=>m.id===video.id))media.push({id:video.id,file:video.file,type:typeof video.type==='string'?video.type:'video/mp4'})}
+    ents.push(r)}
+  const P=o.profile&&typeof o.profile==='object'?{...o.profile}:{};if('photoAv' in P){const u=await img(P.photoAv);if(u)P.photoAv=u;else delete P.photoAv}
+  return{...o,profile:P,entries:ents,media}}
+/* 讀取備份內容（第 1 版或第 2 版、zip 或純 JSON） */
+async function imLoad(txt,z){txt=(txt||'').trim();if(!txt)return null;let o;try{o=JSON.parse(txt)}catch(_){return parseBackup(txt)}
+  if(o&&!Array.isArray(o)&&o.v>=2)o=await bkV2In(o,z);const d=parseBackup(o);if(d&&!d.err&&z)d.zip=z;return d}
 function renderImport(){const d=imData,pv=$('imPrev');
   $('imProfRow').hidden=!(d&&!d.err&&d.profile);
   if(!d){pv.hidden=true;$('imGo').disabled=true;$('imGo').textContent='匯入';return}
@@ -45,7 +63,7 @@ function renderImport(){const d=imData,pv=$('imPrev');
   pv.innerHTML=`${d.fresh.length?`找到 <b>${d.fresh.length}</b> 則可以匯入的紀錄`:'這份備份裡的紀錄都已經在這台裝置上了'}${span?`<br><small style="color:var(--muted)">${span}</small>`:''}
     <div class="ip-n"><span><b>${d.fresh.length}</b>新紀錄</span><span><b>${d.dup.length}</b>已存在</span>${d.bad?`<span><b>${d.bad}</b>無法讀取</span>`:''}</div>
     ${d.zip&&d.media.length?`<small style="display:block;margin-top:6px;color:var(--teal,#6FE3D6)">含 ${d.media.length} 部影片，匯入時會一起還原</small>`:''}
-    ${d.lost?`<small style="display:block;margin-top:6px;color:var(--flare)">有 ${d.lost} 則紀錄的照片沒有包含在這份 JSON 裡，匯入後不會有照片。</small>`:''}
+    ${d.lost?`<small style="display:block;margin-top:6px;color:var(--flare)">有 ${d.lost} 則紀錄的照片不在這份備份裡，匯入後會缺少照片。</small>`:''}
     ${d.vmiss?`<small style="display:block;margin-top:6px;color:var(--flare)">有 ${d.vmiss} 部影片的檔案不在這份備份裡，也不在這台裝置上，匯入後只會顯示封面。請改用含影片的 .zip 完整備份。</small>`:''}`;
   const canP=d.profile&&$('imProf').checked;
   $('imGo').disabled=!d.fresh.length&&!canP;
@@ -57,18 +75,18 @@ function openImport(){imData=null;imFileTxt='';imZip=null;$('imIn').value='';$('
   $('imProf').checked=entries.every(isSample);renderImport();openSheet('importSheet')}
 $('liImport').onclick=openImport;
 $('exToIm').onclick=()=>{closeSheet('exporter');openImport()};
-let imT=null,imFileTxt='',imZip=null;$('imIn').addEventListener('input',()=>{clearTimeout(imT);imT=setTimeout(()=>{const v=$('imIn').value;imData=parseBackup(v||imFileTxt);if(imData&&!v&&imZip)imData.zip=imZip;renderImport();imCheckVideos(imData)},250)});
+let imT=null,imFileTxt='',imZip=null;$('imIn').addEventListener('input',()=>{clearTimeout(imT);imT=setTimeout(async()=>{const v=$('imIn').value,d=await imLoad(v||imFileTxt,v?null:imZip);if($('imIn').value!==v)return;imData=d;renderImport();imCheckVideos(d)},250)});
 $('imProf').addEventListener('change',renderImport);
 $('imFile').addEventListener('change',async()=>{const f=$('imFile').files[0];if(!f)return;clearTimeout(imT);imZip=null;
   if(isZipFile(f)){$('imFileN').textContent='已選擇：'+f.name;$('imIn').value='';
     try{const z=await zipOpen(f),jn=z.find('novaday-backup.json')||z.names.find(x=>/\.json$/i.test(x)),jb=jn&&await z.get(jn.split('/').pop());
       if(!jb){imData={err:'這個 zip 裡找不到 Novaday 備份，請確認是 Novaday 匯出的完整備份。'};renderImport();return}
-      imFileTxt=await jb.text();imZip=z;imData=parseBackup(imFileTxt);if(imData&&!imData.err)imData.zip=z}
+      imFileTxt=await jb.text();imZip=z;$('imFileN').textContent='正在讀取備份…';imData=await imLoad(imFileTxt,z);$('imFileN').textContent='已選擇：'+f.name}
     catch(_){imData={err:'無法讀取這個 zip 檔，請確認檔案完整，或重新下載一次備份。'}}
     renderImport();imCheckVideos(imData);return}
   if(f.size>60*1024*1024){imData={err:'檔案太大了，無法讀取。'};renderImport();return}
   $('imFileN').textContent='已選擇：'+f.name;const r=new FileReader();
-  r.onload=()=>{const t=String(r.result||'');imFileTxt=t;$('imIn').value='';imData=parseBackup(t);renderImport();imCheckVideos(imData)};
+  r.onload=async()=>{const t=String(r.result||'');imFileTxt=t;$('imIn').value='';imData=await imLoad(t,null);renderImport();imCheckVideos(imData)};
   r.onerror=()=>{imData={err:'讀取檔案失敗，請再試一次。'};renderImport()};r.readAsText(f)});
 $('imGo').onclick=()=>{const d=imData;if(!d||d.err)return;
   const before=entries.slice(),pBefore=JSON.stringify(prof),doP=d.profile&&$('imProf').checked;

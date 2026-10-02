@@ -27,6 +27,7 @@
 | `design/design_tokens.json` | 色彩、字型、圓角、漸層 |
 | `design/animations_keyframes.css` | 110 個 CSS 動畫 keyframes，可以照著轉成 Flutter 動畫 |
 | `screenshots/` | 各主要畫面截圖，尺寸 390×844 @2x |
+| `docs/backup-format.md` | 備份格式規格（網頁版與 App 共用） |
 | `index.html`、`manifest.json`、`css/`、`js/`、`tools/`、`dist/` | 網頁版原始碼（分層分檔）：73 個 CSS 檔、55 個 JS 檔，打包工具，單一檔版 |
 
 ## 資料檔 `data/`
@@ -83,6 +84,10 @@ flutter:
   - 輔色 ion `#6FE3D6`
   - 強調 flare `#FFB45C`
   - 金星 `#FFE7A3`
+
+## 備份格式
+
+網頁版和 Flutter App 共用同一種備份格式：`.zip` 裡放 `novaday-backup.json`，照片和影片是獨立檔案。欄位、zip 規則、合併規則和舊版相容方式都寫在 [`docs/backup-format.md`](docs/backup-format.md)，實作 App 的備份與還原時請照著做，兩邊的備份才能互相還原。
 
 ## 注意事項
 
