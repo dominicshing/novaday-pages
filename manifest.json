@@ -77,6 +77,7 @@
     "css/components/750-log-cards.css"
   ],
   "js": [
+    "js/core/005-dev-clock.js",
     "js/core/010-config.js",
     "js/data/020-moods-ranks.js",
     "js/ui/art/030-rank-badge.js",
@@ -131,6 +132,7 @@
     "js/app/510-init-search.js",
     "js/screens/520-onboarding.js",
     "js/features/530-settings-pin-lock.js",
+    "js/features/535-dev-tools.js",
     "js/app/540-boot.js"
   ],
   "error_overlay": "js/core/000-error-overlay.js"

@@ -611,8 +611,7 @@
       </div>
       <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>開發者選項</h3>
       <div class="list panel">
-        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/></svg></i><span>每次都顯示引導<small>每次打開 App 都從歡迎頁開始</small></span></span><button class="sw" role="switch" id="swObDev" aria-checked="false" aria-label="開發者選項：每次都顯示引導"></button></div>
-        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>顯示星座剪影<small>在星座連線後方畫出圖案（例如海豚）</small></span></span><button class="sw" role="switch" id="swFig" aria-checked="true" aria-label="開發者選項：顯示星座剪影"></button></div>
+        <button class="li" id="liDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>開發者工具<small>動畫預覽、測試資料、模擬日期、樣式檢查</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
       <div class="list panel">
@@ -664,6 +663,57 @@
         <h3 class="set-h">這個版本的更新</h3>
         <ul class="list panel ab-log"><li><b aria-hidden="true">✦</b><span>全新的引導流程<small>星空動畫、心情星星、照片頭像、地區分區，以及「你的第一個星座」</small></span></li><li><b aria-hidden="true">◎</b><span>「今晚在哪裡？」更準確<small>加入城市經度與時區，全球各地的方位與仰角都正確</small></span></li><li><b aria-hidden="true">↻</b><span>下拉重新整理<small>在畫面頂端往下拉，就能重新載入</small></span></li><li><b aria-hidden="true">☰</b><span>設定頁分類<small>新增「版本資訊」與開發者選項（每次顯示引導、星座剪影）</small></span></li><li><b aria-hidden="true">◐</b><span>頭像與介面細節<small>上傳照片按鈕重新設計，歡迎頁加入圖示與動畫</small></span></li></ul>
         <p class="ver">Novaday・每天點亮一顆新星</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 開發者工具 -->
+  <div class="layer" id="devSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="devTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="devTitle">開發者工具</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <p class="dv-note">用來測試介面與樣式，不會影響正式功能。</p>
+        <h3 class="set-h first" style="--c:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>動畫預覽</h3>
+        <div class="list panel">
+          <div class="dv-item"><div class="dv-lbl">星座完成<small>完成一個星座時的慶祝畫面</small></div><div class="dv-ctl"><select class="field" id="dvCon" aria-label="星座"></select><button type="button" class="dv-go" id="dvConGo">播放</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">徽章解鎖<small>解鎖徽章時的提示與水晶</small></div><div class="dv-ctl"><select class="field" id="dvAch" aria-label="徽章"></select><button type="button" class="dv-go" id="dvAchGo">播放</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">升級／晉階<small>等級提升時的畫面，標示「晉階」的等級會換階級徽章</small></div><div class="dv-ctl"><select class="field" id="dvLv" aria-label="等級"></select><button type="button" class="dv-go" id="dvLvGo">播放</button></div></div>
+        </div>
+        <h3 class="set-h" style="--c:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg>測試資料</h3>
+        <div class="list panel">
+          <div class="dv-item"><div class="dv-lbl">產生測試紀錄<small id="dvDataSub"></small></div><div class="dv-ctl dv-btns" id="dvData"><button type="button" class="dv-go" data-n="30">30 天</button><button type="button" class="dv-go" data-n="100">100 天</button><button type="button" class="dv-go" data-n="365">365 天</button><button type="button" class="dv-go danger" id="dvClr">清除</button></div></div>
+        </div>
+        <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>模擬日期</h3>
+        <div class="list panel">
+          <div class="dv-item"><div class="dv-lbl">模擬今天的日期與時間<small id="dvDateSub"></small></div><div class="dv-ctl"><input type="date" class="field" id="dvDate" aria-label="模擬日期"><input type="time" class="field" id="dvTime" aria-label="模擬時間"></div><div class="dv-ctl"><button type="button" class="dv-go" id="dvDateGo">套用並重新載入</button><button type="button" class="dv-go ghost" id="dvDateReset">恢復實際時間</button></div></div>
+        </div>
+        <h3 class="set-h" style="--c:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>樣式檢查</h3>
+        <div class="list panel">
+          <button class="li" id="liDvFigs"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>星座剪影總覽<small>88 個星座一次檢查置中與輪廓</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <div class="dv-item"><div class="dv-lbl">字級放大<small>模擬手機的大字設定，檢查文字截斷與換行</small></div><div class="dv-seg" id="dvFs" role="group" aria-label="字級"><button type="button" data-s="1">1×</button><button type="button" data-s="1.3">1.3×</button><button type="button" data-s="1.6">1.6×</button></div></div>
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 3.5h5"/></svg></i><span>動畫慢速<small>所有動畫放慢為 0.25 倍，方便檢查細節</small></span></span><button class="sw" role="switch" id="swDvSlow" aria-checked="false" aria-label="動畫慢速"></button></div>
+        </div>
+        <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>引導與圖案</h3>
+        <div class="list panel">
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/></svg></i><span>每次都顯示引導<small>每次打開 App 都從歡迎頁開始</small></span></span><button class="sw" role="switch" id="swObDev" aria-checked="false" aria-label="開發者選項：每次都顯示引導"></button></div>
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>顯示星座剪影<small>在星座連線後方畫出圖案（例如海豚）</small></span></span><button class="sw" role="switch" id="swFig" aria-checked="true" aria-label="開發者選項：顯示星座剪影"></button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：星座剪影總覽 -->
+  <div class="layer" id="devFigSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvFigTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvFigTitle">星座剪影總覽</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <p class="dv-note" id="dvFigSum"></p>
+        <div class="dv-seg dv-seg4" id="dvFigF" role="group" aria-label="篩選"><button type="button" data-f="all">全部</button><button type="button" data-f="dust">星塵</button><button type="button" data-f="fig">一般剪影</button><button type="button" data-f="none">無剪影</button></div>
+        <div class="dvf-grid" id="dvFigGrid"></div>
       </div>
     </div>
   </div>
@@ -725,6 +775,7 @@
 
 <!-- ===== 程式（依載入順序執行） ===== -->
 <script src="js/core/000-error-overlay.js"></script>
+<script src="js/core/005-dev-clock.js"></script>
 <script src="js/core/010-config.js"></script>
 <script src="js/data/020-moods-ranks.js"></script>
 <script src="js/ui/art/030-rank-badge.js"></script>
@@ -779,6 +830,7 @@
 <script src="js/app/510-init-search.js"></script>
 <script src="js/screens/520-onboarding.js"></script>
 <script src="js/features/530-settings-pin-lock.js"></script>
+<script src="js/features/535-dev-tools.js"></script>
 <script src="js/app/540-boot.js"></script>
 </body>
 </html>

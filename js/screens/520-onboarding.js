@@ -9,7 +9,7 @@ function obSkyStart(){const c=$('obSky'),x=c.getContext('2d');let W=0,H=0;
   const mk=(n,r0,r1,sp,tw,cols)=>Array.from({length:n},()=>({x:Math.random(),y:Math.random(),r:r0+Math.random()*(r1-r0),p:Math.random()*6.3,sp,tw,c:cols[Math.random()*cols.length|0]}));
   const L=[mk(70,.3,.8,3,.35,['#E8E9FF']),mk(35,.6,1.2,6,.55,['#E8E9FF','#CFC9FF']),mk(12,1.1,1.8,10,.6,['#FFE7A3','#BFF4EE','#E8E9FF'])];
   let t=0,last=performance.now(),met=null,next=1.5+Math.random()*2,id;const MD=[-.876,.482];
-  const f=now=>{if($('onb').hidden){cancelAnimationFrame(id);return}const dt=Math.min(.05,Math.max(0,(now-last)/1e3));last=now;t+=dt;
+  const f=now=>{if($('onb').hidden){cancelAnimationFrame(id);return}const dt=Math.min(.05,Math.max(0,(now-last)/1e3))*(window.devSlowK||1);last=now;t+=dt;
     x.clearRect(0,0,W,H);
     L.forEach((ly,li)=>ly.forEach(s=>{if(!reduce&&W){s.x=(s.x-s.sp*dt/W+1)%1;s.y=(s.y+s.sp*.5*dt/H)%1}
       const a=reduce?.6:(1-s.tw)+s.tw*(.5+.5*Math.sin(t*(1.1+li*.4)+s.p)),px=s.x*W,py=s.y*H;x.fillStyle=s.c;

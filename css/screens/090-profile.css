@@ -54,3 +54,29 @@
 .ab-log li:last-child{border-bottom:0}
 .ab-log b{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(138,124,255,.16);color:#CFC9FF;font-size:13px}
 .ab-log small{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.5}
+/* 開發者工具 */
+.dv-note{margin:0 4px 4px;font-size:13px;color:var(--muted);line-height:1.5}
+.dv-item{padding:12px 16px;border-bottom:1px solid var(--line)}
+.list .dv-item:last-child{border-bottom:0}
+.dv-lbl{font-size:15px}
+.dv-lbl small{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.45}
+.dv-ctl{display:flex;gap:8px;margin-top:10px}
+.dv-ctl .field{flex:1;min-width:0;min-height:40px}
+.dv-go{flex:none;min-height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(138,124,255,.5);background:rgba(138,124,255,.18);color:#E8E9FF;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .15s}
+.dv-go:active{transform:scale(.96)}
+.dv-go:disabled{opacity:.4;cursor:default}
+.dv-go.danger{border-color:rgba(255,122,138,.5);background:rgba(255,122,138,.12);color:#FF9AA6}
+.dv-go.ghost{border-color:var(--line);background:none;color:var(--muted)}
+.dv-btns .dv-go{flex:1;padding:0 6px}
+.dv-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:10px;padding:3px;border-radius:12px;background:rgba(7,10,28,.55);border:1px solid var(--line)}
+.dv-seg4{grid-template-columns:repeat(4,1fr);margin:6px 0 12px}
+.dv-seg button{min-height:34px;border:0;border-radius:9px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.dv-seg button[aria-pressed="true"]{color:var(--text);background:linear-gradient(135deg,rgba(138,124,255,.4),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset}
+.dvf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dvf{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 6px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
+.dvf svg{width:100%;height:auto;display:block;pointer-events:none}
+.dvf b{font-size:14px}
+.dvf small{font-size:11px;color:var(--muted)}
+/* 模擬日期提示：固定在畫面上方，點一下開啟開發者工具 */
+.dv-pill{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:65;padding:4px 12px;border-radius:12px;border:1px solid rgba(255,180,92,.6);background:rgba(40,26,10,.85);color:#FFD9A8;font:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
+@media (min-width:600px){.dv-pill{top:58px}}
