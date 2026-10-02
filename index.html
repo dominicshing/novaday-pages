@@ -609,8 +609,8 @@
       <div class="list panel">
         <button class="li" id="liAbout"><span class="li-l"><i class="li-ic" style="--ic:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg></i><span>版本資訊<small>版本號碼與最近的更新內容</small></span></span><span class="li-v">v2.0</span><span class="chev" aria-hidden="true">›</span></button>
       </div>
-      <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>開發者選項</h3>
-      <div class="list panel">
+      <h3 class="set-h" id="devSecH" style="--c:#9AA3C7" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>開發者選項</h3>
+      <div class="list panel" id="devSec" hidden>
         <button class="li" id="liDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>開發者工具<small>動畫預覽、測試資料、模擬日期、樣式檢查</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
@@ -655,7 +655,7 @@
         <div class="ab-hero"><svg class="ab-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHaloA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNovaA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBgA)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHaloA)"/><circle cx="30" cy="30" r="9" fill="url(#nvHaloA)"/><circle cx="70" cy="72" r="9" fill="url(#nvHaloA)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNovaA)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg><b>Novaday</b><span>每天點亮一顆新星</span><em>版本 2.0</em></div>
         <h3 class="set-h">應用程式</h3>
         <div class="list panel ab-info">
-          <div class="li"><span>版本</span><span class="li-v">2.0</span></div>
+          <button type="button" class="li ab-ver" id="abVer"><span>版本</span><span class="li-v">2.0</span></button>
           <div class="li"><span>更新日期</span><span class="li-v">2026 年 10 月</span></div>
           <div class="li"><span>資料儲存</span><span class="li-v">只存在這台裝置</span></div>
           <div class="li"><span>星座資料</span><span class="li-v">88 個 IAU 星座</span></div>
@@ -681,24 +681,53 @@
           <div class="dv-item"><div class="dv-lbl">徽章解鎖<small>解鎖徽章時的提示與水晶</small></div><div class="dv-ctl"><select class="field" id="dvAch" aria-label="徽章"></select><button type="button" class="dv-go" id="dvAchGo">播放</button></div></div>
           <div class="dv-item"><div class="dv-lbl">升級／晉階<small>等級提升時的畫面，標示「晉階」的等級會換階級徽章</small></div><div class="dv-ctl"><select class="field" id="dvLv" aria-label="等級"></select><button type="button" class="dv-go" id="dvLvGo">播放</button></div></div>
         </div>
+        <h3 class="set-h" style="--c:#FF8FB8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>畫面預覽</h3>
+        <div class="list panel">
+          <div class="dv-item"><div class="dv-lbl">月報與年度回顧<small>選任一個月份，資料不足時也能檢查版面</small></div><div class="dv-ctl"><input type="month" class="field" id="dvMon" aria-label="月份"><button type="button" class="dv-go" id="dvMonGo">月報</button><button type="button" class="dv-go" id="dvYearGo">年度回顧</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">星座運勢<small>不必改生日，直接看任一星座的運勢頁</small></div><div class="dv-ctl"><select class="field" id="dvZod" aria-label="星座"></select><button type="button" class="dv-go" id="dvZodGo">開啟</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">引導頁與密碼鎖<small>預覽模式：不會寫入個人資料，也不必真的設定密碼</small></div><div class="dv-ctl dv-btns"><button type="button" class="dv-go" id="dvOnbGo">引導頁</button><button type="button" class="dv-go" id="dvLockGo">密碼鎖</button></div></div>
+        </div>
         <h3 class="set-h" style="--c:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></svg>測試資料</h3>
         <div class="list panel">
           <div class="dv-item"><div class="dv-lbl">產生測試紀錄<small id="dvDataSub"></small></div><div class="dv-ctl dv-btns" id="dvData"><button type="button" class="dv-go" data-n="30">30 天</button><button type="button" class="dv-go" data-n="100">100 天</button><button type="button" class="dv-go" data-n="365">365 天</button><button type="button" class="dv-go danger" id="dvClr">清除</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">快轉進度<small id="dvFfSub"></small></div>
+            <div class="dv-ctl"><span class="dv-k">連續天數</span><select class="field" id="dvStk" aria-label="連續天數"><option>3</option><option>7</option><option selected>14</option><option>30</option><option>100</option><option>365</option></select><button type="button" class="dv-go" id="dvStkGo">補滿</button></div>
+            <div class="dv-ctl"><span class="dv-k">完成星座</span><select class="field" id="dvCons" aria-label="完成星座數"><option>1</option><option selected>5</option><option>12</option><option>30</option></select><button type="button" class="dv-go" id="dvConsGo">補滿</button></div>
+            <div class="dv-ctl"><span class="dv-k">等級</span><select class="field" id="dvXp" aria-label="等級"></select><button type="button" class="dv-go" id="dvXpGo">套用</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">徽章牆<small>暫時讓徽章全部解鎖或全部未解鎖，檢查全滿與全空的樣子</small></div><div class="dv-seg" id="dvAchM" role="group" aria-label="徽章牆"><button type="button" data-m="">實際</button><button type="button" data-m="all">全部解鎖</button><button type="button" data-m="none">全部未解鎖</button></div></div>
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><path d="M9 12h6"/></svg></i><span>空白狀態<small id="dvEmptySub">暫時收起所有紀錄，模擬全新使用者；關閉後原樣放回</small></span></span><button class="sw" role="switch" id="swDvEmpty" aria-checked="false" aria-label="空白狀態"></button></div>
         </div>
-        <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>模擬日期</h3>
+        <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>時間與地點</h3>
         <div class="list panel">
           <div class="dv-item"><div class="dv-lbl">模擬今天的日期與時間<small id="dvDateSub"></small></div><div class="dv-ctl"><input type="date" class="field" id="dvDate" aria-label="模擬日期"><input type="time" class="field" id="dvTime" aria-label="模擬時間"></div><div class="dv-ctl"><button type="button" class="dv-go" id="dvDateGo">套用並重新載入</button><button type="button" class="dv-go ghost" id="dvDateReset">恢復實際時間</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">極端緯度<small id="dvGeoSub"></small></div><div class="dv-ctl dv-btns" id="dvGeo"><button type="button" class="dv-go" data-g="0">赤道</button><button type="button" class="dv-go" data-g="1">北極圈</button><button type="button" class="dv-go" data-g="2">南極</button><button type="button" class="dv-go ghost" id="dvGeoReset">還原</button></div></div>
         </div>
         <h3 class="set-h" style="--c:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>樣式檢查</h3>
         <div class="list panel">
           <button class="li" id="liDvFigs"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>星座剪影總覽<small>88 個星座一次檢查置中與輪廓</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <button class="li" id="liDvUi"><span class="li-l"><i class="li-ic" style="--ic:#FF8FB8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="3.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="3.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></i><span>元件總覽<small>心情星星、頭像、階級、徽章水晶、按鈕集中比對</small></span></span><span class="chev" aria-hidden="true">›</span></button>
           <div class="dv-item"><div class="dv-lbl">字級放大<small>模擬手機的大字設定，檢查文字截斷與換行</small></div><div class="dv-seg" id="dvFs" role="group" aria-label="字級"><button type="button" data-s="1">1×</button><button type="button" data-s="1.3">1.3×</button><button type="button" data-s="1.6">1.6×</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">螢幕尺寸<small>電腦預覽的手機外框寬度（在手機上看不出差別）</small></div><div class="dv-seg dv-seg4" id="dvW" role="group" aria-label="螢幕尺寸"><button type="button" data-w="320">320</button><button type="button" data-w="375">375</button><button type="button" data-w="390">390</button><button type="button" data-w="430">430</button></div></div>
           <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.5 2M9.5 3.5h5"/></svg></i><span>動畫慢速<small>所有動畫放慢為 0.25 倍，方便檢查細節</small></span></span><button class="sw" role="switch" id="swDvSlow" aria-checked="false" aria-label="動畫慢速"></button></div>
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.6-2.2L4.6 15a1.5 1.5 0 0 1 2.3-1.9L9 15"/></svg></i><span>顯示觸控範圍<small id="dvTouchSub">用紅框標出小於 44px 的按鈕</small></span></span><button class="sw" role="switch" id="swDvTouch" aria-checked="false" aria-label="顯示觸控範圍"></button></div>
+        </div>
+        <h3 class="set-h" style="--c:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5c3 0 5 2 5 5v4.5c0 3-2.2 5.5-5 5.5s-5-2.5-5-5.5V9.5c0-3 2-5 5-5z"/><path d="M12 10v9M7 11.5H3.5M7 15.5H4M17 11.5h3.5M17 15.5h3M9 5L7.5 3M15 5l1.5-2"/></svg>除錯資訊</h3>
+        <div class="list panel">
+          <button class="li" id="liDvStore"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5H6a1.5 1.5 0 0 0-1.5 1.5v4L3 12l1.5 2v4A1.5 1.5 0 0 0 6 19.5h2M16 4.5h2A1.5 1.5 0 0 1 19.5 6v4l1.5 2-1.5 2v4a1.5 1.5 0 0 1-1.5 1.5h-2"/></svg></i><span>資料檢視器<small id="dvStoreSub">查看與複製這台裝置儲存的資料</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <button class="li" id="liDvErr"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17v.5"/></svg></i><span>錯誤紀錄<small id="dvErrSub"></small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 15.5a8.5 8.5 0 0 1 17 0"/><path d="M12 15.5l4-5"/><circle cx="12" cy="15.5" r="1.3"/></svg></i><span>FPS 與效能<small>在畫面左上角顯示每秒影格數與最慢的一格</small></span></span><button class="sw" role="switch" id="swDvFps" aria-checked="false" aria-label="FPS 與效能"></button></div>
         </div>
         <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>引導與圖案</h3>
         <div class="list panel">
           <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5M13.5 5l-3 14"/></svg></i><span>每次都顯示引導<small>每次打開 App 都從歡迎頁開始</small></span></span><button class="sw" role="switch" id="swObDev" aria-checked="false" aria-label="開發者選項：每次都顯示引導"></button></div>
           <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 13.5c2.5-5 7-7.5 12-6.5 2 .4 3.6 1.4 5 2.8-1.6.2-2.8.9-3.7 2 1.2 1 1.9 2.4 2 4-2.4-1.6-5-2-7.8-1.3-2.7.7-5 .4-7.5-1z"/><circle cx="7.6" cy="10.4" r=".9"/></svg></i><span>顯示星座剪影<small>在星座連線後方畫出圖案（例如海豚）</small></span></span><button class="sw" role="switch" id="swFig" aria-checked="true" aria-label="開發者選項：顯示星座剪影"></button></div>
+        </div>
+        <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>初始化</h3>
+        <div class="list panel">
+          <button class="li" id="dvInitDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>重設開發者工具<small>關閉這頁的所有模擬與檢查，移除測試紀錄，日記保持不變</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <button class="li" id="dvInitProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、生日、地區與所有設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <button class="li danger" id="dvInitAll"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>全部初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+          <button class="li" id="dvHide"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1A9 9 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-2.6 3.3M6.5 7.6A16 16 0 0 0 2.5 12S6 18 12 18a9 9 0 0 0 4-.9"/></svg></i><span>隱藏開發者選項<small>之後在「版本資訊」連點版本號碼 7 次即可再次開啟</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         </div>
       </div>
     </div>
@@ -715,6 +744,36 @@
         <div class="dv-seg dv-seg4" id="dvFigF" role="group" aria-label="篩選"><button type="button" data-f="all">全部</button><button type="button" data-f="dust">星塵</button><button type="button" data-f="fig">一般剪影</button><button type="button" data-f="none">無剪影</button></div>
         <div class="dvf-grid" id="dvFigGrid"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：元件總覽 -->
+  <div class="layer" id="devUiSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvUiTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvUiTitle">元件總覽</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb" id="dvUiBody"></div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：資料檢視器 -->
+  <div class="layer" id="devStoreSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvStTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvStTitle">資料檢視器</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb"><p class="dv-note" id="dvStSum"></p><div class="dvs-list" id="dvStList"></div></div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：錯誤紀錄 -->
+  <div class="layer" id="devErrSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvErTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvErTitle">錯誤紀錄</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb"><p class="dv-note">最近 30 筆程式錯誤，只存在這台裝置。</p><div class="dv-ctl dv-btns"><button type="button" class="dv-go" id="dvErrTest">產生測試錯誤</button><button type="button" class="dv-go" id="dvErrCopy">複製全部</button><button type="button" class="dv-go danger" id="dvErrClr">清除</button></div><div class="dve-list" id="dvErrList"></div></div>
     </div>
   </div>
 

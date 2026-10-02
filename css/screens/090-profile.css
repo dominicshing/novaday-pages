@@ -80,3 +80,43 @@
 /* 模擬日期提示：固定在畫面上方，點一下開啟開發者工具 */
 .dv-pill{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:65;padding:4px 12px;border-radius:12px;border:1px solid rgba(255,180,92,.6);background:rgba(40,26,10,.85);color:#FFD9A8;font:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
 @media (min-width:600px){.dv-pill{top:58px}}
+/* 開發者工具（第二批）：隱藏入口、快轉、元件總覽、資料檢視器、錯誤紀錄、觸控範圍、FPS */
+.set-h[hidden],.list[hidden]{display:none}
+.ab-info .ab-ver{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ab-info .ab-ver:active{background:rgba(138,124,255,.08)}
+.dv-k{flex:none;align-self:center;width:62px;font-size:13px;color:var(--muted)}
+.dv-btns .dv-go{min-width:0}
+.dv-empty{margin:20px 0;text-align:center;font-size:14px;color:var(--muted)}
+.dvu{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px;padding:14px 10px}
+.dvu.dvu5{grid-template-columns:repeat(5,1fr)}
+.dvu.dvu1{grid-template-columns:1fr;gap:10px}
+.dvu-c{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.dvu-c small{font-size:11px;line-height:1.35;color:var(--muted)}
+.dvu-moon .moon{width:44px;height:44px;display:block}
+.dvu-av svg{width:48px;height:48px;display:block}
+.dvu-rb{width:52px;height:52px;display:grid;place-items:center}.dvu-rb svg{width:100%;height:100%}
+.dvu1 .dvu-c{flex-direction:row;justify-content:space-between}
+.dvu1 .dvu-c small{font-size:13px;color:var(--text)}
+.dvu-cr{display:flex;gap:8px}.dvu-cr>.cr{position:relative;display:block;flex:none;width:56px;height:56px}
+.dvu-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.dvu-row .btn{flex:1;min-width:0}
+.dvu-row .dv-seg{flex:1;margin:0}
+.dvu-type p{margin:0 0 6px;line-height:1.4}
+.dvs{border:1px solid var(--line);border-radius:14px;background:var(--surface);margin-bottom:8px;overflow:hidden}
+.dvs summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;cursor:pointer;list-style:none}
+.dvs summary::-webkit-details-marker{display:none}
+.dvs summary span{min-width:0}
+.dvs summary b{display:block;font-size:15px;font-weight:600}
+.dvs summary small{display:block;font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.dvs summary em{flex:none;font-style:normal;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dvs[open] summary{border-bottom:1px solid var(--line)}
+.dvs .dv-ctl{margin:10px 14px 0}
+.dvs pre{margin:10px 14px 14px;max-height:340px;overflow:auto;padding:10px;border-radius:10px;background:rgba(7,10,28,.6);font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#C9CDEB;white-space:pre-wrap;overflow-wrap:anywhere}
+.dve-list{margin-top:12px}
+.dve{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,122,138,.3);background:rgba(255,122,138,.07);margin-bottom:8px}
+.dve small{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+.dve code{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#FFC3CC;overflow-wrap:anywhere;white-space:pre-wrap}
+.dv-touch .dv-small{outline:2px solid #FF5C7A!important;outline-offset:-2px}
+.dv-fps{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:10px;z-index:66;padding:3px 9px;border-radius:9px;background:rgba(5,30,26,.85);border:1px solid rgba(111,227,214,.6);color:#8FF0E4;font:600 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;pointer-events:none;font-variant-numeric:tabular-nums}
+.dv-fps.bad{background:rgba(40,10,16,.85);border-color:rgba(255,122,138,.7);color:#FFB3BE}
+@media (min-width:600px){.dv-fps{top:58px;left:22px}}

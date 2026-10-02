@@ -10,11 +10,12 @@ function lkRender(){$('lkDots').querySelectorAll('i').forEach((d,k)=>d.classList
 function lkMsg(t,m){$('lkT').textContent=t;$('lkM').textContent=m}
 function openLock(mode,done){lk={mode,buf:'',first:null,done,fails:0};$('lock').hidden=false;$('lock').classList.remove('out');
   $('lkCancel').hidden=mode==='unlock';$('lkForgot').hidden=mode!=='unlock';
-  mode==='unlock'?lkMsg('輸入密碼','解鎖你的星空日記'):mode==='set'?lkMsg('設定 4 位數密碼','之後打開 App 時需要輸入'):lkMsg('輸入目前的密碼','確認後才能關閉密碼鎖');lkRender()}
+  mode==='preview'?lkMsg('輸入密碼','預覽模式・輸入任意 4 位數即可離開'):mode==='unlock'?lkMsg('輸入密碼','解鎖你的星空日記'):mode==='set'?lkMsg('設定 4 位數密碼','之後打開 App 時需要輸入'):lkMsg('輸入目前的密碼','確認後才能關閉密碼鎖');lkRender()}
 function closeLock(){$('lock').classList.add('out');setTimeout(()=>{$('lock').hidden=true;$('lock').classList.remove('out')},reduce?0:300)}
 function lkShake(m){const d=$('lkDots');d.classList.remove('shake');void d.offsetWidth;d.classList.add('shake');$('lkM').textContent=m;lk.buf='';setTimeout(lkRender,300)}
 async function lkKey(k){if(k==='del'){lk.buf=lk.buf.slice(0,-1);lkRender();return}if(lk.buf.length>=4)return;lk.buf+=k;lkRender();if(lk.buf.length<4)return;
   const p=lk.buf;await new Promise(r=>setTimeout(r,120));
+  if(lk.mode==='preview'){closeLock();toast('密碼鎖預覽結束');return}
   if(lk.mode==='set'){if(!lk.first){lk.first=p;lk.buf='';lkMsg('再輸入一次','確認你的密碼');lkRender();return}
     if(p!==lk.first){lk.first=null;lkMsg('設定 4 位數密碼','');lkShake('兩次輸入不一樣，請重新設定');return}
     prof.pin=await pinHash(p);saveProf();closeLock();syncLockUI();toast('已開啟密碼鎖');return}

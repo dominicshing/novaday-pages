@@ -12,7 +12,7 @@ function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.d
       m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}
   return m}
 const reviewXP=l=>Object.keys(reviews.ids||{}).filter(id=>l.some(e=>e.id===id)).length*XP.review;
-const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)};
+const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(prof.devXP||0)};   /* devXP：開發者工具「快轉等級」的加成，平常為 0 */
 let XPM=new Map();const xpOf=e=>(XPM.get(e.id)||{total:0}).total;
 function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}
 const rankOf=lv=>RANKS[Math.min(RANKS.length-1,Math.floor((lv-1)/2))];
