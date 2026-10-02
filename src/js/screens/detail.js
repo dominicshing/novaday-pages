@@ -27,7 +27,7 @@ let detailId=null,dvUrl=null;
 function entryStar(e){const A=ascEntries(),idx=A.findIndex(x=>x.id===e.id);if(idx<0)return null;consState(entries);
   let off=0;for(const k of prof.conOrder||[]){const n=CON[k].s.length;if(idx<off+n)return{k,j:idx-off,n,es:A.slice(off,Math.min(A.length,off+n))};off+=n}return null}
 function starMini(S,W,H){const c=CON[S.k],P=conProj(S.k,W,H,10),ord=conOrd(S.k),lit=new Set(ord.slice(0,S.es.length)),me=ord[S.j],col={};
-  ord.slice(0,S.es.length).forEach((si,j)=>col[si]=`var(${MOODS[S.es[j].mood??2].c})`);let g=conFig(S.k,W,H,P);
+  ord.slice(0,S.es.length).forEach((si,j)=>col[si]=`var(${MOODS[S.es[j].mood??2].c})`);let g=conFig(S.k,W,H,P,S.es.length/S.n);
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b];g+=`<line class="${lit.has(a)&&lit.has(b)?'es-on':'es-l'}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach((_,si)=>{const[x,y]=P[si];if(si===me)g+=`<circle class="es-rg" cx="${x}" cy="${y}" r="7"/><circle class="es-tg" cx="${x}" cy="${y}" r="4"/><circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`;
     else if(lit.has(si))g+=`<circle cx="${x}" cy="${y}" r="2.4" fill="${col[si]}"/>`;else g+=`<circle cx="${x}" cy="${y}" r="1.4" fill="rgba(232,233,255,.45)"/>`});

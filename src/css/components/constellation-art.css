@@ -30,6 +30,11 @@
 .cfx-neb{animation:cfxNeb 6s ease-in-out infinite}
 .nextring{animation-duration:1.8s}
 
+/* 剪影隨點亮進度成形：還沒完成時不游動、星雲不呼吸 */
+.cfx-wip .cfx-swim,.cfx-wip .cfx-neb{animation:none}
+/* 完成動畫（點睛）：光擴散完後眼睛眨一下亮起 */
+.cfx-awake .cfx-eye{transform-box:fill-box;transform-origin:center;animation:cfxEye 1s cubic-bezier(.3,1.4,.5,1) var(--ed,1.5s) both}
+
 /* 動畫 */
 @keyframes fresh {from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}
 }
@@ -50,4 +55,6 @@
 @keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}
 }
 @keyframes cfxNeb {0%,100%{opacity:.26}50%{opacity:.4}
+}
+@keyframes cfxEye {0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(2)}66%{transform:scale(1.9,.12)}82%{transform:scale(1.3)}100%{opacity:1;transform:scale(1)}
 }

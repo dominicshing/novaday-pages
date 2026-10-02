@@ -40,8 +40,8 @@
 | `svg/achievement_icons_locked/` | 54 個成就徽章圖示（未解鎖、灰紫配色） |
 | `svg/zodiac_glyphs/` | 12 個黃道星座符號，另有 `_zodiac_ring.svg` 轉動環 |
 | `svg/mood_stars/` | 5 個心情星星（mood_0 很低落 … mood_4 很棒） |
-| `svg/constellations/lit/` | 88 個星座圖：全部點亮，含星座剪影 |
-| `svg/constellations/unlit/` | 88 個星座圖：未點亮，含星座剪影 |
+| `svg/constellations/lit/` | 88 個星座圖：全部點亮，完整的星座剪影（星塵、星雲、閃爍、眼睛） |
+| `svg/constellations/unlit/` | 88 個星座圖：未點亮，剪影只剩淡淡的影子 |
 | `svg/ui_icons/` | 99 個介面圖示：分頁列、按鈕、設定分類與各列、開發者工具等。`_index.json` 對照每個圖示的中文用途 |
 | `svg/brand/novaday_logo.svg` | App Logo |
 | `png/**` | 備用的點陣版本（1x、`2.0x/`、`3.0x/`）。每一張 PNG 都有對應的 SVG，一般用 SVG 就好；星座圖和介面圖示只有 SVG |
@@ -132,6 +132,10 @@ flutter:
   未解鎖徽章的「進度液面」和各種動畫是動態的，SVG 裡沒有。需要時可以參考下面兩個來源，用 `CustomPainter` 重畫：
   - `achievements.json` 裡的 `crystal_star_path_100`（16 角星外框）和 `crystal_colors`
   - `src/css/components/badges.css` 的 `.fc` 樣式
+- **剪影隨點亮進度成形**：設進度 p＝已點亮顆數 ÷ 星數（0–1），依 `dustFig()`、`customFig0()`（`src/js/data/constellation-figures.js`）：
+  - 星塵剪影：外圍星雲、內部星雲、18px 寬光暈的透明度乘上 p；填色 0.14→0.3、6px 光暈 0.14→0.4、細輪廓 0.42→0.9 隨 p 線性增加；星塵粒子只顯示 rank < p 的部分（rank 由 `seedRng(k+'-rank')` 依序產生）。p＜1 時沒有閃爍亮星和眼睛，也不游動。
+  - 一般剪影：p＜1 時填色透明度 0.4＋0.45p，沒有影子、柔光和眼睛。
+  - 完成動畫（點睛）：光從每顆星依點亮順序先亮起一小圈、再擴散到整個剪影（`awakeMask()`），之後眼睛放大、眨一下亮起（`cfxEye`）。
 - **星座圖**：用 `conProj()` 把赤經和赤緯投影到畫面座標，演算法在 `src/js/logic/sky-projection.js`；畫圖在 `src/js/ui/art/constellation-map.js`，剪影在 `src/js/data/constellation-figures.js`。
 - **遊戲邏輯**：
   - XP、等級、連續天數：`src/js/logic/xp-streak.js`

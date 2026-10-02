@@ -6,6 +6,6 @@ function showAch(a){return new Promise(res=>{const o=$('achPop');$('apIc').inner
 function renderAchDot(){const n=(prof.achNew||[]).length;['openMe','cbAv'].forEach(id=>{const b=$(id);if(b)b.classList.toggle('has-new',!!n)});
   const tb=document.querySelector('.tb[data-s=me]');if(tb)tb.classList.toggle('has-new',!!n)}
 function showConDone(k){return new Promise(res=>{buzz([18,40,18]);const c=CON[k];$('cdName').textContent=c.n;$('cdLa').textContent=c.la;$('cdFact').textContent=c.f;
-  $('cdFig').innerHTML=conSVG(k,300,220,30,c.s.length,conEntries(k),{anim:!reduce,d0:.3,sc:1.2});
+  $('cdFig').innerHTML=conSVG(k,300,220,30,c.s.length,conEntries(k),{anim:!reduce,d0:.3,sc:1.2});$('cdFig').setCurrentTime?.(0);   /* 點睛動畫的 SMIL 時間軸從頭開始 */
   const o=$('conDone');o.classList.add('show');if(!reduce){const r=$('app').getBoundingClientRect();setTimeout(()=>burst(r.left+r.width/2,r.top+r.height/2-60),600)}
   $('cdOk').focus();$('cdOk').onclick=()=>{o.classList.remove('show');res()};$('cdShare').onclick=()=>openShare(k)})}

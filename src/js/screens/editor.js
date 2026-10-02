@@ -12,7 +12,7 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
   const c=CON[T.k],n=c.s.length,P=conProj(T.k,84,52,7),ord=conOrd(T.k),tg=ord[T.t],on=new Set(ord.slice(0,T.lit));on.delete(tg);
   const col={};ord.slice(0,T.lit).forEach((si,j)=>{const e=T.es[j];if(e)col[si]=`var(${MOODS[e.mood??2].c})`});let g='';
   {const r=seedRng(T.k+'ed');for(let i=0;i<14;i++)g+=`<circle cx="${(r()*84).toFixed(1)}" cy="${(r()*52).toFixed(1)}" r="${(.3+r()*.5).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.3).toFixed(2)}"/>`}
-  g+=conFig(T.k,84,52,P);
+  g+=conFig(T.k,84,52,P,T.lit/n);
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b];
     const cls=on.has(a)&&on.has(b)?'es-on':((a===tg&&on.has(b))||(b===tg&&on.has(a)))?'es-to':'es-l';
     g+=`<line class="${cls}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});

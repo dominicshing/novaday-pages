@@ -126,35 +126,50 @@ function figDust(k,X){if(FIG_DUST[k])return FIG_DUST[k];const r=seedRng(k+'-dust
     neb:ell([[.62,.55,.36,.3,'#7B6CF0'],[.85,.85,.24,.2,'#6A5AE6'],[.4,.35,.2,.16,'#4FB8D8'],[.25,.15,.16,.12,'#8A7CFF']]),          /* 外圍：紫色為主 */
     core:ell([[.35,.3,.28,.18,'#6FE3D6'],[.6,.55,.3,.26,'#8A7CFF'],[.8,.82,.2,.18,'#B9AEFF']]),                                          /* 身體內部星雲 */
     dots:inn.map(c).join('')+rim.map(c).join(''),
+    rank:(rr=>[...inn,...rim].map(a=>[rr(),c(a)]))(seedRng(k+'-rank')),                                                                    /* 進行中依 rank 決定哪些粒子先出現 */
     tw:tw.map(([x,y,s,d,col])=>`<path d="${sp4(+x.toFixed(1),+y.toFixed(1),+s.toFixed(1))}" fill="${col}" style="--d:-${d}s"/>`).join('')}}
-function dustFig(X,D,n,tx,ty,s){return `<g class="cfx cfx-dust" aria-hidden="true" transform="translate(${tx} ${ty}) scale(${s.toFixed(4)})">
+/* p：點亮進度 0–1。0＝只剩淡淡的輪廓；進行中星塵依比例聚集、星雲漸亮；1＝全部顯示，眼睛亮起、開始游動 */
+function dustFig(X,D,n,tx,ty,s,p=1){const full=p>=1,q=Math.max(0,Math.min(1,p)),o=(a,b)=>(a+(b-a)*q).toFixed(2),
+    dots=full?D.dots:D.rank.filter(([r])=>r<q).map(([,c])=>c).join('');
+  return `<g class="cfx cfx-dust${full?'':' cfx-wip'}" aria-hidden="true" transform="translate(${tx} ${ty}) scale(${s.toFixed(4)})">
     <defs><linearGradient id="fxs${n}" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#A6FFF4"/><stop offset=".5" stop-color="#8FD8FF"/><stop offset="1" stop-color="#B9A6FF"/></linearGradient>
     <clipPath id="fxc${n}"><path d="${X.body}"/></clipPath>
     <filter id="fxn${n}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="16"/></filter>
     <filter id="fxi${n}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
     <filter id="fxr${n}" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter></defs>
     <g class="cfx-fade"><g class="cfx-swim">
-    <g class="cfx-neb" filter="url(#fxn${n})" opacity=".3">${D.neb}</g>
-    <g clip-path="url(#fxc${n})"><path d="${X.body}" fill="#1E1A5A" opacity=".3"/><g filter="url(#fxi${n})" opacity=".22">${D.core}</g>
-      <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="18" opacity=".32" filter="url(#fxi${n})"/></g>
-    <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="6" opacity=".4" filter="url(#fxr${n})"/>
-    <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="1.3" opacity=".9" vector-effect="non-scaling-stroke"/>
-    <g>${D.dots}</g><g class="cfx-tw">${D.tw}</g>
-    ${[X.eye,X.eye2].filter(Boolean).map(e=>`<circle cx="${e[0]}" cy="${e[1]}" r="${X.er||2.4}" fill="#E6FFFB" opacity=".85"/>`).join('')}</g></g></g>`}
-function customFig(k,P,W,H){const X=CFX[k],R=X.ref,n=++FIGN,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+    ${q?`<g opacity="${q.toFixed(2)}"><g class="cfx-neb" filter="url(#fxn${n})" opacity=".3">${D.neb}</g></g>`:''}
+    <g clip-path="url(#fxc${n})"><path d="${X.body}" fill="#1E1A5A" opacity="${o(.14,.3)}"/>${q?`<g opacity="${q.toFixed(2)}"><g filter="url(#fxi${n})" opacity=".22">${D.core}</g>
+      <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="18" opacity=".32" filter="url(#fxi${n})"/></g>`:''}</g>
+    <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="6" opacity="${o(.14,.4)}" filter="url(#fxr${n})"/>
+    <path d="${X.body}" fill="none" stroke="url(#fxs${n})" stroke-width="1.3" opacity="${o(.42,.9)}" vector-effect="non-scaling-stroke"/>
+    ${dots?`<g>${dots}</g>`:''}${full?`<g class="cfx-tw">${D.tw}</g>
+    ${[X.eye,X.eye2].filter(Boolean).map(e=>`<circle class="cfx-eye" cx="${e[0]}" cy="${e[1]}" r="${X.er||2.4}" fill="#E6FFFB" opacity=".85"/>`).join('')}`:''}</g></g></g>`}
+/* 完成動畫（點睛）：光從每顆星依點亮順序先亮起一小圈、再向外擴散，把剪影「點亮」出來；SMIL 時間軸由呼叫端 setCurrentTime(0) 歸零 */
+function awakeMask(n,P,ord,W,H,d0){const R=Math.round(Math.hypot(W,H));
+  return `<defs><radialGradient id="fxmg${n}"><stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="fxm${n}" maskUnits="userSpaceOnUse" x="${-W}" y="${-H}" width="${3*W}" height="${3*H}">${ord.map((si,j)=>`<circle cx="${P[si][0]}" cy="${P[si][1]}" r="0" fill="url(#fxmg${n})"><animate attributeName="r" values="0;${Math.round(R*.22)};${R}" keyTimes="0;.55;1" dur="2.6s" begin="${(d0+.15+j*.18).toFixed(2)}s" fill="freeze"/></circle>`).join('')}</mask></defs>`}
+function customFig(k,P,W,H,p=1,aw){const n0=FIGN+1,g=customFig0(k,P,W,H,p);if(!aw||p<1||!W)return g;
+  /* aw＝{d0}：完成動畫，外層套遮罩（不受剪影本身的位移縮放影響），眼睛在光擴散後才眨眼亮起 */
+  const ed=(aw.d0||0)+1.7+conOrd(k).length*.18;
+  return `${awakeMask(n0,P,conOrd(k),W,H,aw.d0||0)}<g class="cfx-awake" mask="url(#fxm${n0})" style="--ed:${ed.toFixed(2)}s">${g}</g>`}
+function customFig0(k,P,W,H,p){const X=CFX[k],R=X.ref,n=++FIGN,dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
   /* 星塵剪影：不跟隨星座連線，依圖案自身範圍置中縮放進畫框 */
   if(X.dust&&W&&H){const D=figDust(k,X),[bx,by,bw,bh]=D.bb,pd=Math.min(W,H)*.07,s=Math.min((W-2*pd)/bw,(H-2*pd)/bh);
-    return dustFig(X,D,n,(W/2-(bx+bw/2)*s).toFixed(2),(H/2-(by+bh/2)*s).toFixed(2),s)}
+    return dustFig(X,D,n,(W/2-(bx+bw/2)*s).toFixed(2),(H/2-(by+bh/2)*s).toFixed(2),s,p)}
   let i0=0,i1=0,best=0;R.forEach((a,i)=>R.forEach((b,j)=>{const q=dist(a,b);if(q>best){best=q;i0=i;i1=j}}));
   const s=dist(P[i0],P[i1])/best,cr=[0,1].map(t=>R.reduce((v,r)=>v+r[t],0)/R.length),cp=[0,1].map(t=>P.reduce((v,r)=>v+r[t],0)/P.length);
   const tx=(cp[0]-cr[0]*s).toFixed(2),ty=(cp[1]-cr[1]*s).toFixed(2);
-  if(X.dust)return dustFig(X,figDust(k,X),n,tx,ty,s);
-  return `<g class="cfx" aria-hidden="true" transform="translate(${tx} ${ty}) scale(${s.toFixed(4)})">
+  if(X.dust)return dustFig(X,figDust(k,X),n,tx,ty,s,p);
+  /* 一般剪影：未完成時依進度變淡，沒有影子、柔光和眼睛（剪影由多個子路徑疊成，不加描邊以免露出接縫） */
+  const full=p>=1,q=Math.max(0,Math.min(1,p));
+  return `<g class="cfx${full?'':' cfx-wip'}" aria-hidden="true" transform="translate(${tx} ${ty}) scale(${s.toFixed(4)})">
     <defs><linearGradient id="fxg${n}" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#C4BCFF" stop-opacity=".32"/><stop offset=".55" stop-color="#8A7CFF" stop-opacity=".2"/><stop offset="1" stop-color="#6A5AE6" stop-opacity=".13"/></linearGradient>
     <linearGradient id="fxl${n}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".16"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
     <clipPath id="fxc${n}"><path d="${X.body}"/></clipPath>
     <filter id="fxb${n}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter></defs>
-    <g class="cfx-fade"><path class="cfx-sh" d="${X.body}" fill="#02030C" opacity=".55" filter="url(#fxb${n})" transform="translate(4 12)"/>
-    <g class="cfx-swim"><path d="${X.body}" fill="url(#fxg${n})"/>
-    <g clip-path="url(#fxc${n})"><g transform="rotate(20 190 150)"><rect class="cfx-sheen" x="-60" y="-120" width="90" height="560" fill="url(#fxl${n})" opacity="0"/></g></g>
-    ${[X.eye,X.eye2].filter(Boolean).map(e=>`<circle cx="${e[0]}" cy="${e[1]}" r="${X.er||2.2}" fill="#E6E2FF" fill-opacity=".4"/>`).join('')}</g></g></g>`}
+    <g class="cfx-fade">${full?`<path class="cfx-sh" d="${X.body}" fill="#02030C" opacity=".55" filter="url(#fxb${n})" transform="translate(4 12)"/>`:''}
+    <g class="cfx-swim"><path d="${X.body}" fill="url(#fxg${n})"${full?'':` opacity="${(.4+.45*q).toFixed(2)}"`}/>
+    ${full?`<g clip-path="url(#fxc${n})"><g transform="rotate(20 190 150)"><rect class="cfx-sheen" x="-60" y="-120" width="90" height="560" fill="url(#fxl${n})" opacity="0"/></g></g>
+    ${[X.eye,X.eye2].filter(Boolean).map(e=>`<circle class="cfx-eye" cx="${e[0]}" cy="${e[1]}" r="${X.er||2.2}" fill="#E6E2FF" fill-opacity=".4"/>`).join('')}`
+:''}</g></g></g>`}

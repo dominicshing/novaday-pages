@@ -131,7 +131,7 @@ function devFigs(){const ks=Object.keys(CON),W=160,H=120,kind=k=>CFX[k]?(CFX[k].
   const list=ks.filter(k=>devFigF==='all'||kind(k)===devFigF);
   $('dvFigSum').textContent=`共 ${ks.length} 個星座・剪影 ${ks.filter(k=>CFX[k]).length}・星塵 ${ks.filter(k=>kind(k)==='dust').length}${prof.noFig?'・目前已關閉「顯示星座剪影」':''}`;
   $('dvFigF').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===devFigF));
-  $('dvFigGrid').innerHTML=list.map(k=>`<button type="button" class="dvf" data-k="${k}"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${conSVG(k,W,H,12,0,null,{sc:.7})}</svg><b>${CON[k].n}</b><small>${LB[kind(k)]}</small></button>`).join('');
+  $('dvFigGrid').innerHTML=list.map(k=>`<button type="button" class="dvf" data-k="${k}"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${conSVG(k,W,H,12,0,null,{sc:.7,figP:1})}</svg><b>${CON[k].n}</b><small>${LB[kind(k)]}</small></button>`).join('');
   $('dvFigGrid').querySelectorAll('.dvf').forEach(b=>b.onclick=()=>openCon(b.dataset.k))}
 $('liDvFigs').onclick=()=>{devFigs();$('devFigSheet').querySelector('.sb').scrollTop=0;openSheet('devFigSheet')};
 $('dvFigF').querySelectorAll('button').forEach(b=>b.onclick=()=>{devFigF=b.dataset.f;devFigs()});

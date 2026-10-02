@@ -1,12 +1,13 @@
 /* 程式繪製：星座圖（連線、星點、剪影）與首頁星系 */
 /* 依星星的範圍決定圖形大小與位置 */
 /* 星座剪影（例如海豚）：開發者選項可關閉，prof.noFig 未設定時預設顯示 */
-function conFig(k,W,H,P){return !prof.noFig&&CFX[k]?customFig(k,P,W,H):''}
+/* p＝點亮進度 0–1（剪影隨進度成形）；aw＝完成動畫設定 */
+function conFig(k,W,H,P,p=1,aw){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
 function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c;
   const byStar={};ord.slice(0,lit).forEach((si,j)=>byStar[si]=es&&es[j]);let g='';
   if(opt.bg){const r=seedRng(k);for(let i=0;i<opt.bg;i++)g+=`<circle cx="${(r()*W).toFixed(1)}" cy="${(r()*H).toFixed(1)}" r="${(.4+r()*.9).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.35).toFixed(2)}"/>`}
-  if(opt.fig!==false)g+=conFig(k,W,H,P);
+  if(opt.fig!==false){const p=opt.figP??lit/c.s.length;g+=conFig(k,W,H,P,p,opt.anim&&!reduce&&p>=1?{d0:opt.d0||0}:null)}
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b],both=on.has(a)&&on.has(b);
     g+=both?`<line class="cl-on${opt.anim?' cd-line':''}" pathLength="1" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${LC}" style="filter:drop-shadow(0 0 3px ${LC})${opt.anim?`;animation-delay:${(opt.d0||0)+j*.12}s`:''}"/>`
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
