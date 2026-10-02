@@ -1,0 +1,167 @@
+/* All @keyframes from Novaday (CSS), grouped by source file. Port to Flutter AnimationController / flutter_animate. */
+
+/* src/css/layout/app-shell.css */
+@keyframes fadein {from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes kvSpin {to{transform:rotate(360deg)}}
+
+/* src/css/layout/tab-bar.css */
+@keyframes fbStar {0%,100%{transform:scale(.92) rotate(0)}50%{transform:scale(1.1) rotate(45deg)}}
+@keyframes fbFire {0%{transform:scale(1)}35%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes spin {to{transform:rotate(360deg)}}
+@keyframes breathe {0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.06)}}
+
+/* src/css/layout/app-bar.css */
+@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}}
+
+/* src/css/components/avatar-picker.css */
+@keyframes kvRock {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(5deg)}}
+@keyframes kvTilt {0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes kvFloat {0%,100%{transform:translateY(1.4px)}50%{transform:translateY(-1.4px)}}
+@keyframes kvPulse {0%,100%{transform:scale(.9)}50%{transform:scale(1.06)}}
+@keyframes kvHalo {0%,100%{filter:drop-shadow(0 0 2px #FFE7A3)}50%{filter:drop-shadow(0 0 7px #FFE7A3)}}
+@keyframes kvTw {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.55)}}
+@keyframes kvFlick {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.92)}}
+@keyframes kvCruise {0%,100%{transform:translate(-1px,1px)}50%{transform:translate(1.5px,-1.5px)}}
+@keyframes kvStreak {0%{transform:translate(-16px,16px);opacity:0}25%{opacity:1}60%{transform:translate(0,0);opacity:1}85%,100%{transform:translate(6px,-6px);opacity:0}}
+@keyframes kvDraw {0%{stroke-dashoffset:1}45%,85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:.2}}
+@keyframes kvD1 {0%,100%{transform:translate(0,0)}50%{transform:translate(2px,1.5px)}}
+@keyframes kvD2 {0%,100%{transform:translate(0,0)}50%{transform:translate(-2px,-1px)}}
+@keyframes kvD3 {0%,100%{transform:translate(0,0)}50%{transform:translate(-1.5px,2px)}}
+@keyframes kvNod {0%,100%{transform:rotate(3deg)}50%{transform:rotate(-5deg)}}
+@keyframes kvBlink {0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.1)}}
+@keyframes kvTwitch {0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-12deg)}80%{transform:rotate(2deg)}85%{transform:rotate(-7deg)}90%{transform:rotate(0)}}
+@keyframes kvSwim {0%,100%{transform:translateY(1.2px) rotate(2deg)}50%{transform:translateY(-1.2px) rotate(-2deg)}}
+@keyframes kvRise {0%{transform:translateY(5px) scale(.4);opacity:0}30%{opacity:1}100%{transform:translateY(-4px) scale(1);opacity:0}}
+@keyframes kvSway {0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+
+/* src/css/components/hud.css */
+@keyframes flame {0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.07) rotate(2deg)}}
+@keyframes todayPulse {0%,100%{box-shadow:0 0 0 0 rgba(255,180,92,.5)}50%{box-shadow:0 0 0 4px rgba(255,180,92,0)}}
+@keyframes flameDance {0%,100%{transform:scale(1,1) skewX(0)}20%{transform:scale(.96,1.08) skewX(-3deg)}45%{transform:scale(1.04,.95) skewX(2deg)}70%{transform:scale(.98,1.1) skewX(-1.5deg)}}
+@keyframes flameCore {from{transform:scale(.85,.8);opacity:.8}to{transform:scale(1.08,1.15);opacity:1}}
+@keyframes ember {0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(3px,-22px);opacity:0}}
+
+/* src/css/components/rank-card.css */
+@keyframes rbTw {0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.72)}}
+@keyframes rbHalo {0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes rbShine {0%,70%,100%{stroke-opacity:.12}80%{stroke-opacity:.55}}
+@keyframes rbIn {from{transform:scale(.6) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes rkFloat {0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@keyframes draw {to{stroke-dashoffset:0}}
+@keyframes rkTw {0%,100%{opacity:.12;transform:scale(.55)}50%{opacity:.95;transform:scale(1)}}
+@keyframes rkMet {0%,82%{opacity:0;transform:translate(0,0) rotate(-29deg)}84%{opacity:1}94%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}100%{opacity:0;transform:translate(-170px,94px) rotate(-29deg)}}
+@keyframes rkNeb {from{transform:translate(0,0) scale(1)}to{transform:translate(-18px,10px) scale(1.12)}}
+
+/* src/css/components/mood-star.css */
+@keyframes nvBreathe {0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes nvRays {0%,100%{opacity:.35;transform:rotate(0) scale(.9)}50%{opacity:.8;transform:rotate(8deg) scale(1.05)}}
+@keyframes nvShine {0%,55%{transform:translateX(-40px) rotate(20deg)}85%,100%{transform:translateX(40px) rotate(20deg)}}
+@keyframes nvSpk {0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@keyframes nvSway {0%,100%{transform:rotate(-5deg) translateY(1px)}50%{transform:rotate(4deg) translateY(1.5px)}}
+@keyframes nvTear {0%,30%{opacity:0;transform:translateY(-1px)}45%{opacity:.95}100%{opacity:0;transform:translateY(7px)}}
+@keyframes nvDoze {0%,100%{transform:rotate(0)}50%{transform:rotate(-6deg) translateY(1px)}}
+@keyframes nvBlink {0%,40%,100%{transform:scaleY(1)}48%,62%{transform:scaleY(.15)}}
+@keyframes nvZz {0%,35%{opacity:0;transform:translate(0,0) scale(.6)}55%{opacity:.9}100%{opacity:0;transform:translate(5px,-8px) scale(1)}}
+@keyframes nvFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes nvHop {0%,100%{transform:translateY(0) scale(1,1)}20%{transform:translateY(0) scale(1.06,.94)}45%{transform:translateY(-3.5px) scale(.97,1.04)}70%{transform:translateY(0) scale(1.03,.97)}}
+@keyframes nvJoy {0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.1) rotate(-6deg)}60%{transform:scale(1.04) rotate(5deg)}}
+@keyframes nvRaysBig {0%,100%{opacity:.5;transform:rotate(0) scale(.9)}50%{opacity:1;transform:rotate(45deg) scale(1.15)}}
+@keyframes nvBst {0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1);opacity:0}}
+
+/* src/css/components/constellation-art.css */
+@keyframes fresh {from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+@keyframes cfxIn {from{opacity:0}to{opacity:1}}
+@keyframes cfxGlide {from{transform:translate(-12px,10px) rotate(3deg)}to{transform:none}}
+@keyframes cfxSwim {0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-5px,-6px) rotate(-1.6deg)}}
+@keyframes cfxShadow {0%,100%{transform:translate(4px,12px);opacity:.55}50%{transform:translate(8px,19px);opacity:.38}}
+@keyframes cfxSheen {0%{transform:translateX(0);opacity:0}8%{opacity:1}38%{transform:translateX(400px);opacity:1}45%,100%{transform:translateX(400px);opacity:0}}
+@keyframes twinkle {0%,100%{opacity:1}50%{opacity:.72}}
+@keyframes nextp {0%,100%{transform:scale(.8);opacity:.9}50%{transform:scale(1.4);opacity:.25}}
+@keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+@keyframes cfxNeb {0%,100%{opacity:.26}50%{opacity:.4}}
+
+/* src/css/components/celebrations.css */
+@keyframes fadeA {to{opacity:1}}
+@keyframes crPop {0%{transform:scale(.3) rotate(-35deg);filter:brightness(3) saturate(0)}100%{transform:none;filter:none}}
+
+/* src/css/components/fortune-card.css */
+@keyframes foSpin {to{transform:rotate(360deg)}}
+
+/* src/css/components/badges.css */
+@keyframes achNew {50%{box-shadow:0 0 0 6px rgba(255,180,92,.25),0 0 22px rgba(255,180,92,.7)}}
+@keyframes crNew {50%{filter:drop-shadow(0 0 10px rgba(255,210,140,.95))}}
+@keyframes asInR {from{transform:translateX(62%);opacity:0}to{transform:none;opacity:1}}
+@keyframes asInL {from{transform:translateX(-62%);opacity:0}to{transform:none;opacity:1}}
+@keyframes fcDrift {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}
+@keyframes fcSweep {0%,35%{left:-60%}75%,100%{left:130%}}
+@keyframes fcGlim {0%,100%{opacity:.6}50%{opacity:1;filter:brightness(1.8)}}
+@keyframes fcHue {0%,100%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(70deg) brightness(1.2)}}
+@keyframes fcLine {0%,100%{opacity:.35}50%{opacity:1;box-shadow:0 0 5px #fff}}
+@keyframes fcSpin {to{transform:rotate(360deg)}}
+@keyframes fcSpk {0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@keyframes fcJoy {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}
+@keyframes fcBreathe {0%,100%{opacity:.6}50%{opacity:1}}
+
+/* src/css/components/footprint.css */
+@keyframes fpLit {0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1;transform:none}}
+@keyframes fpToday {0%,100%{background:rgba(232,233,255,.14);transform:scale(.9)}50%{background:rgba(111,227,214,.55);transform:scale(1.08)}}
+
+/* src/css/components/entry-card.css */
+@keyframes eDust {0%,100%{opacity:.55}50%{opacity:.95}}
+@keyframes eSpark {0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}}
+
+/* src/css/components/galaxy.css */
+@keyframes pulse {0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.18);opacity:.1}}
+@keyframes bob {0%,100%{transform:translateY(-1.8px)}50%{transform:translateY(1.8px)}}
+@keyframes chase {0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes blink {0%,65%{opacity:1}66%,100%{opacity:.2}}
+
+/* src/css/components/birthday-picker.css */
+@keyframes bqPop {from{transform:scale(.6);opacity:.2}}
+
+/* src/css/screens/home.css */
+@keyframes nxDot {0%,100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,180,92,0))}50%{transform:scale(1.25);filter:drop-shadow(0 0 5px rgba(255,180,92,.9))}}
+
+/* src/css/screens/log.css */
+@keyframes lgb {0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:.9;transform:translateY(-3px)}}
+
+/* src/css/screens/star-calendar.css */
+@keyframes calL {from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes calR {from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}}
+
+/* src/css/screens/me.css */
+@keyframes secFlash {0%,40%{background:rgba(255,180,92,.14);box-shadow:0 0 0 8px rgba(255,180,92,.14)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
+
+/* src/css/screens/profile-editor.css */
+@keyframes pop {from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* src/css/screens/editor.css */
+@keyframes lbPop {0%{transform:scale(.88)}100%{transform:none}}
+@keyframes esDash {to{stroke-dashoffset:-6}}
+@keyframes esPulse {0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+
+/* src/css/screens/detail.css */
+@keyframes favpop {0%{transform:scale(.6)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+
+/* src/css/screens/onboarding.css */
+@keyframes obChip {0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:none}}
+@keyframes obSpinOnce {from{transform:rotate(-180deg)}to{transform:none}}
+@keyframes obPop {from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes obDraw {from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes obStar {0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.15)}100%{opacity:1;transform:none}}
+@keyframes obNova {0%{opacity:0;transform:scale(0) rotate(-45deg)}60%{opacity:1;transform:scale(1.25) rotate(8deg)}100%{opacity:1;transform:none}}
+@keyframes obTw {0%,100%{transform:none}50%{transform:scale(1.12)}}
+@keyframes obHalo {0%,100%{opacity:.75}50%{opacity:1}}
+@keyframes obBreath {0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes obSpin {to{transform:rotate(360deg)}}
+@keyframes obFade {from{opacity:0}to{opacity:1}}
+@keyframes obSheen {from{background-position:0 0}to{background-position:100% 0}}
+@keyframes obMood {0%{opacity:0;transform:scale(.6)}4%{opacity:1;transform:none}17%{opacity:1;transform:none}21%,100%{opacity:0;transform:scale(.85)}}
+@keyframes obIn {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* src/css/screens/pin-lock.css */
+@keyframes lkShake {20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+
+/* src/css/base/effects.css */
+@keyframes spark {to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+@keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}}

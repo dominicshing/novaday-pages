@@ -29,12 +29,12 @@ src/
     ├── features/       獨立功能：backup/（匯出、還原、清除）、reports/（月報、年度回顧）、分享圖卡、密碼鎖、開發者工具
     └── app/            render（重繪所有畫面）、init、boot（啟動）
 tests/                  自動測試（npm test）
-tools/                  打包工具
+tools/                  打包單檔版（build_single_html.py）、匯出 Flutter 素材（export_assets.mjs）
 docs/                   本文件、備份格式規格
 dist/                   單檔版（打包產生，不要手動修改）
 ```
 
-Flutter 用的素材（`svg/`、`png/`、`data/`、`design/`、`screenshots/`）見 [README](../README.md)。
+Flutter 用的素材在 `assets/`，說明見 [README](../README.md)。`assets/data/`、`assets/design/` 和星座圖由 `npm run export-assets` 從網頁版的程式產生：改了 `src/js/data/`、星座剪影、介面圖示或 CSS 動畫之後，記得重新執行。
 
 ## 3. 載入順序很重要
 
@@ -82,6 +82,7 @@ Flutter 用的素材（`svg/`、`png/`、`data/`、`design/`、`screenshots/`）
 3. **JS**：放進對應的 `src/js/` 檔案；新檔案同樣要加到兩個地方，位置注意第 3 節的載入順序。
 4. **測試**：`npm test`，必要時在 `tests/` 加測試。
 5. **單檔版**：`npm run build` 重新產生 `dist/novaday.html`。
+6. **Flutter 素材**：改到資料、星座圖、介面圖示或動畫時，執行 `npm run export-assets`。
 
 ### 命名與風格
 - 檔名用英文小寫加 `-`，照功能命名，不加版本號或數字前綴。

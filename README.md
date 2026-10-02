@@ -1,12 +1,34 @@
-# Novaday: Flutter 素材參考包
+# Novaday
 
-這個包從 Novaday HTML artifact（v59）匯出，裡面有所有圖像素材、資料和設計規格，給之後用 Flutter 重寫 App 時參考。
-網頁版原始碼放在根目錄，已經拆成分層的檔案：
-- 打開 `index.html` 就能執行
-- 單一檔版在 `dist/novaday.html`
-- 結構說明見下方〈網頁版原始碼〉與 [docs/architecture.md](docs/architecture.md)
+每天點亮一顆新星的星空日記。這個 repo 有兩部分：
+
+- **網頁版**：根目錄的 `index.html` 加上 `src/`，由 GitHub Pages 提供（dominicshing.github.io/novaday-pages）。
+- **Flutter 素材**：`assets/` 裡的圖像、資料和設計規格，給之後用 Flutter 製作手機 App 時使用。資料和星座圖由網頁版的程式產生，兩邊保持一致。
 
 ## 資料夾結構
+
+```
+./
+├── index.html          網頁版的畫面結構＋依序載入 CSS / JS
+├── build-order.json    CSS 與 JS 的載入順序
+├── src/
+│   ├── css/            base、layout、components（一個元件一個檔）、screens（一個畫面一個檔）
+│   └── js/             core、data、logic、ui、screens、features、app
+├── assets/             Flutter 素材（見下方）
+├── docs/               架構說明、備份格式規格
+├── tests/              自動測試
+├── tools/              打包單檔版、匯出 Flutter 素材
+└── dist/novaday.html   單檔版（可直接當 Claude artifact 發布）
+```
+
+## 網頁版
+
+- **執行**：在這個資料夾執行 `python3 -m http.server 8000`，再打開 http://localhost:8000（也可以直接用瀏覽器打開 `index.html`）。
+- **單檔版**：改完原始碼後執行 `npm run build`，重新產生 `dist/novaday.html`。
+- **測試**：`npm install` 後執行 `npm test`。
+- 程式結構、載入順序、資料存在哪裡、怎麼新增功能，都寫在 [docs/architecture.md](docs/architecture.md)。
+
+## Flutter 素材 `assets/`
 
 | 路徑 | 內容 |
 |---|---|
@@ -18,21 +40,20 @@
 | `svg/achievement_icons_locked/` | 54 個成就徽章圖示（未解鎖、灰紫配色） |
 | `svg/zodiac_glyphs/` | 12 個黃道星座符號，另有 `_zodiac_ring.svg` 轉動環 |
 | `svg/mood_stars/` | 5 個心情星星（mood_0 很低落 … mood_4 很棒） |
-| `svg/constellations/lit/` | 88 個星座圖：全部點亮，含星座形象剪影 |
-| `svg/constellations/unlit/` | 88 個星座圖：未點亮狀態 |
-| `svg/ui_icons/` | 介面圖示，包括分頁列、按鈕、設定等。`_index.json` 對照每個圖示的中文用途 |
+| `svg/constellations/lit/` | 88 個星座圖：全部點亮，含星座剪影 |
+| `svg/constellations/unlit/` | 88 個星座圖：未點亮，含星座剪影 |
+| `svg/ui_icons/` | 99 個介面圖示：分頁列、按鈕、設定分類與各列、開發者工具等。`_index.json` 對照每個圖示的中文用途 |
 | `svg/brand/novaday_logo.svg` | App Logo |
-| `png/**` | 備用的點陣版本（1x、`2.0x/`、`3.0x/`）。每一張 PNG 都有對應的 SVG，一般用 SVG 就好 |
+| `png/**` | 備用的點陣版本（1x、`2.0x/`、`3.0x/`）。每一張 PNG 都有對應的 SVG，一般用 SVG 就好；星座圖和介面圖示只有 SVG |
 | `data/*.json` | 所有內容資料，詳見下節 |
 | `design/design_tokens.json` | 色彩、字型、圓角、漸層 |
-| `design/animations_keyframes.css` | 110 個 CSS 動畫 keyframes，可以照著轉成 Flutter 動畫 |
+| `design/animations_keyframes.css` | CSS 動畫 keyframes，可以照著轉成 Flutter 動畫 |
 | `screenshots/` | 各主要畫面截圖，尺寸 390×844 @2x |
-| `docs/backup-format.md` | 備份格式規格（網頁版與 App 共用） |
-| `index.html`、`build-order.json`、`src/`、`tests/`、`tools/`、`dist/` | 網頁版原始碼、測試、打包工具、單一檔版（見下方〈網頁版原始碼〉） |
 
-## 資料檔 `data/`
+### 資料檔 `data/`
 
-- `constellations.json`：88 個 IAU 星座，包含中文名、拉丁名、是否黃道、小知識。星星以 [赤經時, 赤緯度, 星等] 表示，另有連線索引和形象剪影路徑。
+- `constellations.json`：88 個 IAU 星座，包含中文名、拉丁名、是否黃道、小知識。星星以 [赤經時, 赤緯度, 星等] 表示，另有連線索引和星座剪影。
+  - `figure.style` 是 `outline`（一般剪影，依星點位置對齊）或 `dust`（星塵剪影，在畫框內自行置中縮放，例如海豚座、天鵝座）。
 - `zodiac.json`：12 星座的日期、元素、關鍵字、性格描述和符號路徑。
 - `fortune_texts.json`：每月運勢文字庫。原始的產生演算法（`seedRng`）也附在裡面，要在 Flutter 得到相同結果，必須照原樣移植。
 - `moods.json`：5 種心情的名稱和顏色。
@@ -44,13 +65,28 @@
   - 輔助函式
 - `avatars.json`：頭像清單、預設頭像（`const`）、頭像底色，以及舊版 emoji 的對照。
 - `meteors.json`：流星雨日期。
-- `regions.json`：地區與城市緯度，用來計算今晚看得到哪些星座。
+- `regions.json`：地區與城市的緯度、經度，用來計算今晚看得到哪些星座、在天空的哪個位置。
 - `prompts.json`：今日星語的題目。
-- `sample_entries.json`：日記資料結構範例，對應 localStorage 的 schema。
+- `sample_entries.json`：日記資料結構範例。手機版與網頁版之間搬資料，請用 [備份格式](docs/backup-format.md)。
 
-## Flutter 使用方式
+### 重新產生素材
 
-`pubspec.yaml`：
+網頁版的程式是唯一的資料來源。改了資料、星座剪影或介面圖示之後，執行：
+
+```
+npm run export-assets
+```
+
+它會用無頭瀏覽器執行網頁版，然後：
+- 重新產生 `data/*.json`（全部）
+- 重新產生 `svg/constellations/` 的 88 × 2 個星座圖
+- 把新的介面圖示補進 `svg/ui_icons/`（不改現有的檔名）
+
+頭像、階級徽章、水晶徽章、心情星星、黃道符號、Logo 和 PNG 來自最初的匯出（水晶徽章是照 CSS 的構造手工重建的 SVG），這次沒有變動；如果之後修改這些圖，需要另外更新。
+
+### Flutter 使用方式
+
+把 `assets/` 整個資料夾複製到 Flutter 專案根目錄，`pubspec.yaml`：
 
 ```yaml
 dependencies:
@@ -73,11 +109,10 @@ flutter:
     - assets/data/
 ```
 
-- **SVG**：`SvgPicture.asset('assets/svg/avatars/const.svg')`。符號類圖示是白色的，要換顏色時用 `colorFilter: ColorFilter.mode(color, BlendMode.srcIn)`。
+- **SVG**：`SvgPicture.asset('assets/svg/avatars/const.svg')`。符號類圖示要換顏色時用 `colorFilter: ColorFilter.mode(color, BlendMode.srcIn)`。
 - **水晶徽章**：`SvgPicture.asset('assets/svg/achievement_crystals/s7_unlocked.svg', width: 92, height: 92)`。
 - **PNG（備用）**：`Image.asset('assets/png/avatars/const.png')`。Flutter 會依螢幕密度自動挑 `2.0x/`、`3.0x/` 的版本。
 - **字型**：`GoogleFonts.chakraPetch()`。中文部分建議搭配 Noto Sans TC。
-  也可以到 fonts.google.com 下載 Chakra Petch 的 TTF（400、500、600、700）放進 `assets/fonts/`。這次打包的環境連不上字型來源，所以字型檔沒有放進包裡。
 - **色彩**：依 `design/design_tokens.json` 建立 `ThemeData`。主要色彩：
   - 背景 `#070A1C`
   - 主色 nebula `#8A7CFF`
@@ -85,40 +120,23 @@ flutter:
   - 強調 flare `#FFB45C`
   - 金星 `#FFE7A3`
 
-## 備份格式
+### 注意事項
 
-網頁版和 Flutter App 共用同一種備份格式：`.zip` 裡放 `novaday-backup.json`，照片和影片是獨立檔案。欄位、zip 規則、合併規則和舊版相容方式都寫在 [`docs/backup-format.md`](docs/backup-format.md)，實作 App 的備份與還原時請照著做，兩邊的備份才能互相還原。
-
-## 注意事項
-
-- **動畫**：SVG 匯出的是靜態畫面。原本的動畫有星星閃爍、火焰、水晶光澤、轉動環等，都寫在 CSS 裡（見 `design/animations_keyframes.css`），在 Flutter 需要用 `AnimationController` 或 `flutter_animate` 重做。
-- **光暈**：原本的光暈是 CSS 的 `drop-shadow`。flutter_svg 不支援 SVG 濾鏡，所以 SVG 裡的光暈改用「多層加粗、半透明的描邊」做成，Flutter 能直接顯示，外觀接近原版，只是比 PNG 的模糊光暈稍微硬一點。
+- **動畫**：SVG 是靜態畫面（採用網頁版「減少動態效果」時的樣子）。星星閃爍、火焰、水晶光澤、轉動環等動畫寫在 CSS 裡（見 `design/animations_keyframes.css`），在 Flutter 需要用 `AnimationController` 或 `flutter_animate` 重做。
+- **光暈與模糊**：flutter_svg 不支援 SVG 濾鏡，所以：
+  - 線條與圖形的光暈改用「多層加粗、半透明的描邊」。
+  - 星塵剪影的星雲模糊改用放射漸層的橢圓；模糊的描邊依高斯模糊的亮度分布疊成五層。
+  - 外觀接近網頁版，只是比真正的模糊稍微硬一點。
 - **水晶徽章**：原本用 CSS 疊出來，SVG 版照同樣的構造重建：16 角星外框、放射漸層、內層切面、光澤、圖示光暈和閃星。CSS 的彩虹圓錐漸層在 SVG 沒有對應語法，所以改用 90 片扇形拼出來。
   未解鎖徽章的「進度液面」和各種動畫是動態的，SVG 裡沒有。需要時可以參考下面兩個來源，用 `CustomPainter` 重畫：
   - `achievements.json` 裡的 `crystal_star_path_100`（16 角星外框）和 `crystal_colors`
   - `src/css/components/badges.css` 的 `.fc` 樣式
-- **星座圖**：用 `conProj()` 把赤經和赤緯投影到畫面座標，演算法在 `src/js/logic/sky-projection.js`，畫圖的部分在 `src/js/ui/art/constellation-map.js`。
+- **星座圖**：用 `conProj()` 把赤經和赤緯投影到畫面座標，演算法在 `src/js/logic/sky-projection.js`；畫圖在 `src/js/ui/art/constellation-map.js`，剪影在 `src/js/data/constellation-figures.js`。
 - **遊戲邏輯**：
   - XP、等級、連續天數：`src/js/logic/xp-streak.js`
   - 徽章解鎖與進度：`src/js/logic/achievement-rules.js`
   - 階級：`src/js/data/moods-ranks.js`
 
-## 網頁版原始碼
+## 備份格式
 
-- **直接開**：用瀏覽器打開 `index.html` 就能執行。
-- **本機伺服器（建議）**：在這個資料夾執行 `python3 -m http.server 8000`，再打開 http://localhost:8000。
-- **單一檔版**：`dist/novaday.html`，可以直接當 Claude artifact 發布。改完原始碼後執行 `npm run build`（或 `python3 tools/build_single_html.py`）重新產生。
-- **測試**：`npm install` 後執行 `npm test`。
-
-```
-./
-├── index.html          畫面結構＋依序載入 CSS / JS
-├── build-order.json    CSS 與 JS 的載入順序
-├── src/css/            base、layout、components（一個元件一個檔）、screens（一個畫面一個檔）
-├── src/js/             core、data、logic、ui、screens、features、app
-├── tests/              自動測試
-├── tools/              打包工具
-└── docs/               架構說明、備份格式規格
-```
-
-程式結構、載入順序、資料存在哪裡、怎麼新增功能，都寫在 [docs/architecture.md](docs/architecture.md)。
+網頁版和 Flutter App 共用同一種備份格式：`.zip` 裡放 `novaday-backup.json`，照片和影片是獨立檔案。欄位、zip 規則、合併規則都寫在 [docs/backup-format.md](docs/backup-format.md)，實作 App 的備份與還原時請照著做，兩邊的備份才能互相還原。
