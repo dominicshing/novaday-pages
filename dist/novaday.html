@@ -636,14 +636,15 @@ html{overflow:hidden}
 .rk-rew .st.using{color:var(--ion)}
 .rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}
 .is-lock .rk-rew{opacity:.6}
-/* 28 階的小圓點：縮小間距讓一排放得下（約 320px），目前看的那一點拉長 */
-.rk-dots{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:2px;max-width:100%}
-.rk-dot{flex:none;width:9px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center;transition:width .3s}
-.rk-dot[aria-selected="true"]{width:20px}
-.rk-dot i{display:block;width:5px;height:5px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
+/* 階級小圓點：一次只顯示目前附近的 7 個（rkUpdate 設定 hidden），兩端的縮小表示還有更多；目前看的那一點拉長 */
+.rk-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:2px;max-width:100%}
+.rk-dot{flex:none;width:24px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center}
+.rk-dot i{display:block;width:7px;height:7px;border-radius:4px;background:rgba(232,233,255,.22);transition:width .3s,background .3s,transform .3s}
+.rk-dot[data-edge="1"] i{transform:scale(.72)}
+.rk-dot[data-edge="2"] i{transform:scale(.45)}
 .rk-dot.reached i{background:rgba(138,124,255,.6)}
 .rk-dot.cur i{box-shadow:0 0 0 2px rgba(111,227,214,.45)}
-.rk-dot[aria-selected="true"] i{width:16px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
+.rk-dot[aria-selected="true"] i{width:18px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
 .rk-hint{text-align:center;font-size:12px;color:var(--muted);margin:2px 0 0;transition:opacity .4s}
 .p-rank{display:inline-flex;align-items:center;margin-top:10px;min-height:34px;border-radius:999px;border:1px solid var(--rb,rgba(138,124,255,.4));
   background:rgba(7,10,28,.4);color:var(--text);font-size:13px;font-weight:600}
@@ -5322,7 +5323,10 @@ function rkGo(i,smooth){const t=$('rkTrack'),cs=rkCards();i=Math.max(0,Math.min(
   t.scrollTo({left:el.offsetLeft-(t.clientWidth-el.offsetWidth)/2,behavior:smooth&&!reduce?'smooth':'auto'});if(!smooth){RK.idx=-1;rkUpdate()}}
 function rkUpdate(){const i=rkNearest();if(i===RK.idx)return;RK.idx=i;
   rkCards().forEach((el,k)=>el.classList.toggle('on',k===i));
-  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>d.setAttribute('aria-selected',k===i));
+  /* 小圓點只顯示目前附近的 7 個，兩端的縮小，表示還有更多 */
+  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3));
+  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);const vis=k>=st&&k<st+W;d.hidden=!vis;
+    const edge=vis&&((k===st&&st>0)||(k===st+W-1&&st+W<n))?2:vis&&((k===st+1&&st>0)||(k===st+W-2&&st+W<n))?1:0;d.dataset.edge=edge});
   $('rkPrev').disabled=i===0;$('rkNext').disabled=i===RANKS.length-1;$('rkBack').hidden=i===RK.cur;$('rkHint').hidden=i!==RK.cur}
 function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,false)}
 (()=>{const t=$('rkTrack');let seen=false;

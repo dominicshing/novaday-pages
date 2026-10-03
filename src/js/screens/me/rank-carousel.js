@@ -34,7 +34,10 @@ function rkGo(i,smooth){const t=$('rkTrack'),cs=rkCards();i=Math.max(0,Math.min(
   t.scrollTo({left:el.offsetLeft-(t.clientWidth-el.offsetWidth)/2,behavior:smooth&&!reduce?'smooth':'auto'});if(!smooth){RK.idx=-1;rkUpdate()}}
 function rkUpdate(){const i=rkNearest();if(i===RK.idx)return;RK.idx=i;
   rkCards().forEach((el,k)=>el.classList.toggle('on',k===i));
-  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>d.setAttribute('aria-selected',k===i));
+  /* 小圓點只顯示目前附近的 7 個，兩端的縮小，表示還有更多 */
+  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3));
+  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);const vis=k>=st&&k<st+W;d.hidden=!vis;
+    const edge=vis&&((k===st&&st>0)||(k===st+W-1&&st+W<n))?2:vis&&((k===st+1&&st>0)||(k===st+W-2&&st+W<n))?1:0;d.dataset.edge=edge});
   $('rkPrev').disabled=i===0;$('rkNext').disabled=i===RANKS.length-1;$('rkBack').hidden=i===RK.cur;$('rkHint').hidden=i!==RK.cur}
 function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,false)}
 (()=>{const t=$('rkTrack');let seen=false;
