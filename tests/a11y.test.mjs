@@ -26,6 +26,12 @@ export default async ({ ok, open }) => {
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 
+  // 引導頁：後面的 App 不能被 Tab 移到；收起的復原列按鈕也不在 Tab 順序裡
+  const po = await open({ seed: { 'orbitlog.profile.v1': {} } }); await po.waitForTimeout(600);
+  const outs = []; for (let i = 0; i < 8; i++) { await po.keyboard.press('Tab'); outs.push(await po.evaluate(() => { const a = document.activeElement; return a === document.body || document.getElementById('onb').contains(a) ? '' : a.id || a.className })) }
+  ok(outs.every(x => !x), '引導頁顯示時 Tab 不會跑到後面的 App ' + outs.filter(Boolean).join(','));
+  await po.context().close();
+
   // 減少動態效果：系統設定與 App 內設定都不應該有無限循環的動畫在跑
   const loops = async pg => { const out = new Set();
     for (const c of ["go('home')", "go('log')", "go('log','cal')", "go('atlas')", "go('me')", 'openEditor()', 'openDetail(entries[0].id)', 'openAch(ACH[0].id)', "openCon('Ori')", "prof.birthday='1990-05-20';openFortune()", 'openReport(2026,9)', "openSheet('settingsSheet')"]) {

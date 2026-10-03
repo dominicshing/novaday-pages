@@ -1,8 +1,10 @@
 /* 可復原的提示列（snackbar） */
 .snack{position:absolute;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:36;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
   background:#1B2054;border:1px solid var(--line);box-shadow:0 12px 30px -10px rgba(0,0,0,.7);font-size:14px;
-  transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1)}
-.snack.show{transform:none;opacity:1;pointer-events:auto}
+  transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1);
+  /* 收起時 visibility:hidden：裡面的「復原」按鈕不會被 Tab 移到、也不會被螢幕報讀讀到（淡出動畫結束才隱藏） */
+  visibility:hidden}
+.snack.show{transform:none;opacity:1;pointer-events:auto;visibility:visible}
 .snack span{flex:1}
 .snack button{min-height:40px;padding:0 14px;border-radius:10px;border:0;background:rgba(111,227,214,.14);color:var(--ion);font-weight:700}
 

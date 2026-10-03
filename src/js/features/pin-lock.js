@@ -5,7 +5,7 @@ let lk={mode:'unlock',buf:'',first:null,done:null,fails:0};
 function lkRender(){$('lkDots').querySelectorAll('i').forEach((d,k)=>d.classList.toggle('on',k<lk.buf.length))}
 function lkMsg(t,m){$('lkT').textContent=t;$('lkM').textContent=m}
 /* 上鎖時，鎖後面的畫面設為 inert：不能用 Tab 移到、螢幕報讀也讀不到日記內容 */
-function lockInert(on){document.querySelectorAll('#device>*:not(#lock):not(#ask):not(.toast):not(.snack):not(.sys-status):not(.sys-island)').forEach(el=>{el.inert=on})}
+function lockInert(on){document.querySelectorAll('#device>*:not(#lock):not(#ask):not(.toast):not(.snack):not(.sys-status):not(.sys-island)').forEach(el=>{el.inert=on||(el.id==='app'&&!$('onb').hidden)})}
 function openLock(mode,done){lk={mode,buf:'',first:null,done,fails:0};$('lock').hidden=false;$('lock').classList.remove('out');lockInert(true);
   $('lkCancel').hidden=mode==='unlock';$('lkForgot').hidden=mode!=='unlock';
   mode==='preview'?lkMsg('輸入密碼','預覽模式・輸入任意 4 位數即可離開'):mode==='unlock'?lkMsg('輸入密碼','解鎖你的星空日記'):mode==='set'?lkMsg('設定 4 位數密碼','之後打開 App 時需要輸入'):lkMsg('輸入目前的密碼','確認後才能關閉密碼鎖');lkRender()}

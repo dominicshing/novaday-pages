@@ -455,8 +455,10 @@ html{overflow:hidden}
 /* 可復原的提示列（snackbar） */
 .snack{position:absolute;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:36;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
   background:#1B2054;border:1px solid var(--line);box-shadow:0 12px 30px -10px rgba(0,0,0,.7);font-size:14px;
-  transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1)}
-.snack.show{transform:none;opacity:1;pointer-events:auto}
+  transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1);
+  /* 收起時 visibility:hidden：裡面的「復原」按鈕不會被 Tab 移到、也不會被螢幕報讀讀到（淡出動畫結束才隱藏） */
+  visibility:hidden}
+.snack.show{transform:none;opacity:1;pointer-events:auto;visibility:visible}
 .snack span{flex:1}
 .snack button{min-height:40px;padding:0 14px;border-radius:10px;border:0;background:rgba(111,227,214,.14);color:var(--ion);font-weight:700}
 
@@ -6609,6 +6611,9 @@ $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}el
 $('obAlt').onclick=()=>obFinish(false);
 $('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
 $('obSkip').onclick=()=>{ob.i=3;obRender()};
+/* 引導頁顯示時，後面的 App 設為 inert：Tab 不會跑到看不見的按鈕，螢幕報讀也只讀引導頁 */
+new MutationObserver(()=>{$('app').inert=!$('onb').hidden}).observe($('onb'),{attributes:true,attributeFilter:['hidden']});
+$('app').inert=!$('onb').hidden;
 /* 密碼鎖 */
 async function pinHash(p){const t='novaday:'+p;try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
   catch(e){let h=5381;for(const c of t)h=(h*33^c.charCodeAt(0))>>>0;return 'd'+h}}
@@ -6616,7 +6621,7 @@ let lk={mode:'unlock',buf:'',first:null,done:null,fails:0};
 function lkRender(){$('lkDots').querySelectorAll('i').forEach((d,k)=>d.classList.toggle('on',k<lk.buf.length))}
 function lkMsg(t,m){$('lkT').textContent=t;$('lkM').textContent=m}
 /* 上鎖時，鎖後面的畫面設為 inert：不能用 Tab 移到、螢幕報讀也讀不到日記內容 */
-function lockInert(on){document.querySelectorAll('#device>*:not(#lock):not(#ask):not(.toast):not(.snack):not(.sys-status):not(.sys-island)').forEach(el=>{el.inert=on})}
+function lockInert(on){document.querySelectorAll('#device>*:not(#lock):not(#ask):not(.toast):not(.snack):not(.sys-status):not(.sys-island)').forEach(el=>{el.inert=on||(el.id==='app'&&!$('onb').hidden)})}
 function openLock(mode,done){lk={mode,buf:'',first:null,done,fails:0};$('lock').hidden=false;$('lock').classList.remove('out');lockInert(true);
   $('lkCancel').hidden=mode==='unlock';$('lkForgot').hidden=mode!=='unlock';
   mode==='preview'?lkMsg('輸入密碼','預覽模式・輸入任意 4 位數即可離開'):mode==='unlock'?lkMsg('輸入密碼','解鎖你的星空日記'):mode==='set'?lkMsg('設定 4 位數密碼','之後打開 App 時需要輸入'):lkMsg('輸入目前的密碼','確認後才能關閉密碼鎖');lkRender()}
