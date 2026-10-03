@@ -65,7 +65,7 @@
   - 每個徽章的解鎖條件和進度計算（原始 JS）
   - 輔助函式
 - `avatars.json`：頭像清單、預設頭像（`const`）、頭像底色，以及舊版 emoji 的對照。
-- `meteors.json`：流星雨日期。
+- `meteors.json`：流星雨日期。網頁版目前**不顯示**流星雨（多數使用者在城市看不到，標出來容易被當成標錯），資料先保留；`star-calendar.js` 的 `SHOW_METEORS` 改成 `true` 即可恢復。
 - `regions.json`：地區與城市的緯度、經度，用來計算今晚看得到哪些星座、在天空的哪個位置。
 - `prompts.json`：今日星語的題目。
 - `sample_entries.json`：日記資料結構範例。手機版與網頁版之間搬資料，請用 [備份格式](docs/backup-format.md)。

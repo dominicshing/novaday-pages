@@ -3500,7 +3500,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
       <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>顯示</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg></i><span>減少動態效果<small>停止星星閃爍與點亮動畫</small></span></span><button class="sw" role="switch" id="swCalm" aria-checked="false" aria-label="減少動態效果"></button></div>
-        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FF6B6B"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg></i><span>紅光夜視模式<small>戶外觀星時使用，不刺眼、不破壞暗適應</small></span></span><button class="sw" role="switch" id="swRed" aria-checked="false" aria-label="紅光夜視模式"></button></div>
+        <div class="li" id="liRed" hidden><span class="li-l"><i class="li-ic" style="--ic:#FF6B6B"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg></i><span>紅光夜視模式<small>戶外觀星時使用，不刺眼、不破壞暗適應</small></span></span><button class="sw" role="switch" id="swRed" aria-checked="false" aria-label="紅光夜視模式"></button></div>
       </div>
       <h3 class="set-h" style="--c:#7EE0A8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>隱私與安全</h3>
       <div class="list panel">
@@ -4642,7 +4642,7 @@ function tonightCard(k){const lat=regLat();
   else if(T.best.alt>0){pos=T.best;head='今晚只在低空';sub=`${hhmm(T.best.h)} 最高，${dirName(T.best.az)}方仰角 ${Math.round(T.best.alt)}°，需要開闊地平線`}
   else{pos=null;head='今晚看不到';sub=`最佳月份約 ${conSeason(k).m} 月`}
   const peak=p.alt>=15&&T.best.h>21.2&&T.best.alt>p.alt+3?`・${hhmm(T.best.h)} 升到最高 ${Math.round(T.best.alt)}°`:'';
-  return `<div class="cn-tonight${pos?'':' none'}" role="group" aria-label="今晚 9 點：${head}，${sub}">${skyDome(pos)}<span class="tn-t"><small>今晚 9 點・${esc(prof.region.name)}</small><b>${head}</b><span>${sub}${peak}</span></span><button type="button" class="red-q" aria-pressed="${!!prof.red}" aria-label="紅光夜視模式" title="紅光夜視模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button></div>`}
+  return `<div class="cn-tonight${pos?'':' none'}" role="group" aria-label="今晚 9 點：${head}，${sub}">${skyDome(pos)}<span class="tn-t"><small>今晚 9 點・${esc(prof.region.name)}</small><b>${head}</b><span>${sub}${peak}</span></span>${SHOW_RED?`<button type="button" class="red-q" aria-pressed="${!!prof.red}" aria-label="紅光夜視模式" title="紅光夜視模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button>`:''}</div>`}
 function openCon(k,dir){const c=CON[k],st=consState(entries),done=st.done.includes(k),isCur=k===st.cur,es=conEntries(k),lit=done?c.s.length:isCur?st.lit:0,se=conSeason(k),zi=ZODIAC.findIndex(z=>z.k===k);
   const status=done?`${es.length?fmtDay(es[es.length-1].date).split('・')[0]+' ':''}完成`:isCur?`正在點亮 ${st.lit} / ${c.s.length}`:'尚未點亮';
   $('conTitle').textContent=c.n;
@@ -5110,11 +5110,13 @@ function moonAgeTrue(d){const Y=d.getFullYear(),t=d.getTime(),ev=[Y-1,Y,Y+1].fla
 function moonSVG(a,cls=''){const ill=(1-Math.cos(2*Math.PI*a))/2,r=6.5,rx=(r*Math.abs(1-2*ill)).toFixed(2),wax=a<.5;
   const lit=ill<.02?'':`<path d="M0 ${-r}A${r} ${r} 0 0 1 0 ${r}A${rx} ${r} 0 0 ${ill>.5?1:0} 0 ${-r}Z" fill="#F4ECD0" transform="${wax?'':'scale(-1 1)'}"/>`;
   return `<svg class="moon ${cls}" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="${r}" fill="#2A2F5C" stroke="#8E94C4" stroke-width=".6"/>${lit}</svg>`}
-/* 流星雨極大期（每年日期大致固定，實際可能相差一兩天） */
+/* 流星雨極大期（每年日期大致固定，實際可能相差一兩天）。目前隱藏：多數使用者在城市裡看不到，標出來反而像是 App 標錯；改成 true 即可恢復 */
+const SHOW_METEORS=false;
+/* 資料：流星雨極大期（每年日期大致固定，實際可能相差一兩天） */
 const METEORS=[[1,4,'象限儀座流星雨'],[4,22,'天琴座流星雨'],[5,6,'水瓶座η流星雨'],[7,30,'水瓶座δ流星雨'],[8,12,'英仙座流星雨'],[10,8,'天龍座流星雨'],[10,21,'獵戶座流星雨'],[11,17,'獅子座流星雨'],[12,14,'雙子座流星雨'],[12,22,'小熊座流星雨']];
 function dayEvents(k){const[,m,d]=k.split('-').map(Number),ev=[],mi=moonInfo(k);
   const z=ZODIAC.findIndex(z=>z.d[0]===m&&z.d[1]===d);if(z>=0)ev.push({t:'z',g:zg(z),s:`今天起是${ZODIAC[z].n}（${zRange(z)}）`,short:zg(z)});
-  METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:`${n}極大期（約）`,short:'☄'})});
+  if(SHOW_METEORS)METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:`${n}極大期（約）`,short:'☄'})});
   if(mi.isFull)ev.push({t:'f',g:'',s:'滿月',short:''});if(mi.isNew)ev.push({t:'n',g:'',s:'新月，適合觀星',short:''});
   return{ev,mi}}
 const calStar=(c,big,i)=>`<svg class="cs${big?' big':''}" viewBox="-10 -10 20 20" aria-hidden="true"><g class="mst mst${i??2}" style="animation-delay:${(-(MSTN++%9)*.43).toFixed(2)}s"><path d="${sp4(0,0,9)}" fill="${c}"/><circle r="2.2" fill="#fff"/></g></svg>`;
@@ -5140,7 +5142,7 @@ function renderCal(){const Y=calMonth.getFullYear(),M=calMonth.getMonth(),first=
     g+=`<button class="cell${es?' has':''}${k===today?' today':''}${fut?' future':''}" data-d="${k}" aria-pressed="${k===selDate}" aria-label="${lab}" style="--dot:var(${MOODS[avg].c})">
       ${mark?`<span class="ev">${mark}</span>`:''}${es&&es.length>1?`<span class="cnt">×${es.length}</span>`:''}<span class="n">${d}</span>${es?calStar(`var(${MOODS[avg].c})`,es.length>1,avg):''}</button>`}
   g+=`<svg class="cal-lines" id="calLines" aria-hidden="true"></svg></div>
-    <div class="cal-legend"><span>${calStar('#8E94C4')}有紀錄・顏色是心情</span><span>${moonSVG(.5)}滿月</span><span>${moonSVG(0)}新月</span><span>☄ 流星雨</span><span>${zg(6)} 新星座開始</span></div>`;
+    <div class="cal-legend"><span>${calStar('#8E94C4')}有紀錄・顏色是心情</span><span>${moonSVG(.5)}滿月</span><span>${moonSVG(0)}新月</span>${SHOW_METEORS?'<span>☄ 流星雨</span>':''}<span>${zg(6)} 新星座開始</span></div>`;
   $('calView').innerHTML=g;calAnimDir='';if($('calRp'))$('calRp').onclick=()=>openReport(Y,M);
   /* 把本月連續的紀錄日連成星座線（相隔 3 天以內） */
   calDays=days;requestAnimationFrame(drawCalLines);
@@ -6058,12 +6060,14 @@ async function tryCloseMe(){if(JSON.stringify(meDraft())===meSnap){closeSheet('m
 $('meForm').addEventListener('submit',e=>{e.preventDefault();if($('meSave').disabled)return;const d=meDraft(),hadSign=signIdx(prof.birthday)>=0;
   Object.assign(prof,d,{name:d.name||'星旅人'});saveProf();closeSheet('meSheet');renderMe();renderGalaxy();renderAppBar();renderFortuneCard();
   const zi=signIdx(prof.birthday);toast(zi>=0&&!hadSign?`已設定星座：${ZODIAC[zi].n}，看看你的本月運勢吧`:'已更新個人資料',zi>=0&&!hadSign?3000:2200)});
-/* 設定頁：開關、提醒、紅光模式、減少動態、範例紀錄 */
+/* 設定頁：開關、提醒、紅光模式（目前隱藏）、減少動態、範例紀錄 */
 $('editMe').onclick=()=>openSheet('settingsSheet');
 $('swRemind').onclick=()=>{prof.remind=!prof.remind;saveProf();renderMe();toast(prof.remind?`已開啟每日提醒（${prof.remindTime}）`:'已關閉每日提醒')};
 $('remindTime').onchange=e=>{prof.remindTime=e.target.value;saveProf()};
 function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
-function applyRed(){$('device').classList.toggle('red',!!prof.red);$('swRed').setAttribute('aria-checked',!!prof.red);document.querySelectorAll('.red-q').forEach(b=>b.setAttribute('aria-pressed',!!prof.red))}
+/* 紅光夜視模式：目前隱藏（設定列與星座頁的按鈕都不顯示，一律關閉）；改成 true 即可恢復 */
+const SHOW_RED=false;
+function applyRed(){const on=SHOW_RED&&!!prof.red;$('liRed').hidden=!SHOW_RED;$('device').classList.toggle('red',on);$('swRed').setAttribute('aria-checked',on);document.querySelectorAll('.red-q').forEach(b=>b.setAttribute('aria-pressed',!!prof.red))}
 function toggleRed(){prof.red=!prof.red;saveProf();applyRed();toast(prof.red?'已開啟紅光夜視模式':'已關閉紅光夜視模式')}
 $('swRed').onclick=toggleRed;
 $('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()};

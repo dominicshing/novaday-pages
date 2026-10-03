@@ -27,11 +27,13 @@ function moonAgeTrue(d){const Y=d.getFullYear(),t=d.getTime(),ev=[Y-1,Y,Y+1].fla
 function moonSVG(a,cls=''){const ill=(1-Math.cos(2*Math.PI*a))/2,r=6.5,rx=(r*Math.abs(1-2*ill)).toFixed(2),wax=a<.5;
   const lit=ill<.02?'':`<path d="M0 ${-r}A${r} ${r} 0 0 1 0 ${r}A${rx} ${r} 0 0 ${ill>.5?1:0} 0 ${-r}Z" fill="#F4ECD0" transform="${wax?'':'scale(-1 1)'}"/>`;
   return `<svg class="moon ${cls}" viewBox="-8 -8 16 16" aria-hidden="true"><circle r="${r}" fill="#2A2F5C" stroke="#8E94C4" stroke-width=".6"/>${lit}</svg>`}
-/* 流星雨極大期（每年日期大致固定，實際可能相差一兩天） */
+/* 流星雨極大期（每年日期大致固定，實際可能相差一兩天）。目前隱藏：多數使用者在城市裡看不到，標出來反而像是 App 標錯；改成 true 即可恢復 */
+const SHOW_METEORS=false;
+/* 資料：流星雨極大期（每年日期大致固定，實際可能相差一兩天） */
 const METEORS=[[1,4,'象限儀座流星雨'],[4,22,'天琴座流星雨'],[5,6,'水瓶座η流星雨'],[7,30,'水瓶座δ流星雨'],[8,12,'英仙座流星雨'],[10,8,'天龍座流星雨'],[10,21,'獵戶座流星雨'],[11,17,'獅子座流星雨'],[12,14,'雙子座流星雨'],[12,22,'小熊座流星雨']];
 function dayEvents(k){const[,m,d]=k.split('-').map(Number),ev=[],mi=moonInfo(k);
   const z=ZODIAC.findIndex(z=>z.d[0]===m&&z.d[1]===d);if(z>=0)ev.push({t:'z',g:zg(z),s:`今天起是${ZODIAC[z].n}（${zRange(z)}）`,short:zg(z)});
-  METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:`${n}極大期（約）`,short:'☄'})});
+  if(SHOW_METEORS)METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:`${n}極大期（約）`,short:'☄'})});
   if(mi.isFull)ev.push({t:'f',g:'',s:'滿月',short:''});if(mi.isNew)ev.push({t:'n',g:'',s:'新月，適合觀星',short:''});
   return{ev,mi}}
 const calStar=(c,big,i)=>`<svg class="cs${big?' big':''}" viewBox="-10 -10 20 20" aria-hidden="true"><g class="mst mst${i??2}" style="animation-delay:${(-(MSTN++%9)*.43).toFixed(2)}s"><path d="${sp4(0,0,9)}" fill="${c}"/><circle r="2.2" fill="#fff"/></g></svg>`;
@@ -57,7 +59,7 @@ function renderCal(){const Y=calMonth.getFullYear(),M=calMonth.getMonth(),first=
     g+=`<button class="cell${es?' has':''}${k===today?' today':''}${fut?' future':''}" data-d="${k}" aria-pressed="${k===selDate}" aria-label="${lab}" style="--dot:var(${MOODS[avg].c})">
       ${mark?`<span class="ev">${mark}</span>`:''}${es&&es.length>1?`<span class="cnt">×${es.length}</span>`:''}<span class="n">${d}</span>${es?calStar(`var(${MOODS[avg].c})`,es.length>1,avg):''}</button>`}
   g+=`<svg class="cal-lines" id="calLines" aria-hidden="true"></svg></div>
-    <div class="cal-legend"><span>${calStar('#8E94C4')}有紀錄・顏色是心情</span><span>${moonSVG(.5)}滿月</span><span>${moonSVG(0)}新月</span><span>☄ 流星雨</span><span>${zg(6)} 新星座開始</span></div>`;
+    <div class="cal-legend"><span>${calStar('#8E94C4')}有紀錄・顏色是心情</span><span>${moonSVG(.5)}滿月</span><span>${moonSVG(0)}新月</span>${SHOW_METEORS?'<span>☄ 流星雨</span>':''}<span>${zg(6)} 新星座開始</span></div>`;
   $('calView').innerHTML=g;calAnimDir='';if($('calRp'))$('calRp').onclick=()=>openReport(Y,M);
   /* 把本月連續的紀錄日連成星座線（相隔 3 天以內） */
   calDays=days;requestAnimationFrame(drawCalLines);

@@ -93,7 +93,16 @@ Flutter 用的素材在 `assets/`，說明見 [README](../README.md)。`assets/d
 
 在「設定 → 版本資訊」連點版本號碼 7 次開啟。功能包括動畫預覽、產生測試資料、快轉進度、模擬日期、極端緯度、剪影與元件總覽、字級放大、螢幕尺寸、觸控範圍、FPS、資料檢視器、錯誤紀錄與初始化（`src/js/features/dev-tools.js`）。
 
-## 8. 測試
+## 8. 暫時隱藏的功能
+
+程式還在，只是不顯示；把開關改成 `true` 就會恢復：
+
+| 功能 | 開關 | 位置 |
+|---|---|---|
+| 月曆上的流星雨標示與圖例 | `SHOW_METEORS` | `src/js/screens/log/star-calendar.js` |
+| 紅光夜視模式（設定列、星座頁按鈕；隱藏時一律關閉） | `SHOW_RED` | `src/js/screens/settings/settings.js` |
+
+## 9. 測試
 
 ```
 npm install      # 第一次：安裝 Playwright
