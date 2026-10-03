@@ -10,5 +10,9 @@ export default async ({ ok, open }) => {
     ok(await p.evaluate(() => !!document.querySelector('#shPrev img')), `分享圖卡能產生（${id}）`) }
   const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#shSave')]);
   ok(dl && /\.png$/.test(dl.suggestedFilename()), '一般瀏覽器按「儲存圖片」會直接下載 PNG ' + (dl && dl.suggestedFilename()));
+  // 星座完成的慶祝畫面上點「分享圖卡」：分享面板要在慶祝畫面上面
+  await p.evaluate(() => { closeSheet('shareSheet'); showConDone('Sge') }); await p.waitForTimeout(800);
+  await p.click('#cdShare'); await p.waitForTimeout(800);
+  ok(await p.evaluate(() => { const r = document.querySelector('#shareSheet .sheet').getBoundingClientRect(), t = document.elementFromPoint(r.x + r.width / 2, r.y + 60); return !!(t && t.closest('#shareSheet')) }), '從慶祝畫面打開的分享面板顯示在最上層');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

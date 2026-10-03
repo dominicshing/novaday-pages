@@ -1,12 +1,14 @@
 /* 底部面板：開關、堆疊、拖曳關閉、確認對話框 */
 /* 面板堆疊：後開的面板一定疊在最上面（例如從運勢頁打開星座詳情），關閉後回到原本的面板 */
 function sheetTop(id){const l=$(id);let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
-  l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1))}
+  l.style.zIndex=top>33?Math.min(79,top+1):Math.min(33,Math.max(id==='ask'?26:20,top+1))}
 function openSheet(id){const l=$(id);l._last=document.activeElement;l._lastKey=l._last&&(l._last.id?'#'+CSS.escape(l._last.id):l._last.dataset&&l._last.dataset.id?`${l._last.tagName}[data-id="${CSS.escape(l._last.dataset.id)}"]`:null);
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
   /* 引導頁（z 60）開著時，面板要疊在它上面、密碼鎖（z 70）下面；密碼鎖開著時（例如「忘記密碼？」的確認），疊在密碼鎖上面 */
   const onb=$('onb')&&!$('onb').hidden,lock=$('lock')&&!$('lock').hidden;
-  l.style.zIndex=lock?Math.min(79,Math.max(71,top+1)):onb?Math.min(69,Math.max(61,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
+  /* 慶祝畫面（星座完成、升級，z 40）開著時從上面點「分享圖卡」：面板要疊在慶祝畫面上面，否則會開在它後面看不到 */
+  const ov=[...document.querySelectorAll('.overlay.show')].reduce((m,o)=>Math.max(m,+getComputedStyle(o).zIndex||40),0);
+  l.style.zIndex=lock?Math.min(79,Math.max(71,top+1)):onb?Math.min(69,Math.max(61,top+1)):ov?Math.min(59,Math.max(ov+1,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false');
   /* 鍵盤與螢幕報讀：焦點移進面板（呼叫的地方自己指定焦點時就不動），面板內容畫好後再移 */
   requestAnimationFrame(()=>{if(!l.classList.contains('open')||l.contains(document.activeElement))return;
