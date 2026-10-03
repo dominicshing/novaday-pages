@@ -112,4 +112,26 @@ npm test         # 全部測試
 npm test backup  # 只跑檔名含 backup 的測試
 ```
 
-測試會啟動本機伺服器，用無頭 Chromium 操作分檔版與單檔版：App 載入與寫紀錄、開發者工具、照片儲存與備份還原、單檔版。
+測試會啟動本機伺服器，用無頭 Chromium 操作分檔版與單檔版（全部跑完約 2～3 分鐘）：
+
+| 檔案 | 內容 |
+|---|---|
+| `app.test.mjs` | 載入、引導頁、範例紀錄、寫紀錄、12／24 小時制、不能寫未來 |
+| `journey.test.mjs`、`journey2.test.mjs` | 用真的點擊走流程：寫、編輯、搜尋、刪除與復原、照片、草稿（含快記與補寫時的草稿暫存）、標籤合併、月曆、暱稱、連點兩下 |
+| `storage.test.mjs` | 讀取時修正格式錯誤的紀錄與個人資料、清除所有紀錄 |
+| `tabs.test.mjs` | 同時開兩個分頁的資料同步 |
+| `day-change.test.mjs` | App 在背景過夜後的跨日更新 |
+| `lock.test.mjs` | 密碼鎖、上鎖時後方畫面 inert、提示顯示在最上層 |
+| `a11y.test.mjs` | 面板焦點、Tab 範圍、Esc、慶祝畫面、引導頁、減少動態效果 |
+| `share.test.mjs` | 分享圖卡（特殊字元、控制字元）、儲存圖片、從慶祝畫面打開 |
+| `format.test.mjs` | 純文字匯出、跨年日期、「#標籤」搜尋、那年今日的月份推算 |
+| `backup.test.mjs` | 照片搬進 IndexedDB、完整備份 .zip 來回還原 |
+| `dev-tools.test.mjs`、`dist.test.mjs` | 開發者工具、單檔版 |
+
+## 10. 共用小工具（`src/js/core/utils.js`）
+
+- `isEnter(e)`：文字欄位的 Enter，排除中文輸入法選字中的 Enter。
+- `svgURL(svg)`：SVG 轉成圖片網址，去掉 XML 不允許的字元。
+- `pctDone(f)`：完成度百分比，未完成時最多 99%。
+- `fmtDayY(s)`：不是今年的日期前面加上年份。
+- 電腦預覽外框的條件 `FRAME_MQ`（`src/js/core/config.js`），CSS 的 `@media` 要用同一個條件。
