@@ -19,4 +19,10 @@ export default async ({ ok, open }) => {
   const q = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1 }, 'orbitlog.seeded.v1': '1', 'novaday.dev.dateOffset': String(off),
     'orbitlog.entries.v1': [{ id: 'f', date: '2026-02-28', title: '二月底', mood: 2 }, { id: 'm', date: '2026-03-03', title: '三月三日', mood: 2 }] } });
   ok(await q.evaluate(() => { const m = memoryPick(); return m && m.lab === '一個月前的今天' && m.e.id === 'f' }), '3/31 的「一個月前的今天」是 2/28');
-  await q.context().close() };
+  await q.context().close();
+
+  // 320px 寬：編輯器的日期時間膠囊不換行
+  const r = await open({ viewport: { width: 320, height: 568 } });
+  await r.evaluate(() => { openEditor(); document.getElementById('whenDT').textContent = '前天・10/1（四）'; document.getElementById('whenTT').textContent = '下午 11:56' }); await r.waitForTimeout(400);
+  ok(await r.evaluate(() => { const p = document.querySelector('.when-pill').getBoundingClientRect(), c = document.querySelector('.ed-when').getBoundingClientRect(); return p.height < 40 && p.right <= c.right + 1 }), '320px 時日期時間膠囊維持一行');
+  await r.context().close() };

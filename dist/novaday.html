@@ -2466,6 +2466,13 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .wp-seg svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .wp-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;border:0;cursor:pointer;font-size:16px;-webkit-appearance:none;appearance:none}
 .wp-in::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+
+/* 日期時間膠囊不換行（「下午 11:16」「前天・10/1（四）」拆成兩行很難讀）；320px 這類窄螢幕縮小間距 */
+.wp-seg{white-space:nowrap}
+@media (max-width:374px){
+  .wp-seg{padding:0 9px;gap:4px}
+  .when-pill{font-size:12.5px}
+}
 /* 紀錄詳情：內容、照片、影片、收藏、左右滑動切換 */
 .detail-img{width:100%;max-height:260px;object-fit:cover;border-radius:16px;display:block;margin-bottom:14px}
 .detail h3{margin:0;font-size:22px;line-height:1.3}
