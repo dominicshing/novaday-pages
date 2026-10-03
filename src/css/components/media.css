@@ -44,9 +44,7 @@
 .md-empty{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .md-empty[hidden],.md-sec [hidden]{display:none}
 .md-pick{display:flex;align-items:center;gap:10px;min-height:64px;padding:10px 12px;border-radius:16px;border:1px dashed rgba(111,227,214,.45);background:rgba(111,227,214,.06);color:var(--ion);text-align:left;transition:background .2s,border-color .2s}
-.md-pick:hover{background:rgba(111,227,214,.1);border-color:rgba(111,227,214,.7)}
 .md-pick+.md-pick{border-color:rgba(169,158,255,.45);background:rgba(169,158,255,.07);color:#A99EFF}
-.md-pick+.md-pick:hover{background:rgba(169,158,255,.12);border-color:rgba(169,158,255,.7)}
 .md-pick svg{width:26px;height:26px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .md-pick span{display:flex;flex-direction:column;min-width:0}
 .md-pick b{font-size:14.5px;color:var(--text);font-weight:600}
@@ -63,3 +61,8 @@
 .thumb-play{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(8,10,30,.7);display:grid;place-items:center;pointer-events:none;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .thumb-play svg{width:14px;height:14px;fill:#fff;margin-left:2px}
 .thumb-nv{display:block;width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#2A2470,#0B0E2A)}
+/* 滑鼠移上去的效果只給有滑鼠的裝置（手機點過後不會一直停在亮起的樣子） */
+@media (hover:hover){
+  .md-pick:hover{background:rgba(111,227,214,.1);border-color:rgba(111,227,214,.7)}
+  .md-pick+.md-pick:hover{background:rgba(169,158,255,.12);border-color:rgba(169,158,255,.7)}
+}
