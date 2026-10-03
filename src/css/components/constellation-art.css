@@ -16,15 +16,20 @@
 .cl-dash{stroke-dasharray:2 5;stroke:rgba(232,233,255,.34);stroke-width:1.1}
 .cl-on{stroke-width:1.8;stroke-linecap:round}
 .cstar{cursor:pointer}
-.cstar .core{animation:twinkle 3.2s ease-in-out infinite}
+/* 星星閃爍：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的星放大、轉一點、光暈脈動；
+   未點亮的星忽明忽暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
+.cstar .core,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .core{animation:starTw 2.6s ease-in-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloP 2.6s ease-in-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuTw 3.6s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
-.app.calm .cstar .core,.app.calm .nextring{animation:none}
+.app.calm .cstar .core,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
 
 @media (prefers-reduced-motion:reduce){
-  .cstar .core,.nextring{animation:none}
+  .cstar .core,.cstar .halo,.cu,.nextring{animation:none}
 }
 
 /* 星塵剪影：亮星閃爍、星雲緩慢呼吸（靜態場合沿用上方 .cfx * 的關閉規則） */
@@ -51,6 +56,12 @@
 @keyframes cfxSheen {0%{transform:translateX(0);opacity:0}8%{opacity:1}38%{transform:translateX(400px);opacity:1}45%,100%{transform:translateX(400px);opacity:0}
 }
 @keyframes twinkle {0%,100%{opacity:1}50%{opacity:.72}
+}
+@keyframes starTw {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.4) rotate(15deg)}
+}
+@keyframes haloP {0%,100%{transform:scale(.8);opacity:.14}50%{transform:scale(1.45);opacity:.34}
+}
+@keyframes cuTw {0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}
 }
 @keyframes nextp {0%,100%{transform:scale(.8);opacity:.9}50%{transform:scale(1.4);opacity:.25}
 }
