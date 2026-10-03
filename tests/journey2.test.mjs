@@ -56,5 +56,22 @@ export default async ({ ok, open }) => {
   await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
   const q = await p.evaluate(() => { const e = entries.find(x => x.body === '今天好累'); const d = JSON.parse(localStorage.getItem('orbitlog.draft.v1') || 'null'); return { n: entries.length, title: e && e.title, dT: d && d.title, dB: d && d.body, bar: !document.getElementById('draftBar').hidden } });
   ok(q.n === n0 + 1 && q.title === '' && q.dT === '草稿標題' && q.dB === '草稿的長內文' && q.bar, '快記不會帶上草稿內容，草稿保留 ' + JSON.stringify(q));
+  // 指定日期補寫 + 草稿：編輯器是全新的、日期是指定的那天；存完草稿仍在
+  const back = day(5), draftOK = () => p.evaluate(() => { const d = JSON.parse(localStorage.getItem('orbitlog.draft.v1') || 'null'); return !!d && d.title === '草稿標題' && d.body === '草稿的長內文' });
+  await p.evaluate(b => openEditor(null, false, b), back); await p.waitForTimeout(500);
+  ok(await p.evaluate(b => document.getElementById('fDate').value === b && document.getElementById('fTitle').value === '' && document.getElementById('fBody').value === '', back), '補寫指定日期時不會套用草稿，日期正確');
+  await p.fill('#fBody', '補寫的內容'); await p.click('#saveBtn'); await p.waitForTimeout(2500);
+  await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+  ok(await p.evaluate(b => entries.some(e => e.body === '補寫的內容' && e.date === b), back) && await draftOK(), '補寫存檔後，原本的草稿還在');
+  // 補寫到一半取消：只能繼續寫或捨棄這則，原本的草稿不受影響
+  await p.evaluate(b => openEditor(null, false, b), day(6)); await p.waitForTimeout(500);
+  await p.fill('#fBody', '寫一半'); await p.click('#form .sh [data-close]'); await p.waitForTimeout(400);
+  ok(await p.evaluate(() => [...document.querySelectorAll('#askBtns [data-k]')].map(b => b.dataset.k).join() === 'keep,discard'), '取消時只提供繼續寫或捨棄');
+  await p.click('#askBtns [data-k="discard"]'); await p.waitForTimeout(400);
+  ok(await draftOK() && !(await p.evaluate(() => entries.some(e => e.body === '寫一半'))), '捨棄後原本的草稿還在');
+  // 收起草稿時重新整理：下次開啟會放回草稿
+  await p.evaluate(b => openEditor(null, false, b), day(7)); await p.waitForTimeout(400);
+  await p.reload(); await p.waitForTimeout(1000);
+  ok(await draftOK() && await p.evaluate(() => localStorage.getItem('orbitlog.draft.stash.v1') === null && !document.getElementById('draftBar').hidden), '途中重新整理，草稿會放回來');
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

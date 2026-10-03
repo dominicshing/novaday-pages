@@ -60,6 +60,7 @@ Flutter 用的素材在 `assets/`，說明見 [README](../README.md)。`assets/d
 | localStorage | `orbitlog.profile.v1` | 個人資料與設定（全域變數 `prof`） |
 | localStorage | `orbitlog.reviews.v1` | 回顧紀錄（重看舊紀錄的 XP） |
 | localStorage | `orbitlog.draft.v1` | 未完成的草稿 |
+| localStorage | `orbitlog.draft.stash.v1` | 一句話快記或指定日期補寫時，暫時收起來的草稿（存完就放回 `draft.v1`） |
 | localStorage | `orbitlog.seeded.v1` | 是否已放入範例紀錄 |
 | localStorage | `orbitlog.entries.broken.v1` | 讀取時發現格式不對的紀錄：修正前的原始資料留底（平常不存在） |
 | localStorage | `novaday.dev.*` | 開發者工具：模擬日期、錯誤紀錄、空白狀態收起的紀錄 |

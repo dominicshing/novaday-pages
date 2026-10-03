@@ -9,7 +9,7 @@ function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('qnText').addEventListener('input',qnSync);
 $('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnText').value.trim();if(!t)return;
   /* 有未完成的草稿時先收起來，避免快記帶上草稿的標題、照片，或草稿內容被覆蓋 */
-  try{qnStash=localStorage.getItem(DKEY)}catch(e){qnStash=null}clearDraft();
+  stashDraft();
   openEditor();requestAnimationFrame(()=>{$('fBody').value=t;curMood=qnMood??2;renderMoods();$('qnText').value='';qnMood=null;setTimeout(()=>$('form').requestSubmit(),reduce?0:120)})});
 /* 「想多寫一點」：打開完整編輯器；有草稿時接在草稿內文後面，不覆蓋 */
 $('qnMore').onclick=()=>{const t=$('qnText').value.trim(),m=qnMood;openEditor();requestAnimationFrame(()=>{const b=$('fBody').value;if(t)$('fBody').value=b.trim()?b.replace(/\s*$/,'')+'\n'+t:t;if(m!=null){curMood=m;renderMoods()}$('qnText').value='';qnMood=null;onEdit&&onEdit()})};

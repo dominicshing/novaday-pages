@@ -4175,7 +4175,7 @@ const fmtDur=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+Stri
 /* 清掉沒有任何紀錄或草稿用到的影片檔（刪除紀錄時先保留，讓「復原」還能用；下次開 App 才清） */
 /* 照片（p 開頭）也一起整理：紀錄、草稿、開發者工具收起的紀錄，或這次開啟後用過的，都保留 */
 async function mediaGC(){if(phPend.size)return;const keep=new Set(phURL.keys()),scan=t=>{if(!t)return;for(const m of t.matchAll(/idb:(p\w+)/g))keep.add(m[1]);for(const m of t.matchAll(/"id":"(v\w{4,})"/g))keep.add(m[1])};
-  ['orbitlog.entries.v1','orbitlog.draft.v1','novaday.dev.stash',BROKEN].forEach(k=>{try{scan(localStorage.getItem(k))}catch(e){}});
+  ['orbitlog.entries.v1','orbitlog.draft.v1','orbitlog.draft.stash.v1','novaday.dev.stash',BROKEN].forEach(k=>{try{scan(localStorage.getItem(k))}catch(e){}});
   entries.filter(hasVideo).forEach(e=>keep.add(e.video.id));
   for(const k of await mediaKeys())if(!keep.has(k))await mediaDel(k)}
 /* ZIP 檔讀寫（完整備份用） */
@@ -5890,9 +5890,14 @@ const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDa
 const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
-/* 首頁一句話快記借用編輯器存檔：先把原本的草稿收起來，存完（或關掉編輯器）再放回去，兩者不會混在一起 */
-let qnStash=null;
-function qnRestore(){if(qnStash==null)return;try{localStorage.setItem(DKEY,qnStash)}catch(e){}qnStash=null;renderDraftBar()}
+/* 草稿暫存：一句話快記、或指定日期補寫時，開一個全新的編輯器，原本的草稿先收起來，
+   存完（或關掉編輯器）再放回去，兩者不會混在一起，原本的草稿也不會被覆蓋；
+   收起來的草稿存在 SKEY（不是只放在記憶體），途中關掉 App 也不會遺失，下次開啟時放回草稿 */
+const SKEY='orbitlog.draft.stash.v1';
+let edStash=null;
+function stashDraft(){try{edStash=localStorage.getItem(DKEY);if(edStash!=null)localStorage.setItem(SKEY,edStash)}catch(e){edStash=null}clearDraft()}
+function stashRestore(){if(edStash==null)return;try{localStorage.setItem(DKEY,edStash);localStorage.removeItem(SKEY)}catch(e){}edStash=null;renderDraftBar()}
+try{const s=localStorage.getItem(SKEY);if(s!=null){localStorage.setItem(DKEY,s);localStorage.removeItem(SKEY)}}catch(e){}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
   if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
   const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos.map(phRef).filter(Boolean),video:curVideo,prompt:curPrompt};
@@ -5921,7 +5926,8 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   $('fTitle').value=e?e.title:'';$('fBody').value=e?e.body:'';$('fTags').value=e?(e.tags||[]).join(', '):'';$('fLoc').value=e?(e.loc||''):'';
   curMood=e?(e.mood??2):2;curVideo=e&&hasVideo(e)?{...e.video}:null;setPhotos(entryPhotos(e),true);$('fPhoto').value='';$('fVideoIn').value='';
   baseSnap=snap();
-  const d=readDraft();let restored=false;
+  let d=readDraft(),restored=false;
+  if(!e&&presetDate&&draftHas(d)&&!d.editing&&d.date&&d.date!==presetDate){stashDraft();d=null}
   if(draftHas(d)&&(d.editing||null)===editing){
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
     if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
@@ -5935,7 +5941,10 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   $('form').querySelector('.sb').scrollTop=0;openSheet('editor');requestAnimationFrame(fitBody);
   if(restored)toast('已還原上次未完成的草稿');
   if(!e)setTimeout(()=>$('fBody').focus({preventScroll:true}),reduce?0:340)}
-async function tryCloseEditor(){if(qnStash!=null){closeSheet('editor');qnRestore();return}
+async function tryCloseEditor(){if(edStash!=null){
+    /* 另有收起來的草稿：這則不能再存成草稿（只有一個位置），只能繼續寫或捨棄 */
+    if(snap()!==baseSnap&&edHas()){const k=await ask('要離開這則紀錄嗎？','你還有另一則未完成的草稿，所以這則不會存成草稿。',[{k:'keep',t:'繼續寫',cls:'primary'},{k:'discard',t:'捨棄這則',cls:'danger'}]);if(k!=='discard')return}
+    clearDraft();closeSheet('editor');stashRestore();return}
   writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
   const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？','目前的內容已存成草稿，下次打開會自動還原。',
     [{k:'keep',t:'繼續寫',cls:'primary'},{k:'later',t:'保留草稿，稍後再寫'},{k:'discard',t:editing?'放棄修改':'捨棄內容',cls:'danger'}]);
@@ -5981,7 +5990,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
-  clearDraft();qnRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
+  clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
   if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
   {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}
@@ -6043,7 +6052,7 @@ function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('qnText').addEventListener('input',qnSync);
 $('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnText').value.trim();if(!t)return;
   /* 有未完成的草稿時先收起來，避免快記帶上草稿的標題、照片，或草稿內容被覆蓋 */
-  try{qnStash=localStorage.getItem(DKEY)}catch(e){qnStash=null}clearDraft();
+  stashDraft();
   openEditor();requestAnimationFrame(()=>{$('fBody').value=t;curMood=qnMood??2;renderMoods();$('qnText').value='';qnMood=null;setTimeout(()=>$('form').requestSubmit(),reduce?0:120)})});
 /* 「想多寫一點」：打開完整編輯器；有草稿時接在草稿內文後面，不覆蓋 */
 $('qnMore').onclick=()=>{const t=$('qnText').value.trim(),m=qnMood;openEditor();requestAnimationFrame(()=>{const b=$('fBody').value;if(t)$('fBody').value=b.trim()?b.replace(/\s*$/,'')+'\n'+t:t;if(m!=null){curMood=m;renderMoods()}$('qnText').value='';qnMood=null;onEdit&&onEdit()})};

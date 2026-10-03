@@ -18,6 +18,6 @@ const fmtDur=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+Stri
 /* 清掉沒有任何紀錄或草稿用到的影片檔（刪除紀錄時先保留，讓「復原」還能用；下次開 App 才清） */
 /* 照片（p 開頭）也一起整理：紀錄、草稿、開發者工具收起的紀錄，或這次開啟後用過的，都保留 */
 async function mediaGC(){if(phPend.size)return;const keep=new Set(phURL.keys()),scan=t=>{if(!t)return;for(const m of t.matchAll(/idb:(p\w+)/g))keep.add(m[1]);for(const m of t.matchAll(/"id":"(v\w{4,})"/g))keep.add(m[1])};
-  ['orbitlog.entries.v1','orbitlog.draft.v1','novaday.dev.stash',BROKEN].forEach(k=>{try{scan(localStorage.getItem(k))}catch(e){}});
+  ['orbitlog.entries.v1','orbitlog.draft.v1','orbitlog.draft.stash.v1','novaday.dev.stash',BROKEN].forEach(k=>{try{scan(localStorage.getItem(k))}catch(e){}});
   entries.filter(hasVideo).forEach(e=>keep.add(e.video.id));
   for(const k of await mediaKeys())if(!keep.has(k))await mediaDel(k)}
