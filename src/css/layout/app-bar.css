@@ -24,7 +24,7 @@
 .cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
   background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .compact-bar{top:54px}
 }
 

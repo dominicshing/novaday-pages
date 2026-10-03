@@ -97,9 +97,9 @@ $('dvFs').querySelectorAll('button').forEach(b=>b.onclick=()=>{prof.devFs=+b.dat
 /* 螢幕尺寸：電腦預覽的手機外框（320×568、375×667、390×844、430×932） */
 const DV_FR={320:568,375:667,390:844,430:932};
 function devFrameApply(){const w=+prof.devW||390,h=DV_FR[w]||844,old=$('devFrStyle');if(old)old.remove();window.devFrame={w,h};
-  if(w!==390){const el=document.createElement('style');el.id='devFrStyle';el.textContent=`@media (min-width:600px){.device,.app{width:${w}px;height:${h}px}}`;document.head.appendChild(el)}fitDevice()}
+  if(w!==390){const el=document.createElement('style');el.id='devFrStyle';el.textContent=`@media ${FRAME_MQ}{.device,.app{width:${w}px;height:${h}px}}`;document.head.appendChild(el)}fitDevice()}
 $('dvW').querySelectorAll('button').forEach(b=>b.onclick=()=>{const w=+b.dataset.w;if(w===390)delete prof.devW;else prof.devW=w;saveProf();devFrameApply();devRender();
-  toast(innerWidth<600?'螢幕尺寸只在電腦預覽有效':`外框已改為 ${w}×${DV_FR[w]}`)});
+  toast(!isFrame()?'螢幕尺寸只在電腦預覽有效':`外框已改為 ${w}×${DV_FR[w]}`)});
 /* 動畫慢速：所有 CSS／Web 動畫的播放速度設為 0.25（引導頁星空 canvas 也會讀 devSlowK） */
 let devSlowT=null;
 window.devSlowK=1;

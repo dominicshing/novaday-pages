@@ -169,7 +169,7 @@ button{cursor:pointer;touch-action:manipulation}
 .cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
   background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .compact-bar{top:54px}
 }
 
@@ -456,7 +456,7 @@ html{overflow:hidden}
 .snack span{flex:1}
 .snack button{min-height:40px;padding:0 14px;border-radius:10px;border:0;background:rgba(111,227,214,.14);color:var(--ion);font-weight:700}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .snack{bottom:90px}
 }
 /* 首頁 HUD：等級圓環、經驗值、連續天數火焰、本週紀錄 */
@@ -2929,7 +2929,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 /* 模擬日期提示：固定在畫面上方，點一下開啟開發者工具 */
 .dv-pill{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:65;padding:4px 12px;border-radius:12px;border:1px solid rgba(255,180,92,.6);background:rgba(40,26,10,.85);color:#FFD9A8;font:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .dv-pill{top:58px}
 }
 .dv-k{flex:none;align-self:center;width:62px;font-size:13px;color:var(--muted)}
@@ -2970,7 +2970,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .dv-fps{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:10px;z-index:66;padding:3px 9px;border-radius:9px;background:rgba(5,30,26,.85);border:1px solid rgba(111,227,214,.6);color:#8FF0E4;font:600 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;pointer-events:none;font-variant-numeric:tabular-nums}
 .dv-fps.bad{background:rgba(40,10,16,.85);border-color:rgba(255,122,138,.7);color:#FFB3BE}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .dv-fps{top:58px;left:22px}
 }
 /* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
@@ -3009,7 +3009,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .device{position:relative;height:100%}
 .hw,.sys-status,.sys-island{display:none}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   /* place-content 讓 844px 高的格線軌道在較矮的視窗中仍置中（transform 縮放不影響版面尺寸） */
   body{display:grid;place-items:center;place-content:center;background:radial-gradient(ellipse at 50% 20%,#1A1F55,#04050F 70%)}
   /* 全螢幕圖層與狀態列裁成機身圓角，避免直角超出外框 */
@@ -3797,6 +3797,8 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
   window.Date=D;window.__devDateOff=off})();
 /* 儲存用的 localStorage 鍵名 */
 const KEY='orbitlog.entries.v1',SEEDED='orbitlog.seeded.v1';
+/* 電腦預覽的手機外框：寬螢幕而且夠高才顯示（手機橫拿時高度不夠，直接用全螢幕版面）；CSS 的 @media 條件要一致 */
+const FRAME_MQ='(min-width:600px) and (min-height:600px)',isFrame=()=>matchMedia(FRAME_MQ).matches;
 /* 共用小工具：$、日期格式、跳脫 HTML、字數、延遲、震動回饋、系統的減少動態設定 */
 const WD=['日','一','二','三','四','五','六'];
 /* 時間顯示：預設 12 小時制（上午 9:05／下午 9:30），設定可改成 24 小時制（prof.clock24）。資料一律存 24 小時制 HH:MM */
@@ -4250,7 +4252,7 @@ function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv
 const rankOf=lv=>RANKS[rankIdx(lv)];
 const weekKey=d=>{const t=new Date(d.getFullYear(),d.getMonth(),d.getDate());t.setDate(t.getDate()-t.getDay());return ymd(t)};
 /* 一週從星期日開始，和月曆一致 */
-/* 連續規則：每週（週一到週日）可休息 1 天不中斷；連續兩天沒寫才歸零 */
+/* 連續規則：每週（週日到週六，和月曆一致）可休息 1 天不中斷；連續兩天沒寫才歸零 */
 /* 改用整數日序計算（原本每步都組日期字串，紀錄多時非常慢）；規則完全相同 */
 const dnOf=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
 const dnYmd=n=>{const d=new Date(n*864e5);return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())};
@@ -6400,7 +6402,7 @@ document.querySelectorAll('.screen,.sb').forEach(iosScroll);
 document.querySelectorAll('.screen').forEach(sc=>{const t=sc.querySelector(':scope>.top');if(!t)return;
   sc.addEventListener('scroll',()=>t.classList.toggle('stuck',sc.scrollTop>4),{passive:true})});
 /* 電腦預覽：等比縮放手機外框、狀態列時鐘 */
-function fitDevice(){const d=$('device');if(innerWidth<600){d.style.transform='';return}
+function fitDevice(){const d=$('device');if(!isFrame()){d.style.transform='';return}
   const f=window.devFrame||{w:390,h:844},s=Math.min(1,(innerHeight-56)/(f.h+30),(innerWidth-48)/(f.w+46));d.style.transform=`scale(${s.toFixed(3)})`}
 addEventListener('resize',fitDevice);
 fitDevice();
@@ -6659,9 +6661,9 @@ $('dvFs').querySelectorAll('button').forEach(b=>b.onclick=()=>{prof.devFs=+b.dat
 /* 螢幕尺寸：電腦預覽的手機外框（320×568、375×667、390×844、430×932） */
 const DV_FR={320:568,375:667,390:844,430:932};
 function devFrameApply(){const w=+prof.devW||390,h=DV_FR[w]||844,old=$('devFrStyle');if(old)old.remove();window.devFrame={w,h};
-  if(w!==390){const el=document.createElement('style');el.id='devFrStyle';el.textContent=`@media (min-width:600px){.device,.app{width:${w}px;height:${h}px}}`;document.head.appendChild(el)}fitDevice()}
+  if(w!==390){const el=document.createElement('style');el.id='devFrStyle';el.textContent=`@media ${FRAME_MQ}{.device,.app{width:${w}px;height:${h}px}}`;document.head.appendChild(el)}fitDevice()}
 $('dvW').querySelectorAll('button').forEach(b=>b.onclick=()=>{const w=+b.dataset.w;if(w===390)delete prof.devW;else prof.devW=w;saveProf();devFrameApply();devRender();
-  toast(innerWidth<600?'螢幕尺寸只在電腦預覽有效':`外框已改為 ${w}×${DV_FR[w]}`)});
+  toast(!isFrame()?'螢幕尺寸只在電腦預覽有效':`外框已改為 ${w}×${DV_FR[w]}`)});
 /* 動畫慢速：所有 CSS／Web 動畫的播放速度設為 0.25（引導頁星空 canvas 也會讀 devSlowK） */
 let devSlowT=null;
 window.devSlowK=1;

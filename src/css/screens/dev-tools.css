@@ -26,7 +26,7 @@
 /* 模擬日期提示：固定在畫面上方，點一下開啟開發者工具 */
 .dv-pill{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:65;padding:4px 12px;border-radius:12px;border:1px solid rgba(255,180,92,.6);background:rgba(40,26,10,.85);color:#FFD9A8;font:inherit;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .dv-pill{top:58px}
 }
 .dv-k{flex:none;align-self:center;width:62px;font-size:13px;color:var(--muted)}
@@ -67,6 +67,6 @@
 .dv-fps{position:absolute;top:calc(env(safe-area-inset-top,0px) + 6px);left:10px;z-index:66;padding:3px 9px;border-radius:9px;background:rgba(5,30,26,.85);border:1px solid rgba(111,227,214,.6);color:#8FF0E4;font:600 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;pointer-events:none;font-variant-numeric:tabular-nums}
 .dv-fps.bad{background:rgba(40,10,16,.85);border-color:rgba(255,122,138,.7);color:#FFB3BE}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   .dv-fps{top:58px;left:22px}
 }

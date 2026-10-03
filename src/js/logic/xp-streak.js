@@ -28,7 +28,7 @@ function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv
 const rankOf=lv=>RANKS[rankIdx(lv)];
 const weekKey=d=>{const t=new Date(d.getFullYear(),d.getMonth(),d.getDate());t.setDate(t.getDate()-t.getDay());return ymd(t)};
 /* 一週從星期日開始，和月曆一致 */
-/* 連續規則：每週（週一到週日）可休息 1 天不中斷；連續兩天沒寫才歸零 */
+/* 連續規則：每週（週日到週六，和月曆一致）可休息 1 天不中斷；連續兩天沒寫才歸零 */
 /* 改用整數日序計算（原本每步都組日期字串，紀錄多時非常慢）；規則完全相同 */
 const dnOf=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
 const dnYmd=n=>{const d=new Date(n*864e5);return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())};

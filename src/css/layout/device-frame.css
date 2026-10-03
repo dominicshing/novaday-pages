@@ -2,7 +2,7 @@
 .device{position:relative;height:100%}
 .hw,.sys-status,.sys-island{display:none}
 
-@media (min-width:600px){
+@media (min-width:600px) and (min-height:600px){
   /* place-content 讓 844px 高的格線軌道在較矮的視窗中仍置中（transform 縮放不影響版面尺寸） */
   body{display:grid;place-items:center;place-content:center;background:radial-gradient(ellipse at 50% 20%,#1A1F55,#04050F 70%)}
   /* 全螢幕圖層與狀態列裁成機身圓角，避免直角超出外框 */
