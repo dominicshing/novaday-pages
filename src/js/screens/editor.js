@@ -25,7 +25,9 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
   $('edStarN').textContent=!editing&&T.t+1===n?`${c.n}的最後一顆星 ✦`:`${c.n}・第 ${T.t+1} / ${n} 顆星`;
   $('edStarS').textContent=!editing&&T.t+1===n?'點亮後就完成整個星座！':'此刻的心情會決定這顆星的顏色';
   box.setAttribute('aria-label',$('edStarK').textContent+$('edStarN').textContent);box.setAttribute('role','note');paintEdStar()}
-function paintEdStar(){$('edStar').style.setProperty('--c',`var(${MOODS[curMood].c})`)}
+function paintEdStar(){const c=`var(${MOODS[curMood].c})`,sb=$('saveBtn');$('edStar').style.setProperty('--c',c);sb.style.setProperty('--mc',c);sb.dataset.m=curMood}
+/* 換心情時，「點亮」按鈕上的星星彈一下（顏色與閃爍方式見 editor.css 的 [data-m]） */
+function lbHit(){const g=$('saveBtn').querySelector('.lbg');if(!g||reduce)return;g.classList.remove('hit');void g.getBoundingClientRect();g.classList.add('hit')}
 function fitBody(){const f=$('fBody');f.style.height='auto';f.style.height=Math.max(132,f.scrollHeight+2)+'px'}
 function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length,p=curPhotos.length;
   $('wc').textContent=n+' 字'+(p?`・${p} 張照片`:curVideo?'・1 部影片':'')}
@@ -34,7 +36,7 @@ function renderPrompt(){$('promptNote').hidden=!curPrompt;const today=curPrompt=
   $('sigChip').hidden=!!curPrompt;$('sigChip').title=promptToday()}
 function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="button" class="mood" style="--c:var(${m.c})" data-i="${i}" aria-pressed="${i===curMood}" aria-label="${m.n}">${moon(i)}${m.n}</button>`).join('');
   $('moods').querySelectorAll('.mood').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,same=i===curMood;curMood=i;renderMoods();onEdit();
-    if(same||reduce)return;const nb=$('moods').querySelector(`.mood[data-i="${i}"]`);if(!nb)return;const bs=document.createElement('span');bs.className='nv-burst';bs.setAttribute('aria-hidden','true');bs.style.setProperty('--c',`var(${MOODS[i].c})`);
+    if(same||reduce)return;lbHit();const nb=$('moods').querySelector(`.mood[data-i="${i}"]`);if(!nb)return;const bs=document.createElement('span');bs.className='nv-burst';bs.setAttribute('aria-hidden','true');bs.style.setProperty('--c',`var(${MOODS[i].c})`);
     for(let k=0;k<8;k++){const a=k/8*Math.PI*2,r=24+(k%2)*8,d=document.createElement('i');d.style.setProperty('--x',(Math.cos(a)*r).toFixed(1)+'px');d.style.setProperty('--y',(Math.sin(a)*r).toFixed(1)+'px');bs.appendChild(d)}
     nb.appendChild(bs);setTimeout(()=>bs.remove(),760);if(typeof buzz==='function')buzz(6)});
   $('moodNow').textContent=MOODS[curMood].n;paintEdStar()}
@@ -100,7 +102,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
     if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
-  $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2Q13.8 10.2 22 12Q13.8 13.8 12 22Q10.2 13.8 2 12Q10.2 10.2 12 2Z"/></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
+  $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
   $('draftState').textContent=restored?'已還原草稿':'';
   renderMoods();updXP();syncTools();updWhen();updEdUI();renderEdStar();

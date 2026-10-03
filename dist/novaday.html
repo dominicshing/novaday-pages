@@ -2243,16 +2243,32 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
 .draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
 /* 「點亮」按鈕：深紫星雲色膠囊、上緣一道亮光、金色四芒星；還不能送出時（.off）只剩淡外框 */
-.launch-btn{justify-self:end;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 15px 0 12px;border-radius:999px;border:0;
+.launch-btn{justify-self:end;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 15px 0 8px;border-radius:999px;border:0;
   font-weight:700;font-size:15px;letter-spacing:.06em;color:#fff;text-shadow:0 1px 2px rgba(30,16,110,.45);
   background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%),linear-gradient(135deg,#A396FF,#7262F2 58%,#5848D8);
   box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 16px -6px rgba(138,124,255,.75);
   transition:background .25s,color .25s,box-shadow .25s,transform .12s}
 .launch-btn:active{transform:scale(.95)}
 .launch-btn:disabled{opacity:.35;box-shadow:none;cursor:default}
-.launch-btn .lbi{width:15px;height:15px;flex:none;fill:#FFE7A3;filter:drop-shadow(0 0 4px rgba(255,214,120,.9));transition:fill .25s,filter .25s;animation:lbTw 2.6s ease-in-out infinite}
+/* 星星放在一個深色小圓（夜空）裡，任何心情的顏色都看得清楚。星星的顏色＝目前選的心情（--mc）；
+   閃爍方式依心情（data-m）：低落慢慢呼吸、累了輕輕搖晃、還可以平穩閃爍、不錯明亮跳動、很棒旋轉發光 */
+.launch-btn .lbi{width:24px;height:24px;margin-left:-5px;flex:none;overflow:visible;filter:drop-shadow(0 0 4px var(--mc,#FFE7A3));transition:filter .3s}
+.launch-btn .lbs{fill:rgba(12,14,44,.62);stroke:rgba(255,255,255,.22);stroke-width:1}
+.launch-btn .lbm path{fill:var(--mc,#FFE7A3);transition:fill .3s}
+.launch-btn .lbg,.launch-btn .lbm{transform-box:fill-box;transform-origin:center}
+.launch-btn .lbg.hit{animation:lbHit .5s cubic-bezier(.2,1.6,.4,1)}
+.launch-btn .lbm{animation:lbM2 2.6s ease-in-out infinite}
+.launch-btn[data-m="0"] .lbm{animation:lbM0 4s ease-in-out infinite}
+.launch-btn[data-m="1"] .lbm{animation:lbM1 3.4s ease-in-out infinite}
+.launch-btn[data-m="3"] .lbm{animation:lbM3 1.8s ease-in-out infinite}
+.launch-btn[data-m="4"] .lbm{animation:lbM4 1.6s linear infinite}
+.launch-btn:not(.off){box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 18px -6px var(--mc,rgba(138,124,255,.75))}
+.launch-btn:not(.off):not(.pop)[data-m="4"]{animation:lbGlow 1.6s ease-in-out infinite}
 .launch-btn.off{background:rgba(138,124,255,.08);color:rgba(214,209,255,.45);text-shadow:none;box-shadow:inset 0 0 0 1px rgba(138,124,255,.28)}
-.launch-btn.off .lbi{fill:rgba(214,209,255,.4);filter:none;animation:none}
+.launch-btn.off .lbi{filter:none}
+.launch-btn.off .lbs{fill:none;stroke:rgba(214,209,255,.22)}
+.launch-btn.off .lbm{animation:none}
+.launch-btn.off .lbm path{fill:rgba(214,209,255,.4)}
 .when-btn svg{stroke-linecap:round}
 input.bare.title::placeholder{color:rgba(154,160,207,.55)}
 .sparks{padding-top:10px;border-top:1px dashed rgba(138,124,255,.22)}
@@ -2345,10 +2361,10 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .tool.has::after{top:4px;right:4px}
 .tool[aria-pressed="true"] span,.tool.has span{color:var(--ion)}
 .wc{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;padding-right:4px}
-.app.calm .es-to,.app.calm .es-rg,.app.calm .launch-btn.pop,.app.calm .launch-btn .lbi{animation:none}
+.app.calm .es-to,.app.calm .es-rg,.app.calm .launch-btn.pop,.app.calm .launch-btn .lbm,.app.calm .launch-btn .lbg,.app.calm .launch-btn{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
-  .es-to,.es-rg,.launch-btn.pop,.launch-btn .lbi{animation:none}
+  .es-to,.es-rg,.launch-btn.pop,.launch-btn .lbm,.launch-btn .lbg,.launch-btn{animation:none!important}
 }
 
 /* 選擇心情時的星光爆發 */
@@ -2357,7 +2373,19 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 /* 動畫 */
 @keyframes lbPop {0%{transform:scale(.88)}100%{transform:none}
 }
-@keyframes lbTw {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(.8) rotate(45deg)}
+@keyframes lbM0 {0%,100%{opacity:.6;transform:scale(.86)}50%{opacity:1;transform:scale(1)}
+}
+@keyframes lbM1 {0%,100%{transform:rotate(-14deg) scale(.94)}50%{transform:rotate(14deg) scale(1)}
+}
+@keyframes lbM2 {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(.82) rotate(45deg)}
+}
+@keyframes lbM3 {0%,100%{transform:scale(.9)}40%{transform:scale(1.14) rotate(20deg)}60%{transform:scale(1.06) rotate(20deg)}
+}
+@keyframes lbM4 {0%{transform:rotate(0) scale(1)}25%{transform:rotate(90deg) scale(1.14)}50%{transform:rotate(180deg) scale(1)}75%{transform:rotate(270deg) scale(1.14)}100%{transform:rotate(360deg) scale(1)}
+}
+@keyframes lbHit {0%{transform:scale(1.9)}100%{transform:none}
+}
+@keyframes lbGlow {0%,100%{box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 14px -6px var(--mc)}50%{box-shadow:inset 0 0 0 1px rgba(214,209,255,.5),0 6px 18px -8px rgba(138,124,255,1),0 0 26px -4px var(--mc)}
 }
 @keyframes esDash {to{stroke-dashoffset:-6}
 }
@@ -5612,7 +5640,9 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
   $('edStarN').textContent=!editing&&T.t+1===n?`${c.n}的最後一顆星 ✦`:`${c.n}・第 ${T.t+1} / ${n} 顆星`;
   $('edStarS').textContent=!editing&&T.t+1===n?'點亮後就完成整個星座！':'此刻的心情會決定這顆星的顏色';
   box.setAttribute('aria-label',$('edStarK').textContent+$('edStarN').textContent);box.setAttribute('role','note');paintEdStar()}
-function paintEdStar(){$('edStar').style.setProperty('--c',`var(${MOODS[curMood].c})`)}
+function paintEdStar(){const c=`var(${MOODS[curMood].c})`,sb=$('saveBtn');$('edStar').style.setProperty('--c',c);sb.style.setProperty('--mc',c);sb.dataset.m=curMood}
+/* 換心情時，「點亮」按鈕上的星星彈一下（顏色與閃爍方式見 editor.css 的 [data-m]） */
+function lbHit(){const g=$('saveBtn').querySelector('.lbg');if(!g||reduce)return;g.classList.remove('hit');void g.getBoundingClientRect();g.classList.add('hit')}
 function fitBody(){const f=$('fBody');f.style.height='auto';f.style.height=Math.max(132,f.scrollHeight+2)+'px'}
 function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length,p=curPhotos.length;
   $('wc').textContent=n+' 字'+(p?`・${p} 張照片`:curVideo?'・1 部影片':'')}
@@ -5621,7 +5651,7 @@ function renderPrompt(){$('promptNote').hidden=!curPrompt;const today=curPrompt=
   $('sigChip').hidden=!!curPrompt;$('sigChip').title=promptToday()}
 function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="button" class="mood" style="--c:var(${m.c})" data-i="${i}" aria-pressed="${i===curMood}" aria-label="${m.n}">${moon(i)}${m.n}</button>`).join('');
   $('moods').querySelectorAll('.mood').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,same=i===curMood;curMood=i;renderMoods();onEdit();
-    if(same||reduce)return;const nb=$('moods').querySelector(`.mood[data-i="${i}"]`);if(!nb)return;const bs=document.createElement('span');bs.className='nv-burst';bs.setAttribute('aria-hidden','true');bs.style.setProperty('--c',`var(${MOODS[i].c})`);
+    if(same||reduce)return;lbHit();const nb=$('moods').querySelector(`.mood[data-i="${i}"]`);if(!nb)return;const bs=document.createElement('span');bs.className='nv-burst';bs.setAttribute('aria-hidden','true');bs.style.setProperty('--c',`var(${MOODS[i].c})`);
     for(let k=0;k<8;k++){const a=k/8*Math.PI*2,r=24+(k%2)*8,d=document.createElement('i');d.style.setProperty('--x',(Math.cos(a)*r).toFixed(1)+'px');d.style.setProperty('--y',(Math.sin(a)*r).toFixed(1)+'px');bs.appendChild(d)}
     nb.appendChild(bs);setTimeout(()=>bs.remove(),760);if(typeof buzz==='function')buzz(6)});
   $('moodNow').textContent=MOODS[curMood].n;paintEdStar()}
@@ -5687,7 +5717,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
     if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
-  $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2Q13.8 10.2 22 12Q13.8 13.8 12 22Q10.2 13.8 2 12Q10.2 10.2 12 2Z"/></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
+  $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
   $('draftState').textContent=restored?'已還原草稿':'';
   renderMoods();updXP();syncTools();updWhen();updEdUI();renderEdStar();
