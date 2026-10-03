@@ -73,5 +73,10 @@ export default async ({ ok, open }) => {
   await p.evaluate(b => openEditor(null, false, b), day(7)); await p.waitForTimeout(400);
   await p.reload(); await p.waitForTimeout(1000);
   ok(await draftOK() && await p.evaluate(() => localStorage.getItem('orbitlog.draft.stash.v1') === null && !document.getElementById('draftBar').hidden), '途中重新整理，草稿會放回來');
+  // 有新紀錄的草稿時去編輯另一則舊紀錄：改完存檔，草稿仍在
+  await p.evaluate(() => openEditor('a')); await p.waitForTimeout(500);
+  ok(await p.evaluate(() => document.getElementById('fTitle').value === '工作日'), '編輯舊紀錄時顯示那則的內容');
+  await p.fill('#fTitle', '工作日（改）'); await p.waitForTimeout(1500); await p.click('#saveBtn'); await p.waitForTimeout(800);
+  ok(await p.evaluate(() => entries.find(e => e.id === 'a').title === '工作日（改）') && await draftOK(), '編輯另一則紀錄後，新紀錄的草稿還在');
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
