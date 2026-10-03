@@ -80,11 +80,11 @@
 }
 
 /* 有照片或影片的卡片：縮圖放在右欄，和左邊的標題、內文一起垂直置中；底下的心情、地點列跨整張卡 */
-.entry:not(.row):has(.thumb-w){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:12px;align-items:start}
-.entry:not(.row):has(.thumb-w)>.thumb-w{grid-column:2;grid-row:1/3;align-self:center;float:none;margin:0}
-.entry:not(.row):has(.thumb-w)>h3,.entry:not(.row):has(.thumb-w)>p{grid-column:1}
-.entry:not(.row):has(.thumb-w)>.meta{grid-column:1/-1;grid-row:3}
-.entry:not(.row):has(.thumb-w)>h3:last-of-type:not(:has(+p)){grid-row:1/3;align-self:center}
+.entry.th:not(.row){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:12px;align-items:start}
+.entry.th:not(.row)>.thumb-w{grid-column:2;grid-row:1/3;align-self:center;float:none;margin:0}
+.entry.th:not(.row)>h3,.entry.th:not(.row)>p{grid-column:1}
+.entry.th:not(.row)>.meta{grid-column:1/-1;grid-row:3}
+.entry.th.nb:not(.row)>h3{grid-row:1/3;align-self:center}
 
 /* 卡片背景的星座虛影：右下角往外延伸（超出的部分被卡片裁掉），整個圖案不淡化，不攔截點擊；內容都在它上面。卡片裡不播放剪影動畫 */
 .entry:not(.row)>.cbg{position:absolute;right:-26px;bottom:-24px;width:230px;height:178px;pointer-events:none;z-index:0}

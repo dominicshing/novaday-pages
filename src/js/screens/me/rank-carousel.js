@@ -1,5 +1,5 @@
 /* 「我的」頁：階級輪播 */
-const RK={cur:0,idx:-1,placed:false,rank:-1,drag:null,raf:0};
+const RK={cur:0,idx:-1,placed:false,rank:-1,key:'',drag:null,raf:0};
 function rkRew(i,st,using){const R=RINFO[i],s=i+1;
   const act=st==='lock'?`<span class="st" aria-label="未解鎖，Lv.${s} 解鎖">未解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}" aria-label="套用星線顏色「${R.lv.n}」">套用</button>`;
   return `${miniShip(i)}<span class="t"><b>${R.lv.n}</b><small>星線顏色</small></span>${act}`}
@@ -9,16 +9,21 @@ function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" s
   for(let k=0;k<18;k++){const big=k%6===0,y=big?r()*34:Math.pow(r(),1.35)*78;h+=`<i class="rk-st${big?' x':''}" style="left:${(r()*96+2).toFixed(1)}%;top:${(y+2).toFixed(1)}%;--s:${big?(7+r()*4).toFixed(1):(1.4+r()*1.8).toFixed(1)}px;--d:-${(r()*4).toFixed(2)}s;--t:${(2.4+r()*3).toFixed(2)}s"></i>`}
   h+=`<b class="rk-met" style="--x:${(62+r()*28).toFixed(0)}%;--y:${(4+r()*14).toFixed(0)}%;--t:${(7+r()*5).toFixed(1)}s;--d:${(r()*6).toFixed(1)}s"></b>`;
   return `<div class="rk-sky" aria-hidden="true">${h}</div>`}
-function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,ps=$('pSlide');
-  if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;const using=shipLiv();let g='';
+/* 每張卡片的進度列：只有它會隨經驗值改變 */
+function rkProg(i,st,xp){const a0=xpAt(i+1);
+  return st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
+    :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`}
+/* 28 張卡片（徽章、星空背景）很重：階級或星線顏色沒變時，只更新進度列，不整排重建 */
+function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),ps=$('pSlide'),using=shipLiv(),key=ri+'|'+using;
+  if(RK.key===key&&t.querySelector('.rk-card')){t.querySelectorAll('.rk-card.is-lock').forEach(el=>{el.querySelector('.rk-prog').innerHTML=rkProg(+el.dataset.i,'lock',xp)});return}
+  RK.key=key;const sl=t.scrollLeft;
+  if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;let g='';
   RANKS.forEach((name,i)=>{if(i===ri){g+='<i id="pSlot"></i>';return}
-    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock',a0=xpAt(s);
-    const prog=st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
-      :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`;
+    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock';
     g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="階級" aria-label="第 ${i+1} / ${RANKS.length} 階：${name}，${st==='done'?'已達成':'未解鎖'}">${rkSky(i)}
       <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
       <div class="rk-badge">${rankBadge(i)}</div><h3>${name}</h3><p class="rk-desc">${R.d}</p>
-      <div class="rk-prog">${prog}</div>
+      <div class="rk-prog">${rkProg(i,st,xp)}</div>
       <div class="rk-rew">${rkRew(i,st,using)}</div></article>`});
   if(ps.parentNode)ps.remove();t.innerHTML=g;$('pSlot').replaceWith(ps);
   if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',`第 ${ri+1} / ${RANKS.length} 階：${RANKS[ri]}，目前階級，我的檔案`);

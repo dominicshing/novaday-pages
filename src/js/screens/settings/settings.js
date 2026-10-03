@@ -2,7 +2,7 @@
 $('editMe').onclick=()=>openSheet('settingsSheet');
 $('swRemind').onclick=()=>{prof.remind=!prof.remind;saveProf();renderMe();toast(prof.remind?`已開啟每日提醒（${prof.remindTime}）`:'已關閉每日提醒')};
 $('remindTime').onchange=e=>{prof.remindTime=e.target.value;saveProf()};
-function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
+function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
 /* 紅光夜視模式：目前隱藏（設定列與星座頁的按鈕都不顯示，一律關閉）；改成 true 即可恢復 */
 const SHOW_RED=false;
 function applyRed(){const on=SHOW_RED&&!!prof.red;$('liRed').hidden=!SHOW_RED;$('device').classList.toggle('red',on);$('swRed').setAttribute('aria-checked',on);document.querySelectorAll('.red-q').forEach(b=>b.setAttribute('aria-pressed',!!prof.red))}

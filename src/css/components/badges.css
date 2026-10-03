@@ -35,7 +35,7 @@
 .cr.on .ach-ic .af,.cr.on .ach-ic .ad,.cr.on .ach-ic path[fill^="#"]{fill:#fff}
 .cr.on .cr-ic .ach-ic{filter:drop-shadow(0 1px 1.5px rgba(20,10,60,.6)) drop-shadow(0 0 5px var(--c))}
 .medal.is-new .em{animation:crNew 1.6s ease-in-out 3}
-#device:has(.app.calm) .cr *,.app.calm .cr *{animation:none!important}
+#device.calm .cr *,.app.calm .cr *{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .cr,.cr *{animation:none!important}
@@ -171,7 +171,7 @@
 .fc:not(.on) .fc-in{animation:fcGlim 3s ease-in-out infinite}
 .fc .fc-liq::before{animation:fcHue 6s ease-in-out infinite,fcWave 2.6s linear infinite}
 .fc .fc-liq::after{animation:fcWave2 3.6s linear infinite}
-#device:has(.app.calm) .fc,#device:has(.app.calm) .fc *,#device:has(.app.calm) .fc *::before,#device:has(.app.calm) .fc *::after,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before,.app.calm .fc *::after{animation:none!important}
+#device.calm .fc,#device.calm .fc *,#device.calm .fc *::before,#device.calm .fc *::after,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before,.app.calm .fc *::after{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .fc,.fc *,.fc *::before,.fc *::after{animation:none!important}

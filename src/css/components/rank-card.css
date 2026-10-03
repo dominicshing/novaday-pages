@@ -180,7 +180,7 @@
 .rk-sky .rk-st.x{border-radius:0;background:color-mix(in srgb,var(--rc,#B9BEE9) 55%,#fff);box-shadow:none;filter:drop-shadow(0 0 3px var(--rc,#B9BEE9));clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .rk-sky .rk-met{position:absolute;top:var(--y);left:var(--x);width:74px;height:1.6px;border-radius:2px;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--rc,#B9BEE9) 60%,transparent) 30%,transparent);opacity:0;transform:rotate(-29deg);animation:rkMet var(--t) linear var(--d) infinite}
 .rk-sky .rk-neb{position:absolute;width:220px;height:160px;border-radius:50%;left:var(--x);top:var(--y);background:radial-gradient(closest-side,color-mix(in srgb,var(--rc,#B9BEE9) 22%,transparent),transparent);filter:blur(6px);animation:rkNeb 14s ease-in-out infinite alternate}
-.app.calm .rk-sky *,#device:has(.app.calm) .rk-sky *{animation:none!important}
+.app.calm .rk-sky *,#device.calm .rk-sky *{animation:none!important}
 .app.calm .rk-sky .rk-met{display:none}
 
 @media (prefers-reduced-motion:reduce){

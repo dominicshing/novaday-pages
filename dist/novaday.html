@@ -316,7 +316,7 @@ input.title{font-size:19px;font-weight:600}
 .ic .vrise.vb{animation-delay:calc(var(--dl,0s) - .9s)}
 .ic .vrise.vc{animation-delay:calc(var(--dl,0s) - 1.7s)}
 .ic .vsway{animation:kvSway 3s ease-in-out infinite}
-.app.calm .ic *,#device:has(.app.calm) .ic *{animation:none!important}
+.app.calm .ic *,#device.calm .ic *{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .ic *{animation:none!important}
@@ -555,7 +555,7 @@ html{overflow:hidden}
 .hud .fuel .ember{position:absolute;left:15px;bottom:12px;width:3px;height:3px;border-radius:50%;background:#FFD08A;box-shadow:0 0 4px #FFB45C;opacity:0;pointer-events:none;animation:ember 2.2s ease-out infinite}
 .hud .fuel .ember.e2{left:11px;animation-delay:.75s;width:2px;height:2px}
 .hud .fuel .ember.e3{left:19px;animation-delay:1.5s;width:2px;height:2px}
-.hud .fuel:has(.flame-ic.off) .ember{display:none}
+.hud .fuel.off .ember{display:none}
 .hud .fuel .flame-ic.off{animation:none}
 .app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember{animation:none}
 .app.calm .hud .fuel .ember{display:none}
@@ -758,7 +758,7 @@ html{overflow:hidden}
 .rk-sky .rk-st.x{border-radius:0;background:color-mix(in srgb,var(--rc,#B9BEE9) 55%,#fff);box-shadow:none;filter:drop-shadow(0 0 3px var(--rc,#B9BEE9));clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .rk-sky .rk-met{position:absolute;top:var(--y);left:var(--x);width:74px;height:1.6px;border-radius:2px;background:linear-gradient(90deg,#fff,color-mix(in srgb,var(--rc,#B9BEE9) 60%,transparent) 30%,transparent);opacity:0;transform:rotate(-29deg);animation:rkMet var(--t) linear var(--d) infinite}
 .rk-sky .rk-neb{position:absolute;width:220px;height:160px;border-radius:50%;left:var(--x);top:var(--y);background:radial-gradient(closest-side,color-mix(in srgb,var(--rc,#B9BEE9) 22%,transparent),transparent);filter:blur(6px);animation:rkNeb 14s ease-in-out infinite alternate}
-.app.calm .rk-sky *,#device:has(.app.calm) .rk-sky *{animation:none!important}
+.app.calm .rk-sky *,#device.calm .rk-sky *{animation:none!important}
 .app.calm .rk-sky .rk-met{display:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -815,7 +815,7 @@ html{overflow:hidden}
 .entry .meta .chip .moon,.dv-mc .moon{width:22px;height:22px;margin:-3px 0}
 .entry.row .moon{width:22px;height:22px}
 .tc-t .moon,.mem-t .moon{width:15px;height:15px}
-#device:has(.app.calm) .nv *,.app.calm .nv *{animation:none!important}
+#device.calm .nv *,.app.calm .nv *{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .nv *{animation:none!important}
@@ -1085,7 +1085,7 @@ html{overflow:hidden}
 .cr.on .ach-ic .af,.cr.on .ach-ic .ad,.cr.on .ach-ic path[fill^="#"]{fill:#fff}
 .cr.on .cr-ic .ach-ic{filter:drop-shadow(0 1px 1.5px rgba(20,10,60,.6)) drop-shadow(0 0 5px var(--c))}
 .medal.is-new .em{animation:crNew 1.6s ease-in-out 3}
-#device:has(.app.calm) .cr *,.app.calm .cr *{animation:none!important}
+#device.calm .cr *,.app.calm .cr *{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .cr,.cr *{animation:none!important}
@@ -1221,7 +1221,7 @@ html{overflow:hidden}
 .fc:not(.on) .fc-in{animation:fcGlim 3s ease-in-out infinite}
 .fc .fc-liq::before{animation:fcHue 6s ease-in-out infinite,fcWave 2.6s linear infinite}
 .fc .fc-liq::after{animation:fcWave2 3.6s linear infinite}
-#device:has(.app.calm) .fc,#device:has(.app.calm) .fc *,#device:has(.app.calm) .fc *::before,#device:has(.app.calm) .fc *::after,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before,.app.calm .fc *::after{animation:none!important}
+#device.calm .fc,#device.calm .fc *,#device.calm .fc *::before,#device.calm .fc *::after,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before,.app.calm .fc *::after{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .fc,.fc *,.fc *::before,.fc *::after{animation:none!important}
@@ -1546,11 +1546,11 @@ html{overflow:hidden}
 }
 
 /* 有照片或影片的卡片：縮圖放在右欄，和左邊的標題、內文一起垂直置中；底下的心情、地點列跨整張卡 */
-.entry:not(.row):has(.thumb-w){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:12px;align-items:start}
-.entry:not(.row):has(.thumb-w)>.thumb-w{grid-column:2;grid-row:1/3;align-self:center;float:none;margin:0}
-.entry:not(.row):has(.thumb-w)>h3,.entry:not(.row):has(.thumb-w)>p{grid-column:1}
-.entry:not(.row):has(.thumb-w)>.meta{grid-column:1/-1;grid-row:3}
-.entry:not(.row):has(.thumb-w)>h3:last-of-type:not(:has(+p)){grid-row:1/3;align-self:center}
+.entry.th:not(.row){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:12px;align-items:start}
+.entry.th:not(.row)>.thumb-w{grid-column:2;grid-row:1/3;align-self:center;float:none;margin:0}
+.entry.th:not(.row)>h3,.entry.th:not(.row)>p{grid-column:1}
+.entry.th:not(.row)>.meta{grid-column:1/-1;grid-row:3}
+.entry.th.nb:not(.row)>h3{grid-row:1/3;align-self:center}
 
 /* 卡片背景的星座虛影：右下角往外延伸（超出的部分被卡片裁掉），整個圖案不淡化，不攔截點擊；內容都在它上面。卡片裡不播放剪影動畫 */
 .entry:not(.row)>.cbg{position:absolute;right:-26px;bottom:-24px;width:230px;height:178px;pointer-events:none;z-index:0}
@@ -4352,7 +4352,7 @@ function renderHUD(){const {lv,rest,need}=levelInfo(totalXP(entries)),pct=rest/n
     $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${Math.round(pct*100)}%`);
   $('xpNow').textContent=rest;$('xpNeed').textContent=`/ ${need}`;
   const nr=rankOf(lv+1);$('xpNext').innerHTML=nr!==rankOf(lv)?`還差 ${need-rest} XP 晉升<em>「${nr}」</em>`:`還差 ${need-rest} XP 升到 Lv.${lv+1}`;
-  const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);
+  const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);$('fuelBtn').classList.toggle('off',!si.n);
   /* 本週七天：已記錄／休息日／今天／未來 */
   const days=new Set(entries.map(e=>e.date)),today=ymd(new Date()),mon=parse(weekKey(new Date()));let w='';
   for(let d=0;d<7;d++){const x=new Date(mon);x.setDate(x.getDate()+d);const k=ymd(x);
@@ -5104,7 +5104,7 @@ function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x
   return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><g class="cbg-st"><path d="${spk(x,y,5.5)}" fill="${col}" style="filter:drop-shadow(0 0 3px ${col})"/><path d="${spk(x,y,2)}" fill="#fff" opacity=".8"/></g></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+  return `<button class="entry${e.title?'':' nt'}${e.photo||hasVideo(e)?' th':''}${(e.body||'').trim()?'':' nb'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
     ${e.title||e.fav||isSample(e)?`<h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):''}</h3>`:''}${(e.body||'').trim()?`<p>${hl(snip(e.body,T),T)}</p>`:''}
     <div class="meta"><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}${e.time?`<span class="tm">${IC_CLK}${esc(fmtTime(e.time))}</span>`:''}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';
@@ -5344,7 +5344,7 @@ function renderEnergy(){
   if(few)$('enEmpty').innerHTML=`<div class="ee-dots">${Array.from({length:NEED},(_,i)=>`<i class="${i<pts.length?'on':''}"></i>`).join('')}</div><p>再寫 <b>${NEED-pts.length}</b> 天，就能看到你最近 30 天的心情曲線</p>`;
 }
 /* 「我的」頁：階級輪播 */
-const RK={cur:0,idx:-1,placed:false,rank:-1,drag:null,raf:0};
+const RK={cur:0,idx:-1,placed:false,rank:-1,key:'',drag:null,raf:0};
 function rkRew(i,st,using){const R=RINFO[i],s=i+1;
   const act=st==='lock'?`<span class="st" aria-label="未解鎖，Lv.${s} 解鎖">未解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}" aria-label="套用星線顏色「${R.lv.n}」">套用</button>`;
   return `${miniShip(i)}<span class="t"><b>${R.lv.n}</b><small>星線顏色</small></span>${act}`}
@@ -5354,16 +5354,21 @@ function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" s
   for(let k=0;k<18;k++){const big=k%6===0,y=big?r()*34:Math.pow(r(),1.35)*78;h+=`<i class="rk-st${big?' x':''}" style="left:${(r()*96+2).toFixed(1)}%;top:${(y+2).toFixed(1)}%;--s:${big?(7+r()*4).toFixed(1):(1.4+r()*1.8).toFixed(1)}px;--d:-${(r()*4).toFixed(2)}s;--t:${(2.4+r()*3).toFixed(2)}s"></i>`}
   h+=`<b class="rk-met" style="--x:${(62+r()*28).toFixed(0)}%;--y:${(4+r()*14).toFixed(0)}%;--t:${(7+r()*5).toFixed(1)}s;--d:${(r()*6).toFixed(1)}s"></b>`;
   return `<div class="rk-sky" aria-hidden="true">${h}</div>`}
-function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,ps=$('pSlide');
-  if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;const using=shipLiv();let g='';
+/* 每張卡片的進度列：只有它會隨經驗值改變 */
+function rkProg(i,st,xp){const a0=xpAt(i+1);
+  return st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
+    :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`}
+/* 28 張卡片（徽章、星空背景）很重：階級或星線顏色沒變時，只更新進度列，不整排重建 */
+function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),ps=$('pSlide'),using=shipLiv(),key=ri+'|'+using;
+  if(RK.key===key&&t.querySelector('.rk-card')){t.querySelectorAll('.rk-card.is-lock').forEach(el=>{el.querySelector('.rk-prog').innerHTML=rkProg(+el.dataset.i,'lock',xp)});return}
+  RK.key=key;const sl=t.scrollLeft;
+  if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;let g='';
   RANKS.forEach((name,i)=>{if(i===ri){g+='<i id="pSlot"></i>';return}
-    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock',a0=xpAt(s);
-    const prog=st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
-      :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`;
+    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock';
     g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="階級" aria-label="第 ${i+1} / ${RANKS.length} 階：${name}，${st==='done'?'已達成':'未解鎖'}">${rkSky(i)}
       <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
       <div class="rk-badge">${rankBadge(i)}</div><h3>${name}</h3><p class="rk-desc">${R.d}</p>
-      <div class="rk-prog">${prog}</div>
+      <div class="rk-prog">${rkProg(i,st,xp)}</div>
       <div class="rk-rew">${rkRew(i,st,using)}</div></article>`});
   if(ps.parentNode)ps.remove();t.innerHTML=g;$('pSlot').replaceWith(ps);
   if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',`第 ${ri+1} / ${RANKS.length} 階：${RANKS[ri]}，目前階級，我的檔案`);
@@ -6182,7 +6187,7 @@ $('meForm').addEventListener('submit',e=>{e.preventDefault();if($('meSave').disa
 $('editMe').onclick=()=>openSheet('settingsSheet');
 $('swRemind').onclick=()=>{prof.remind=!prof.remind;saveProf();renderMe();toast(prof.remind?`已開啟每日提醒（${prof.remindTime}）`:'已關閉每日提醒')};
 $('remindTime').onchange=e=>{prof.remindTime=e.target.value;saveProf()};
-function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
+function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
 /* 紅光夜視模式：目前隱藏（設定列與星座頁的按鈕都不顯示，一律關閉）；改成 true 即可恢復 */
 const SHOW_RED=false;
 function applyRed(){const on=SHOW_RED&&!!prof.red;$('liRed').hidden=!SHOW_RED;$('device').classList.toggle('red',on);$('swRed').setAttribute('aria-checked',on);document.querySelectorAll('.red-q').forEach(b=>b.setAttribute('aria-pressed',!!prof.red))}
@@ -6710,7 +6715,7 @@ devPill();
 /* 照片存在 IndexedDB：先讀回來再畫面；舊資料的照片順便搬過去（全部寫入成功才改存檔） */
 {let dr=[];try{const d=JSON.parse(localStorage.getItem(DKEY)||'null');dr=(d&&Array.isArray(d.photos)?d.photos:[]).filter(r=>typeof r==='string'&&r.startsWith(PH_REF)).map(r=>r.slice(PH_REF.length))}catch(e){}
   try{if(await phHydrate(entries,dr)&&await phFlush())save()}catch(e){}}
-if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
+if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
 setTimeout(()=>mediaGC().catch(()=>{}),4000)})();
 })();
 </script>

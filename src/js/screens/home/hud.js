@@ -6,7 +6,7 @@ function renderHUD(){const {lv,rest,need}=levelInfo(totalXP(entries)),pct=rest/n
     $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${Math.round(pct*100)}%`);
   $('xpNow').textContent=rest;$('xpNeed').textContent=`/ ${need}`;
   const nr=rankOf(lv+1);$('xpNext').innerHTML=nr!==rankOf(lv)?`還差 ${need-rest} XP 晉升<em>「${nr}」</em>`:`還差 ${need-rest} XP 升到 Lv.${lv+1}`;
-  const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);
+  const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);$('fuelBtn').classList.toggle('off',!si.n);
   /* 本週七天：已記錄／休息日／今天／未來 */
   const days=new Set(entries.map(e=>e.date)),today=ymd(new Date()),mon=parse(weekKey(new Date()));let w='';
   for(let d=0;d<7;d++){const x=new Date(mon);x.setDate(x.getDate()+d);const k=ymd(x);

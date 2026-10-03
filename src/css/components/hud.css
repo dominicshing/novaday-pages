@@ -94,7 +94,7 @@
 .hud .fuel .ember{position:absolute;left:15px;bottom:12px;width:3px;height:3px;border-radius:50%;background:#FFD08A;box-shadow:0 0 4px #FFB45C;opacity:0;pointer-events:none;animation:ember 2.2s ease-out infinite}
 .hud .fuel .ember.e2{left:11px;animation-delay:.75s;width:2px;height:2px}
 .hud .fuel .ember.e3{left:19px;animation-delay:1.5s;width:2px;height:2px}
-.hud .fuel:has(.flame-ic.off) .ember{display:none}
+.hud .fuel.off .ember{display:none}
 .hud .fuel .flame-ic.off{animation:none}
 .app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember{animation:none}
 .app.calm .hud .fuel .ember{display:none}

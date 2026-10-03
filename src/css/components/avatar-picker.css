@@ -57,7 +57,7 @@
 .ic .vrise.vb{animation-delay:calc(var(--dl,0s) - .9s)}
 .ic .vrise.vc{animation-delay:calc(var(--dl,0s) - 1.7s)}
 .ic .vsway{animation:kvSway 3s ease-in-out infinite}
-.app.calm .ic *,#device:has(.app.calm) .ic *{animation:none!important}
+.app.calm .ic *,#device.calm .ic *{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
   .ic *{animation:none!important}
