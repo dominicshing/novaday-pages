@@ -15,9 +15,9 @@
 /* 未點亮的日子：暗淡的星星輪廓 */
 .fp-grid i::before{content:"";position:absolute;clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
 
-/* 有寫的日子：心情星星（和全 App 的心情星星同形同色，小尺寸不放表情） */
+/* 有寫的日子：心情星星（和全 App 的心情星星同形同色，小尺寸不放表情）；每種心情一樣大 */
 .fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 38%,transparent) 0,transparent 68%)}
-.fp-grid i.on::before{content:"";position:absolute;inset:-14%;background:radial-gradient(circle at 42% 36%,#fff 0,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);
+.fp-grid i.on::before{content:"";position:absolute;inset:-4%;background:radial-gradient(circle at 42% 36%,#fff 0,var(--c) 45%,color-mix(in srgb,var(--c) 70%,#000) 100%);
   clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
 .fp-grid i.today::after,.fp-grid i.sel::after{content:"";position:absolute;border-radius:50%;box-shadow:0 0 0 1.5px rgba(232,233,255,.7)}
 .fp-grid i.today:not(.on)::before{background:rgba(232,233,255,.3)}
@@ -54,8 +54,9 @@
   .fp-grid *,.fp-grid *::before{animation:none!important}
 }
 .fp-leg .fp-cta{margin-right:auto;background:none;border:0;padding:0;color:var(--ion);font:inherit;font-size:12px;min-height:28px}
-.fp-grid i.on.m3::before,.fp-grid i.on.m4::before{inset:12%}
 .fp-grid.big i .moon{inset:12%!important;width:76%!important;height:76%!important}
+/* 表情星星本身越開心越大（NV_SC .82–1.1）；在足跡格子裡反向縮放，讓每天的星星一樣大 */
+.fp-grid.big i.m0 .moon{transform:scale(1.22)}.fp-grid.big i.m1 .moon{transform:scale(1.14)}.fp-grid.big i.m2 .moon{transform:scale(1.05)}.fp-grid.big i.m3 .moon{transform:scale(.98)}.fp-grid.big i.m4 .moon{transform:scale(.91)}
 .fp-grid i.on{background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent) 0,transparent 55%)}
 .fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
 
