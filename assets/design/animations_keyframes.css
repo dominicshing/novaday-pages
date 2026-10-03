@@ -105,7 +105,8 @@
 @keyframes fcBreathe {0%,100%{opacity:.6}50%{opacity:1}}
 
 /* src/css/components/footprint.css */
-@keyframes fpLit {0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1;transform:none}}
+@keyframes fpTw {0%,84%,100%{transform:none;filter:none}91%{transform:scale(1.4) rotate(18deg);filter:brightness(1.5)}}
+@keyframes fpLit {0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1}}
 @keyframes fpToday {0%,100%{background:rgba(232,233,255,.14);transform:scale(.9)}50%{background:rgba(111,227,214,.55);transform:scale(1.08)}}
 
 /* src/css/components/entry-card.css */

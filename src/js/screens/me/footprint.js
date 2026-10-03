@@ -12,7 +12,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
     if(d.getDay()===0&&d.getMonth()!==lastM){const col=Math.floor(i/7);if(col<W-1||lastM<0)mo+=`<span style="left:${(col/W*100).toFixed(2)}%">${d.getMonth()+1}月</span>`;lastM=d.getMonth()}
     let cls='',st='';if(L&&!fut){const m=Math.round(L.reduce((t,e)=>t+(e.mood??2),0)/L.length);cls=` on m${m}`;st=` style="--c:${MOOD_HEX[m]}"`;days++;L.forEach(e=>mc[e.mood??2]++);run++;best=Math.max(best,run)}else if(!fut)run=0;
     if(fut)cls+=' fut';if(k===tk)cls+=' today';if(k===fpSel)cls+=' sel';
-    const mm=cls.match(/ m(\d)/);if(mm)st=st.replace('"',`"--col:${Math.floor(i/7)};`);cells+=`<i data-d="${k}" class="${cls.trim()}"${st}>${big&&mm?moon(+mm[1]):''}</i>`}
+    const mm=cls.match(/ m(\d)/);if(mm)st=st.replace('"',`"--col:${Math.floor(i/7)};--tw:${(5+(i*37%50)/10).toFixed(1)}s;--tr:-${(i*53%80/10).toFixed(1)}s;`);cells+=`<i data-d="${k}" class="${cls.trim()}"${st}>${big&&mm?moon(+mm[1]):''}</i>`}
   const top=mc.indexOf(Math.max(...mc));
   const tipE=fpSel&&by[fpSel];
   box.innerHTML=`<div class="fp-stat"><span>寫了<b>${days}</b>天</span><span>最長連續<b>${best}</b>天</span>${days?`<span>最常是 ${moon(top)} ${MOODS[top].n}</span>`:''}</div>

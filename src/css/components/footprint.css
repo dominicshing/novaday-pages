@@ -46,6 +46,10 @@
 /* 捲到星光足跡時，星星依序亮起（每次打開「我的」頁一次） */
 .fp-grid.intro i.on::before,.fp-grid.intro i.on .moon{animation:fpLit .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--col,0) * 28ms)}
 
+/* 隨機閃爍：每顆星各自隔 5–10 秒閃一下（放大、轉一點、變亮），同一時間只有少數幾顆在動；
+   --tw 週期、--tr 起始時間由 footprint.js 依日期固定產生。用 scale 屬性保留「心情越好越大」，動畫只動 transform */
+.fp-grid:not(.intro) i.on::before{animation:fpTw var(--tw,7s) ease-in-out var(--tr,0s) infinite}
+.fp-grid.big:not(.intro) i.on .moon{animation:fpTw var(--tw,7s) ease-in-out var(--tr,0s) infinite}
 /* 今天還沒寫：今天那顆星輕輕呼吸，邀請點亮 */
 .fp-grid i.today:not(.on)::before{animation:fpToday 2.4s ease-in-out infinite}
 .app.calm .fp-grid *,.app.calm .fp-grid *::before{animation:none!important}
@@ -59,9 +63,11 @@
 .fp-grid i.today::after,.fp-grid i.sel::after{inset:2%}
 
 /* 動畫 */
+@keyframes fpTw {0%,84%,100%{transform:none;filter:none}91%{transform:scale(1.4) rotate(18deg);filter:brightness(1.5)}
+}
 @keyframes fpLit {0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1}
 }
 @keyframes fpToday {0%,100%{background:rgba(232,233,255,.14);transform:scale(.9)}50%{background:rgba(111,227,214,.55);transform:scale(1.08)}
 }
 /* 星星大小跟著心情（比例同表情星星 NV_SC .82–1.1，以「很棒」為最大）；表情星星檢視本來就是這個比例 */
-.fp-grid i.on.m0::before{transform:scale(.75)}.fp-grid i.on.m1::before{transform:scale(.8)}.fp-grid i.on.m2::before{transform:scale(.86)}.fp-grid i.on.m3::before{transform:scale(.93)}
+.fp-grid i.on.m0::before{scale:.75}.fp-grid i.on.m1::before{scale:.8}.fp-grid i.on.m2::before{scale:.86}.fp-grid i.on.m3::before{scale:.93}
