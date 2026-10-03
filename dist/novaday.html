@@ -1564,9 +1564,8 @@ html{overflow:hidden}
 .entry:not(.row):has(.thumb-w)>.meta{grid-column:1/-1;grid-row:3}
 .entry:not(.row):has(.thumb-w)>h3:last-of-type:not(:has(+p)){grid-row:1/3;align-self:center}
 
-/* 卡片背景的星座虛影：右下角往外延伸、邊緣淡出，不攔截點擊；內容都在它上面。卡片裡不播放剪影動畫 */
-.entry:not(.row)>.cbg{position:absolute;right:-26px;bottom:-24px;width:230px;height:178px;pointer-events:none;z-index:0;
-  -webkit-mask:radial-gradient(ellipse 72% 72% at 62% 56%,#000 50%,transparent 80%);mask:radial-gradient(ellipse 72% 72% at 62% 56%,#000 50%,transparent 80%)}
+/* 卡片背景的星座虛影：右下角往外延伸（超出的部分被卡片裁掉），整個圖案不淡化，不攔截點擊；內容都在它上面。卡片裡不播放剪影動畫 */
+.entry:not(.row)>.cbg{position:absolute;right:-26px;bottom:-24px;width:230px;height:178px;pointer-events:none;z-index:0}
 .entry:not(.row)>.cbg>img,.entry:not(.row)>.cbg>svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
 .entry:not(.row)>.cbg>img{opacity:.5}
 .entry:not(.row)>:not(.cbg):not(.e-spark){position:relative;z-index:1}
