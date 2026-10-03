@@ -16,20 +16,20 @@
 .cl-dash{stroke-dasharray:2 5;stroke:rgba(232,233,255,.34);stroke-width:1.1}
 .cl-on{stroke-width:1.8;stroke-linecap:round}
 .cstar{cursor:pointer}
-/* 星星閃爍：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的星放大、轉一點、光暈脈動；
-   未點亮的星忽明忽暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
-.cstar .core,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .core{animation:starTw 2.6s ease-in-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloP 2.6s ease-in-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuTw 3.6s ease-in-out var(--d,0s) infinite}
+/* 星星閃爍（呼吸漣漪）：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的整顆星（.st＝心情色星＋白色核心）
+   慢慢一明一暗，光暈一圈圈往外擴散；未點亮的星柔和明暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
+.cstar .st,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .st{animation:starBr 3.2s ease-in-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloRip 3.2s ease-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
-.app.calm .cstar .core,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
+.app.calm .cstar .st,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
 
 @media (prefers-reduced-motion:reduce){
-  .cstar .core,.cstar .halo,.cu,.nextring{animation:none}
+  .cstar .st,.cstar .halo,.cu,.nextring{animation:none}
 }
 
 /* 星塵剪影：亮星閃爍、星雲緩慢呼吸（靜態場合沿用上方 .cfx * 的關閉規則） */
@@ -57,12 +57,13 @@
 }
 @keyframes twinkle {0%,100%{opacity:1}50%{opacity:.72}
 }
-@keyframes starTw {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.4) rotate(15deg)}
+@keyframes starBr {0%,100%{opacity:.72;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}
 }
-@keyframes haloP {0%,100%{transform:scale(.8);opacity:.14}50%{transform:scale(1.45);opacity:.34}
+@keyframes haloRip {0%{transform:scale(.6);opacity:.45}100%{transform:scale(2.6);opacity:0}
 }
-@keyframes cuTw {0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}
+@keyframes cuSoft {0%,100%{opacity:.3}50%{opacity:.9}
 }
+
 @keyframes nextp {0%,100%{transform:scale(.8);opacity:.9}50%{transform:scale(1.4);opacity:.25}
 }
 @keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}

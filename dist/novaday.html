@@ -878,20 +878,20 @@ html{overflow:hidden}
 .cl-dash{stroke-dasharray:2 5;stroke:rgba(232,233,255,.34);stroke-width:1.1}
 .cl-on{stroke-width:1.8;stroke-linecap:round}
 .cstar{cursor:pointer}
-/* 星星閃爍：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的星放大、轉一點、光暈脈動；
-   未點亮的星忽明忽暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
-.cstar .core,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .core{animation:starTw 2.6s ease-in-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloP 2.6s ease-in-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuTw 3.6s ease-in-out var(--d,0s) infinite}
+/* 星星閃爍（呼吸漣漪）：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的整顆星（.st＝心情色星＋白色核心）
+   慢慢一明一暗，光暈一圈圈往外擴散；未點亮的星柔和明暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
+.cstar .st,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .st{animation:starBr 3.2s ease-in-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloRip 3.2s ease-out var(--d,0s) infinite}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
-.app.calm .cstar .core,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
+.app.calm .cstar .st,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
 
 @media (prefers-reduced-motion:reduce){
-  .cstar .core,.cstar .halo,.cu,.nextring{animation:none}
+  .cstar .st,.cstar .halo,.cu,.nextring{animation:none}
 }
 
 /* 星塵剪影：亮星閃爍、星雲緩慢呼吸（靜態場合沿用上方 .cfx * 的關閉規則） */
@@ -919,12 +919,13 @@ html{overflow:hidden}
 }
 @keyframes twinkle {0%,100%{opacity:1}50%{opacity:.72}
 }
-@keyframes starTw {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.4) rotate(15deg)}
+@keyframes starBr {0%,100%{opacity:.72;transform:scale(.94)}50%{opacity:1;transform:scale(1.08)}
 }
-@keyframes haloP {0%,100%{transform:scale(.8);opacity:.14}50%{transform:scale(1.45);opacity:.34}
+@keyframes haloRip {0%{transform:scale(.6);opacity:.45}100%{transform:scale(2.6);opacity:0}
 }
-@keyframes cuTw {0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}
+@keyframes cuSoft {0%,100%{opacity:.3}50%{opacity:.9}
 }
+
 @keyframes nextp {0%,100%{transform:scale(.8);opacity:.9}50%{transform:scale(1.4);opacity:.25}
 }
 @keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}
@@ -2649,12 +2650,12 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 
 /* 減少動態效果：引導頁執行時是 #device 底下 .app 的兄弟元素，所以用 ~ 選取 */
 .app.calm~.onb .ob-tabs::before{transition:none}
-.app.calm~.onb :is(.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
+.app.calm~.onb :is(.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .st,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
 
 @media (prefers-reduced-motion:reduce){
   .ob-logo,.ob-first,.ob-body.in>*{animation:none}
   .ob-tabs::before{transition:none}
-  .ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}
+  .ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .st,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}
 }
 
 /* 範例標籤 */
@@ -4529,10 +4530,10 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
       g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
-        <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle class="halo" cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2"/>
+        <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle class="halo" cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2" style="--d:-${(si*.73%3.2).toFixed(2)}s"/>
         ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
-        <path class="core" d="${spk(x,y,base*2.6)}" fill="${col}" style="--d:-${(si*.73%2.6).toFixed(2)}s"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g>`}
-    else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%3.6).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
+        <g class="st" style="--d:-${(si*.73%3.2).toFixed(2)}s"><path class="core" d="${spk(x,y,base*2.6)}" fill="${col}"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g></g>`}
+    else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%4.2).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
 function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}

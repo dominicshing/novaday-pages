@@ -175,12 +175,12 @@
 
 /* 減少動態效果：引導頁執行時是 #device 底下 .app 的兄弟元素，所以用 ~ 選取 */
 .app.calm~.onb .ob-tabs::before{transition:none}
-.app.calm~.onb :is(.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
+.app.calm~.onb :is(.ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .st,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-logo,.ob-first,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-brand,.ob-pts li,.ob-body.in>*),.app.calm~.onb .ob-hero::before{animation:none}
 
 @media (prefers-reduced-motion:reduce){
   .ob-logo,.ob-first,.ob-body.in>*{animation:none}
   .ob-tabs::before{transition:none}
-  .ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .core,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}
+  .ob-sign .fo-ring,.ob-con,.ob-con::before,.ob-con .cfig,.ob-con .cu,.ob-con .cl-dash,.ob-con .cd-star,.ob-con .cd-line,.ob-con .cstar .st,.ob-con .cstar .halo,.ob-con .nextring,.ob-cname,.ob-zr .fo-ring,.ob-loc,.ob-pst,.ob-sign.pop,.ob-sign.pop .fo-ring,.ob-rg .rg-c,.ob-mc .moon,.ob-ln,.ob-st,.ob-nova,.ob-nh,.ob-orbit,.ob-hero::before,.ob-brand,.ob-body.in .ob-pts li{animation:none}
 }
 
 /* 範例標籤 */
