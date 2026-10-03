@@ -10,7 +10,9 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- 字型不阻擋第一次繪製：先用系統字型顯示，字型下載好再換上（慢速網路時畫面快約 1 秒出現） -->
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <!--
   Novaday（每天點亮一顆新星）：行動 App 介面預覽
   設計基準：390 × 844（iPhone 14/15）。觸控目標 ≥ 44px，輸入框字級 16px（避免 iOS 自動放大）。
