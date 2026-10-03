@@ -60,7 +60,11 @@ button{cursor:pointer;touch-action:manipulation}
   padding:0 16px 28px;display:none}
 .screen.active{display:block;animation:fadein .22s ease-out}
 .top{position:sticky;top:0;z-index:3;margin:0 -16px;padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:linear-gradient(rgba(7,10,28,.92) 62%,transparent)}
+  background:linear-gradient(rgba(7,10,28,.92) 62%,transparent);transition:background-color .2s}
+/* 往下捲動後（.stuck）：標題列改成霧面不透明底，下緣再接一小段淡出，內容不會從標題後面透出來 */
+.top.stuck{background:rgba(7,10,28,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.top::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px;background:linear-gradient(rgba(7,10,28,.97),rgba(7,10,28,0));opacity:0;transition:opacity .2s;pointer-events:none}
+.top.stuck::after{opacity:1}
 .top h1{margin:0;font-size:26px;line-height:1.2;font-weight:700}
 .sub{color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
@@ -1801,7 +1805,9 @@ html{overflow:hidden}
 .month-head span{font-size:12px;color:var(--muted)}
 #logList>.month-head:first-child{margin-top:10px}
 .day-head{position:sticky;top:var(--logTop,0px);z-index:2;margin:0 -16px 8px;padding:10px 16px 6px;
-  background:linear-gradient(180deg,rgba(7,10,28,.92) 70%,rgba(7,10,28,0));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  background:rgba(7,10,28,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* 日期標題下緣的淡出只佔標題與卡片之間的 8px 間距，固定在頂端時卡片文字才不會從標題下方透出 */
+.day-head::after{content:"";position:absolute;left:0;right:0;top:100%;height:8px;background:linear-gradient(rgba(7,10,28,.92),rgba(7,10,28,0));pointer-events:none}
 #logList.compact .day-head{padding-top:8px}
 
 /* 日記：列表／月曆切換 */
@@ -6124,6 +6130,9 @@ function iosScroll(sc){const host=sc.parentElement,bar=document.createElement('d
     bar.style.height=len+'px';bar.style.transform=`translateY(${top}px)`;bar.style.opacity=1;clearTimeout(t);t=setTimeout(()=>bar.style.opacity=0,900)};
   sc.addEventListener('scroll',upd,{passive:true})}
 document.querySelectorAll('.screen,.sb').forEach(iosScroll);
+/* 分頁往下捲動時，標題列切換成不透明底（.top.stuck） */
+document.querySelectorAll('.screen').forEach(sc=>{const t=sc.querySelector(':scope>.top');if(!t)return;
+  sc.addEventListener('scroll',()=>t.classList.toggle('stuck',sc.scrollTop>4),{passive:true})});
 /* 電腦預覽：等比縮放手機外框、狀態列時鐘 */
 function fitDevice(){const d=$('device');if(innerWidth<600){d.style.transform='';return}
   const f=window.devFrame||{w:390,h:844},s=Math.min(1,(innerHeight-56)/(f.h+30),(innerWidth-48)/(f.w+46));d.style.transform=`scale(${s.toFixed(3)})`}

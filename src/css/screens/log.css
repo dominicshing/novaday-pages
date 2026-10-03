@@ -16,7 +16,9 @@
 .month-head span{font-size:12px;color:var(--muted)}
 #logList>.month-head:first-child{margin-top:10px}
 .day-head{position:sticky;top:var(--logTop,0px);z-index:2;margin:0 -16px 8px;padding:10px 16px 6px;
-  background:linear-gradient(180deg,rgba(7,10,28,.92) 70%,rgba(7,10,28,0));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  background:rgba(7,10,28,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+/* 日期標題下緣的淡出只佔標題與卡片之間的 8px 間距，固定在頂端時卡片文字才不會從標題下方透出 */
+.day-head::after{content:"";position:absolute;left:0;right:0;top:100%;height:8px;background:linear-gradient(rgba(7,10,28,.92),rgba(7,10,28,0));pointer-events:none}
 #logList.compact .day-head{padding-top:8px}
 
 /* 日記：列表／月曆切換 */
