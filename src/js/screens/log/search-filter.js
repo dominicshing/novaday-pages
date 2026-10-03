@@ -10,7 +10,7 @@ function hl(t,terms){t=String(t??'');if(!terms||!terms.length)return esc(t);cons
 /* 命中位置在內文後段時，從命中處前幾個字開始顯示摘要 */
 function snip(body,terms){body=String(body||'');if(!terms.length)return body;const lo=body.toLowerCase();let at=-1;
   terms.forEach(w=>{const i=lo.indexOf(w);if(i>=0&&(at<0||i<at))at=i});return at>34?'…'+body.slice(at-14):body}
-function passFilter(e){const T=qTerms();if(T.length){const hay=[e.title,e.body,e.loc,(e.tags||[]).join(' ')].join(' ').toLowerCase();if(!T.every(w=>hay.includes(w)))return false}
+function passFilter(e){const T=qTerms();if(T.length){const hay=[e.title,e.body,e.loc,(e.tags||[]).map(t=>t+' #'+t).join(' ')].join(' ').toLowerCase();if(!T.every(w=>hay.includes(w)))return false}
   if(fl.moods.size&&!fl.moods.has(e.mood??2))return false;if(fl.photo&&!hasMedia(e))return false;if(fl.loc&&!e.loc)return false;if(fl.prompt&&!e.prompt)return false;if(fl.fav&&!e.fav)return false;
   if(fl.tag&&!(e.tags||[]).includes(fl.tag))return false;return true}
 function filterFade(){const f=$('filters');f.classList.toggle('at-end',f.scrollLeft+f.clientWidth>=f.scrollWidth-4)}

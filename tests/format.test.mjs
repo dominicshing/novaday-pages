@@ -9,5 +9,7 @@ export default async ({ ok, open }) => {
   ok(await p.evaluate(y => fmtDayY(`${y - 1}-10-02`).startsWith(`${y - 1} 年 `) && !fmtDayY(`${y}-01-02`).includes('年'), y), '不是今年的日期才加年份');
   await p.evaluate(() => openDetail('old')); await p.waitForTimeout(300);
   ok(await p.evaluate(y => document.querySelector('#detail .dv-when').textContent.startsWith(`${y - 1} 年`), y), '去年的紀錄在詳情顯示年份');
+  await p.evaluate(() => { closeSheet('detail'); go('log') }); await p.fill('#q', '#x'); await p.waitForTimeout(500);
+  ok(await p.evaluate(() => [...document.querySelectorAll('#logList .entry')].map(e => e.dataset.id).join() === 'now'), '搜尋「#標籤」找得到有這個標籤的紀錄');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
