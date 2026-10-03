@@ -29,8 +29,8 @@ function entryStar(e){const A=ascEntries(),idx=A.findIndex(x=>x.id===e.id);if(id
 function starMini(S,W,H){const c=CON[S.k],P=conProj(S.k,W,H,10),ord=conOrd(S.k),lit=new Set(ord.slice(0,S.es.length)),me=ord[S.j],col={};
   ord.slice(0,S.es.length).forEach((si,j)=>col[si]=`var(${MOODS[S.es[j].mood??2].c})`);let g=conFig(S.k,W,H,P,S.es.length/S.n);
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b];g+=`<line class="${lit.has(a)&&lit.has(b)?'es-on':'es-l'}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
-  c.s.forEach((_,si)=>{const[x,y]=P[si];if(si===me)g+=`<circle class="es-rg" cx="${x}" cy="${y}" r="7"/><circle class="es-tg" cx="${x}" cy="${y}" r="4"/><circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`;
-    else if(lit.has(si))g+=`<circle cx="${x}" cy="${y}" r="2.4" fill="${col[si]}"/>`;else g+=`<circle cx="${x}" cy="${y}" r="1.4" fill="rgba(232,233,255,.45)"/>`});
+  c.s.forEach((_,si)=>{const[x,y]=P[si];if(si===me)g+=`<circle class="es-rg" cx="${x}" cy="${y}" r="7"/><path class="es-tg" d="${spk(x,y,6.2)}"/><path d="${spk(x,y,2.5)}" fill="#fff"/>`;
+    else if(lit.has(si))g+=`<path d="${spk(x,y,3.8)}" fill="${col[si]}"/>`;else g+=`<path d="${spk(x,y,2.5)}" fill="rgba(232,233,255,.5)"/>`});
   return g}
 function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId=id;const m=MOODS[e.mood??2];setTimeout(()=>grantReview(e),450);
   const S=entryStar(e),A=ascEntries(),i=A.findIndex(x=>x.id===id),prev=A[i-1],next=A[i+1];

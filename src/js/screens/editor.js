@@ -17,9 +17,9 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
     const cls=on.has(a)&&on.has(b)?'es-on':((a===tg&&on.has(b))||(b===tg&&on.has(a)))?'es-to':'es-l';
     g+=`<line class="${cls}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach((_,si)=>{const[x,y]=P[si];
-    if(si===tg)g+=`<circle class="es-rg" cx="${x}" cy="${y}" r="6"/><circle class="es-tg" cx="${x}" cy="${y}" r="3.4"/><circle cx="${x}" cy="${y}" r="1.4" fill="#fff"/>`;
-    else if(on.has(si))g+=`<circle cx="${x}" cy="${y}" r="2.3" fill="${col[si]||'var(--nebula)'}"/>`;
-    else g+=`<circle cx="${x}" cy="${y}" r="1.3" fill="rgba(232,233,255,.45)"/>`});
+    if(si===tg)g+=`<circle class="es-rg" cx="${x}" cy="${y}" r="6"/><path class="es-tg" d="${spk(x,y,5.4)}"/><path d="${spk(x,y,2.2)}" fill="#fff"/>`;
+    else if(on.has(si))g+=`<path d="${spk(x,y,3.6)}" fill="${col[si]||'var(--nebula)'}"/>`;
+    else g+=`<path d="${spk(x,y,2.4)}" fill="rgba(232,233,255,.5)"/>`});
   $('edStarSvg').innerHTML=g;
   $('edStarK').textContent=editing?'這則紀錄是':'這則紀錄將點亮';
   $('edStarN').textContent=!editing&&T.t+1===n?`${c.n}的最後一顆星 ✦`:`${c.n}・第 ${T.t+1} / ${n} 顆星`;

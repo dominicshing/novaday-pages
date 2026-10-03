@@ -1,6 +1,8 @@
 /* 程式繪製：星座圖（連線、星點、剪影）與首頁星系 */
 /* 依星星的範圍決定圖形大小與位置 */
 /* 星座剪影（例如海豚）：開發者選項可關閉，prof.noFig 未設定時預設顯示 */
+/* 星點造型：四芒星（和 Logo、按鈕同一套），k 越小光芒越細 */
+const spk=(x,y,r,k=.18)=>{const f=v=>+v.toFixed(2),q=k*r;return `M${f(x)} ${f(y-r)}Q${f(x+q)} ${f(y-q)} ${f(x+r)} ${f(y)}Q${f(x+q)} ${f(y+q)} ${f(x)} ${f(y+r)}Q${f(x-q)} ${f(y+q)} ${f(x-r)} ${f(y)}Q${f(x-q)} ${f(y-q)} ${f(x)} ${f(y-r)}Z`};
 /* p＝點亮進度 0–1（剪影隨進度成形）；aw＝完成動畫設定 */
 function conFig(k,W,H,P,p=1,aw){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
@@ -14,10 +16,10 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
       g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
-        <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${(base*3.2).toFixed(1)}" fill="${col}" opacity=".22"/>
+        <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2"/>
         ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
-        <circle class="core" cx="${x}" cy="${y}" r="${(base*1.25).toFixed(1)}" fill="${col}"/><circle cx="${x}" cy="${y}" r="${(base*.55).toFixed(1)}" fill="#fff"/></g>`}
-    else g+=`<circle class="cu" cx="${x}" cy="${y}" r="${(base*.75).toFixed(1)}" fill="rgba(232,233,255,.5)"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
+        <path class="core" d="${spk(x,y,base*2.6)}" fill="${col}"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g>`}
+    else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
 function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}
