@@ -111,7 +111,6 @@
 
 /* src/css/components/entry-card.css */
 @keyframes eDust {0%,100%{opacity:.55}50%{opacity:.95}}
-@keyframes eSpark {0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}}
 
 /* src/css/components/galaxy.css */
 @keyframes pulse {0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(1.18);opacity:.1}}

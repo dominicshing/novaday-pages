@@ -40,7 +40,7 @@ const D = await page.evaluate(() => {
   return {
     moods: MOODS.map((m, i) => ({ index: i, name_zh: m.n, emoji: m.e, css_var: m.c, hex: css(m.c).toUpperCase(), scale: NV_SC[i], ray_len: NV_RL[i], highlight: NV_HI[i] })),
     ranks: RANKS.map((n, i) => ({ index: i, level: i + 1, name_zh: n, color: RINFO[i].c, description: RINFO[i].d, emblem: RINFO[i].em, badge: `svg/rank_badges/rank_${String(i + 1).padStart(2, '0')}.svg`, livery: { name_zh: RINFO[i].lv.n, colors_light_mid_dark: RINFO[i].lv.c, icon: `svg/rank_ships/ship_${String(i + 1).padStart(2, '0')}.svg` } })),
-    rankIdx_js: src(rankIdx), levelInfo_js: src(levelInfo), totalXP_js: src(totalXP), xpMap_js: src(xpMap), XP_rules: XP,
+    rankIdx_js: src(rankIdx), levelInfo_js: src(levelInfo), totalXP_js: src(totalXP), xpMap_js: src(xpMap0), XP_rules: XP,  /* xpMap 只是快取外殼，實際的 XP 規則在 xpMap0 */
     prompts: PROMPTS, meteors: METEORS, regions: REGIONS,
     avatars: AVI.map(a => ({ index: a.i, key: a.k, name_zh: a.n, description_zh: a.d, tile_background: a.t, group: a.g, svg: `svg/avatars/${a.k}.svg`, png: `png/avatars/${a.k}.png` })),
     picker_order: AVATARS, legacy: AV_LEGACY,

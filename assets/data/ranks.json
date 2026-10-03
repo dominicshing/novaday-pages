@@ -509,7 +509,7 @@
   "rankIdx_js": "lv=>Math.min(RANKS.length-1,Math.max(0,lv-1))",
   "levelInfo_js": "function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}",
   "totalXP_js": "l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(prof.devXP||0)}",
-  "xpMap_js": "function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));\n  for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));\n    const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);\n    es.forEach((e,i)=>{const extra=(e.photo||(e.video&&e.video.id)?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);\n      m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}\n  return m}",
+  "xpMap_js": "function xpMap0(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));\n  for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));\n    const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);\n    es.forEach((e,i)=>{const extra=(e.photo||(e.video&&e.video.id)?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);\n      m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}\n  return m}",
   "XP_rules": {
     "first": 20,
     "extra": 5,
