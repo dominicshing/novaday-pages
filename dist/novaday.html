@@ -155,8 +155,6 @@ button{cursor:pointer;touch-action:manipulation}
 .ht-greet{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   background:linear-gradient(90deg,#FFFFFF,#D6D1FF);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ht-sub{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;font-variant-numeric:tabular-nums}
-.ht-day{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;color:var(--flare);
-  background:rgba(255,180,92,.1);border:1px solid rgba(255,180,92,.3)}
 .home-top .avatar-btn{position:relative;border:2px solid transparent;
   background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;
   box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
@@ -196,7 +194,6 @@ button{cursor:pointer;touch-action:manipulation}
 .ht-sub{margin:0!important;font-size:12px!important;letter-spacing:.04em;color:var(--muted)!important}
 .ht-row2{display:flex;align-items:center;gap:8px;min-width:0}
 .ht-greet{margin:0!important;font-size:20px!important;line-height:1.3!important;min-width:0}
-.ht-row2 .ht-day{flex:none}
 .home-top .avatar-btn{width:38px!important;height:38px!important;margin-top:0!important;font-size:19px!important}
 
 /* 頭像右下角的階級徽章 */
@@ -205,20 +202,7 @@ button{cursor:pointer;touch-action:manipulation}
 .av-rank.sm{width:13px;height:13px;right:-2px;bottom:-2px}
 .compact-bar .cb-av{position:relative!important;top:auto!important;right:auto!important;transform:none!important}
 .av-rank .rbadge{width:100%;height:100%;display:block}
-.ht-row2 .ht-day{position:relative;display:inline-flex;align-items:center;gap:3px;height:26px;padding:0 10px 0 3px!important;border-radius:999px;font-size:12px!important;line-height:1;overflow:hidden;
-  color:#FFE3B8;background:linear-gradient(rgba(14,16,48,.9),rgba(14,16,48,.9)) padding-box,linear-gradient(120deg,#FFB45C,#FF8FD0 55%,#8A7CFF) border-box;border:1px solid transparent;box-shadow:0 0 14px -4px rgba(255,180,92,.55)}
-.ht-day .hd-ic{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-right:3px;background:radial-gradient(circle at 35% 30%,#FFE7A3,#FFB45C 60%,#E07A3A);box-shadow:0 0 8px rgba(255,180,92,.7)}
-.ht-day .hd-ic svg{width:13px;height:13px;fill:#3A1E08}
-.ht-day .hd-ic svg .s{fill:#fff}
-.ht-day .hd-t{color:#E6D9C4;font-weight:500;letter-spacing:.02em}
-.ht-day b{font-size:15px;font-weight:800;margin:0 1px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF3D6,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
-.ht-day::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:hdSweep 5.5s ease-in-out infinite}
 .ht-row2 .ht-greet{display:block!important;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ht-row2 .ht-day{padding-right:9px!important}
-
-/* 動畫 */
-@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}
-}
 /* 共用控制項：按鈕、輸入框、表單欄位、分段選擇、鍵盤焦點框 */
 .icon-btn{background:var(--surface);border:1px solid var(--line);border-radius:12px;width:44px;height:44px;display:grid;place-items:center;flex:none}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
@@ -573,11 +557,11 @@ html{overflow:hidden}
 .hud .fuel .ember.e3{left:19px;animation-delay:1.5s;width:2px;height:2px}
 .hud .fuel:has(.flame-ic.off) .ember{display:none}
 .hud .fuel .flame-ic.off{animation:none}
-.app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember,.app.calm .ht-day::after{animation:none}
+.app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember{animation:none}
 .app.calm .hud .fuel .ember{display:none}
 
 @media (prefers-reduced-motion:reduce){
-  .hud .fuel .flame-ic,.hud .fuel .fl-core,.ht-day::after{animation:none}
+  .hud .fuel .flame-ic,.hud .fuel .fl-core{animation:none}
   .hud .fuel .ember{display:none}
 }
 
@@ -2200,6 +2184,20 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 /* 動畫 */
 @keyframes secFlash {0%,40%{background:rgba(255,180,92,.14);box-shadow:0 0 0 8px rgba(255,180,92,.14)}100%{background:transparent;box-shadow:0 0 0 8px transparent}
 }
+
+/* 觀星第 N 天（原本在首頁頂部）：金色月亮小圓＋漸層外框的膠囊，偶爾一道光掃過 */
+.p-day{position:relative;display:inline-flex;align-items:center;gap:3px;height:32px;padding:0 12px 0 5px;border-radius:999px;font-size:13px;line-height:1;overflow:hidden;
+  color:#FFE3B8;background:linear-gradient(rgba(14,16,48,.9),rgba(14,16,48,.9)) padding-box,linear-gradient(120deg,#FFB45C,#FF8FD0 55%,#8A7CFF) border-box;border:1px solid transparent;box-shadow:0 0 14px -4px rgba(255,180,92,.55)}
+.p-day .hd-ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;margin-right:3px;background:radial-gradient(circle at 35% 30%,#FFE7A3,#FFB45C 60%,#E07A3A);box-shadow:0 0 8px rgba(255,180,92,.7)}
+.p-day .hd-ic svg{width:14px;height:14px;fill:#3A1E08}
+.p-day .hd-ic svg .s{fill:#fff}
+.p-day .hd-t{color:#E6D9C4;font-weight:500;letter-spacing:.02em}
+.p-day b{font-size:16px;font-weight:800;margin:0 2px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF3D6,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-day::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:hdSweep 5.5s ease-in-out infinite}
+.app.calm .p-day::after{animation:none;display:none}
+@media (prefers-reduced-motion:reduce){.p-day::after{animation:none;display:none}}
+@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}
+}
 /* 編輯個人資料 */
 .me-av{flex:none;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:34px;line-height:1;border:2px solid transparent;
   background:radial-gradient(circle at 40% 30%,#232A6E,#0E1235) padding-box,linear-gradient(135deg,#8A7CFF,#6FE3D6) border-box;box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
@@ -3027,7 +3025,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
         <div class="ht-main">
           <div class="ht-brand"><svg class="ht-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="nvBg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2E2A86"/><stop offset=".6" stop-color="#14173F"/><stop offset="1" stop-color="#080A22"/></linearGradient><radialGradient id="nvHalo1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8A7CFF" stop-opacity=".6"/><stop offset="1" stop-color="#8A7CFF" stop-opacity="0"/></radialGradient><radialGradient id="nvNova1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFB45C" stop-opacity=".8"/><stop offset="1" stop-color="#FFB45C" stop-opacity="0"/></radialGradient></defs><rect width="100" height="100" rx="24" fill="url(#nvBg1)"/><polyline points="30,74 30,30 70,72 70,30" fill="none" stroke="#8A7CFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="30" cy="74" r="9" fill="url(#nvHalo1)"/><circle cx="30" cy="30" r="9" fill="url(#nvHalo1)"/><circle cx="70" cy="72" r="9" fill="url(#nvHalo1)"/><circle cx="30" cy="74" r="5" fill="#E8E9FF"/><circle cx="30" cy="30" r="5" fill="#E8E9FF"/><circle cx="70" cy="72" r="5" fill="#E8E9FF"/><circle cx="70" cy="30" r="16" fill="url(#nvNova1)"/><path d="M70 17 Q71.9 27.9 82.5 30 Q71.9 32.1 70 43 Q68.1 32.1 57.5 30 Q68.1 27.9 70 17Z" fill="#FFE7A3"/><circle cx="70" cy="30" r="2.4" fill="#FFFFFF"/></svg><span class="brand-t">Novaday</span></div>
           <div class="ht-sub" id="stardate"></div>
-          <div class="ht-row2"><h1 class="ht-greet" id="greet">你好，星旅人</h1><span class="ht-day" id="htDay"></span></div>
+          <div class="ht-row2"><h1 class="ht-greet" id="greet">你好，星旅人</h1></div>
         </div>
         <button class="avatar-btn" id="openMe" aria-label="我的檔案"><span id="topAvatar"></span><span class="av-rank" id="avRank" aria-hidden="true"></span></button>
       </div>
@@ -3136,7 +3134,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
             <span class="p-lvx"><span class="p-rb" id="pRb" aria-hidden="true"></span><b class="p-lv" id="pLv">Lv.1</b><i class="lvx-sep" aria-hidden="true"></i><button type="button" class="p-rank" id="pRankChip"></button></span>
           </div>
           <div class="pname" id="pName"></div>
-          <div class="p-chips"><button type="button" class="p-sign" id="pSign"></button></div>
+          <div class="p-chips"><span class="p-day" id="pDay" role="img"></span><button type="button" class="p-sign" id="pSign"></button></div>
           <div class="pmotto" id="pMotto"></div>
           <div class="p-xp" id="pXpText"></div>
           <div class="rk-rew" id="pRew"></div>
@@ -5489,6 +5487,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
   $('pRankChip').innerHTML=`<span>${RANKS[ri]}</span>`;if($('pRb').dataset.r!=String(ri)){$('pRb').innerHTML=rankBadge(ri);$('pRb').dataset.r=ri}
   $('pRankChip').style.setProperty('--rb',hexA(RC,.45));$('pRankChip').setAttribute('aria-label',`目前階級：${RANKS[ri]}，查看下一階`);
   renderRanks(xp,lv);
+  {const day=starDay();$('pDay').innerHTML=`<span class="hd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.6 4.2a7.6 7.6 0 1 0 4.2 11.4A6.1 6.1 0 0 1 15.6 4.2z"/><path class="s" d="M18.6 3.2l.55 1.45 1.45.55-1.45.55-.55 1.45-.55-1.45-1.45-.55 1.45-.55z"/></svg></span><span class="hd-t">觀星第</span><b>${day}</b><span class="hd-t">天</span>`;$('pDay').setAttribute('aria-label',`觀星第 ${day} 天`)}
   {const zi=signIdx(prof.birthday);$('pSign').innerHTML=zi<0?`${STAR4} 設定星座`:`${zg(zi)} ${ZODIAC[zi].n}`;$('pSign').setAttribute('aria-label',zi<0?'設定生日以顯示星座':`${ZODIAC[zi].n}，查看性格與本月運勢`)}
   $('pXpText').innerHTML=`<b>${rest}</b> / ${need} XP・還差 ${need-rest} 升到 Lv.${lv+1}`;
   $('stTotal').textContent=entries.length;$('stWords').textContent=entries.reduce((s,e)=>s+chars(e),0).toLocaleString();$('stBest').textContent=bestStreak(entries);
@@ -5524,6 +5523,8 @@ $('pAvRing').onclick=()=>openMeEdit();
 $('pName').onclick=()=>openMeEdit();
 $('pSign').onclick=()=>signIdx(prof.birthday)<0?openBdQuick():openFortune();
 $('openMe').onclick=()=>go('me');
+/* 觀星第幾天：從第一則紀錄（或開始使用的日子）算起，今天算第 N 天 */
+function starDay(){const t=ymd(new Date()),first=entries.map(e=>e.date).concat(prof.since?[prof.since]:[]).sort()[0]||t;return Math.round((parse(t)-parse(first))/864e5)+1}
 /* 日記頁：列表／月曆切換、顯示模式 */
 let logView='list';
 function setLogView(v,quiet){logView=v;const cal=v==='cal';$('logList').hidden=cal;$('calWrap').hidden=!cal;$('listCtl').hidden=cal;
@@ -6082,8 +6083,7 @@ function renderSampleRow(){const n=entries.filter(isSample).length,r=$('liSample
 /* 首頁頂部列與捲動後的精簡列 */
 function renderAppBar(){const n=new Date(),hr=n.getHours(),g=hr>=5&&hr<11?'早安':hr<18&&hr>=11?'午安':hr>=18&&hr<23?'晚安':'夜深了';
   const name=prof.name||'星旅人';$('greet').textContent=`${g}，${name}`;$('greet').title=`${g}，${name}`;
-  const first=entries.map(e=>e.date).concat(prof.since?[prof.since]:[]).sort()[0]||ymd(n),day=Math.round((parse(ymd(n))-parse(first))/864e5)+1;
-  $('stardate').innerHTML=`<span>${n.getMonth()+1} 月 ${n.getDate()} 日・星期${WD[n.getDay()]}</span>`;$('htDay').innerHTML=`<span class="hd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.6 4.2a7.6 7.6 0 1 0 4.2 11.4A6.1 6.1 0 0 1 15.6 4.2z"/><path class="s" d="M18.6 3.2l.55 1.45 1.45.55-1.45.55-.55 1.45-.55-1.45-1.45-.55 1.45-.55z"/></svg></span><span class="hd-t">第</span><b>${day}</b><span class="hd-t">天</span>`;$('htDay').setAttribute('aria-label',`觀星第 ${day} 天`);
+  $('stardate').innerHTML=`<span>${n.getMonth()+1} 月 ${n.getDate()} 日・星期${WD[n.getDay()]}</span>`;
   /* 頭像右下角：目前已解鎖的最高階級徽章 */
   const ri=rankIdx(levelInfo(totalXP(entries)).lv);if($('avRank').dataset.r!=String(ri)){$('avRank').innerHTML=rankBadge(ri);$('cbRank').innerHTML=rankBadge(ri);$('avRank').dataset.r=ri}
   $('openMe').setAttribute('aria-label',`我的檔案・目前階級：${RANKS[ri]}`);$('cbAv').setAttribute('aria-label',`我的檔案・${RANKS[ri]}`);

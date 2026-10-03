@@ -96,11 +96,11 @@
 .hud .fuel .ember.e3{left:19px;animation-delay:1.5s;width:2px;height:2px}
 .hud .fuel:has(.flame-ic.off) .ember{display:none}
 .hud .fuel .flame-ic.off{animation:none}
-.app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember,.app.calm .ht-day::after{animation:none}
+.app.calm .hud .fuel .flame-ic,.app.calm .hud .fuel .fl-core,.app.calm .hud .fuel .ember{animation:none}
 .app.calm .hud .fuel .ember{display:none}
 
 @media (prefers-reduced-motion:reduce){
-  .hud .fuel .flame-ic,.hud .fuel .fl-core,.ht-day::after{animation:none}
+  .hud .fuel .flame-ic,.hud .fuel .fl-core{animation:none}
   .hud .fuel .ember{display:none}
 }
 

@@ -76,3 +76,17 @@
 /* 動畫 */
 @keyframes secFlash {0%,40%{background:rgba(255,180,92,.14);box-shadow:0 0 0 8px rgba(255,180,92,.14)}100%{background:transparent;box-shadow:0 0 0 8px transparent}
 }
+
+/* 觀星第 N 天（原本在首頁頂部）：金色月亮小圓＋漸層外框的膠囊，偶爾一道光掃過 */
+.p-day{position:relative;display:inline-flex;align-items:center;gap:3px;height:32px;padding:0 12px 0 5px;border-radius:999px;font-size:13px;line-height:1;overflow:hidden;
+  color:#FFE3B8;background:linear-gradient(rgba(14,16,48,.9),rgba(14,16,48,.9)) padding-box,linear-gradient(120deg,#FFB45C,#FF8FD0 55%,#8A7CFF) border-box;border:1px solid transparent;box-shadow:0 0 14px -4px rgba(255,180,92,.55)}
+.p-day .hd-ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;margin-right:3px;background:radial-gradient(circle at 35% 30%,#FFE7A3,#FFB45C 60%,#E07A3A);box-shadow:0 0 8px rgba(255,180,92,.7)}
+.p-day .hd-ic svg{width:14px;height:14px;fill:#3A1E08}
+.p-day .hd-ic svg .s{fill:#fff}
+.p-day .hd-t{color:#E6D9C4;font-weight:500;letter-spacing:.02em}
+.p-day b{font-size:16px;font-weight:800;margin:0 2px;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF3D6,#FFB45C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p-day::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);animation:hdSweep 5.5s ease-in-out infinite}
+.app.calm .p-day::after{animation:none;display:none}
+@media (prefers-reduced-motion:reduce){.p-day::after{animation:none;display:none}}
+@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}
+}

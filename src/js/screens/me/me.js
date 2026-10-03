@@ -14,6 +14,7 @@ function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStor
   $('pRankChip').innerHTML=`<span>${RANKS[ri]}</span>`;if($('pRb').dataset.r!=String(ri)){$('pRb').innerHTML=rankBadge(ri);$('pRb').dataset.r=ri}
   $('pRankChip').style.setProperty('--rb',hexA(RC,.45));$('pRankChip').setAttribute('aria-label',`目前階級：${RANKS[ri]}，查看下一階`);
   renderRanks(xp,lv);
+  {const day=starDay();$('pDay').innerHTML=`<span class="hd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.6 4.2a7.6 7.6 0 1 0 4.2 11.4A6.1 6.1 0 0 1 15.6 4.2z"/><path class="s" d="M18.6 3.2l.55 1.45 1.45.55-1.45.55-.55 1.45-.55-1.45-1.45-.55 1.45-.55z"/></svg></span><span class="hd-t">觀星第</span><b>${day}</b><span class="hd-t">天</span>`;$('pDay').setAttribute('aria-label',`觀星第 ${day} 天`)}
   {const zi=signIdx(prof.birthday);$('pSign').innerHTML=zi<0?`${STAR4} 設定星座`:`${zg(zi)} ${ZODIAC[zi].n}`;$('pSign').setAttribute('aria-label',zi<0?'設定生日以顯示星座':`${ZODIAC[zi].n}，查看性格與本月運勢`)}
   $('pXpText').innerHTML=`<b>${rest}</b> / ${need} XP・還差 ${need-rest} 升到 Lv.${lv+1}`;
   $('stTotal').textContent=entries.length;$('stWords').textContent=entries.reduce((s,e)=>s+chars(e),0).toLocaleString();$('stBest').textContent=bestStreak(entries);
@@ -49,3 +50,5 @@ $('pAvRing').onclick=()=>openMeEdit();
 $('pName').onclick=()=>openMeEdit();
 $('pSign').onclick=()=>signIdx(prof.birthday)<0?openBdQuick():openFortune();
 $('openMe').onclick=()=>go('me');
+/* 觀星第幾天：從第一則紀錄（或開始使用的日子）算起，今天算第 N 天 */
+function starDay(){const t=ymd(new Date()),first=entries.map(e=>e.date).concat(prof.since?[prof.since]:[]).sort()[0]||t;return Math.round((parse(t)-parse(first))/864e5)+1}
