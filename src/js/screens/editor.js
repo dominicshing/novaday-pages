@@ -167,6 +167,8 @@ function renderSug(){const L=entries.filter(e=>!isSample(e));
 $('fLoc').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('fTags').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(dTimer);
+  /* 連點兩下「點亮」：第一次存檔後編輯器就關了，第二次直接忽略，不會存成兩則 */
+  if(!$('editor').classList.contains('open'))return;
   if(!noFuture()){updWhen();return}
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};

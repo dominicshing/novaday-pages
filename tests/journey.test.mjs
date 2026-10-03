@@ -49,5 +49,15 @@ export default async ({ ok, open }) => {
   await p.setInputFiles('#fPhoto', [1, 2, 3].map(i => ({ name: `p${i}.png`, mimeType: 'image/png', buffer: png })));
   await p.waitForFunction(() => document.querySelectorAll('#fPhotos .ph-img').length === 3, null, { timeout: 8000 }).catch(() => {});
   ok(await p.evaluate(async () => { const im = new Image(); im.src = curPhotos[0]; await im.decode(); return curPhotos.length === 3 && im.naturalWidth === 1600 && im.naturalHeight === 1200 && !document.getElementById('mdPhotoBtn').classList.contains('busy') && document.querySelector('#mdPhotoBtn small').textContent === '最多 10 張' }), '加入 3 張大照片：縮成長邊 1600px，按鈕恢復');
+  // 連點兩下「點亮」：只存一則
+  await p.evaluate(() => { document.querySelectorAll('.layer.open').forEach(l => closeSheet(l.id)); clearDraft(); openEditor() }); await p.waitForTimeout(400);
+  await p.fill('#fBody', '連點兩下'); await p.evaluate(() => { const f = document.getElementById('form'); f.requestSubmit(); f.requestSubmit() }); await p.waitForTimeout(1500);
+  await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+  ok(await p.evaluate(() => entries.filter(e => e.body === '連點兩下').length === 1), '連點兩下點亮只存一則');
+  await p.evaluate(() => go('home')); await p.waitForTimeout(300);
+  const qn = await p.evaluate(() => !document.getElementById('quickNote').hidden);
+  if (qn) { await p.fill('#qnText', '快記連點'); await p.evaluate(() => { const f = document.getElementById('quickNote'); f.requestSubmit(); f.requestSubmit() }); await p.waitForTimeout(2000);
+    await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+    ok(await p.evaluate(() => entries.filter(e => e.body === '快記連點').length === 1), '快記連點兩下只存一則') }
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

@@ -7,9 +7,12 @@ function renderQuick(){const b=$('quickNote');if(!b)return;const td=ymd(new Date
   $('qnMoodT').textContent=qnMood==null?'今天過得怎麼樣？':MOODS[qnMood].n;qnSync()}
 function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('qnText').addEventListener('input',qnSync);
-$('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnText').value.trim();if(!t)return;
+/* 送出時立刻取出文字並清空欄位，連點兩下也只會送出一次 */
+let qnBusy=false;
+$('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnText').value.trim(),m=qnMood;if(!t||qnBusy)return;
+  qnBusy=true;$('qnText').value='';qnMood=null;qnSync();
   /* 有未完成的草稿時先收起來，避免快記帶上草稿的標題、照片，或草稿內容被覆蓋 */
   stashDraft();
-  openEditor();requestAnimationFrame(()=>{$('fBody').value=t;curMood=qnMood??2;renderMoods();$('qnText').value='';qnMood=null;setTimeout(()=>$('form').requestSubmit(),reduce?0:120)})});
+  openEditor();requestAnimationFrame(()=>{$('fBody').value=t;curMood=m??2;renderMoods();setTimeout(()=>{$('form').requestSubmit();qnBusy=false},reduce?0:120)})});
 /* 「想多寫一點」：打開完整編輯器；有草稿時接在草稿內文後面，不覆蓋 */
 $('qnMore').onclick=()=>{const t=$('qnText').value.trim(),m=qnMood;openEditor();requestAnimationFrame(()=>{const b=$('fBody').value;if(t)$('fBody').value=b.trim()?b.replace(/\s*$/,'')+'\n'+t:t;if(m!=null){curMood=m;renderMoods()}$('qnText').value='';qnMood=null;onEdit&&onEdit()})};
