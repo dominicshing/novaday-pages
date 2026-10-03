@@ -1536,25 +1536,13 @@ html{overflow:hidden}
   opacity:.7;animation:eDust 5.5s ease-in-out infinite}
 .entry:not(.row):nth-child(2n)::after{animation-delay:-2s;background-position:7% 3%}
 .entry:not(.row):nth-child(3n)::after{animation-delay:-3.6s;transform:scaleX(-1)}
-.e-spark{position:absolute!important;top:14px;right:16px;width:15px;height:15px;z-index:1;pointer-events:none;background:var(--mood);
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
-          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
-  filter:drop-shadow(0 0 4px var(--mood));opacity:.85;animation:eSpark 3.8s ease-in-out infinite}
-.entry:not(.row):nth-child(2n) .e-spark{animation-delay:-1.4s}
-.entry:not(.row):nth-child(3n) .e-spark{animation-delay:-2.6s}
-.entry.row .e-spark,.entry:has(.thumb-w) .e-spark{display:none}
-
-/* 標題太長時不要壓到四芒星 */
-.entry:not(.row):not(:has(.thumb-w)) h3{padding-right:20px}
 
 @media (prefers-reduced-motion:reduce){
-  .entry:not(.row)::after,.e-spark{animation:none}
+  .entry:not(.row)::after{animation:none}
 }
 
 /* 動畫 */
 @keyframes eDust {0%,100%{opacity:.55}50%{opacity:.95}
-}
-@keyframes eSpark {0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}
 }
 
 /* 有照片或影片的卡片：縮圖放在右欄，和左邊的標題、內文一起垂直置中；底下的心情、地點列跨整張卡 */
@@ -1570,7 +1558,7 @@ html{overflow:hidden}
 .entry:not(.row)>.cbg>img{opacity:.38}
 /* 這則紀錄的星：保留心情色，但壓低亮度，不搶文字 */
 .entry .cbg-st{opacity:.6}
-.entry:not(.row)>:not(.cbg):not(.e-spark){position:relative;z-index:1}
+.entry:not(.row)>:not(.cbg){position:relative;z-index:1}
 .entry .cbg *{animation:none!important}
 .entry.row>.cbg{display:none}
 /* 照片與影片：照片列、相簿、看圖器、新增照片／影片 */
@@ -5109,7 +5097,7 @@ function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x
   return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><g class="cbg-st"><path d="${spk(x,y,5.5)}" fill="${col}" style="filter:drop-shadow(0 0 3px ${col})"/><path d="${spk(x,y,2)}" fill="#fff" opacity=".8"/></g></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}<i class="e-spark" aria-hidden="true"></i>${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
     ${e.title||e.fav||isSample(e)?`<h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):''}</h3>`:''}${(e.body||'').trim()?`<p>${hl(snip(e.body,T),T)}</p>`:''}
     <div class="meta"><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}${e.time?`<span class="tm">${IC_CLK}${esc(fmtTime(e.time))}</span>`:''}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';

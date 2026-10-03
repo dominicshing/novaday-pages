@@ -70,25 +70,13 @@
   opacity:.7;animation:eDust 5.5s ease-in-out infinite}
 .entry:not(.row):nth-child(2n)::after{animation-delay:-2s;background-position:7% 3%}
 .entry:not(.row):nth-child(3n)::after{animation-delay:-3.6s;transform:scaleX(-1)}
-.e-spark{position:absolute!important;top:14px;right:16px;width:15px;height:15px;z-index:1;pointer-events:none;background:var(--mood);
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
-          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.6 5.4 11.4 12 12-6.6.6-11.4 5.4-12 12-.6-6.6-5.4-11.4-12-12C6.6 11.4 11.4 6.6 12 0z'/%3E%3C/svg%3E") center/contain no-repeat;
-  filter:drop-shadow(0 0 4px var(--mood));opacity:.85;animation:eSpark 3.8s ease-in-out infinite}
-.entry:not(.row):nth-child(2n) .e-spark{animation-delay:-1.4s}
-.entry:not(.row):nth-child(3n) .e-spark{animation-delay:-2.6s}
-.entry.row .e-spark,.entry:has(.thumb-w) .e-spark{display:none}
-
-/* 標題太長時不要壓到四芒星 */
-.entry:not(.row):not(:has(.thumb-w)) h3{padding-right:20px}
 
 @media (prefers-reduced-motion:reduce){
-  .entry:not(.row)::after,.e-spark{animation:none}
+  .entry:not(.row)::after{animation:none}
 }
 
 /* 動畫 */
 @keyframes eDust {0%,100%{opacity:.55}50%{opacity:.95}
-}
-@keyframes eSpark {0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}
 }
 
 /* 有照片或影片的卡片：縮圖放在右欄，和左邊的標題、內文一起垂直置中；底下的心情、地點列跨整張卡 */
@@ -104,6 +92,6 @@
 .entry:not(.row)>.cbg>img{opacity:.38}
 /* 這則紀錄的星：保留心情色，但壓低亮度，不搶文字 */
 .entry .cbg-st{opacity:.6}
-.entry:not(.row)>:not(.cbg):not(.e-spark){position:relative;z-index:1}
+.entry:not(.row)>:not(.cbg){position:relative;z-index:1}
 .entry .cbg *{animation:none!important}
 .entry.row>.cbg{display:none}
