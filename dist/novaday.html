@@ -402,7 +402,7 @@ input.title{font-size:19px;font-weight:600}
 }
 /* 底部面板：圖層、拖曳把手、標題列、確認對話框 */
 #ask{z-index:25}
-.sheet.ask{top:auto;padding-bottom:6px}
+.sheet.ask{top:auto;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}
 .ask h2{margin:4px 0 6px;font-size:18px;text-align:center}
 .ask p{margin:0 0 14px;color:var(--muted);font-size:14px;text-align:center}
 .ask-btns{display:flex;flex-direction:column;gap:8px}
@@ -412,7 +412,8 @@ input.title{font-size:19px;font-weight:600}
 .layer.open{visibility:visible;pointer-events:auto;transition:none}
 .bd{position:absolute;inset:0;background:rgba(8,10,28,.6);opacity:0;transition:opacity .28s}
 .layer.open .bd{opacity:1}
-.sheet{position:absolute;left:0;right:0;bottom:0;top:28px;background:linear-gradient(180deg,#121741,var(--bg2) 30%);box-shadow:0 -20px 50px -20px rgba(138,124,255,.45);border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:0;
+/* 面板、提示在 .app 外面，不會吃到 .app 的安全區域留白，要自己避開瀏海與首頁指示條（viewport-fit=cover） */
+.sheet{position:absolute;left:0;right:0;bottom:0;top:calc(28px + env(safe-area-inset-top,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:linear-gradient(180deg,#121741,var(--bg2) 30%);box-shadow:0 -20px 50px -20px rgba(138,124,255,.45);border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:0;
   display:flex;flex-direction:column;transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1)}
 .sheet.short{top:auto;max-height:80%}
 .layer.open .sheet{transform:none}
@@ -449,7 +450,7 @@ html{overflow:hidden}
 .ios-bar{position:absolute;top:0;right:3px;width:3px;border-radius:2px;background:rgba(255,255,255,.5);opacity:0;z-index:6;pointer-events:none;
   transition:opacity .35s ease;will-change:transform}
 /* 可復原的提示列（snackbar） */
-.snack{position:absolute;left:12px;right:12px;bottom:78px;z-index:36;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
+.snack{position:absolute;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:36;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
   background:#1B2054;border:1px solid var(--line);box-shadow:0 12px 30px -10px rgba(0,0,0,.7);font-size:14px;
   transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1)}
 .snack.show{transform:none;opacity:1;pointer-events:auto}
@@ -946,7 +947,7 @@ html{overflow:hidden}
 .lvcard p{margin:0 0 20px;color:#B9BEEA}
 .cd-btns{display:flex;gap:10px;justify-content:center;margin-top:16px}
 .cd-btns .btn{min-width:120px}
-.ach-pop{position:absolute;left:50%;top:70px;z-index:45;display:flex;align-items:center;gap:12px;min-width:250px;padding:12px 18px 12px 12px;border-radius:20px;
+.ach-pop{position:absolute;left:50%;top:calc(70px + env(safe-area-inset-top,0px));z-index:45;display:flex;align-items:center;gap:12px;min-width:250px;padding:12px 18px 12px 12px;border-radius:20px;
   background:linear-gradient(135deg,rgba(60,48,120,.97),rgba(20,24,64,.97));border:1px solid rgba(255,211,111,.55);box-shadow:0 18px 40px -12px rgba(0,0,0,.7),0 0 30px -8px rgba(255,180,92,.6);
   transform:translate(-50%,-30px) scale(.9);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.2,1.4,.4,1),opacity .25s}
 .ach-pop.show{transform:translate(-50%,0) scale(1);opacity:1;pointer-events:auto;cursor:pointer}
@@ -1156,7 +1157,7 @@ html{overflow:hidden}
 .as-card .as-ph b,.as-card p,.as-card .as-go{transition:color .2s}
 .as-got{display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 12%,transparent)!important;border:1px solid color-mix(in srgb,var(--c) 45%,transparent)!important;color:var(--c)!important;cursor:default}
 .as-card.on .as-ph span{color:var(--c);font-weight:600}
-.as-sheet .sb{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.as-sheet .sb{padding-bottom:20px}
 .as-nav:active{transform:translateY(-50%) scale(.92)}
 .as-x{position:absolute;top:10px;right:12px;z-index:3;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid var(--line);background:rgba(12,16,48,.72);color:var(--text);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .as-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
@@ -1466,7 +1467,7 @@ html{overflow:hidden}
 .missions.collapsed.has-next .ms-lab{display:block}
 .missions.collapsed .ms-more{min-height:34px;margin-top:0;border-top:1px solid var(--line)}
 /* 日記卡片（列表、精簡列、收藏標記） */
-.entry{display:block;width:100%;text-align:left;background:var(--surface);box-shadow:var(--glow);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;backdrop-filter:blur(6px)}
+.entry{display:block;width:100%;text-align:left;background:var(--surface);box-shadow:var(--glow);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .entry:active{transform:scale(.99)}
 .entry::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--mood)}
 .entry h3{margin:0 0 4px;font-size:16px;line-height:1.35}
@@ -2995,7 +2996,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .spark{position:fixed;z-index:30;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
 .spark.st{width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:0;box-shadow:none;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
-.toast{position:absolute;left:50%;top:12px;transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
+.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
   padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

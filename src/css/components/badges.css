@@ -106,7 +106,7 @@
 .as-card .as-ph b,.as-card p,.as-card .as-go{transition:color .2s}
 .as-got{display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--c) 12%,transparent)!important;border:1px solid color-mix(in srgb,var(--c) 45%,transparent)!important;color:var(--c)!important;cursor:default}
 .as-card.on .as-ph span{color:var(--c);font-weight:600}
-.as-sheet .sb{padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.as-sheet .sb{padding-bottom:20px}
 .as-nav:active{transform:translateY(-50%) scale(.92)}
 .as-x{position:absolute;top:10px;right:12px;z-index:3;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid var(--line);background:rgba(12,16,48,.72);color:var(--text);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .as-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}

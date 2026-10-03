@@ -1,5 +1,5 @@
 /* 日記卡片（列表、精簡列、收藏標記） */
-.entry{display:block;width:100%;text-align:left;background:var(--surface);box-shadow:var(--glow);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;backdrop-filter:blur(6px)}
+.entry{display:block;width:100%;text-align:left;background:var(--surface);box-shadow:var(--glow);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .entry:active{transform:scale(.99)}
 .entry::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--mood)}
 .entry h3{margin:0 0 4px;font-size:16px;line-height:1.35}
