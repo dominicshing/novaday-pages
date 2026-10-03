@@ -10,3 +10,10 @@
 }
 /* 面板打開時焦點會移到面板本身（方便鍵盤與螢幕報讀），面板外框不需要焦點框 */
 :is([role=dialog],[role=alertdialog])[tabindex="-1"]:focus{outline:none}
+
+/* 減少動態效果（系統設定或 App 內的設定）：無限循環的裝飾動畫一律停止。
+   個別元件原本的覆寫有些因選擇器權重不夠（例如 .wd.today:not(.done) i）而沒有生效，集中在這裡用 !important 補上 */
+@media (prefers-reduced-motion:reduce){
+  :is(.hud .fuel .flame-ic .fl-core,.wd.today i,.rs-dot,.tb.launch .fb-halo,.at-bd.now,.cu,.fo-ring),.entry::after{animation:none!important}
+}
+#device.calm :is(.hud .fuel .flame-ic .fl-core,.wd.today i,.rs-dot,.tb.launch .fb-halo,.at-bd.now,.cu,.fo-ring),#device.calm .entry::after{animation:none!important}

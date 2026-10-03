@@ -18,4 +18,15 @@ export default async ({ ok, open }) => {
   await p.evaluate(() => renderLog()); await p.keyboard.press('Escape'); await p.waitForTimeout(400);
   ok(await p.evaluate(i => document.activeElement.dataset.id === i, id), '關閉後焦點回到重畫後的同一則紀錄');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
-  await p.context().close() };
+  await p.context().close();
+
+  // 減少動態效果：系統設定與 App 內設定都不應該有無限循環的動畫在跑
+  const loops = async pg => { const out = new Set();
+    for (const c of ["go('home')", "go('log')", "go('log','cal')", "go('atlas')", "go('me')", 'openEditor()', 'openDetail(entries[0].id)', 'openAch(ACH[0].id)', "openCon('Ori')", "prof.birthday='1990-05-20';openFortune()", 'openReport(2026,9)', "openSheet('settingsSheet')"]) {
+      await pg.evaluate(c => { document.querySelectorAll('.layer.open').forEach(l => l.classList.remove('open')); (0, eval)(c) }, c); await pg.waitForTimeout(500);
+      (await pg.evaluate(() => document.getAnimations().filter(a => a.playState === 'running' && a.effect && a.effect.getTiming().iterations === Infinity).map(a => a.animationName))).forEach(n => out.add(n)) }
+    return [...out] };
+  const ps = await open({ reducedMotion: 'reduce' });
+  const l1 = await loops(ps); ok(!l1.length, '系統「減少動態效果」時沒有循環動畫 ' + l1.join(', ')); await ps.context().close();
+  const pc = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1, calm: true } } });
+  const l2 = await loops(pc); ok(!l2.length, 'App 內「減少動態效果」時沒有循環動畫 ' + l2.join(', ')); await pc.context().close() };
