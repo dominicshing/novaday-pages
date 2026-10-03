@@ -66,7 +66,9 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
   const firstToday=!entries.some(x=>x.date===tmp[tmp.length-1].date&&x.id!==id);
   $('xpPrev').textContent=`+${gain} XP${firstToday&&v.bonus?' 🔥':''}`;
   $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
-function updWhen(){const d=$('fDate').value||ymd(new Date()),t=$('fTime').value;$('whenTxt').textContent=(d===ymd(new Date())?'今天':fmtDay(d))+(t?' '+t:'');$('whenBtn').setAttribute('aria-expanded',!$('xDate').hidden)}
+/* 日期時間膠囊：左半「昨天・10/2（五）」、右半「21:30」，點哪半就打開手機的日期或時間選擇器 */
+function updWhen(){const td=ymd(new Date()),d=$('fDate').value||td,t=$('fTime').value,x=parse(d),n=Math.round((parse(td)-x)/864e5),r=n===0?'今天':n===1?'昨天':n===2?'前天':'';
+  $('whenDT').textContent=`${r?r+'・':''}${x.getMonth()+1}/${x.getDate()}（${WD[x.getDay()]}）`;$('whenTT').textContent=t||'--:--'}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
 const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);
@@ -107,7 +109,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
     if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   noFuture(true);
-  $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
+  $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
   $('draftState').textContent=restored?'已還原草稿':'';
@@ -124,9 +126,10 @@ async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){clo
 ['fTitle','fBody','fLoc','fTags','fDate','fTime'].forEach(id=>$(id).addEventListener('input',onEdit));
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('change',()=>{noFuture();onEdit()}));
 /* 按點亮時日期超過今天：瀏覽器會先擋下（max），這時改回今天並說明，不顯示瀏覽器自己的提示 */
-['fDate','fTime'].forEach(id=>$(id).addEventListener('invalid',ev=>{if(!noFuture())ev.preventDefault();$('xDate').hidden=false;updWhen()}));
+['fDate','fTime'].forEach(id=>$(id).addEventListener('invalid',ev=>{ev.preventDefault();noFuture();updWhen()}));
+/* 桌面瀏覽器點欄位不一定會開選擇器，主動打開 */
+['fDate','fTime'].forEach(id=>$(id).addEventListener('click',e=>{try{e.currentTarget.showPicker()}catch(_){}}));
 document.querySelectorAll('.spark-chip').forEach(b=>b.onclick=()=>{const t=b.textContent;const f=$('fBody');f.value=t+(/[：:]$/.test(t)?'':'');f.focus();f.setSelectionRange(f.value.length,f.value.length);onEdit()});
-$('whenBtn').onclick=()=>{const s=$('xDate');s.hidden=!s.hidden;updWhen();if(!s.hidden){scrollToEl(s,'nearest');$('fDate').focus({preventScroll:true})}};
 $('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const f=$('fBody');f.focus({preventScroll:true});toast('💫 回答今日星語，多得 +10 XP')};
 $('pnX').onclick=()=>{curPrompt=null;renderPrompt();onEdit();$('fBody').focus({preventScroll:true})};
 $('xpPrev').onclick=()=>toast($('xpPrev').title||'寫完按「點亮」就會獲得經驗值',3000);
@@ -147,7 +150,7 @@ function renderSug(){const L=entries.filter(e=>!isSample(e));
 $('fLoc').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('fTags').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(dTimer);
-  if(!noFuture()){$('xDate').hidden=false;updWhen();return}
+  if(!noFuture()){updWhen();return}
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}

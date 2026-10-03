@@ -30,7 +30,6 @@
 .launch-btn.off .lbs{fill:none;stroke:rgba(214,209,255,.22)}
 .launch-btn.off .lbm{animation:none}
 .launch-btn.off .lbm path{fill:rgba(214,209,255,.4)}
-.when-btn svg{stroke-linecap:round}
 input.bare.title::placeholder{color:rgba(154,160,207,.55)}
 .sparks{padding-top:10px;border-top:1px dashed rgba(138,124,255,.22)}
 .sparks-h{font-size:12px;color:var(--muted);margin-bottom:8px}
@@ -86,10 +85,6 @@ textarea.bare.body{font-size:17px;line-height:1.8}
 .mood[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c);color:var(--text)}
 .launch-btn.pop{animation:lbPop .45s cubic-bezier(.2,1.6,.4,1)}
 .ed-when{margin-bottom:10px}
-.when-btn{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 10px 0 12px;border-radius:999px;border:1px solid rgba(255,180,92,.3);background:rgba(255,180,92,.08);color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
-.when-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.when-btn .chev{width:14px;height:14px;opacity:.8;transition:transform .2s}
-.when-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
 .dstate{font-size:12px;color:var(--muted);opacity:.85}
 .ed-star{--c:var(--m2);display:flex;align-items:center;gap:12px;padding:8px 12px 8px 8px;border-radius:14px;margin-bottom:6px;
   background:radial-gradient(120% 140% at 0% 50%,rgba(138,124,255,.16),rgba(138,124,255,.04) 60%);border:1px solid rgba(138,124,255,.22)}
@@ -157,9 +152,13 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 }
 @keyframes esPulse {0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}
 }
-/* 日期與時間：點上方的日期按鈕後，就在它正下方展開，日期、時間各一格並排 */
-.x-when{margin:0 0 10px;padding-top:0;border-top:0}
-.xw-row{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:8px}
-.xw{display:grid;gap:6px;font-size:13px;color:var(--muted);min-width:0}
-.xw .field{margin-top:0;min-width:0;width:100%}
-.xw-note{margin:6px 2px 0;font-size:12px;color:var(--muted)}
+
+/* 日期時間膠囊：分成兩半，各自蓋著一個透明的原生 input，點下去打開手機的日期／時間選擇器 */
+.when-pill{display:inline-flex;align-items:stretch;border-radius:999px;border:1px solid rgba(255,180,92,.35);background:rgba(255,180,92,.08);color:var(--flare);font-weight:600;font-size:13px;overflow:hidden}
+.wp-seg{position:relative;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 13px;font-variant-numeric:tabular-nums;cursor:pointer;transition:background .15s}
+.wp-seg+.wp-seg{border-left:1px solid rgba(255,180,92,.3)}
+.wp-seg:active{background:rgba(255,180,92,.16)}
+.wp-seg:has(.wp-in:focus-visible){outline:2px solid var(--ion);outline-offset:-2px;border-radius:999px}
+.wp-seg svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wp-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;padding:0;border:0;cursor:pointer;font-size:16px;-webkit-appearance:none;appearance:none}
+.wp-in::-webkit-calendar-picker-indicator{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
