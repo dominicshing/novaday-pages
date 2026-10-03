@@ -74,6 +74,9 @@ const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDa
 const draftHas=d=>!!(d&&((d.title||'').trim()||(d.body||'').trim()||d.photo||(d.photos||[]).length||(d.video&&d.video.id)));
 function readDraft(){try{return JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){return null}}
 function clearDraft(){try{localStorage.removeItem(DKEY)}catch(e){}}
+/* 首頁一句話快記借用編輯器存檔：先把原本的草稿收起來，存完（或關掉編輯器）再放回去，兩者不會混在一起 */
+let qnStash=null;
+function qnRestore(){if(qnStash==null)return;try{localStorage.setItem(DKEY,qnStash)}catch(e){}qnStash=null;renderDraftBar()}
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
   if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
   const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos.map(phRef).filter(Boolean),video:curVideo,prompt:curPrompt};
@@ -116,7 +119,8 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
   $('form').querySelector('.sb').scrollTop=0;openSheet('editor');requestAnimationFrame(fitBody);
   if(restored)toast('已還原上次未完成的草稿');
   if(!e)setTimeout(()=>$('fBody').focus({preventScroll:true}),reduce?0:340)}
-async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
+async function tryCloseEditor(){if(qnStash!=null){closeSheet('editor');qnRestore();return}
+  writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
   const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？','目前的內容已存成草稿，下次打開會自動還原。',
     [{k:'keep',t:'繼續寫',cls:'primary'},{k:'later',t:'保留草稿，稍後再寫'},{k:'discard',t:editing?'放棄修改':'捨棄內容',cls:'danger'}]);
   if(k==='later'){closeSheet('editor');renderDraftBar();toast('草稿已保留，首頁可以繼續寫')}
@@ -161,7 +165,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
-  clearDraft();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
+  clearDraft();qnRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
   if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
   {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}

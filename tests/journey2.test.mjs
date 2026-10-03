@@ -46,5 +46,15 @@ export default async ({ ok, open }) => {
   await p.fill('#inName', '小熊'); await p.click('#meSave'); await p.waitForTimeout(500);
   await p.reload(); await p.waitForTimeout(1000);
   ok(await p.evaluate(() => prof.name === '小熊' && document.getElementById('pName').textContent === '小熊'), '修改暱稱並保存');
+  // 一句話快記 + 未完成的草稿：快記單獨存成一則，草稿原封不動
+  await p.evaluate(() => go('home')); await p.waitForTimeout(300);
+  await p.click('#newBtn'); await p.waitForTimeout(500);
+  await p.fill('#fTitle', '草稿標題'); await p.fill('#fBody', '草稿的長內文');
+  await p.click('#form .sh [data-close]'); await p.waitForTimeout(400); await p.click('#askBtns [data-k="later"]'); await p.waitForTimeout(500);
+  const n0 = await p.evaluate(() => entries.length);
+  await p.fill('#qnText', '今天好累'); await p.click('#qnGo'); await p.waitForTimeout(2500);
+  await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+  const q = await p.evaluate(() => { const e = entries.find(x => x.body === '今天好累'); const d = JSON.parse(localStorage.getItem('orbitlog.draft.v1') || 'null'); return { n: entries.length, title: e && e.title, dT: d && d.title, dB: d && d.body, bar: !document.getElementById('draftBar').hidden } });
+  ok(q.n === n0 + 1 && q.title === '' && q.dT === '草稿標題' && q.dB === '草稿的長內文' && q.bar, '快記不會帶上草稿內容，草稿保留 ' + JSON.stringify(q));
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
