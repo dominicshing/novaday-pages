@@ -29,7 +29,7 @@
 .mc-note{font-size:12px;color:var(--muted);text-align:right}
 .mc-link{background:none;border:0;padding:0 2px;min-height:32px;color:var(--ion);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .mc-note .mc-link{font-size:12px;min-height:0;text-decoration:underline;text-underline-offset:3px}
-.me-card .avs{gap:8px!important;margin-top:0}
+.me-card .avs{--g:8px;margin-top:0}
 .me-card .mf:first-of-type{margin-top:0}
 .me-card .mf+.mf{margin-top:14px}
 .me-card .bd-sign{margin-top:12px}

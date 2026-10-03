@@ -82,3 +82,10 @@
 }
 @keyframes calR {from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}
 }
+
+/* 窄螢幕（約 320px）的日期格只有 35px 寬：月相、星座標記縮小並貼齊左上角，不壓到兩位數的日期 */
+@media (max-width:374px){
+  .cell .ev{top:1px;left:1px}
+  .cell .ev .moon{width:10px;height:10px}
+  .cell .ev .zgi{width:9px;height:9px}
+}

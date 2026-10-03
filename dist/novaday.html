@@ -258,10 +258,10 @@ input.title{font-size:19px;font-weight:600}
 .li-v+.chev{margin-left:-4px}
 :where(.li:is(button,label)):active{background:rgba(232,233,255,.05)}
 /* 頭像：選擇頭像、上傳照片、裁切照片 */
-.avs{display:grid;grid-template-columns:repeat(6,1fr);margin-top:8px}
+/* 空間夠時一排 6 個；窄螢幕（例如 320px）每個至少 44px，自動減少欄數，不會被裁掉 */
+.avs{--g:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(44px,calc((100% - 5 * var(--g)) / 6)),1fr));gap:var(--g);margin-top:8px}
 .av{aspect-ratio:1;min-height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:24px;line-height:1;display:grid;place-items:center;padding:0}
 .av[aria-pressed="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion)}
-.avs{gap:10px!important}
 .av{transition:transform .15s}
 .av:active{transform:scale(.9)}
 .av[aria-checked="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion);transform:scale(1.06)}
@@ -1987,6 +1987,13 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 }
 @keyframes calR {from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}
 }
+
+/* 窄螢幕（約 320px）的日期格只有 35px 寬：月相、星座標記縮小並貼齊左上角，不壓到兩位數的日期 */
+@media (max-width:374px){
+  .cell .ev{top:1px;left:1px}
+  .cell .ev .moon{width:10px;height:10px}
+  .cell .ev .zgi{width:9px;height:9px}
+}
 /* 星座圖鑑、星座詳情、今晚觀星指引 */
 .at-card .cfx *,.sky-c .cfx *,.ed-star .cfx *,.app.calm .cfx *{animation:none!important}
 .at-card .cfx-sheen,.sky-c .cfx-sheen,.ed-star .cfx-sheen,.app.calm .cfx-sheen{display:none}
@@ -2164,7 +2171,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .mc-note{font-size:12px;color:var(--muted);text-align:right}
 .mc-link{background:none;border:0;padding:0 2px;min-height:32px;color:var(--ion);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .mc-note .mc-link{font-size:12px;min-height:0;text-decoration:underline;text-underline-offset:3px}
-.me-card .avs{gap:8px!important;margin-top:0}
+.me-card .avs{--g:8px;margin-top:0}
 .me-card .mf:first-of-type{margin-top:0}
 .me-card .mf+.mf{margin-top:14px}
 .me-card .bd-sign{margin-top:12px}

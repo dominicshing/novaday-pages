@@ -1,8 +1,8 @@
 /* 頭像：選擇頭像、上傳照片、裁切照片 */
-.avs{display:grid;grid-template-columns:repeat(6,1fr);margin-top:8px}
+/* 空間夠時一排 6 個；窄螢幕（例如 320px）每個至少 44px，自動減少欄數，不會被裁掉 */
+.avs{--g:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(max(44px,calc((100% - 5 * var(--g)) / 6)),1fr));gap:var(--g);margin-top:8px}
 .av{aspect-ratio:1;min-height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-size:24px;line-height:1;display:grid;place-items:center;padding:0}
 .av[aria-pressed="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion)}
-.avs{gap:10px!important}
 .av{transition:transform .15s}
 .av:active{transform:scale(.9)}
 .av[aria-checked="true"]{border-color:var(--ion);box-shadow:0 0 0 2px var(--ion),0 0 14px var(--ion);transform:scale(1.06)}
