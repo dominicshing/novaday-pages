@@ -3823,6 +3823,8 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
+/* 不是今年的日期前面加上年份（沒有月份標題可參考的地方用，例如紀錄詳情） */
+const fmtDayY=s=>(+s.slice(0,4)!==new Date().getFullYear()?s.slice(0,4)+' 年 ':'')+fmtDay(s);
 const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}};
 /* 文字欄位的 Enter：中文輸入法選字時按的 Enter 不算（否則選字時就送出、跳欄或收起鍵盤） */
 const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
@@ -4779,7 +4781,7 @@ function tonightCard(k){const lat=regLat();
   const peak=p.alt>=15&&T.best.h>21.2&&T.best.alt>p.alt+3?`・${hhmm(T.best.h)} 升到最高 ${Math.round(T.best.alt)}°`:'';
   return `<div class="cn-tonight${pos?'':' none'}" role="group" aria-label="今晚 9 點：${head}，${sub}">${skyDome(pos)}<span class="tn-t"><small>今晚 9 點・${esc(prof.region.name)}</small><b>${head}</b><span>${sub}${peak}</span></span>${SHOW_RED?`<button type="button" class="red-q" aria-pressed="${!!prof.red}" aria-label="紅光夜視模式" title="紅光夜視模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button>`:''}</div>`}
 function openCon(k,dir){const c=CON[k],st=consState(entries),done=st.done.includes(k),isCur=k===st.cur,es=conEntries(k),lit=done?c.s.length:isCur?st.lit:0,se=conSeason(k),zi=ZODIAC.findIndex(z=>z.k===k);
-  const status=done?`${es.length?fmtDay(es[es.length-1].date).split('・')[0]+' ':''}完成`:isCur?`正在點亮 ${st.lit} / ${c.s.length}`:'尚未點亮';
+  const status=done?`${es.length?fmtDayY(es[es.length-1].date).split('・')[0]+' ':''}完成`:isCur?`正在點亮 ${st.lit} / ${c.s.length}`:'尚未點亮';
   $('conTitle').textContent=c.n;
   conNav.list=conOrder();conNav.i=Math.max(0,conNav.list.indexOf(k));const N=conNav.list.length;
   $('conBody').innerHTML=`<div class="cn-hero" id="cnHero"><canvas class="cn-sky" aria-hidden="true"></canvas>
@@ -5788,7 +5790,7 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
     ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="放大檢視照片"><img class="detail-img" src="${P[0]}" alt="紀錄照片"></button>`;
       return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
     ${e.title?`<h3>${esc(e.title)}</h3>`:''}
-    <div class="dv-when"><span>${esc(fmtDay(e.date))}${e.time?` ${esc(fmtTime(e.time))}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
+    <div class="dv-when"><span>${esc(fmtDayY(e.date))}${e.time?` ${esc(fmtTime(e.time))}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
     <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
     ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
     <div class="body">${esc(e.body)}</div>
@@ -6122,7 +6124,8 @@ const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','regi
 function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
 const EX_HINT={full:'下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。',
   text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
-function exportText(){return sorted().map(e=>`【${fmtDay(e.date)} ${fmtTime(e.time)}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}\n\n${e.body}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
+/* 純文字匯出：日期加上年份（跨年的紀錄才分得清楚），沒有時間、沒有內文的紀錄不留多餘的空白或 undefined */
+function exportText(){return sorted().map(e=>`【${e.date.slice(0,4)} 年 ${fmtDay(e.date)}${e.time?' '+fmtTime(e.time):''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}${(e.body||'').trim()?'\n\n'+e.body:''}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
 function refreshEx(){const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   $('exOut').hidden=$('copyEx').hidden=full;if(!full)$('exOut').value=exportText();$('dlEx').classList.toggle('primary',full);
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;

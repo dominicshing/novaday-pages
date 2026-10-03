@@ -28,7 +28,7 @@ function tonightCard(k){const lat=regLat();
   const peak=p.alt>=15&&T.best.h>21.2&&T.best.alt>p.alt+3?`・${hhmm(T.best.h)} 升到最高 ${Math.round(T.best.alt)}°`:'';
   return `<div class="cn-tonight${pos?'':' none'}" role="group" aria-label="今晚 9 點：${head}，${sub}">${skyDome(pos)}<span class="tn-t"><small>今晚 9 點・${esc(prof.region.name)}</small><b>${head}</b><span>${sub}${peak}</span></span>${SHOW_RED?`<button type="button" class="red-q" aria-pressed="${!!prof.red}" aria-label="紅光夜視模式" title="紅光夜視模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button>`:''}</div>`}
 function openCon(k,dir){const c=CON[k],st=consState(entries),done=st.done.includes(k),isCur=k===st.cur,es=conEntries(k),lit=done?c.s.length:isCur?st.lit:0,se=conSeason(k),zi=ZODIAC.findIndex(z=>z.k===k);
-  const status=done?`${es.length?fmtDay(es[es.length-1].date).split('・')[0]+' ':''}完成`:isCur?`正在點亮 ${st.lit} / ${c.s.length}`:'尚未點亮';
+  const status=done?`${es.length?fmtDayY(es[es.length-1].date).split('・')[0]+' ':''}完成`:isCur?`正在點亮 ${st.lit} / ${c.s.length}`:'尚未點亮';
   $('conTitle').textContent=c.n;
   conNav.list=conOrder();conNav.i=Math.max(0,conNav.list.indexOf(k));const N=conNav.list.length;
   $('conBody').innerHTML=`<div class="cn-hero" id="cnHero"><canvas class="cn-sky" aria-hidden="true"></canvas>
