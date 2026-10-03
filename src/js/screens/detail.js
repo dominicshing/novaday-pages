@@ -24,8 +24,7 @@ async function grantReview(e){if(!oldEntries().some(x=>x.id===e.id))return;const
   for(const a of ACH.filter(a=>a.t(entries)&&!achB.includes(a.id)).slice(0,2)){await sleep(reduce?0:700);await showAch(a)}}
 let detailId=null,dvUrl=null;
 /* 這則紀錄點亮的是哪個星座的第幾顆星 */
-function entryStar(e){const A=ascEntries(),idx=A.findIndex(x=>x.id===e.id);if(idx<0)return null;consState(entries);
-  let off=0;for(const k of prof.conOrder||[]){const n=CON[k].s.length;if(idx<off+n)return{k,j:idx-off,n,es:A.slice(off,Math.min(A.length,off+n))};off+=n}return null}
+function entryStar(e){return entryStarMap().get(e.id)||null}
 function starMini(S,W,H){const c=CON[S.k],P=conProj(S.k,W,H,10),ord=conOrd(S.k),lit=new Set(ord.slice(0,S.es.length)),me=ord[S.j],col={};
   ord.slice(0,S.es.length).forEach((si,j)=>col[si]=`var(${MOODS[S.es[j].mood??2].c})`);let g=conFig(S.k,W,H,P,S.es.length/S.n);
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b];g+=`<line class="${lit.has(a)&&lit.has(b)?'es-on':'es-l'}" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});

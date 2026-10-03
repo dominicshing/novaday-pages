@@ -1,7 +1,19 @@
 /* 日記卡片與空狀態 */
+/* 每則紀錄點亮的星：一次算好全部（依點亮順序分配到星座），紀錄有變動才重算 */
+let ES_MAP=null,ES_SIG='';
+function entryStarMap(){const A=ascEntries(),sig=A.length+'|'+A.map(e=>e.id+e.date+(e.time||'')).join(',');if(sig===ES_SIG&&ES_MAP)return ES_MAP;
+  consState(entries);const M=new Map();let i=0;for(const k of prof.conOrder||[]){const n=CON[k].s.length,es=A.slice(i,i+n);es.forEach((e,j)=>M.set(e.id,{k,j,n,es}));i+=n;if(i>=A.length)break}
+  ES_SIG=sig;return ES_MAP=M}
+/* 卡片背景的星座虛影（D 版）：這則紀錄所屬星座的星塵剪影＋連線，這顆星用當天心情色發光；放右下角往外延伸、邊緣淡出。
+   剪影與連線每個星座只畫一次，存成圖片重複使用（列表很長時才不會卡）；只有「這顆星」另外疊上去 */
+const SKY_IMG=new Map(),SKY_W=230,SKY_H=178;
+function skyImg(k){if(!SKY_IMG.has(k)){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SKY_W} ${SKY_H}">${conSVG(k,SKY_W,SKY_H,18,CON[k].s.length,null,{sc:.8,lc:'#B9AEFF',figP:1})}</svg>`;
+  SKY_IMG.set(k,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg))}return SKY_IMG.get(k)}
+function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x,y]=conProj(S.k,SKY_W,SKY_H,18)[conOrd(S.k)[S.j]];
+  return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><path d="${spk(x,y,8)}" fill="${col}" style="filter:drop-shadow(0 0 6px ${col})"/><path d="${spk(x,y,3)}" fill="#fff"/></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
-  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})"><i class="e-spark" aria-hidden="true"></i>${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
+  return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}<i class="e-spark" aria-hidden="true"></i>${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
     ${e.title||e.fav||isSample(e)?`<h3>${e.fav?'<i class="fav-m" aria-label="已收藏">'+IC_BM+'</i>':''}${isSample(e)?SMP:''}${e.title?hl(e.title,T):''}</h3>`:''}${(e.body||'').trim()?`<p>${hl(snip(e.body,T),T)}</p>`:''}
     <div class="meta"><span class="chip" style="border-color:var(${m.c})">${moon(e.mood??2)} ${m.n}</span>${e.prompt?`<span class="mi" aria-label="回答了今日星語">${IC_SIG}</span>`:''}${e.loc?`<span class="mi">${IC_PIN}${hl(e.loc,T)}</span>`:''}${tagHit.map(t=>`<span class="mi hit-tag">${IC_TAG}${hl(t,T)}</span>`).join('')}${e.time?`<span class="tm">${IC_CLK}${esc(fmtTime(e.time))}</span>`:''}</div></button>`}
 const ES_ART='<svg class="es-art" viewBox="0 0 92 56" aria-hidden="true"><line x1="10" y1="40" x2="32" y2="18"/><line x1="32" y1="18" x2="56" y2="30"/><line x1="56" y1="30" x2="82" y2="12"/><circle cx="10" cy="40" r="2"/><circle cx="32" cy="18" r="2.4"/><circle cx="56" cy="30" r="2"/><circle class="hi" cx="82" cy="12" r="3.2"/></svg>';
