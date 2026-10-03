@@ -53,9 +53,6 @@
 .rk-rew .t{flex:1;min-width:0;font-size:13px;line-height:1.35}
 .rk-rew .t b{display:block;font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--text)}
 .rk-rew .t small{display:block;font-size:12px;color:var(--muted)}
-/* 未解鎖：一行「解鎖 星線顏色「名稱」」 */
-.rk-rew .t.one{font-size:14px;color:var(--muted)}
-.rk-rew .t.one b{display:inline;font-size:inherit;letter-spacing:0;color:var(--text)}
 .rk-rew .st:not(.using){font-size:13px;font-variant-numeric:tabular-nums}
 .rk-rew .st{flex:none;font-size:12px;font-weight:600;color:var(--muted)}
 .rk-rew .st.using{color:var(--ion)}
