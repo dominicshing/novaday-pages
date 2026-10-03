@@ -24,7 +24,9 @@ const crop={img:null,w:0,h:0,z:1,tx:0,ty:0,pts:new Map(),pinch:null};
 function handleAvFile(f){if(!f)return;
   if(!/^image\//.test(f.type)&&!/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name)){toast('請選擇圖片檔');return}
   if(f.size>25*1024*1024){toast('圖片太大了，請選 25 MB 以內的照片',2800);return}
-  const url=URL.createObjectURL(f),img=new Image();
+  /* 上一次選的照片（例如裁切時按了取消）先釋放，避免大圖一直佔著記憶體 */
+  if(crop.url){URL.revokeObjectURL(crop.url);crop.url=null}
+  const url=URL.createObjectURL(f),img=new Image();crop.url=url;
   img.onload=()=>{crop.img=img;crop.w=img.naturalWidth;crop.h=img.naturalHeight;crop.z=1;crop.tx=crop.ty=0;
     const ci=$('cropImg');ci.src=url;$('cropZoom').value=1;openSheet('cropSheet');requestAnimationFrame(()=>{cropApply();$('cropOk').focus({preventScroll:true})})};
   img.onerror=()=>{URL.revokeObjectURL(url);toast('無法讀取這張圖片，請改用 JPG 或 PNG',3000)};img.src=url}

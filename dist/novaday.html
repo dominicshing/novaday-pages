@@ -5672,6 +5672,15 @@ document.querySelectorAll('#s-log .seg [data-v]').forEach(b=>b.onclick=()=>setLo
 $('logMode').querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{const v=x.dataset.d==='1';if(!!prof.logCompact===v)return;prof.logCompact=v;saveProf();renderLog()});
 /* 重新繪製所有畫面 */
 function render(){XPM=xpMap(entries);renderAchDot();renderQuick();renderMemory();renderReportCard();if(typeof renderSampleRow==='function')renderSampleRow();if(cur==='atlas')renderAtlas();renderHUD();renderAppBar();renderGalaxy();renderFortuneCard();renderMissions();renderLog();renderCal();renderMe();renderDraftBar()}
+/* 跨日：App 放在背景過夜、隔天回到前景（或一直開著過了午夜）時，「今天」相關的內容
+   （日期、今日卡片、任務、連續天數、月曆的今天）重新整理；正在看的月曆如果是上個月，跟著換到這個月 */
+let renderedDay=ymd(new Date());
+function dayCheck(){const d=ymd(new Date());if(d===renderedDay)return;const prev=parse(renderedDay);renderedDay=d;
+  if(typeof calMonth!=='undefined'&&calMonth.getFullYear()===prev.getFullYear()&&calMonth.getMonth()===prev.getMonth()){const n=new Date();calMonth=new Date(n.getFullYear(),n.getMonth(),1)}
+  if(typeof selDate!=='undefined'&&selDate===ymd(prev))selDate=d;
+  render()}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)dayCheck()});
+setInterval(dayCheck,60000);
 /* 底部面板：開關、堆疊、拖曳關閉、確認對話框 */
 /* 面板堆疊：後開的面板一定疊在最上面（例如從運勢頁打開星座詳情），關閉後回到原本的面板 */
 function sheetTop(id){const l=$(id);let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
@@ -6165,7 +6174,9 @@ const crop={img:null,w:0,h:0,z:1,tx:0,ty:0,pts:new Map(),pinch:null};
 function handleAvFile(f){if(!f)return;
   if(!/^image\//.test(f.type)&&!/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name)){toast('請選擇圖片檔');return}
   if(f.size>25*1024*1024){toast('圖片太大了，請選 25 MB 以內的照片',2800);return}
-  const url=URL.createObjectURL(f),img=new Image();
+  /* 上一次選的照片（例如裁切時按了取消）先釋放，避免大圖一直佔著記憶體 */
+  if(crop.url){URL.revokeObjectURL(crop.url);crop.url=null}
+  const url=URL.createObjectURL(f),img=new Image();crop.url=url;
   img.onload=()=>{crop.img=img;crop.w=img.naturalWidth;crop.h=img.naturalHeight;crop.z=1;crop.tx=crop.ty=0;
     const ci=$('cropImg');ci.src=url;$('cropZoom').value=1;openSheet('cropSheet');requestAnimationFrame(()=>{cropApply();$('cropOk').focus({preventScroll:true})})};
   img.onerror=()=>{URL.revokeObjectURL(url);toast('無法讀取這張圖片，請改用 JPG 或 PNG',3000)};img.src=url}
