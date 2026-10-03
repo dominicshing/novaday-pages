@@ -26,6 +26,18 @@ export default async ({ ok, open }) => {
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 
+  // Android 返回鍵：關閉最上層的面板，不會離開 App；面板都關了才離開
+  const pb = await open(); const url0 = pb.url();
+  await pb.evaluate(() => { openDetail(entries[0].id); openSheet('settingsSheet') }); await pb.waitForTimeout(400);
+  await pb.goBack(); await pb.waitForTimeout(600);
+  ok(await pb.evaluate(() => [...document.querySelectorAll('.layer.open')].map(l => l.id).join()) === 'detail' && pb.url() === url0, '返回鍵先關掉最上層的設定，留在 App 裡');
+  await pb.goBack(); await pb.waitForTimeout(600);
+  ok(await pb.evaluate(() => !document.querySelector('.layer.open')) && pb.url() === url0, '再按一次關掉日記詳情');
+  await pb.evaluate(() => { openEditor(); const b = document.getElementById('fBody'); b.value = '有內容'; b.dispatchEvent(new Event('input', { bubbles: true })) }); await pb.waitForTimeout(400);
+  await pb.goBack(); await pb.waitForTimeout(600);
+  ok(await pb.evaluate(() => document.getElementById('ask').classList.contains('open') && document.getElementById('editor').classList.contains('open')), '編輯器有內容時按返回會先詢問');
+  await pb.context().close();
+
   // 引導頁：後面的 App 不能被 Tab 移到；收起的復原列按鈕也不在 Tab 順序裡
   const po = await open({ seed: { 'orbitlog.profile.v1': {} } }); await po.waitForTimeout(600);
   const outs = []; for (let i = 0; i < 8; i++) { await po.keyboard.press('Tab'); outs.push(await po.evaluate(() => { const a = document.activeElement; return a === document.body || document.getElementById('onb').contains(a) ? '' : a.id || a.className })) }

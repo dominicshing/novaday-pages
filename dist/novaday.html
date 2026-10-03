@@ -5724,9 +5724,10 @@ function openSheet(id){const l=$(id);l._last=document.activeElement;l._lastKey=l
   l.style.zIndex=lock?Math.min(79,Math.max(71,top+1)):onb?Math.min(69,Math.max(61,top+1)):ov?Math.min(59,Math.max(ov+1,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
   l.classList.add('open');l.setAttribute('aria-hidden','false');
   /* 鍵盤與螢幕報讀：焦點移進面板（呼叫的地方自己指定焦點時就不動），面板內容畫好後再移 */
+  setTimeout(navSync,0);
   requestAnimationFrame(()=>{if(!l.classList.contains('open')||l.contains(document.activeElement))return;
     const d=l.querySelector('[role=dialog],[role=alertdialog]')||l;if(!d.hasAttribute('tabindex'))d.setAttribute('tabindex','-1');d.focus({preventScroll:true})})}
-function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');/* 焦點回到打開面板的按鈕；如果那個按鈕已經重畫（例如日記列表更新），找畫面上同一個按鈕 */
+function closeSheet(id){const l=$(id);l.classList.remove('open');setTimeout(navSync,0);l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');/* 焦點回到打開面板的按鈕；如果那個按鈕已經重畫（例如日記列表更新），找畫面上同一個按鈕 */
   let b=l._last;if(b&&!b.isConnected&&l._lastKey)b=document.querySelector(l._lastKey);if(b&&b.focus)b.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}
 document.querySelectorAll('.layer').forEach(l=>l.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>requestClose(l.id)));
@@ -5771,6 +5772,22 @@ function ask(t,m,btns){return new Promise(res=>{askRes=res;$('askT').textContent
   $('askBtns').innerHTML=btns.map(b=>`<button type="button" class="btn ${b.cls||''}" data-k="${b.k}">${b.t}</button>`).join('');
   $('askBtns').querySelectorAll('button').forEach(x=>x.onclick=()=>answer(x.dataset.k));openSheet('ask');setTimeout(()=>$('askBtns').querySelector('button').focus(),60)})}
 function answer(k){closeSheet('ask');const r=askRes;askRes=null;if(r)r(k)}
+/* Android 返回鍵／返回手勢：有面板或慶祝畫面開著時，返回只關閉最上層那一個，不會直接離開 App。
+   做法：有東西開著時在瀏覽紀錄放一筆「守門」；按返回時關掉最上層（編輯器會照常詢問草稿），還有東西開著就再放一筆；
+   全部用按鈕關掉時，自己把那筆守門退掉（這次的 popstate 忽略） */
+let navGuard=false,navIgnore=0;
+function navSync(){const any=!!topLayer();
+  if(any&&!navGuard){try{history.pushState({nvSheet:1},'');navGuard=true}catch(e){}}
+  else if(!any&&navGuard){navGuard=false;navIgnore++;try{history.back()}catch(e){navIgnore--}}}
+addEventListener('popstate',()=>{if(navIgnore){navIgnore--;return}
+  navGuard=false;
+  /* 密碼鎖開著時，返回不去動鎖後面的面板 */
+  if($('lock')&&!$('lock').hidden){navSync();return}
+  const o=topLayer();if(!o)return;
+  if(o.classList.contains('overlay')){const b=o.querySelector('.btn.primary');if(b)b.click()}else requestClose(o.id);
+  setTimeout(navSync,450)});
+/* 慶祝畫面不是透過 openSheet 打開，另外監看它們的顯示狀態 */
+document.querySelectorAll('.overlay').forEach(o=>new MutationObserver(()=>setTimeout(navSync,0)).observe(o,{attributes:true,attributeFilter:['class']}));
 /* 紀錄詳情：內容、回顧 XP、左右切換 */
 function detailNeighbors(){const A=ascEntries(),i=A.findIndex(x=>x.id===detailId);return{prev:A[i-1],next:A[i+1]}}
 async function detailGo(dir){const {prev,next}=detailNeighbors(),t=dir>0?next:prev;const dv=$('dBody').querySelector('.dv');
