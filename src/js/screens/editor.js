@@ -68,7 +68,7 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
   $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
 /* 日期時間膠囊：左半「昨天・10/2（五）」、右半「21:30」，點哪半就打開手機的日期或時間選擇器 */
 function updWhen(){const td=ymd(new Date()),d=$('fDate').value||td,t=$('fTime').value,x=parse(d),n=Math.round((parse(td)-x)/864e5),r=n===0?'今天':n===1?'昨天':n===2?'前天':'';
-  $('whenDT').textContent=`${r?r+'・':''}${x.getMonth()+1}/${x.getDate()}（${WD[x.getDay()]}）`;$('whenTT').textContent=t||'--:--'}
+  $('whenDT').textContent=`${r?r+'・':''}${x.getMonth()+1}/${x.getDate()}（${WD[x.getDay()]}）`;$('whenTT').textContent=t?fmtTime(t):'--:--'}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
 const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);

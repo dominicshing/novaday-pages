@@ -25,6 +25,12 @@ export default async ({ ok, open, run }) => {
   ok(await p.evaluate(n => entries.length === n + 1 && entries.some(e => e.title === '測試紀錄'), n0), '新增紀錄並存檔');
   ok(await p.evaluate(() => JSON.parse(localStorage.getItem('orbitlog.entries.v1')).some(e => e.title === '測試紀錄')), '紀錄寫進 localStorage');
 
+  // 時間格式：預設 12 小時制，可改成 24 小時制
+  ok(await p.evaluate(() => !prof.clock24 && fmtTime('21:30') === '下午 9:30' && fmtTime('00:05') === '上午 12:05'), '預設 12 小時制');
+  await run(p, "document.getElementById('clk24').click()"); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => prof.clock24 === true && fmtTime('21:30') === '21:30' && [...document.querySelectorAll('#logList .tm')].every(t => !/上午|下午/.test(t.textContent))), '可切換成 24 小時制');
+  await run(p, "document.getElementById('clk12').click()"); await p.waitForTimeout(200);
+
   // 不能寫未來的日記：選明天的日期按點亮 → 不會存，日期改回今天
   const n1 = await p.evaluate(() => entries.length);
   await run(p, "openEditor();const d=new Date();d.setDate(d.getDate()+1);document.getElementById('fDate').value=ymd(d)"); await p.waitForTimeout(300);

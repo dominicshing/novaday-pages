@@ -1,5 +1,7 @@
 /* 共用小工具：$、日期格式、跳脫 HTML、字數、延遲、震動回饋、系統的減少動態設定 */
 const WD=['日','一','二','三','四','五','六'];
+/* 時間顯示：預設 12 小時制（上午 9:05／下午 9:30），設定可改成 24 小時制（prof.clock24）。資料一律存 24 小時制 HH:MM */
+const fmtTime=t=>{if(!t)return '';if(typeof prof!=='undefined'&&prof.clock24)return t;const[h,m]=t.split(':').map(Number);return isNaN(h)?t:`${h<12?'上午':'下午'} ${h%12||12}:${String(m).padStart(2,'0')}`};
 const sysReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');

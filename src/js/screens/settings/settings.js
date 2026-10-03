@@ -8,6 +8,9 @@ const SHOW_RED=false;
 function applyRed(){const on=SHOW_RED&&!!prof.red;$('liRed').hidden=!SHOW_RED;$('device').classList.toggle('red',on);$('swRed').setAttribute('aria-checked',on);document.querySelectorAll('.red-q').forEach(b=>b.setAttribute('aria-pressed',!!prof.red))}
 function toggleRed(){prof.red=!prof.red;saveProf();applyRed();toast(prof.red?'已開啟紅光夜視模式':'已關閉紅光夜視模式')}
 $('swRed').onclick=toggleRed;
+/* 時間格式：12 小時制（預設）或 24 小時制 */
+function renderClock(){const c24=!!prof.clock24;$('clk12').setAttribute('aria-checked',!c24);$('clk24').setAttribute('aria-checked',c24);$('clockEx').textContent=c24?'21:30':'下午 9:30'}
+['clk12','clk24'].forEach(id=>$(id).onclick=()=>{const v=id==='clk24';if(!!prof.clock24===v)return;if(v)prof.clock24=true;else delete prof.clock24;saveProf();renderClock();render();toast(v?'已改成 24 小時制':'已改成 12 小時制')});
 $('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()};
 $('liAbout').onclick=()=>openSheet('aboutSheet');
 $('swFig').onclick=()=>{prof.noFig=!prof.noFig;saveProf();renderMe();render();toast(prof.noFig?'已隱藏星座剪影':'已顯示星座剪影')};
