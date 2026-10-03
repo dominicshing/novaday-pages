@@ -54,6 +54,7 @@
     "src/js/core/config.js",
     "src/js/core/utils.js",
     "src/js/data/moods-ranks.js",
+    "src/js/data/sample-media.js",
     "src/js/ui/art/rank-badge.js",
     "src/js/data/prompts.js",
     "src/js/data/constellations.js",

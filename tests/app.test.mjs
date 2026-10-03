@@ -4,6 +4,8 @@ export default async ({ ok, open, run }) => {
   let p = await open({ seed: {} });
   ok(await p.evaluate(() => !document.getElementById('onb').hidden), '第一次使用顯示引導頁');
   ok(await p.evaluate(() => entries.length > 0 && entries.every(isSample)), '放入範例紀錄');
+  ok(await p.evaluate(() => entries.filter(e => entryPhotos(e).length).length >= 3 && entries.filter(e => e.photoMore).length >= 2), '範例紀錄有照片，也有多張照片的紀錄');
+  ok(await p.evaluate(async () => { const v = entries.filter(hasVideo); await new Promise(r => setTimeout(r, 500)); const keys = await mediaKeys(); return v.length >= 2 && v.every(e => keys.includes(e.video.id) && e.video.poster) }), '範例影片存進 IndexedDB 並有封面');
   ok(!p.errors.length, '載入沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 
