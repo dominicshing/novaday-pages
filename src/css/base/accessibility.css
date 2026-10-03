@@ -8,3 +8,5 @@
 @media (max-width:360px){
   .ht-greet{font-size:18px!important}
 }
+/* 面板打開時焦點會移到面板本身（方便鍵盤與螢幕報讀），面板外框不需要焦點框 */
+:is([role=dialog],[role=alertdialog])[tabindex="-1"]:focus{outline:none}

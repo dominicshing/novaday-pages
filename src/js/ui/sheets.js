@@ -2,12 +2,16 @@
 /* 面板堆疊：後開的面板一定疊在最上面（例如從運勢頁打開星座詳情），關閉後回到原本的面板 */
 function sheetTop(id){const l=$(id);let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
   l.style.zIndex=Math.min(33,Math.max(id==='ask'?26:20,top+1))}
-function openSheet(id){const l=$(id);l._last=document.activeElement;
+function openSheet(id){const l=$(id);l._last=document.activeElement;l._lastKey=l._last&&(l._last.id?'#'+CSS.escape(l._last.id):l._last.dataset&&l._last.dataset.id?`${l._last.tagName}[data-id="${CSS.escape(l._last.dataset.id)}"]`:null);
   let top=19;document.querySelectorAll('.layer.open').forEach(o=>{if(o!==l)top=Math.max(top,+getComputedStyle(o).zIndex||20)});
   /* 引導頁（z 60）開著時，面板要疊在它上面、密碼鎖（z 70）下面 */
   const onb=$('onb')&&!$('onb').hidden;l.style.zIndex=onb?Math.min(69,Math.max(61,top+1)):Math.min(33,Math.max(id==='ask'?26:20,top+1));
-  l.classList.add('open');l.setAttribute('aria-hidden','false')}
-function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');if(l._last&&l._last.focus)l._last.focus({preventScroll:true})}
+  l.classList.add('open');l.setAttribute('aria-hidden','false');
+  /* 鍵盤與螢幕報讀：焦點移進面板（呼叫的地方自己指定焦點時就不動），面板內容畫好後再移 */
+  requestAnimationFrame(()=>{if(!l.classList.contains('open')||l.contains(document.activeElement))return;
+    const d=l.querySelector('[role=dialog],[role=alertdialog]')||l;if(!d.hasAttribute('tabindex'))d.setAttribute('tabindex','-1');d.focus({preventScroll:true})})}
+function closeSheet(id){const l=$(id);l.classList.remove('open');l.querySelectorAll('video').forEach(v=>v.pause());l.setAttribute('aria-hidden','true');/* 焦點回到打開面板的按鈕；如果那個按鈕已經重畫（例如日記列表更新），找畫面上同一個按鈕 */
+  let b=l._last;if(b&&!b.isConnected&&l._lastKey)b=document.querySelector(l._lastKey);if(b&&b.focus)b.focus({preventScroll:true})}
 function requestClose(id){if(id==='meSheet')tryCloseMe();else if(id==='editor')tryCloseEditor();else if(id==='ask')answer('cancel');else closeSheet(id)}
 document.querySelectorAll('.layer').forEach(l=>l.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>requestClose(l.id)));
 /* 拖曳把手或標題列往下拉即可關閉面板 */
@@ -34,7 +38,14 @@ document.querySelectorAll('.layer .sheet').forEach(sh=>{
   sh.addEventListener('click',ev=>{if(Date.now()-(sh._dragEnd||0)<350){ev.stopPropagation();ev.preventDefault()}},true);
   sh.addEventListener('pointerup',end);sh.addEventListener('pointercancel',end);
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){const L=[...document.querySelectorAll('.layer.open')];const o=L.reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);if(o)requestClose(o.id)}});
+const topLayer=()=>[...document.querySelectorAll('.layer.open')].reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);
+const FOCUSABLE='button:not(:disabled),a[href],input:not(:disabled):not([type=hidden]),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])';
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
+  /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
+  else if(e.key==='Tab'){const o=topLayer();if(!o)return;
+    const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;
+    const a=document.activeElement,i=f.indexOf(a);
+    if(!o.contains(a)||(e.shiftKey&&i===0)||(!e.shiftKey&&i===f.length-1)){e.preventDefault();f[e.shiftKey?f.length-1:0].focus()}}});
 let askRes=null;
 function ask(t,m,btns){return new Promise(res=>{askRes=res;$('askT').textContent=t;$('askM').textContent=m;
   $('askBtns').innerHTML=btns.map(b=>`<button type="button" class="btn ${b.cls||''}" data-k="${b.k}">${b.t}</button>`).join('');
