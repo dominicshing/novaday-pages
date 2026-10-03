@@ -3,11 +3,9 @@
 .galaxy svg{width:100%;max-width:420px;margin:0 auto;display:block;overflow:visible;touch-action:manipulation}
 .ring{fill:none;stroke:rgba(138,124,255,.3);stroke-width:1}
 .halo{transform-origin:190px 150px;animation:pulse 3.2s ease-in-out infinite}
-.planet .hit{fill:transparent}
 .gcap{text-align:center;color:var(--muted);font-size:13px;margin-top:2px}
-.app.calm .orb,.app.calm .halo,.app.calm .screen.active,.app.calm .lvcard{animation:none}
+.app.calm .halo,.app.calm .screen.active,.app.calm .lvcard{animation:none}
 .orbit{fill:none;stroke-width:1.2}
-.planet{cursor:pointer;outline:none}
 .ship{animation:bob 4.5s ease-in-out infinite}
 .rl{opacity:.28}
 .rl.on{opacity:1;animation:chase 1.8s ease-in-out infinite}
