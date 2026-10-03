@@ -45,7 +45,8 @@
   --m0:#7E72C8;--m1:#5F8FEA;--m2:#5FD8CC;--m3:#FFE7A3;--m4:#FFC744;
   --glow:0 0 0 1px rgba(255,255,255,.03) inset,0 10px 30px -18px rgba(138,124,255,.55);}
 /* 基本重設：盒模型、字型、按鈕預設樣式、[hidden] */
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+/* text-size-adjust：手機橫拿時 iOS Safari 不會自動放大文字把版面撐亂（使用者仍可以雙指縮放） */
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 [hidden]{display:none!important}
 *,*::before,*::after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
 body{margin:0;height:100%;color:var(--text);background:var(--bg);overflow:hidden;
