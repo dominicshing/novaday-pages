@@ -54,9 +54,8 @@ export default async ({ ok, open }) => {
   await p.fill('#fBody', '連點兩下'); await p.evaluate(() => { const f = document.getElementById('form'); f.requestSubmit(); f.requestSubmit() }); await p.waitForTimeout(1500);
   await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
   ok(await p.evaluate(() => entries.filter(e => e.body === '連點兩下').length === 1), '連點兩下點亮只存一則');
-  await p.evaluate(() => go('home')); await p.waitForTimeout(300);
-  const qn = await p.evaluate(() => !document.getElementById('quickNote').hidden);
-  if (qn) { await p.fill('#qnText', '快記連點'); await p.evaluate(() => { const f = document.getElementById('quickNote'); f.requestSubmit(); f.requestSubmit() }); await p.waitForTimeout(2000);
+  await p.evaluate(() => { const td = ymd(new Date()); entries = entries.filter(e => e.date !== td); save(); render(); go('home') }); await p.waitForTimeout(300);
+  { await p.fill('#qnText', '快記連點'); await p.evaluate(() => { const f = document.getElementById('quickNote'); f.requestSubmit(); f.requestSubmit() }); await p.waitForTimeout(2000);
     await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
     ok(await p.evaluate(() => entries.filter(e => e.body === '快記連點').length === 1), '快記連點兩下只存一則') }
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
