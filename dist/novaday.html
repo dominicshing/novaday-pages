@@ -636,9 +636,13 @@ html{overflow:hidden}
 .rk-rew .st.using{color:var(--ion)}
 .rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}
 .is-lock .rk-rew{opacity:.6}
-/* 階級小圓點：一次只顯示目前附近的 7 個（rkUpdate 設定 hidden），兩端的縮小表示還有更多；目前看的那一點拉長 */
-.rk-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:2px;max-width:100%}
+/* 階級小圓點：窗口只露出 7 格（7×24px＋6×6px），整排在裡面平移（rkUpdate 設定 translateX，每格 30px）；
+   兩端的點縮小表示還有更多；目前看的那一點拉長，但格子寬度不變 */
+.rk-dots{width:204px;max-width:100%;margin-top:2px;overflow:hidden}
+.rk-dots-in{display:flex;align-items:center;gap:6px;width:max-content;transition:transform .35s cubic-bezier(.3,.8,.3,1)}
 .rk-dot{flex:none;width:24px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center}
+.app.calm .rk-dots-in{transition:none}
+@media (prefers-reduced-motion:reduce){.rk-dots-in{transition:none}}
 .rk-dot i{display:block;width:7px;height:7px;border-radius:4px;background:rgba(232,233,255,.22);transition:width .3s,background .3s,transform .3s}
 .rk-dot[data-edge="1"] i{transform:scale(.72)}
 .rk-dot[data-edge="2"] i{transform:scale(.45)}
@@ -5314,7 +5318,7 @@ function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,
   $('pRew').innerHTML=rkRew(ri,'cur',using);ps.style.setProperty('--rc',RINFO[ri].c);
   $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri+1}+`:`Lv.${ri+1}`;
   t.scrollLeft=sl;
-  $('rkDots').innerHTML=RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('');
+  $('rkDots').innerHTML='<div class="rk-dots-in">'+RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('')+'</div>';
   $('rkDots').querySelectorAll('.rk-dot').forEach(d=>d.onclick=()=>rkGo(+d.dataset.i,true));
   RK.idx=-1;rkUpdate()}
 const rkCards=()=>[...$('rkTrack').querySelectorAll('.rk-card')];
@@ -5323,10 +5327,12 @@ function rkGo(i,smooth){const t=$('rkTrack'),cs=rkCards();i=Math.max(0,Math.min(
   t.scrollTo({left:el.offsetLeft-(t.clientWidth-el.offsetWidth)/2,behavior:smooth&&!reduce?'smooth':'auto'});if(!smooth){RK.idx=-1;rkUpdate()}}
 function rkUpdate(){const i=rkNearest();if(i===RK.idx)return;RK.idx=i;
   rkCards().forEach((el,k)=>el.classList.toggle('on',k===i));
-  /* 小圓點只顯示目前附近的 7 個，兩端的縮小，表示還有更多 */
-  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3));
-  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);const vis=k>=st&&k<st+W;d.hidden=!vis;
-    const edge=vis&&((k===st&&st>0)||(k===st+W-1&&st+W<n))?2:vis&&((k===st+1&&st>0)||(k===st+W-2&&st+W<n))?1:0;d.dataset.edge=edge});
+  /* 小圓點：整排放在只露出 7 格的窗口裡，滑動時整排平移，目前那一點保持在中間（到兩端時靠邊）；
+     每格寬度固定，選中只改變點的長度，不影響位置，所以不會左右跳。兩端的點縮小，表示還有更多 */
+  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3)),step=30;
+  $('rkDots').firstElementChild.style.transform=`translateX(${-st*step}px)`;
+  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);
+    const edge=(k<=st&&st>0)||(k>=st+W-1&&st+W<n)?2:(k===st+1&&st>0)||(k===st+W-2&&st+W<n)?1:0;d.dataset.edge=edge;d.tabIndex=k>=st&&k<st+W?0:-1});
   $('rkPrev').disabled=i===0;$('rkNext').disabled=i===RANKS.length-1;$('rkBack').hidden=i===RK.cur;$('rkHint').hidden=i!==RK.cur}
 function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,false)}
 (()=>{const t=$('rkTrack');let seen=false;

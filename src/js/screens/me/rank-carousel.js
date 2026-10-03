@@ -25,7 +25,7 @@ function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,
   $('pRew').innerHTML=rkRew(ri,'cur',using);ps.style.setProperty('--rc',RINFO[ri].c);
   $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri+1}+`:`Lv.${ri+1}`;
   t.scrollLeft=sl;
-  $('rkDots').innerHTML=RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('');
+  $('rkDots').innerHTML='<div class="rk-dots-in">'+RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('')+'</div>';
   $('rkDots').querySelectorAll('.rk-dot').forEach(d=>d.onclick=()=>rkGo(+d.dataset.i,true));
   RK.idx=-1;rkUpdate()}
 const rkCards=()=>[...$('rkTrack').querySelectorAll('.rk-card')];
@@ -34,10 +34,12 @@ function rkGo(i,smooth){const t=$('rkTrack'),cs=rkCards();i=Math.max(0,Math.min(
   t.scrollTo({left:el.offsetLeft-(t.clientWidth-el.offsetWidth)/2,behavior:smooth&&!reduce?'smooth':'auto'});if(!smooth){RK.idx=-1;rkUpdate()}}
 function rkUpdate(){const i=rkNearest();if(i===RK.idx)return;RK.idx=i;
   rkCards().forEach((el,k)=>el.classList.toggle('on',k===i));
-  /* 小圓點只顯示目前附近的 7 個，兩端的縮小，表示還有更多 */
-  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3));
-  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);const vis=k>=st&&k<st+W;d.hidden=!vis;
-    const edge=vis&&((k===st&&st>0)||(k===st+W-1&&st+W<n))?2:vis&&((k===st+1&&st>0)||(k===st+W-2&&st+W<n))?1:0;d.dataset.edge=edge});
+  /* 小圓點：整排放在只露出 7 格的窗口裡，滑動時整排平移，目前那一點保持在中間（到兩端時靠邊）；
+     每格寬度固定，選中只改變點的長度，不影響位置，所以不會左右跳。兩端的點縮小，表示還有更多 */
+  const W=7,n=RANKS.length,st=Math.max(0,Math.min(n-W,i-3)),step=30;
+  $('rkDots').firstElementChild.style.transform=`translateX(${-st*step}px)`;
+  $('rkDots').querySelectorAll('.rk-dot').forEach((d,k)=>{d.setAttribute('aria-selected',k===i);
+    const edge=(k<=st&&st>0)||(k>=st+W-1&&st+W<n)?2:(k===st+1&&st>0)||(k===st+W-2&&st+W<n)?1:0;d.dataset.edge=edge;d.tabIndex=k>=st&&k<st+W?0:-1});
   $('rkPrev').disabled=i===0;$('rkNext').disabled=i===RANKS.length-1;$('rkBack').hidden=i===RK.cur;$('rkHint').hidden=i!==RK.cur}
 function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,false)}
 (()=>{const t=$('rkTrack');let seen=false;
