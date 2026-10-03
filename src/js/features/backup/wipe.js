@@ -8,5 +8,7 @@ $('wpExport').onclick=()=>{closeSheet('wipeSheet');refreshEx();openSheet('export
 $('wpGo').onclick=async()=>{if($('wpIn').value.trim()!=='刪除')return;entries=[];save();
   clearDraft();edStash=null;try{['orbitlog.draft.stash.v1',BROKEN].forEach(k=>localStorage.removeItem(k))}catch(e){}
   reviews.ids={};reviews.last=null;saveReviews();
+  /* 最近搜尋可能含有日記裡的字，一併清掉 */
+  prof.recentQ=[];saveProf();
   try{await mdbDo('readwrite',st=>st.clear())}catch(e){}phURL.forEach(u=>URL.revokeObjectURL(u));phURL.clear();phKey.clear();
   ['wipeSheet','exporter','settingsSheet'].forEach(id=>$(id).classList.contains('open')&&closeSheet(id));render();toast('已清除所有紀錄')};

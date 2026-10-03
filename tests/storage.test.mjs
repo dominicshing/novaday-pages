@@ -33,10 +33,10 @@ export default async ({ ok, open }) => {
   // 清除所有紀錄：紀錄、草稿、回顧紀錄、照片與影片都立刻刪掉
   p = await open();
   await p.waitForTimeout(800);
-  await p.evaluate(() => { localStorage.setItem('orbitlog.draft.v1', JSON.stringify({ editing: null, body: '草稿', mood: 2 })); reviews.ids = { s1: '2026-01-01' }; saveReviews(); openWipe() });
+  await p.evaluate(() => { localStorage.setItem('orbitlog.draft.v1', JSON.stringify({ editing: null, body: '草稿', mood: 2 })); reviews.ids = { s1: '2026-01-01' }; saveReviews(); prof.recentQ = ['私密的字']; saveProf(); openWipe() });
   const k0 = await p.evaluate(async () => (await mediaKeys()).length);
   await p.fill('#wpIn', '刪除'); await p.click('#wpGo'); await p.waitForTimeout(800);
-  const w = await p.evaluate(async () => ({ n: entries.length, media: (await mediaKeys()).length, draft: localStorage.getItem('orbitlog.draft.v1'), rv: Object.keys(reviews.ids).length, bar: document.getElementById('draftBar').hidden }));
+  const w = await p.evaluate(async () => ({ n: entries.length, media: (await mediaKeys()).length, draft: localStorage.getItem('orbitlog.draft.v1'), rv: Object.keys(reviews.ids).length + (prof.recentQ || []).length, bar: document.getElementById('draftBar').hidden }));
   ok(k0 > 0 && w.n === 0 && w.media === 0 && w.draft === null && w.rv === 0 && w.bar, '清除所有紀錄時一併刪除照片影片、草稿與回顧紀錄 ' + JSON.stringify({ before: k0, ...w }));
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
