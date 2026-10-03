@@ -5752,10 +5752,13 @@ document.querySelectorAll('.layer .sheet').forEach(sh=>{
   sh.addEventListener('click',ev=>{if(Date.now()-(sh._dragEnd||0)<350){ev.stopPropagation();ev.preventDefault()}},true);
   sh.addEventListener('pointerup',end);sh.addEventListener('pointercancel',end);
 });
-const topLayer=()=>[...document.querySelectorAll('.layer.open')].reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);
+/* 最上層：開著的面板，或慶祝畫面（星座完成、升級）——鍵盤的 Esc 與 Tab 都以它為準 */
+const topLayer=()=>[...document.querySelectorAll('.layer.open,.overlay.show')].reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);
 const FOCUSABLE='button:not(:disabled),a[href],input:not(:disabled):not([type=hidden]),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])';
 document.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229)return;
-  if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
+  if(e.key==='Escape'){const o=topLayer();if(!o)return;
+    /* 慶祝畫面按 Esc：等同按主要按鈕（收進圖鑑／繼續觀星） */
+    if(o.classList.contains('overlay')){const b=o.querySelector('.btn.primary');if(b)b.click()}else requestClose(o.id)}
   /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
   else if(e.key==='Tab'){const o=topLayer();if(!o)return;
     const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;

@@ -17,6 +17,12 @@ export default async ({ ok, open }) => {
   ok(await p.evaluate(() => document.getElementById('detail').contains(document.activeElement)), '打開日記詳情時焦點移進面板');
   await p.evaluate(() => renderLog()); await p.keyboard.press('Escape'); await p.waitForTimeout(400);
   ok(await p.evaluate(i => document.activeElement.dataset.id === i, id), '關閉後焦點回到重畫後的同一則紀錄');
+  // 慶祝畫面：Tab 留在畫面內，Esc 等同按主要按鈕
+  await p.evaluate(() => { window.__done = false; showConDone('Sge').then(() => window.__done = true) }); await p.waitForTimeout(700);
+  for (let i = 0; i < 6; i++) await p.keyboard.press('Tab');
+  ok(await p.evaluate(() => document.getElementById('conDone').contains(document.activeElement)), '星座完成畫面：Tab 留在畫面內');
+  await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+  ok(await p.evaluate(() => window.__done && !document.getElementById('conDone').classList.contains('show')), '星座完成畫面：Esc 關閉');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 
