@@ -123,6 +123,10 @@ async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){clo
   else if(k==='discard'){clearDraft();closeSheet('editor');renderDraftBar()}
   else $('fBody').focus({preventScroll:true})}
 ['fTitle','fBody','fLoc','fTags','fDate','fTime'].forEach(id=>$(id).addEventListener('input',onEdit));
+/* 單行欄位按 Enter（手機鍵盤的「下一步／完成」）不會直接送出點亮：標題跳到內文，地點與標籤收起鍵盤。
+   要直接點亮可按 Ctrl／⌘+Enter；輸入法選字中的 Enter 不處理 */
+['fTitle','fLoc','fTags'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing||e.keyCode===229||e.ctrlKey||e.metaKey)return;
+  e.preventDefault();if(id==='fTitle')$('fBody').focus();else e.target.blur()}));
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('change',()=>{noFuture();onEdit()}));
 /* 按點亮時日期超過今天：瀏覽器會先擋下（max），這時改回今天並說明，不顯示瀏覽器自己的提示 */
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('invalid',ev=>{ev.preventDefault();noFuture();updWhen()}));
