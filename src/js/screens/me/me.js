@@ -2,7 +2,7 @@
 function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStoreRow();if($('rpOpenT'))$('rpOpenT').textContent=`${new Date().getMonth()+1} 月星空報告`;
   const xp=totalXP(entries),{lv,rest,need}=levelInfo(xp),u=unlocked(entries);
   const first=entries.map(e=>e.date).concat(prof.since?[prof.since]:[]).sort()[0]||ymd(new Date());
-  const pct=Math.round(rest/need*100);
+  const pct=pctDone(rest/need);
   $('regionVal').textContent=prof.region?prof.region.name.replace(/（.*）/,''):'未設定';
   $('topAvatar').innerHTML=avHTML(prof.avatar);$('pAvatar').innerHTML=avHTML(prof.avatar);$('pLv').innerHTML=`<small>LV</small>${lv}`;
   $('pProg').style.strokeDasharray=`${pct} 100`;{const a=pct/100*Math.PI*2-Math.PI/2;$('pDot').setAttribute('cx',(60+49*Math.cos(a)).toFixed(2));$('pDot').setAttribute('cy',(60+49*Math.sin(a)).toFixed(2))}

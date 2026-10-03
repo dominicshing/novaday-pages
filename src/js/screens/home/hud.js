@@ -3,7 +3,7 @@ function renderHUD(){const {lv,rest,need}=levelInfo(totalXP(entries)),pct=rest/n
   $('lvNum').textContent=lv;$('rankName').innerHTML=`${rankOf(lv)}<span class="rk-lv">・Lv.${lv}</span>`;$('xpFill').style.width=(pct*100).toFixed(1)+'%';
   $('lvProg').style.strokeDasharray=`${(pct*100).toFixed(2)} 100`;
   const a=pct*Math.PI*2-Math.PI/2;$('lvDot').setAttribute('cx',(34+27*Math.cos(a)).toFixed(2));$('lvDot').setAttribute('cy',(34+27*Math.sin(a)).toFixed(2));
-    $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${Math.round(pct*100)}%`);
+    $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${pctDone(pct)}%`);
   $('xpNow').textContent=rest;$('xpNeed').textContent=`/ ${need}`;
   const nr=rankOf(lv+1);$('xpNext').innerHTML=nr!==rankOf(lv)?`還差 ${need-rest} XP 晉升<em>「${nr}」</em>`:`還差 ${need-rest} XP 升到 Lv.${lv+1}`;
   const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);$('fuelBtn').classList.toggle('off',!si.n);

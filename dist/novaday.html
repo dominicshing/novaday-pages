@@ -3821,6 +3821,8 @@ const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
 /* SVG 轉成圖片網址：去掉 XML 不允許的控制字元（從別的 App 貼上的文字可能夾帶），落單的代理字元換成 �，
    否則整張圖會產生失敗，encodeURIComponent 也會丟出錯誤 */
 const svgURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,'').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g,'\uFFFD'));
+/* 完成度百分比：還沒完成時最多顯示 99%（275/276 天不該四捨五入成 100%），有一點進度至少 1% */
+const pctDone=f=>f>=1?100:f<=0?0:Math.min(99,Math.max(1,Math.round(f*100)));
 /* 資料：心情、階級、等級所需 XP */
 /* 心情等級 0–4：月相越滿＝心情越好；顏色由暗到亮 */
 const MOODS=[{n:'很低落',c:'--m0',e:'🌑'},{n:'有點累',c:'--m1',e:'🌘'},{n:'還可以',c:'--m2',e:'🌓'},{n:'不錯',c:'--m3',e:'🌔'},{n:'很棒',c:'--m4',e:'🌕'}];
@@ -4389,7 +4391,7 @@ function renderHUD(){const {lv,rest,need}=levelInfo(totalXP(entries)),pct=rest/n
   $('lvNum').textContent=lv;$('rankName').innerHTML=`${rankOf(lv)}<span class="rk-lv">・Lv.${lv}</span>`;$('xpFill').style.width=(pct*100).toFixed(1)+'%';
   $('lvProg').style.strokeDasharray=`${(pct*100).toFixed(2)} 100`;
   const a=pct*Math.PI*2-Math.PI/2;$('lvDot').setAttribute('cx',(34+27*Math.cos(a)).toFixed(2));$('lvDot').setAttribute('cy',(34+27*Math.sin(a)).toFixed(2));
-    $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${Math.round(pct*100)}%`);
+    $('lvRing').setAttribute('aria-label',`等級 ${lv}，本級經驗值 ${pctDone(pct)}%`);
   $('xpNow').textContent=rest;$('xpNeed').textContent=`/ ${need}`;
   const nr=rankOf(lv+1);$('xpNext').innerHTML=nr!==rankOf(lv)?`還差 ${need-rest} XP 晉升<em>「${nr}」</em>`:`還差 ${need-rest} XP 升到 Lv.${lv+1}`;
   const si=streakOf(entries);$('streak').textContent=si.n;$('flameIc').classList.toggle('off',!si.n);$('fuelBtn').classList.toggle('off',!si.n);
@@ -5015,7 +5017,7 @@ function openReport(Y,M){const R=monthStats(Y,M),n=R.list.length;$('mTitle').tex
   if(!n){g+=`<div class="es">${emptyState('這個月沒有紀錄','寫下幾則之後，這裡會整理出你的月報。')}</div>`}
   else{const tot=n,bar=R.cnt.map((c,i)=>c?`<i style="flex:${c};--c:var(${MOODS[i].c})" title="${MOODS[i].n} ${c} 則"></i>`:'').join('');
     const topM=R.cnt.lastIndexOf(Math.max(...R.cnt));
-    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>天有寫日記</small></div><div class="rp-ring">${(()=>{const C=2*Math.PI*26,f=R.days/R.dim;return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${Math.round(f*100)}%</span>`})()}</div></div>
+    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>天有寫日記</small></div><div class="rp-ring">${(()=>{const C=2*Math.PI*26,f=R.days/R.dim;return `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${pctDone(f)}%</span>`})()}</div></div>
       <div class="rp-grid"><div><b>${n}</b><small>則紀錄</small></div><div><b>${R.words.toLocaleString()}</b><small>字</small></div><div><b>${R.best}</b><small>天最長連續</small></div><div><b>${n}</b><small>顆星被點亮</small></div></div>
       <div class="rp-sec"><h4>這個月的心情</h4><div class="rp-bar">${bar}</div><p>最常是 ${moon(topM)}<b>${MOODS[topM].n}</b>，共 ${R.cnt[topM]} 則（${Math.round(R.cnt[topM]/tot*100)}%）</p></div>
       ${R.done.length?`<div class="rp-sec"><h4>完成的星座</h4><div class="rp-cons">${R.done.map(k=>`<button type="button" data-k="${k}"><svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,10,CON[k].s.length,conEntries(k),{sc:.6})}</svg><b>${CON[k].n}</b></button>`).join('')}</div></div>`:''}
@@ -5054,7 +5056,7 @@ function openYearReport(Y){const R=yearStats(Y),n=R.list.length,now=new Date(),f
   if(!n)g+=`<div class="es">${emptyState('這一年沒有紀錄','寫下幾則之後，這裡會整理出你的年度回顧。')}</div>`;
   else{const topM=R.cnt.lastIndexOf(Math.max(...R.cnt)),bar=R.cnt.map((c,i)=>c?`<i style="flex:${c};--c:var(${MOODS[i].c})"></i>`:'').join('');
     const C=2*Math.PI*26,f=R.days/R.span;
-    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>天有寫日記${R.isNow?`（今年已過 ${R.span} 天）`:''}</small></div><div class="rp-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${Math.round(f*100)}%</span></div></div>
+    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>天有寫日記${R.isNow?`（今年已過 ${R.span} 天）`:''}</small></div><div class="rp-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${pctDone(f)}%</span></div></div>
       <div class="rp-grid"><div><b>${n}</b><small>則紀錄</small></div><div><b>${R.words>=10000?(R.words/10000).toFixed(1)+'萬':R.words.toLocaleString()}</b><small>字</small></div><div><b>${R.best}</b><small>天最長連續</small></div><div><b>${R.done.length}</b><small>個星座</small></div></div>
       <div class="rp-sec"><h4>每個月的星光</h4><div class="ry-months" role="list">${R.months.map(x=>`<button type="button" role="listitem" class="ry-m${x.future?' fut':''}" data-m="${x.m}"${x.future?' disabled':''} aria-label="${x.m+1} 月：${x.days} 天、${x.n} 則"><span class="ry-col"><i style="height:${x.days?Math.max(8,x.days/x.dim*100):0}%;--c:${x.avg==null?'transparent':MOOD_HEX[Math.round(x.avg)]}"></i></span><small>${x.m+1}</small></button>`).join('')}</div>
         ${R.bestM?`<p class="ry-note">寫得最勤的是 <b>${R.bestM.m+1} 月</b>，${R.bestM.days} 天都有紀錄。點一下長條可以看那個月的月報。</p>`:''}</div>
@@ -5610,7 +5612,7 @@ function achLeft(id,n){n=Math.max(0,n);const f={s3:`再連續寫 ${n} 天就能�
 function renderMe(){renderInsights();renderFootprint();renderTagCnt();renderStoreRow();if($('rpOpenT'))$('rpOpenT').textContent=`${new Date().getMonth()+1} 月星空報告`;
   const xp=totalXP(entries),{lv,rest,need}=levelInfo(xp),u=unlocked(entries);
   const first=entries.map(e=>e.date).concat(prof.since?[prof.since]:[]).sort()[0]||ymd(new Date());
-  const pct=Math.round(rest/need*100);
+  const pct=pctDone(rest/need);
   $('regionVal').textContent=prof.region?prof.region.name.replace(/（.*）/,''):'未設定';
   $('topAvatar').innerHTML=avHTML(prof.avatar);$('pAvatar').innerHTML=avHTML(prof.avatar);$('pLv').innerHTML=`<small>LV</small>${lv}`;
   $('pProg').style.strokeDasharray=`${pct} 100`;{const a=pct/100*Math.PI*2-Math.PI/2;$('pDot').setAttribute('cx',(60+49*Math.cos(a)).toFixed(2));$('pDot').setAttribute('cy',(60+49*Math.sin(a)).toFixed(2))}

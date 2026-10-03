@@ -17,3 +17,5 @@ const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
 /* SVG 轉成圖片網址：去掉 XML 不允許的控制字元（從別的 App 貼上的文字可能夾帶），落單的代理字元換成 �，
    否則整張圖會產生失敗，encodeURIComponent 也會丟出錯誤 */
 const svgURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,'').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g,'\uFFFD'));
+/* 完成度百分比：還沒完成時最多顯示 99%（275/276 天不該四捨五入成 100%），有一點進度至少 1% */
+const pctDone=f=>f>=1?100:f<=0?0:Math.min(99,Math.max(1,Math.round(f*100)));
