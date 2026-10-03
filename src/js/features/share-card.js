@@ -30,9 +30,8 @@ function showShareCard({title,svg,file,alt,shareTitle,opt}){$('shTitle').textCon
     cv.toBlob(b=>{if(seq!==shSeq)return;shBlob=b;if(shUrl)URL.revokeObjectURL(shUrl);shUrl=URL.createObjectURL(b);$('shPrev').innerHTML=`<img src="${shUrl}" alt="${esc(alt)}">`},'image/png')};
   img.onerror=()=>{if(seq===shSeq)$('shPrev').innerHTML='<div class="sh-load">圖卡產生失敗，請再試一次</div>'};
   img.src=svgURL(svg);
-  $('shSave').onclick=async()=>{if(!shBlob)return;const dl=window.claude&&await window.claude.use('downloads').catch(()=>null);
-    if(!dl){toast('這個環境無法直接儲存，請長按圖片儲存',3000);return}
-    try{await dl.save({filename:file,data:shBlob});toast('已儲存圖片')}catch(e){if(e&&e.code==='declined')return;toast('無法儲存，請長按圖片儲存',3000)}};
+  /* 儲存圖片：和備份匯出共用 saveFile（有 Claude 下載功能時用它，一般瀏覽器直接下載），不再只顯示「請長按圖片儲存」 */
+  $('shSave').onclick=async()=>{if(!shBlob)return;try{if(await saveFile(file,shBlob,'image/png'))toast('已儲存圖片')}catch(e){toast('無法儲存，請長按圖片儲存',3000)}};
   $('shGo').onclick=async()=>{if(!shBlob)return;const f=new File([shBlob],file,{type:'image/png'});
     try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:shareTitle});return}}catch(e){if(e&&e.name==='AbortError')return}
     $('shSave').click()}}
