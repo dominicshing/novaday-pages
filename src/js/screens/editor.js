@@ -222,7 +222,12 @@ $('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';
   finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
 $('mdPhotoBtn').onclick=()=>{if(!$('mdPhotoBtn').classList.contains('busy'))$('fPhoto').click()};
 $('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
+/* 定位結果轉成看得懂的地點：30 公里內有已知城市就寫「台北附近」，否則座標只留到小數兩位（約 1 公里），
+   避免精確座標出現在日記和分享圖卡上；使用者仍可自己改 */
+function geoName(la,lo){let best=null,bd=1e9;const R=6371,rad=Math.PI/180;
+  REGIONS.forEach(([,l])=>l.forEach(([n,a,b])=>{if(b==null)return;const dLa=(a-la)*rad,dLo=(b-lo)*rad,h=Math.sin(dLa/2)**2+Math.cos(la*rad)*Math.cos(a*rad)*Math.sin(dLo/2)**2,d=2*R*Math.asin(Math.sqrt(h));if(d<bd){bd=d;best=n}}));
+  return best&&bd<=30?`${best}附近`:`${la.toFixed(2)}, ${lo.toFixed(2)}`}
 $('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').lastChild.textContent='定位中…';
-  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').lastChild.textContent='定位';onEdit()},
+  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=geoName(p.coords.latitude,p.coords.longitude);$('geo').lastChild.textContent='定位';onEdit()},
   ()=>{$('geo').lastChild.textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
 $('newBtn').onclick=()=>openEditor();
