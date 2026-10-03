@@ -17,6 +17,6 @@ function renderQSug(){const box=$('qSug'),inp=$('q');$('qClr').hidden=!inp.value
   if($('qsClr')){$('qsClr').onpointerdown=ev=>ev.preventDefault();$('qsClr').onclick=()=>{prof.recentQ=[];saveProf();renderQSug()}}}
 $('q').addEventListener('focus',renderQSug);
 $('q').addEventListener('blur',()=>{setTimeout(()=>{if(document.activeElement!==$('q'))$('qSug').hidden=true},120);if(q&&sorted().some(passFilter))pushRecent(q)});
-$('q').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('q').blur()}});
+$('q').addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('q').blur()}});
 $('qClr').onpointerdown=ev=>ev.preventDefault();
 $('qClr').onclick=()=>{$('q').value='';q='';renderLog();$('q').focus();renderQSug()};

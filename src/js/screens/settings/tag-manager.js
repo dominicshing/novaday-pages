@@ -12,7 +12,7 @@ function renderTags(){const m=tagStats(),L=Object.keys(m).sort((a,b)=>m[b].n-m[a
   if(!tgOpen)return;const old=tgOpen,inp=$('tgIn');
   const norm=v=>v.replace(/^#+/,'').replace(/[,，]/g,'').trim().slice(0,30);
   const hint=()=>{const v=norm(inp.value);$('tgHint').textContent=v&&v!==old&&m[v]?`「#${v}」已經存在，儲存後會把兩個標籤合併（共 ${m[v].n+m[old].n} 則）`:'';$('tgSave').textContent=v&&v!==old&&m[v]?'合併':'儲存';$('tgSave').disabled=!v};
-  inp.addEventListener('input',hint);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('tgSave').click()}});hint();
+  inp.addEventListener('input',hint);inp.addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('tgSave').click()}});hint();
   const snapTags=()=>{const s={};entries.forEach(e=>{if((e.tags||[]).includes(old))s[e.id]=e.tags.slice()});return s};
   const undo=sn=>()=>{entries.forEach(e=>{if(sn[e.id])e.tags=sn[e.id]});save();render();if($('tagSheet').classList.contains('open'))renderTags();toast('已復原')};
   $('tgSave').onclick=()=>{const v=norm(inp.value);if(!v)return;if(v===old){tgOpen=null;renderTags();return}

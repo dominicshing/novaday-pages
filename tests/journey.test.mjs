@@ -38,5 +38,10 @@ export default async ({ ok, open }) => {
   if (undo) { await undo.click(); await p.waitForTimeout(500) }
   ok(await p.evaluate(id => entries.some(x => x.id === id && x.title === '河堤的滿月'), e.id), '按「復原」把紀錄找回來');
   ok(await p.evaluate(() => JSON.parse(localStorage.getItem('orbitlog.entries.v1')).length === 1), '復原後也寫回存檔');
+  // 中文輸入法選字時按 Enter（isComposing）不會送出、跳欄或收起鍵盤
+  await p.evaluate(() => { openEditor(); const t = document.getElementById('fTitle'); t.focus(); t.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', isComposing: true, bubbles: true, cancelable: true })) });
+  ok(await p.evaluate(() => document.activeElement.id === 'fTitle'), '選字中的 Enter 不會跳到內文');
+  await p.evaluate(() => { const t = document.getElementById('fTitle'); t.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', isComposing: true, bubbles: true, cancelable: true })) });
+  ok(await p.evaluate(() => document.getElementById('editor').classList.contains('open')), '選字中的 Esc 不會關閉編輯器');
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

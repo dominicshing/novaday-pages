@@ -23,7 +23,7 @@ function openMeEdit(focusBday){pickAv=prof.avatar;pickPh=prof.photoAv||null;last
 $('inBM').addEventListener('change',()=>{fillDays();meUpdate()});
 $('inBD').addEventListener('change',meUpdate);
 $('bdClear').onclick=()=>{$('inBM').value='';fillDays();$('inBD').value='';meUpdate()};
-$('inName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('inMotto').focus()}});
+$('inName').addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('inMotto').focus()}});
 async function tryCloseMe(){if(JSON.stringify(meDraft())===meSnap){closeSheet('meSheet');return}
   const k=await ask('要放棄這些修改嗎？','剛剛的修改還沒有儲存。',[{k:'keep',t:'繼續編輯',cls:'primary'},{k:'discard',t:'放棄修改',cls:'danger'}]);if(k==='discard')closeSheet('meSheet')}
 $('meForm').addEventListener('submit',e=>{e.preventDefault();if($('meSave').disabled)return;const d=meDraft(),hadSign=signIdx(prof.birthday)>=0;

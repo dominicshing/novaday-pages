@@ -3811,6 +3811,8 @@ const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
 const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}};
+/* 文字欄位的 Enter：中文輸入法選字時按的 Enter 不算（否則選字時就送出、跳欄或收起鍵盤） */
+const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
 /* 資料：心情、階級、等級所需 XP */
 /* 心情等級 0–4：月相越滿＝心情越好；顏色由暗到亮 */
 const MOODS=[{n:'很低落',c:'--m0',e:'🌑'},{n:'有點累',c:'--m1',e:'🌘'},{n:'還可以',c:'--m2',e:'🌓'},{n:'不錯',c:'--m3',e:'🌔'},{n:'很棒',c:'--m4',e:'🌕'}];
@@ -5490,7 +5492,7 @@ function renderTags(){const m=tagStats(),L=Object.keys(m).sort((a,b)=>m[b].n-m[a
   if(!tgOpen)return;const old=tgOpen,inp=$('tgIn');
   const norm=v=>v.replace(/^#+/,'').replace(/[,，]/g,'').trim().slice(0,30);
   const hint=()=>{const v=norm(inp.value);$('tgHint').textContent=v&&v!==old&&m[v]?`「#${v}」已經存在，儲存後會把兩個標籤合併（共 ${m[v].n+m[old].n} 則）`:'';$('tgSave').textContent=v&&v!==old&&m[v]?'合併':'儲存';$('tgSave').disabled=!v};
-  inp.addEventListener('input',hint);inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('tgSave').click()}});hint();
+  inp.addEventListener('input',hint);inp.addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('tgSave').click()}});hint();
   const snapTags=()=>{const s={};entries.forEach(e=>{if((e.tags||[]).includes(old))s[e.id]=e.tags.slice()});return s};
   const undo=sn=>()=>{entries.forEach(e=>{if(sn[e.id])e.tags=sn[e.id]});save();render();if($('tagSheet').classList.contains('open'))renderTags();toast('已復原')};
   $('tgSave').onclick=()=>{const v=norm(inp.value);if(!v)return;if(v===old){tgOpen=null;renderTags();return}
@@ -5702,7 +5704,8 @@ document.querySelectorAll('.layer .sheet').forEach(sh=>{
 });
 const topLayer=()=>[...document.querySelectorAll('.layer.open')].reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);
 const FOCUSABLE='button:not(:disabled),a[href],input:not(:disabled):not([type=hidden]),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])';
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
+document.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229)return;
+  if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
   /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
   else if(e.key==='Tab'){const o=topLayer();if(!o)return;
     const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;
@@ -5910,7 +5913,7 @@ async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){clo
 ['fTitle','fBody','fLoc','fTags','fDate','fTime'].forEach(id=>$(id).addEventListener('input',onEdit));
 /* 單行欄位按 Enter（手機鍵盤的「下一步／完成」）不會直接送出點亮：標題跳到內文，地點與標籤收起鍵盤。
    要直接點亮可按 Ctrl／⌘+Enter；輸入法選字中的 Enter 不處理 */
-['fTitle','fLoc','fTags'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing||e.keyCode===229||e.ctrlKey||e.metaKey)return;
+['fTitle','fLoc','fTags'].forEach(id=>$(id).addEventListener('keydown',e=>{if(!isEnter(e)||e.ctrlKey||e.metaKey)return;
   e.preventDefault();if(id==='fTitle')$('fBody').focus();else e.target.blur()}));
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('change',()=>{noFuture();onEdit()}));
 /* 按點亮時日期超過今天：瀏覽器會先擋下（max），這時改回今天並說明，不顯示瀏覽器自己的提示 */
@@ -6206,7 +6209,7 @@ function openMeEdit(focusBday){pickAv=prof.avatar;pickPh=prof.photoAv||null;last
 $('inBM').addEventListener('change',()=>{fillDays();meUpdate()});
 $('inBD').addEventListener('change',meUpdate);
 $('bdClear').onclick=()=>{$('inBM').value='';fillDays();$('inBD').value='';meUpdate()};
-$('inName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('inMotto').focus()}});
+$('inName').addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('inMotto').focus()}});
 async function tryCloseMe(){if(JSON.stringify(meDraft())===meSnap){closeSheet('meSheet');return}
   const k=await ask('要放棄這些修改嗎？','剛剛的修改還沒有儲存。',[{k:'keep',t:'繼續編輯',cls:'primary'},{k:'discard',t:'放棄修改',cls:'danger'}]);if(k==='discard')closeSheet('meSheet')}
 $('meForm').addEventListener('submit',e=>{e.preventDefault();if($('meSave').disabled)return;const d=meDraft(),hadSign=signIdx(prof.birthday)>=0;
@@ -6403,7 +6406,7 @@ function renderQSug(){const box=$('qSug'),inp=$('q');$('qClr').hidden=!inp.value
   if($('qsClr')){$('qsClr').onpointerdown=ev=>ev.preventDefault();$('qsClr').onclick=()=>{prof.recentQ=[];saveProf();renderQSug()}}}
 $('q').addEventListener('focus',renderQSug);
 $('q').addEventListener('blur',()=>{setTimeout(()=>{if(document.activeElement!==$('q'))$('qSug').hidden=true},120);if(q&&sorted().some(passFilter))pushRecent(q)});
-$('q').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('q').blur()}});
+$('q').addEventListener('keydown',e=>{if(isEnter(e)){e.preventDefault();$('q').blur()}});
 $('qClr').onpointerdown=ev=>ev.preventDefault();
 $('qClr').onclick=()=>{$('q').value='';q='';renderLog();$('q').focus();renderQSug()};
 /* 啟動前的初始值（今日星語題目） */
@@ -6464,7 +6467,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
     /* 照片格：還沒有照片→選來源並裁切；有照片但沒選→選它；已選→換一張 */
     $('obPhTile').onclick=e=>{if(ob.ph&&ob.av!=='photo'){pickOb('photo',e.currentTarget);return}
       avTarget=ph=>{ob.ph=ph;ob.av='photo';obRender()};openSheet('avSrc')};
-    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
+    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(isEnter(e)){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     const pop=zi>=0&&zi!==ob.zi;ob.zi=zi;
     B.innerHTML=`<div class="ob-hero sm"><span class="ob-zr">${zRing()}</span><svg class="ob-loc" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="obPinG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A7CFF"/><stop offset="1" stop-color="#6FE3D6"/></linearGradient></defs><path class="ob-pin" d="M24 45s-14-13-14-24a14 14 0 0 1 28 0c0 11-14 24-14 24z"/><path class="ob-pst" d="${sp4(24,21,8)}"/><circle cx="24" cy="21" r="1.8" fill="#fff"/></svg></div>

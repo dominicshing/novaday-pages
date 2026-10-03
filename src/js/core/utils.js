@@ -12,3 +12,5 @@ const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
 const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}};
+/* 文字欄位的 Enter：中文輸入法選字時按的 Enter 不算（否則選字時就送出、跳欄或收起鍵盤） */
+const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;

@@ -53,7 +53,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
     /* 照片格：還沒有照片→選來源並裁切；有照片但沒選→選它；已選→換一張 */
     $('obPhTile').onclick=e=>{if(ob.ph&&ob.av!=='photo'){pickOb('photo',e.currentTarget);return}
       avTarget=ph=>{ob.ph=ph;ob.av='photo';obRender()};openSheet('avSrc')};
-    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
+    $('obName').oninput=e=>ob.name=e.target.value;$('obName').onkeydown=e=>{if(isEnter(e)){e.preventDefault();e.target.blur()}};$('obNext').textContent='下一步'}
   else if(i===2){const zi=ob.m&&ob.d?signIdx(`2000-${pad(ob.m)}-${pad(ob.d)}`):-1;const n=ob.m?new Date(2000,ob.m,0).getDate():31;
     const pop=zi>=0&&zi!==ob.zi;ob.zi=zi;
     B.innerHTML=`<div class="ob-hero sm"><span class="ob-zr">${zRing()}</span><svg class="ob-loc" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="obPinG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A7CFF"/><stop offset="1" stop-color="#6FE3D6"/></linearGradient></defs><path class="ob-pin" d="M24 45s-14-13-14-24a14 14 0 0 1 28 0c0 11-14 24-14 24z"/><path class="ob-pst" d="${sp4(24,21,8)}"/><circle cx="24" cy="21" r="1.8" fill="#fff"/></svg></div>

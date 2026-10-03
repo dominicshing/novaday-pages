@@ -40,7 +40,8 @@ document.querySelectorAll('.layer .sheet').forEach(sh=>{
 });
 const topLayer=()=>[...document.querySelectorAll('.layer.open')].reduce((t,l)=>!t||(+getComputedStyle(l).zIndex||0)>=(+getComputedStyle(t).zIndex||0)?l:t,null);
 const FOCUSABLE='button:not(:disabled),a[href],input:not(:disabled):not([type=hidden]),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])';
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
+document.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229)return;
+  if(e.key==='Escape'){const o=topLayer();if(o)requestClose(o.id)}
   /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
   else if(e.key==='Tab'){const o=topLayer();if(!o)return;
     const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;
