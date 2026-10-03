@@ -8,7 +8,7 @@ export default async ({ ok, open }) => {
     await p.evaluate(i => openEntryShare(i), id);
     await p.waitForFunction(() => /<img|失敗/.test(document.getElementById('shPrev').innerHTML), null, { timeout: 5000 }).catch(() => {});
     ok(await p.evaluate(() => !!document.querySelector('#shPrev img')), `分享圖卡能產生（${id}）`) }
-  const [d] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#shSave')]);
-  ok(d && /\.png$/.test(d.suggestedFilename()), '一般瀏覽器按「儲存圖片」會直接下載 PNG ' + (d && d.suggestedFilename()));
+  const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#shSave')]);
+  ok(dl && /\.png$/.test(dl.suggestedFilename()), '一般瀏覽器按「儲存圖片」會直接下載 PNG ' + (dl && dl.suggestedFilename()));
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
