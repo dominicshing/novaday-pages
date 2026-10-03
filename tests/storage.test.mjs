@@ -28,4 +28,15 @@ export default async ({ ok, open }) => {
   const q = await p.evaluate(() => { for (const s of ['home', 'log', 'atlas', 'me']) go(s); openEditor(); openCon('Ori'); return { name: prof.name, co: prof.conOrder.slice(0, 1), lv: prof.livery, rg: prof.region, bd: prof.birthday, rt: prof.remindTime, an: prof.achNew } });
   ok(q.name === '星旅人' && q.co[0] === 'Ori' && q.lv === null && q.rg === null && q.bd === undefined && q.rt === '21:00' && Array.isArray(q.an), '個人資料錯誤的欄位改回預設值 ' + JSON.stringify(q));
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
+  await p.context().close();
+
+  // 清除所有紀錄：紀錄、草稿、回顧紀錄、照片與影片都立刻刪掉
+  p = await open();
+  await p.waitForTimeout(800);
+  await p.evaluate(() => { localStorage.setItem('orbitlog.draft.v1', JSON.stringify({ editing: null, body: '草稿', mood: 2 })); reviews.ids = { s1: '2026-01-01' }; saveReviews(); openWipe() });
+  const k0 = await p.evaluate(async () => (await mediaKeys()).length);
+  await p.fill('#wpIn', '刪除'); await p.click('#wpGo'); await p.waitForTimeout(800);
+  const w = await p.evaluate(async () => ({ n: entries.length, media: (await mediaKeys()).length, draft: localStorage.getItem('orbitlog.draft.v1'), rv: Object.keys(reviews.ids).length, bar: document.getElementById('draftBar').hidden }));
+  ok(k0 > 0 && w.n === 0 && w.media === 0 && w.draft === null && w.rv === 0 && w.bar, '清除所有紀錄時一併刪除照片影片、草稿與回顧紀錄 ' + JSON.stringify({ before: k0, ...w }));
+  ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
