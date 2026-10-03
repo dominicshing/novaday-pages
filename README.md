@@ -33,8 +33,8 @@
 | 路徑 | 內容 |
 |---|---|
 | `svg/avatars/` | 23 個星空頭像，48×48 viewBox，已經內嵌漸層 |
-| `svg/rank_badges/` | 12 個階級徽章：rank_01 見習觀星者 … rank_12 星際傳奇 |
-| `svg/rank_ships/` | 12 款星座連線塗裝小圖 |
+| `svg/rank_badges/` | 28 個階級徽章（每一級一個）：rank_01 見習觀星者 … rank_28 星際傳奇 |
+| `svg/rank_ships/` | 28 款星線顏色小圖（每一階解鎖一種） |
 | `svg/achievement_crystals/` | 108 個完整水晶徽章（54 個 × `_unlocked` / `_locked`），92×92，純向量 |
 | `svg/achievement_icons/` | 54 個成就徽章圖示（已解鎖配色），只有圖示本身，不含水晶底 |
 | `svg/achievement_icons_locked/` | 54 個成就徽章圖示（未解鎖、灰紫配色） |
@@ -58,7 +58,7 @@
 - `zodiac.json`：12 星座的日期、元素、關鍵字、性格描述和符號路徑。
 - `fortune_texts.json`：每月運勢文字庫。原始的產生演算法（`seedRng`）也附在裡面，要在 Flutter 得到相同結果，必須照原樣移植。
 - `moods.json`：5 種心情的名稱和顏色。
-- `ranks.json`：12 個階級和它們的塗裝顏色，附 XP、等級、階級的計算公式（原始 JS）。
+- `ranks.json`：28 個階級（Lv.1–28 各一階，Lv.28 以後維持最高階）、徽章圖案、星線顏色，附 XP、等級、階級的計算公式（原始 JS）。
 - `achievements.json`：54 個徽章，分 6 類，每類都是 3 的倍數。內容有：
   - 分類標題和圖示
   - 水晶配色
@@ -81,9 +81,10 @@ npm run export-assets
 它會用無頭瀏覽器執行網頁版，然後：
 - 重新產生 `data/*.json`（全部）
 - 重新產生 `svg/constellations/` 的 88 × 2 個星座圖
+- 重新產生 `svg/rank_badges/`、`svg/rank_ships/` 與對應的 PNG（1x、2.0x、3.0x）
 - 把新的介面圖示補進 `svg/ui_icons/`（不改現有的檔名）
 
-頭像、階級徽章、水晶徽章、心情星星、黃道符號、Logo 和 PNG 來自最初的匯出（水晶徽章是照 CSS 的構造手工重建的 SVG），這次沒有變動；如果之後修改這些圖，需要另外更新。
+頭像、水晶徽章、心情星星、黃道符號、Logo 和它們的 PNG 來自最初的匯出（水晶徽章是照 CSS 的構造手工重建的 SVG），這次沒有變動；如果之後修改這些圖，需要另外更新。
 
 ### Flutter 使用方式
 

@@ -636,12 +636,14 @@ html{overflow:hidden}
 .rk-rew .st.using{color:var(--ion)}
 .rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}
 .is-lock .rk-rew{opacity:.6}
-.rk-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:2px}
-.rk-dot{width:24px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center}
-.rk-dot i{display:block;width:6px;height:6px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
+/* 28 階的小圓點：縮小間距讓一排放得下（約 320px），目前看的那一點拉長 */
+.rk-dots{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:2px;max-width:100%}
+.rk-dot{flex:none;width:9px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center;transition:width .3s}
+.rk-dot[aria-selected="true"]{width:20px}
+.rk-dot i{display:block;width:5px;height:5px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
 .rk-dot.reached i{background:rgba(138,124,255,.6)}
 .rk-dot.cur i{box-shadow:0 0 0 2px rgba(111,227,214,.45)}
-.rk-dot[aria-selected="true"] i{width:18px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
+.rk-dot[aria-selected="true"] i{width:16px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
 .rk-hint{text-align:center;font-size:12px;color:var(--muted);margin:2px 0 0;transition:opacity .4s}
 .p-rank{display:inline-flex;align-items:center;margin-top:10px;min-height:34px;border-radius:999px;border:1px solid var(--rb,rgba(138,124,255,.4));
   background:rgba(7,10,28,.4);color:var(--text);font-size:13px;font-weight:600}
@@ -3774,51 +3776,90 @@ const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}
 /* 資料：心情、階級、等級所需 XP */
 /* 心情等級 0–4：月相越滿＝心情越好；顏色由暗到亮 */
 const MOODS=[{n:'很低落',c:'--m0',e:'🌑'},{n:'有點累',c:'--m1',e:'🌘'},{n:'還可以',c:'--m2',e:'🌓'},{n:'不錯',c:'--m3',e:'🌔'},{n:'很棒',c:'--m4',e:'🌕'}];
-const RANKS=['見習觀星者','觀星者','星圖繪製者','星座獵人','天文學家','星空領航員','星河守護者','星雲探險家','銀河建築師','星系旅人','宇宙詩人','星際傳奇'];
-/* 每一階：代表色、介紹、解鎖的星線顏色（每升 1 級晉升一階，Lv.12 起是最高階） */
+const RANKS=['見習觀星者','觀星者','拾星者','星圖繪製者','月相記錄者','星座獵人','流星追尋者','天文學家','彗星追蹤者','星空領航員','極光旅人','星河守護者','雙星觀測家','星雲探險家','星團收藏家','銀河建築師','脈衝星聆聽者','星系旅人','黑洞凝視者','星際航行者','宇宙詩人','星塵煉金師','新星見證者','銀河漫遊者','時空旅人','星辰守夜人','創星者','星際傳奇'];
+/* 每一階：代表色、介紹、解鎖的星線顏色、徽章圖案（em，見 ui/art/rank-badge.js）。每升 1 級晉升一階，Lv.28 起是最高階 */
 const RINFO=[
- {c:'#B9BEE9',d:'剛拿起望遠鏡，開始認識夜空裡的第一批星星。',lv:{n:'月塵銀',c:['#F6F7FF','#B9BEE9','#6D73B3']}},
- {c:'#6FA8FF',d:'能在夜空中找到熟悉的星座，記錄沿途的風景。',lv:{n:'晴空藍',c:['#EEF5FF','#9CC2FF','#3F6FD1']}},
- {c:'#6FE3D6',d:'把一天天的紀錄，連成屬於自己的星圖。',lv:{n:'極光青',c:['#EFFFFC','#9BEDE2','#2A9C92']}},
- {c:'#A99EFF',d:'循著季節追逐星座，知道每顆星在哪裡。',lv:{n:'星雲紫',c:['#F4F1FF','#BBAEFF','#6552D9']}},
- {c:'#FF8FD0',d:'累積了豐富的觀測紀錄，讀得懂星空的節奏。',lv:{n:'脈衝星粉',c:['#FFF1F8','#FFB3DC','#C04C8E']}},
- {c:'#FFB45C',d:'能替別人指出方向，自己的航線也越來越清楚。',lv:{n:'日冕橘',c:['#FFF6EA','#FFC98A','#D1772E']}},
- {c:'#FFD36F',d:'守護著一整片屬於自己的星河。',lv:{n:'超新星金',c:['#FFFBEA','#FFE08A','#C9961F']}},
- {c:'#7FD8FF',d:'穿越一片片星雲，在未知的地方留下紀錄。',lv:{n:'冰晶藍',c:['#F0FBFF','#A8E6FF','#2E8FC2']}},
- {c:'#C68CFF',d:'一磚一瓦，把日常搭成屬於自己的銀河。',lv:{n:'星紋紫',c:['#F8F0FF','#D9B8FF','#7A3FD1']}},
- {c:'#FF8C7A',d:'在不同的星系之間旅行，每段旅程都有回音。',lv:{n:'赤霞紅',c:['#FFF1EE','#FFB7AA','#C94A38']}},
- {c:'#8CF0B0',d:'把平凡的一天寫成詩，宇宙也為你停留。',lv:{n:'極光綠',c:['#F0FFF5','#B5F7CE','#2F9E62']}},
- {c:'#FFE7A3',d:'你的日記本身，就是一段星空傳奇。',lv:{n:'星河幻彩',c:['#FFF6FD','#D6C4FF','#5FB8D6']}}];
+ {c:'#B9BEE9',d:'剛拿起望遠鏡，開始認識夜空裡的第一批星星。',lv:{n:'月塵銀',c:['#F6F7FF','#B9BEE9','#6D73B3']},em:'star'},
+ {c:'#6FA8FF',d:'能在夜空中找到熟悉的星座，記錄沿途的風景。',lv:{n:'晴空藍',c:['#EEF5FF','#9CC2FF','#3F6FD1']},em:'crescent'},
+ {c:'#A5B8FF',d:'每天撿起一顆星，慢慢裝滿自己的夜空。',lv:{n:'晨曦藍',c:['#F2F5FF','#C3D0FF','#5A6FD1']},em:'cluster'},
+ {c:'#6FE3D6',d:'把一天天的紀錄，連成屬於自己的星圖。',lv:{n:'極光青',c:['#EFFFFC','#9BEDE2','#2A9C92']},em:'triangle'},
+ {c:'#E8E3C8',d:'看著月亮圓了又缺，也記下自己的起起伏伏。',lv:{n:'月光白',c:['#FFFEF5','#EDE6C6','#9C9370']},em:'phases'},
+ {c:'#A99EFF',d:'循著季節追逐星座，知道每顆星在哪裡。',lv:{n:'星雲紫',c:['#F4F1FF','#BBAEFF','#6552D9']},em:'orion'},
+ {c:'#FFA07A',d:'不錯過任何一道劃過心裡的光。',lv:{n:'流星橙',c:['#FFF3EC','#FFC2A3','#D0623A']},em:'meteor'},
+ {c:'#FF8FD0',d:'累積了豐富的觀測紀錄，讀得懂星空的節奏。',lv:{n:'脈衝星粉',c:['#FFF1F8','#FFB3DC','#C04C8E']},em:'planet'},
+ {c:'#7AF0E0',d:'耐心等待，總會遇見拖著長尾巴的訪客。',lv:{n:'彗尾碧',c:['#EEFFFC','#A6F5EA','#1F9C8C']},em:'comet'},
+ {c:'#FFB45C',d:'能替別人指出方向，自己的航線也越來越清楚。',lv:{n:'日冕橘',c:['#FFF6EA','#FFC98A','#D1772E']},em:'polaris'},
+ {c:'#5EE6B0',d:'走到很遠的地方，只為看一眼天空的舞。',lv:{n:'翡翠光',c:['#EEFFF6','#9FF0C7','#24A06A']},em:'aurora'},
+ {c:'#FFD36F',d:'守護著一整片屬於自己的星河。',lv:{n:'超新星金',c:['#FFFBEA','#FFE08A','#C9961F']},em:'spiral'},
+ {c:'#FFB8E6',d:'看見生活裡彼此繞行、互相照亮的人和事。',lv:{n:'雙子粉',c:['#FFF2FB','#FFD1EF','#C2569A']},em:'binary'},
+ {c:'#7FD8FF',d:'穿越一片片星雲，在未知的地方留下紀錄。',lv:{n:'冰晶藍',c:['#F0FBFF','#A8E6FF','#2E8FC2']},em:'nebula'},
+ {c:'#B6F0FF',d:'一顆顆星聚在一起，成了閃閃發亮的星團。',lv:{n:'星團銀藍',c:['#F3FDFF','#CFF5FF','#4FA6C2']},em:'globular'},
+ {c:'#C68CFF',d:'一磚一瓦，把日常搭成屬於自己的銀河。',lv:{n:'星紋紫',c:['#F8F0FF','#D9B8FF','#7A3FD1']},em:'hexagon'},
+ {c:'#9F8CFF',d:'聽得見宇宙最規律的心跳，也聽得見自己的。',lv:{n:'脈動紫',c:['#F3F0FF','#C5BAFF','#5B47D6']},em:'pulsar'},
+ {c:'#FF8C7A',d:'在不同的星系之間旅行，每段旅程都有回音。',lv:{n:'赤霞紅',c:['#FFF1EE','#FFB7AA','#C94A38']},em:'orbits'},
+ {c:'#FF9E5C',d:'敢直視最深的黑暗，也記得光在哪裡。',lv:{n:'吸積盤橙',c:['#FFF4EA','#FFC79A','#C8642A']},em:'blackhole'},
+ {c:'#69C8FF',d:'揚帆出發，航線一路延伸到星海深處。',lv:{n:'航跡藍',c:['#EEF8FF','#A3DCFF','#2A7FC2']},em:'ship'},
+ {c:'#8CF0B0',d:'把平凡的一天寫成詩，宇宙也為你停留。',lv:{n:'極光綠',c:['#F0FFF5','#B5F7CE','#2F9E62']},em:'poet'},
+ {c:'#F5C46A',d:'把平凡的日子，煉成閃閃發亮的星塵。',lv:{n:'煉金琥珀',c:['#FFF8E8','#FBDDA0','#B8862A']},em:'alchemy'},
+ {c:'#FF7FA8',d:'見證了最耀眼的時刻，也把它寫進星空。',lv:{n:'新星緋',c:['#FFF0F5','#FFB3CB','#C93F6C']},em:'nova'},
+ {c:'#B9A6FF',d:'在銀河裡隨意漫步，每一步都是風景。',lv:{n:'銀河薰衣草',c:['#F6F2FF','#D8CCFF','#6E58D6']},em:'edgeon'},
+ {c:'#7FFFD4',d:'翻開舊日記，就能在時間裡來回旅行。',lv:{n:'時空碧',c:['#EFFFF9','#B0FFE6','#2AA67F']},em:'wormhole'},
+ {c:'#A3C4FF',d:'夜再長，也有你守著滿天星辰。',lv:{n:'夜空藍',c:['#F0F5FF','#C8DAFF','#4567B8']},em:'nightwatch'},
+ {c:'#FFD9A0',d:'每一則紀錄，都在宇宙裡點亮一顆新的星。',lv:{n:'恆星金',c:['#FFF9EE','#FFE6C0','#C89A4E']},em:'creator'},
+ {c:'#FFE7A3',d:'你的日記本身，就是一段星空傳奇。',lv:{n:'星河幻彩',c:['#FFF6FD','#D6C4FF','#5FB8D6']},em:'burst'}];
 const rankIdx=lv=>Math.min(RANKS.length-1,Math.max(0,lv-1));
 const xpAt=L=>100*(L-1)+25*(L-1)*(L-2);
 /* 升到 Lv.L 需要的累積 XP */
 const hexA=(x,a)=>{const n=parseInt(x.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`};
 function starPath(cx,cy,r){let d='';for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rr=k%2?r*.45:r;d+=(k?'L':'M')+(cx+rr*Math.cos(a)).toFixed(2)+' '+(cy+rr*Math.sin(a)).toFixed(2)}return d+'Z'}
 /* 程式繪製：階級徽章、星線塗裝小圖 */
-/* 階級徽章：星圖圓盤（外圈星環）＋每一階專屬的星空圖案
-   0 一顆星 → 1 新月 → 2 三角星座 → 3 獵戶座 → 4 環狀行星 → 5 北極星 → 6 螺旋星系 → 7 超新星 */
+/* 階級徽章：星圖圓盤（外圈星環）＋每一階專屬的星空圖案（RINFO[i].em）
+   一顆星 → 新月 → 星群 → 三角星座 → 月相 → 獵戶座 → 流星 → 環狀行星 → 彗星 → 北極星 → 極光 → 螺旋星系 → 雙星 → 星雲
+   → 球狀星團 → 六角星座 → 脈衝星 → 星系軌道 → 黑洞 → 星際航船 → 詩人新月 → 煉金陣 → 新星爆發 → 側面銀河 → 蟲洞 → 守夜 → 創星 → 星芒（default） */
 const sp4=(x,y,r)=>`M${x} ${y-r}Q${x} ${y} ${x+r} ${y}Q${x} ${y} ${x} ${y+r}Q${x} ${y} ${x-r} ${y}Q${x} ${y} ${x} ${y-r}Z`;
 function rankBadge(i){const c=RINFO[i].c,g='rbG'+i+Math.random().toString(36).slice(2,6);let d=0;
   const st=(x,y,r)=>`<path class="rb-st" d="${sp4(x,y,r)}" fill="#fff" style="animation-delay:${(d++*.35).toFixed(2)}s;filter:drop-shadow(0 0 2px ${c})"/>`;
   const dot=(x,y,r=2.2)=>`<circle class="rb-st" cx="${x}" cy="${y}" r="${r}" fill="#fff" style="animation-delay:${(d++*.35).toFixed(2)}s;filter:drop-shadow(0 0 2px ${c})"/>`;
   const ln=pts=>`<polyline class="rb-ln" pathLength="1" points="${pts}" fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>`;
   let e='';
-  switch(i){
-   case 0:e=st(50,50,15)+dot(35,38,1.4)+dot(64,61,1.6);break;
-   case 1:e=`<path class="rb-fill" d="M55 34A17 17 0 1 0 55 66A19 19 0 0 1 55 34Z" fill="${c}"/>`+st(63,40,6)+dot(66,58,1.6);break;
-   case 2:e=ln('34,61 50,34 67,57 34,61')+dot(34,61)+dot(50,34,2.8)+dot(67,57);break;
-   case 3:e=ln('38,33 45,50 40,67')+ln('63,35 55,48 62,66')+ln('45,50 50,49 55,48')+dot(38,33,2.6)+dot(63,35,2.2)+dot(45,50,1.8)+dot(50,49,1.8)+dot(55,48,1.8)+dot(40,67,2)+dot(62,66,2.6);break;
-   case 4:e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="23" ry="7" fill="none" stroke="${c}" stroke-width="1.6" transform="rotate(-20 50 50)"/>
+  switch(RINFO[i].em){
+   case 'star':e=st(50,50,15)+dot(35,38,1.4)+dot(64,61,1.6);break;
+   case 'crescent':e=`<path class="rb-fill" d="M55 34A17 17 0 1 0 55 66A19 19 0 0 1 55 34Z" fill="${c}"/>`+st(63,40,6)+dot(66,58,1.6);break;
+   case 'triangle':e=ln('34,61 50,34 67,57 34,61')+dot(34,61)+dot(50,34,2.8)+dot(67,57);break;
+   case 'orion':e=ln('38,33 45,50 40,67')+ln('63,35 55,48 62,66')+ln('45,50 50,49 55,48')+dot(38,33,2.6)+dot(63,35,2.2)+dot(45,50,1.8)+dot(50,49,1.8)+dot(55,48,1.8)+dot(40,67,2)+dot(62,66,2.6);break;
+   case 'planet':e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="23" ry="7" fill="none" stroke="${c}" stroke-width="1.6" transform="rotate(-20 50 50)"/>
      <circle class="rb-fill" cx="50" cy="50" r="11" fill="${c}"/><path class="rb-ln" pathLength="1" d="M27 50A23 7 0 0 0 73 50" fill="none" stroke="${c}" stroke-width="1.6" transform="rotate(-20 50 50)"/>`+st(33,34,4)+dot(68,64,1.5);break;
-   case 5:e=`<path class="rb-fill" d="${sp4(50,50,11)}" fill="${c}" transform="rotate(45 50 50)" opacity=".7"/>`+st(50,50,20);break;
-   case 6:e=`<path class="rb-ln" pathLength="1" d="M50 50C57 43 67 48 65 57C63 66 49 69 40 61" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/>
+   case 'polaris':e=`<path class="rb-fill" d="${sp4(50,50,11)}" fill="${c}" transform="rotate(45 50 50)" opacity=".7"/>`+st(50,50,20);break;
+   case 'spiral':e=`<path class="rb-ln" pathLength="1" d="M50 50C57 43 67 48 65 57C63 66 49 69 40 61" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/>
      <path class="rb-ln" pathLength="1" d="M50 50C43 57 33 52 35 43C37 34 51 31 60 39" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/>
      <circle class="rb-fill" cx="50" cy="50" r="5" fill="#fff" style="filter:drop-shadow(0 0 4px ${c})"/>`+dot(66,40,1.4)+dot(34,62,1.4)+dot(58,66,1.2);break;
-   case 7:e=`<ellipse class="rb-fill" cx="44" cy="54" rx="17" ry="11" fill="${c}" opacity=".35" transform="rotate(-18 44 54)"/><ellipse class="rb-fill" cx="58" cy="45" rx="14" ry="9" fill="${c}" opacity=".45" transform="rotate(24 58 45)"/>`+st(52,49,9)+dot(34,40,1.6)+dot(66,62,1.8)+dot(40,66,1.2);break;
-   case 8:{const h=[0,1,2,3,4,5].map(k=>{const a=-Math.PI/2+k*Math.PI/3;return [(50+20*Math.cos(a)).toFixed(1),(50+20*Math.sin(a)).toFixed(1)]});
+   case 'nebula':e=`<ellipse class="rb-fill" cx="44" cy="54" rx="17" ry="11" fill="${c}" opacity=".35" transform="rotate(-18 44 54)"/><ellipse class="rb-fill" cx="58" cy="45" rx="14" ry="9" fill="${c}" opacity=".45" transform="rotate(24 58 45)"/>`+st(52,49,9)+dot(34,40,1.6)+dot(66,62,1.8)+dot(40,66,1.2);break;
+   case 'hexagon':{const h=[0,1,2,3,4,5].map(k=>{const a=-Math.PI/2+k*Math.PI/3;return [(50+20*Math.cos(a)).toFixed(1),(50+20*Math.sin(a)).toFixed(1)]});
      e=ln(h.map(q=>q.join(',')).join(' ')+' '+h[0].join(','))+ln(`${h[0].join(',')} 50,50 ${h[2].join(',')}`)+ln(`50,50 ${h[4].join(',')}`)+h.map(q=>dot(+q[0],+q[1],2)).join('')+st(50,50,7);break}
-   case 9:e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="24" ry="9" fill="none" stroke="${c}" stroke-width="1.5" transform="rotate(30 50 50)"/><ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="24" ry="9" fill="none" stroke="${c}" stroke-width="1.5" transform="rotate(-30 50 50)"/><circle class="rb-fill" cx="50" cy="50" r="7" fill="${c}"/>`+dot(70,62,2.4)+dot(31,62,2)+st(50,26,4.5);break;
-   case 10:e=`<path class="rb-fill" d="M47 30A20 20 0 1 0 67 58A16 16 0 1 1 47 30Z" fill="${c}"/>`+st(64,34,5.5)+st(72,46,3.2)+dot(58,24,1.5)+dot(36,70,1.3);break;
+   case 'orbits':e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="24" ry="9" fill="none" stroke="${c}" stroke-width="1.5" transform="rotate(30 50 50)"/><ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="24" ry="9" fill="none" stroke="${c}" stroke-width="1.5" transform="rotate(-30 50 50)"/><circle class="rb-fill" cx="50" cy="50" r="7" fill="${c}"/>`+dot(70,62,2.4)+dot(31,62,2)+st(50,26,4.5);break;
+   case 'poet':e=`<path class="rb-fill" d="M47 30A20 20 0 1 0 67 58A16 16 0 1 1 47 30Z" fill="${c}"/>`+st(64,34,5.5)+st(72,46,3.2)+dot(58,24,1.5)+dot(36,70,1.3);break;
+   case 'cluster':e=st(46,46,9)+dot(62,38,2.4)+dot(64,56,2)+dot(36,60,1.8)+dot(52,66,2.2)+dot(34,38,1.5)+dot(58,26,1.3);break;
+   case 'phases':e=`<circle class="rb-ln" pathLength="1" cx="50" cy="50" r="14" fill="none" stroke="${c}" stroke-width="1.6"/><path class="rb-fill" d="M50 36A14 14 0 0 1 50 64Z" fill="${c}"/>`
+     +[[50,26,'M50 22.5A3.5 3.5 0 0 1 50 29.5Z'],[74,50,''],[50,74,'M50 70.5A3.5 3.5 0 0 0 50 77.5Z'],[26,50,'f']].map(([x,y,h])=>`<circle cx="${x}" cy="${y}" r="3.5" fill="${h==='f'?c:'none'}" stroke="${c}" stroke-width="1"/>${h&&h!=='f'?`<path d="${h}" fill="${c}"/>`:''}`).join('');break;
+   case 'meteor':e=`<line class="rb-ln" pathLength="1" x1="30" y1="70" x2="58" y2="42" stroke="${c}" stroke-width="2.6" stroke-linecap="round" opacity=".85"/><line class="rb-ln" pathLength="1" x1="36" y1="72" x2="54" y2="54" stroke="${c}" stroke-width="1.4" stroke-linecap="round" opacity=".5"/><line class="rb-ln" pathLength="1" x1="28" y1="60" x2="44" y2="44" stroke="${c}" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>`+st(61,39,8)+dot(70,62,1.4)+dot(38,32,1.3);break;
+   case 'comet':e=`<path class="rb-fill" d="M57 37Q42 47 28 70Q47 58 65 45Z" fill="${c}" opacity=".55"/><path class="rb-fill" d="M58 40Q46 52 38 66Q50 56 63 46Z" fill="${c}" opacity=".8"/><circle class="rb-fill" cx="61" cy="41" r="6" fill="#fff" style="filter:drop-shadow(0 0 4px ${c})"/>`+dot(36,34,1.4)+dot(70,64,1.6);break;
+   case 'aurora':e=[38,46,54].map((y,k)=>`<path class="rb-ln" pathLength="1" d="M27 ${y}Q34 ${y-8} 41 ${y}T55 ${y}T69 ${y}T76 ${y-4}" fill="none" stroke="${c}" stroke-width="${2.2-k*.4}" stroke-linecap="round" opacity="${1-k*.25}"/>`).join('')
+     +`<path d="M24 68Q50 60 76 68" fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>`+st(64,28,4.5)+dot(36,30,1.4);break;
+   case 'binary':e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="21" ry="8" fill="none" stroke="${c}" stroke-width="1.5" transform="rotate(-24 50 50)"/>`+st(33,58,6.5)+st(67,42,9)+dot(48,30,1.4)+dot(56,70,1.3);break;
+   case 'globular':{let q='';for(let k=0;k<16;k++){const a=k*2.39996,r=4+Math.sqrt(k/16)*18;q+=dot(+(50+r*Math.cos(a)).toFixed(1),+(50+r*Math.sin(a)).toFixed(1),+(2.4-k*.07).toFixed(2))}e=q+st(50,50,7);break}
+   case 'pulsar':e=`<path class="rb-fill" d="M50 50L64 22L70 26Z" fill="${c}" opacity=".75"/><path class="rb-fill" d="M50 50L36 78L30 74Z" fill="${c}" opacity=".75"/>`
+     +[10,16].map((r,k)=>`<path class="rb-ln" pathLength="1" d="M${50-r} ${50+r*.2}A${r} ${r} 0 0 1 ${50+r*.2} ${50-r}" fill="none" stroke="${c}" stroke-width="1.3" opacity="${.8-k*.3}"/>`).join('')
+     +`<circle class="rb-fill" cx="50" cy="50" r="5.5" fill="#fff" style="filter:drop-shadow(0 0 4px ${c})"/>`;break;
+   case 'blackhole':e=`<ellipse class="rb-ln" pathLength="1" cx="50" cy="50" rx="25" ry="7.5" fill="none" stroke="${c}" stroke-width="3.2" transform="rotate(-14 50 50)"/><circle cx="50" cy="50" r="11" fill="#05061A" stroke="${c}" stroke-width="1.2" style="filter:drop-shadow(0 0 5px ${c})"/>`
+     +`<path class="rb-ln" pathLength="1" d="M25 50A25 7.5 0 0 0 75 50" fill="none" stroke="${c}" stroke-width="3.2" transform="rotate(-14 50 50)"/>`+dot(32,32,1.5)+dot(70,68,1.4)+dot(68,30,1.2);break;
+   case 'ship':e=`<g transform="rotate(38 50 50)"><path class="rb-fill" d="M50 26C57 33 58 48 55 60H45C42 48 43 33 50 26Z" fill="${c}"/><path class="rb-fill" d="M45 52L38 62L45 60ZM55 52L62 62L55 60Z" fill="${c}" opacity=".75"/><circle cx="50" cy="42" r="3.6" fill="#0A0D26" stroke="#fff" stroke-width="1.2"/><path class="rb-st" d="${sp4(50,66,5)}" fill="#fff" style="filter:drop-shadow(0 0 3px ${c})"/></g>`+dot(30,36,1.4)+dot(68,70,1.3);break;
+   case 'alchemy':{const t=[0,1,2].map(k=>{const a=-Math.PI/2+k*2*Math.PI/3;return [(50+21*Math.cos(a)).toFixed(1),(50+21*Math.sin(a)).toFixed(1)]});
+     e=`<circle class="rb-ln" pathLength="1" cx="50" cy="50" r="21" fill="none" stroke="${c}" stroke-width="1.4"/>`+ln(t.map(q=>q.join(',')).join(' ')+' '+t[0].join(','))+t.map(q=>dot(+q[0],+q[1],2.2)).join('')+st(50,52,7.5);break}
+   case 'nova':e=[23,16,10].map((r,k)=>`<circle class="rb-ln" pathLength="1" cx="50" cy="50" r="${r}" fill="none" stroke="${c}" stroke-width="${1+k*.4}" stroke-dasharray="${k?'none':'2 3'}" opacity="${.45+k*.25}"/>`).join('')+st(50,50,9);break;
+   case 'edgeon':e=`<ellipse class="rb-fill" cx="50" cy="50" rx="27" ry="6" fill="${c}" opacity=".45" transform="rotate(-24 50 50)"/><ellipse class="rb-fill" cx="50" cy="50" rx="18" ry="3" fill="${c}" opacity=".8" transform="rotate(-24 50 50)"/><ellipse cx="50" cy="50" rx="7" ry="5" fill="#fff" transform="rotate(-24 50 50)" style="filter:drop-shadow(0 0 4px ${c})"/>`+dot(34,34,1.4)+dot(68,64,1.5)+dot(66,32,1.2);break;
+   case 'wormhole':e=[[24,10.5,0],[17,7.5,3],[11,4.8,5.5],[5.5,2.4,7.5]].map(([rx,ry,dy],k)=>`<ellipse class="rb-ln" pathLength="1" cx="50" cy="${44+dy}" rx="${rx}" ry="${ry}" fill="none" stroke="${c}" stroke-width="1.5" opacity="${.45+k*.18}"/>`).join('')+st(50,52,4.5)+dot(32,66,1.4)+dot(70,64,1.3);break;
+   case 'nightwatch':e=`<path class="rb-ln" pathLength="1" d="M24 66Q50 54 76 66" fill="none" stroke="${c}" stroke-width="1.8" stroke-linecap="round"/><path class="rb-fill" d="M44 30A9 9 0 1 0 53 42A7 7 0 0 1 44 30Z" fill="${c}"/>`+st(62,40,6)+st(34,46,4)+dot(56,26,1.4)+dot(70,54,1.3);break;
+   case 'creator':e=`<circle class="rb-ln" pathLength="1" cx="50" cy="50" r="21" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="2 3"/>`+st(50,50,12)+[-60,60,180].map(a=>{a*=Math.PI/180;return st(+(50+21*Math.cos(a)).toFixed(1),+(50+21*Math.sin(a)).toFixed(1),4)}).join('');break;
    default:{let r='';for(let k=0;k<12;k++){const a=k*Math.PI/6,l=k%2?19:26;r+=`<line class="rb-ln" pathLength="1" x1="${(50+10*Math.cos(a)).toFixed(1)}" y1="${(50+10*Math.sin(a)).toFixed(1)}" x2="${(50+l*Math.cos(a)).toFixed(1)}" y2="${(50+l*Math.sin(a)).toFixed(1)}" stroke="${c}" stroke-width="${k%2?1.2:1.8}" stroke-linecap="round"/>`}
      e=r+st(50,50,12)}}
   let ticks='';for(let k=0;k<24;k++){const a=k*Math.PI/12,r1=k%6?44:42.5;ticks+=`<line x1="${(50+r1*Math.cos(a)).toFixed(1)}" y1="${(50+r1*Math.sin(a)).toFixed(1)}" x2="${(50+46*Math.cos(a)).toFixed(1)}" y2="${(50+46*Math.sin(a)).toFixed(1)}" stroke="${c}" stroke-width="${k%6?.8:1.4}" stroke-opacity="${k%6?.45:.9}"/>`}

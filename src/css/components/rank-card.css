@@ -58,12 +58,14 @@
 .rk-rew .st.using{color:var(--ion)}
 .rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}
 .is-lock .rk-rew{opacity:.6}
-.rk-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:2px}
-.rk-dot{width:24px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center}
-.rk-dot i{display:block;width:6px;height:6px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
+/* 28 階的小圓點：縮小間距讓一排放得下（約 320px），目前看的那一點拉長 */
+.rk-dots{display:flex;justify-content:center;align-items:center;gap:2px;margin-top:2px;max-width:100%}
+.rk-dot{flex:none;width:9px;height:24px;border:0;background:none;padding:0;display:grid;place-items:center;transition:width .3s}
+.rk-dot[aria-selected="true"]{width:20px}
+.rk-dot i{display:block;width:5px;height:5px;border-radius:3px;background:rgba(232,233,255,.22);transition:width .3s,background .3s}
 .rk-dot.reached i{background:rgba(138,124,255,.6)}
 .rk-dot.cur i{box-shadow:0 0 0 2px rgba(111,227,214,.45)}
-.rk-dot[aria-selected="true"] i{width:18px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
+.rk-dot[aria-selected="true"] i{width:16px;background:var(--ion);box-shadow:0 0 8px var(--ion)}
 .rk-hint{text-align:center;font-size:12px;color:var(--muted);margin:2px 0 0;transition:opacity .4s}
 .p-rank{display:inline-flex;align-items:center;margin-top:10px;min-height:34px;border-radius:999px;border:1px solid var(--rb,rgba(138,124,255,.4));
   background:rgba(7,10,28,.4);color:var(--text);font-size:13px;font-weight:600}

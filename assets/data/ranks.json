@@ -3,170 +3,506 @@
   "ranks": [
     {
       "index": 0,
+      "level": 1,
       "name_zh": "見習觀星者",
       "color": "#B9BEE9",
       "description": "剛拿起望遠鏡，開始認識夜空裡的第一批星星。",
+      "emblem": "star",
+      "badge": "svg/rank_badges/rank_01.svg",
       "livery": {
         "name_zh": "月塵銀",
         "colors_light_mid_dark": [
           "#F6F7FF",
           "#B9BEE9",
           "#6D73B3"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_01.svg"
       }
     },
     {
       "index": 1,
+      "level": 2,
       "name_zh": "觀星者",
       "color": "#6FA8FF",
       "description": "能在夜空中找到熟悉的星座，記錄沿途的風景。",
+      "emblem": "crescent",
+      "badge": "svg/rank_badges/rank_02.svg",
       "livery": {
         "name_zh": "晴空藍",
         "colors_light_mid_dark": [
           "#EEF5FF",
           "#9CC2FF",
           "#3F6FD1"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_02.svg"
       }
     },
     {
       "index": 2,
+      "level": 3,
+      "name_zh": "拾星者",
+      "color": "#A5B8FF",
+      "description": "每天撿起一顆星，慢慢裝滿自己的夜空。",
+      "emblem": "cluster",
+      "badge": "svg/rank_badges/rank_03.svg",
+      "livery": {
+        "name_zh": "晨曦藍",
+        "colors_light_mid_dark": [
+          "#F2F5FF",
+          "#C3D0FF",
+          "#5A6FD1"
+        ],
+        "icon": "svg/rank_ships/ship_03.svg"
+      }
+    },
+    {
+      "index": 3,
+      "level": 4,
       "name_zh": "星圖繪製者",
       "color": "#6FE3D6",
       "description": "把一天天的紀錄，連成屬於自己的星圖。",
+      "emblem": "triangle",
+      "badge": "svg/rank_badges/rank_04.svg",
       "livery": {
         "name_zh": "極光青",
         "colors_light_mid_dark": [
           "#EFFFFC",
           "#9BEDE2",
           "#2A9C92"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_04.svg"
       }
     },
     {
-      "index": 3,
+      "index": 4,
+      "level": 5,
+      "name_zh": "月相記錄者",
+      "color": "#E8E3C8",
+      "description": "看著月亮圓了又缺，也記下自己的起起伏伏。",
+      "emblem": "phases",
+      "badge": "svg/rank_badges/rank_05.svg",
+      "livery": {
+        "name_zh": "月光白",
+        "colors_light_mid_dark": [
+          "#FFFEF5",
+          "#EDE6C6",
+          "#9C9370"
+        ],
+        "icon": "svg/rank_ships/ship_05.svg"
+      }
+    },
+    {
+      "index": 5,
+      "level": 6,
       "name_zh": "星座獵人",
       "color": "#A99EFF",
       "description": "循著季節追逐星座，知道每顆星在哪裡。",
+      "emblem": "orion",
+      "badge": "svg/rank_badges/rank_06.svg",
       "livery": {
         "name_zh": "星雲紫",
         "colors_light_mid_dark": [
           "#F4F1FF",
           "#BBAEFF",
           "#6552D9"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_06.svg"
       }
     },
     {
-      "index": 4,
+      "index": 6,
+      "level": 7,
+      "name_zh": "流星追尋者",
+      "color": "#FFA07A",
+      "description": "不錯過任何一道劃過心裡的光。",
+      "emblem": "meteor",
+      "badge": "svg/rank_badges/rank_07.svg",
+      "livery": {
+        "name_zh": "流星橙",
+        "colors_light_mid_dark": [
+          "#FFF3EC",
+          "#FFC2A3",
+          "#D0623A"
+        ],
+        "icon": "svg/rank_ships/ship_07.svg"
+      }
+    },
+    {
+      "index": 7,
+      "level": 8,
       "name_zh": "天文學家",
       "color": "#FF8FD0",
       "description": "累積了豐富的觀測紀錄，讀得懂星空的節奏。",
+      "emblem": "planet",
+      "badge": "svg/rank_badges/rank_08.svg",
       "livery": {
         "name_zh": "脈衝星粉",
         "colors_light_mid_dark": [
           "#FFF1F8",
           "#FFB3DC",
           "#C04C8E"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_08.svg"
       }
     },
     {
-      "index": 5,
+      "index": 8,
+      "level": 9,
+      "name_zh": "彗星追蹤者",
+      "color": "#7AF0E0",
+      "description": "耐心等待，總會遇見拖著長尾巴的訪客。",
+      "emblem": "comet",
+      "badge": "svg/rank_badges/rank_09.svg",
+      "livery": {
+        "name_zh": "彗尾碧",
+        "colors_light_mid_dark": [
+          "#EEFFFC",
+          "#A6F5EA",
+          "#1F9C8C"
+        ],
+        "icon": "svg/rank_ships/ship_09.svg"
+      }
+    },
+    {
+      "index": 9,
+      "level": 10,
       "name_zh": "星空領航員",
       "color": "#FFB45C",
       "description": "能替別人指出方向，自己的航線也越來越清楚。",
+      "emblem": "polaris",
+      "badge": "svg/rank_badges/rank_10.svg",
       "livery": {
         "name_zh": "日冕橘",
         "colors_light_mid_dark": [
           "#FFF6EA",
           "#FFC98A",
           "#D1772E"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_10.svg"
       }
     },
     {
-      "index": 6,
+      "index": 10,
+      "level": 11,
+      "name_zh": "極光旅人",
+      "color": "#5EE6B0",
+      "description": "走到很遠的地方，只為看一眼天空的舞。",
+      "emblem": "aurora",
+      "badge": "svg/rank_badges/rank_11.svg",
+      "livery": {
+        "name_zh": "翡翠光",
+        "colors_light_mid_dark": [
+          "#EEFFF6",
+          "#9FF0C7",
+          "#24A06A"
+        ],
+        "icon": "svg/rank_ships/ship_11.svg"
+      }
+    },
+    {
+      "index": 11,
+      "level": 12,
       "name_zh": "星河守護者",
       "color": "#FFD36F",
       "description": "守護著一整片屬於自己的星河。",
+      "emblem": "spiral",
+      "badge": "svg/rank_badges/rank_12.svg",
       "livery": {
         "name_zh": "超新星金",
         "colors_light_mid_dark": [
           "#FFFBEA",
           "#FFE08A",
           "#C9961F"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_12.svg"
       }
     },
     {
-      "index": 7,
+      "index": 12,
+      "level": 13,
+      "name_zh": "雙星觀測家",
+      "color": "#FFB8E6",
+      "description": "看見生活裡彼此繞行、互相照亮的人和事。",
+      "emblem": "binary",
+      "badge": "svg/rank_badges/rank_13.svg",
+      "livery": {
+        "name_zh": "雙子粉",
+        "colors_light_mid_dark": [
+          "#FFF2FB",
+          "#FFD1EF",
+          "#C2569A"
+        ],
+        "icon": "svg/rank_ships/ship_13.svg"
+      }
+    },
+    {
+      "index": 13,
+      "level": 14,
       "name_zh": "星雲探險家",
       "color": "#7FD8FF",
       "description": "穿越一片片星雲，在未知的地方留下紀錄。",
+      "emblem": "nebula",
+      "badge": "svg/rank_badges/rank_14.svg",
       "livery": {
         "name_zh": "冰晶藍",
         "colors_light_mid_dark": [
           "#F0FBFF",
           "#A8E6FF",
           "#2E8FC2"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_14.svg"
       }
     },
     {
-      "index": 8,
+      "index": 14,
+      "level": 15,
+      "name_zh": "星團收藏家",
+      "color": "#B6F0FF",
+      "description": "一顆顆星聚在一起，成了閃閃發亮的星團。",
+      "emblem": "globular",
+      "badge": "svg/rank_badges/rank_15.svg",
+      "livery": {
+        "name_zh": "星團銀藍",
+        "colors_light_mid_dark": [
+          "#F3FDFF",
+          "#CFF5FF",
+          "#4FA6C2"
+        ],
+        "icon": "svg/rank_ships/ship_15.svg"
+      }
+    },
+    {
+      "index": 15,
+      "level": 16,
       "name_zh": "銀河建築師",
       "color": "#C68CFF",
       "description": "一磚一瓦，把日常搭成屬於自己的銀河。",
+      "emblem": "hexagon",
+      "badge": "svg/rank_badges/rank_16.svg",
       "livery": {
         "name_zh": "星紋紫",
         "colors_light_mid_dark": [
           "#F8F0FF",
           "#D9B8FF",
           "#7A3FD1"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_16.svg"
       }
     },
     {
-      "index": 9,
+      "index": 16,
+      "level": 17,
+      "name_zh": "脈衝星聆聽者",
+      "color": "#9F8CFF",
+      "description": "聽得見宇宙最規律的心跳，也聽得見自己的。",
+      "emblem": "pulsar",
+      "badge": "svg/rank_badges/rank_17.svg",
+      "livery": {
+        "name_zh": "脈動紫",
+        "colors_light_mid_dark": [
+          "#F3F0FF",
+          "#C5BAFF",
+          "#5B47D6"
+        ],
+        "icon": "svg/rank_ships/ship_17.svg"
+      }
+    },
+    {
+      "index": 17,
+      "level": 18,
       "name_zh": "星系旅人",
       "color": "#FF8C7A",
       "description": "在不同的星系之間旅行，每段旅程都有回音。",
+      "emblem": "orbits",
+      "badge": "svg/rank_badges/rank_18.svg",
       "livery": {
         "name_zh": "赤霞紅",
         "colors_light_mid_dark": [
           "#FFF1EE",
           "#FFB7AA",
           "#C94A38"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_18.svg"
       }
     },
     {
-      "index": 10,
+      "index": 18,
+      "level": 19,
+      "name_zh": "黑洞凝視者",
+      "color": "#FF9E5C",
+      "description": "敢直視最深的黑暗，也記得光在哪裡。",
+      "emblem": "blackhole",
+      "badge": "svg/rank_badges/rank_19.svg",
+      "livery": {
+        "name_zh": "吸積盤橙",
+        "colors_light_mid_dark": [
+          "#FFF4EA",
+          "#FFC79A",
+          "#C8642A"
+        ],
+        "icon": "svg/rank_ships/ship_19.svg"
+      }
+    },
+    {
+      "index": 19,
+      "level": 20,
+      "name_zh": "星際航行者",
+      "color": "#69C8FF",
+      "description": "揚帆出發，航線一路延伸到星海深處。",
+      "emblem": "ship",
+      "badge": "svg/rank_badges/rank_20.svg",
+      "livery": {
+        "name_zh": "航跡藍",
+        "colors_light_mid_dark": [
+          "#EEF8FF",
+          "#A3DCFF",
+          "#2A7FC2"
+        ],
+        "icon": "svg/rank_ships/ship_20.svg"
+      }
+    },
+    {
+      "index": 20,
+      "level": 21,
       "name_zh": "宇宙詩人",
       "color": "#8CF0B0",
       "description": "把平凡的一天寫成詩，宇宙也為你停留。",
+      "emblem": "poet",
+      "badge": "svg/rank_badges/rank_21.svg",
       "livery": {
         "name_zh": "極光綠",
         "colors_light_mid_dark": [
           "#F0FFF5",
           "#B5F7CE",
           "#2F9E62"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_21.svg"
       }
     },
     {
-      "index": 11,
+      "index": 21,
+      "level": 22,
+      "name_zh": "星塵煉金師",
+      "color": "#F5C46A",
+      "description": "把平凡的日子，煉成閃閃發亮的星塵。",
+      "emblem": "alchemy",
+      "badge": "svg/rank_badges/rank_22.svg",
+      "livery": {
+        "name_zh": "煉金琥珀",
+        "colors_light_mid_dark": [
+          "#FFF8E8",
+          "#FBDDA0",
+          "#B8862A"
+        ],
+        "icon": "svg/rank_ships/ship_22.svg"
+      }
+    },
+    {
+      "index": 22,
+      "level": 23,
+      "name_zh": "新星見證者",
+      "color": "#FF7FA8",
+      "description": "見證了最耀眼的時刻，也把它寫進星空。",
+      "emblem": "nova",
+      "badge": "svg/rank_badges/rank_23.svg",
+      "livery": {
+        "name_zh": "新星緋",
+        "colors_light_mid_dark": [
+          "#FFF0F5",
+          "#FFB3CB",
+          "#C93F6C"
+        ],
+        "icon": "svg/rank_ships/ship_23.svg"
+      }
+    },
+    {
+      "index": 23,
+      "level": 24,
+      "name_zh": "銀河漫遊者",
+      "color": "#B9A6FF",
+      "description": "在銀河裡隨意漫步，每一步都是風景。",
+      "emblem": "edgeon",
+      "badge": "svg/rank_badges/rank_24.svg",
+      "livery": {
+        "name_zh": "銀河薰衣草",
+        "colors_light_mid_dark": [
+          "#F6F2FF",
+          "#D8CCFF",
+          "#6E58D6"
+        ],
+        "icon": "svg/rank_ships/ship_24.svg"
+      }
+    },
+    {
+      "index": 24,
+      "level": 25,
+      "name_zh": "時空旅人",
+      "color": "#7FFFD4",
+      "description": "翻開舊日記，就能在時間裡來回旅行。",
+      "emblem": "wormhole",
+      "badge": "svg/rank_badges/rank_25.svg",
+      "livery": {
+        "name_zh": "時空碧",
+        "colors_light_mid_dark": [
+          "#EFFFF9",
+          "#B0FFE6",
+          "#2AA67F"
+        ],
+        "icon": "svg/rank_ships/ship_25.svg"
+      }
+    },
+    {
+      "index": 25,
+      "level": 26,
+      "name_zh": "星辰守夜人",
+      "color": "#A3C4FF",
+      "description": "夜再長，也有你守著滿天星辰。",
+      "emblem": "nightwatch",
+      "badge": "svg/rank_badges/rank_26.svg",
+      "livery": {
+        "name_zh": "夜空藍",
+        "colors_light_mid_dark": [
+          "#F0F5FF",
+          "#C8DAFF",
+          "#4567B8"
+        ],
+        "icon": "svg/rank_ships/ship_26.svg"
+      }
+    },
+    {
+      "index": 26,
+      "level": 27,
+      "name_zh": "創星者",
+      "color": "#FFD9A0",
+      "description": "每一則紀錄，都在宇宙裡點亮一顆新的星。",
+      "emblem": "creator",
+      "badge": "svg/rank_badges/rank_27.svg",
+      "livery": {
+        "name_zh": "恆星金",
+        "colors_light_mid_dark": [
+          "#FFF9EE",
+          "#FFE6C0",
+          "#C89A4E"
+        ],
+        "icon": "svg/rank_ships/ship_27.svg"
+      }
+    },
+    {
+      "index": 27,
+      "level": 28,
       "name_zh": "星際傳奇",
       "color": "#FFE7A3",
       "description": "你的日記本身，就是一段星空傳奇。",
+      "emblem": "burst",
+      "badge": "svg/rank_badges/rank_28.svg",
       "livery": {
         "name_zh": "星河幻彩",
         "colors_light_mid_dark": [
           "#FFF6FD",
           "#D6C4FF",
           "#5FB8D6"
-        ]
+        ],
+        "icon": "svg/rank_ships/ship_28.svg"
       }
     }
   ],

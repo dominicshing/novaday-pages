@@ -39,7 +39,7 @@ const D = await page.evaluate(() => {
   const src = f => f.toString(), css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   return {
     moods: MOODS.map((m, i) => ({ index: i, name_zh: m.n, emoji: m.e, css_var: m.c, hex: css(m.c).toUpperCase(), scale: NV_SC[i], ray_len: NV_RL[i], highlight: NV_HI[i] })),
-    ranks: RANKS.map((n, i) => ({ index: i, name_zh: n, color: RINFO[i].c, description: RINFO[i].d, livery: { name_zh: RINFO[i].lv.n, colors_light_mid_dark: RINFO[i].lv.c } })),
+    ranks: RANKS.map((n, i) => ({ index: i, level: i + 1, name_zh: n, color: RINFO[i].c, description: RINFO[i].d, emblem: RINFO[i].em, badge: `svg/rank_badges/rank_${String(i + 1).padStart(2, '0')}.svg`, livery: { name_zh: RINFO[i].lv.n, colors_light_mid_dark: RINFO[i].lv.c, icon: `svg/rank_ships/ship_${String(i + 1).padStart(2, '0')}.svg` } })),
     rankIdx_js: src(rankIdx), levelInfo_js: src(levelInfo), totalXP_js: src(totalXP), xpMap_js: src(xpMap), XP_rules: XP,
     prompts: PROMPTS, meteors: METEORS, regions: REGIONS,
     avatars: AVI.map(a => ({ index: a.i, key: a.k, name_zh: a.n, description_zh: a.d, tile_background: a.t, group: a.g, svg: `svg/avatars/${a.k}.svg`, png: `png/avatars/${a.k}.png` })),
@@ -177,6 +177,28 @@ for (const k of keys) for (const lit of [true, false]) {
     return flattenSVG(el, { viewBox: '0 0 380 300', width: 380, height: 300 }) }, [k, lit]);
   writeSVG(`svg/constellations/${lit ? 'lit' : 'unlit'}/${k}.svg`, svg) }
 console.log(`constellations: ${keys.length} × 2`);
+
+// 階級徽章（120×120）與星線塗裝小圖（80×52，PNG 外加 4px 邊）：每一階一個，SVG＋PNG 1x/2x/3x
+{ const nR = await page.evaluate(() => RANKS.length), pngs = [];
+  for (let i = 0; i < nR; i++) {
+    const n = String(i + 1).padStart(2, '0');
+    const [badge, ship] = await page.evaluate(i => {
+      const fin = () => document.getAnimations().forEach(a => { try { a.finish() } catch (_) { a.cancel() } });
+      const b = renderTemp(rankBadge(i)); b.setAttribute('width', 120); b.setAttribute('height', 120); fin();
+      const B = flattenSVG(b, { viewBox: '0 0 100 100', width: 120, height: 120 });
+      const s = renderTemp(miniShip(i)); s.setAttribute('width', 80); s.setAttribute('height', 52); fin();
+      return [B, flattenSVG(s, { viewBox: '0 0 40 26', width: 80, height: 52 })] }, i);
+    writeSVG(`svg/rank_badges/rank_${n}.svg`, badge); writeSVG(`svg/rank_ships/ship_${n}.svg`, ship);
+    pngs.push([`rank_badges/rank_${n}.png`, badge, 120, 120, 0], [`rank_ships/ship_${n}.png`, ship, 88, 60, 4]) }
+  for (const sc of [1, 2, 3]) {
+    const pg = await browser.newPage({ viewport: { width: 200, height: 200 }, deviceScaleFactor: sc });
+    for (const [rel, svg, w, h, pad] of pngs) {
+      await pg.setContent(`<html><body style="margin:0;background:transparent"><div id="x" style="width:${w}px;height:${h}px;padding:0;display:grid;place-items:center"><img src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}" style="width:${w - 2 * pad}px;height:${h - 2 * pad}px"></div></body></html>`);
+      await pg.waitForFunction(() => document.querySelector('img').complete);
+      const dir = path.join(OUT, 'png', path.dirname(rel), sc > 1 ? `${sc}.0x` : ''); fs.mkdirSync(dir, { recursive: true });
+      await pg.locator('#x').screenshot({ path: path.join(dir, path.basename(rel)), omitBackground: true }) }
+    await pg.close() }
+  console.log(`ranks: ${nR} badges + ${nR} liveries (SVG + PNG 1x/2x/3x)`) }
 
 // ---------- 3. 介面圖示（只補上還沒有的；和現有圖示畫出來一模一樣的略過） ----------
 { const dir = path.join(OUT, 'svg/ui_icons'), idxPath = path.join(dir, '_index.json');
