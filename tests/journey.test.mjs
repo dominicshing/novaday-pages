@@ -43,5 +43,11 @@ export default async ({ ok, open }) => {
   ok(await p.evaluate(() => document.activeElement.id === 'fTitle'), '選字中的 Enter 不會跳到內文');
   await p.evaluate(() => { const t = document.getElementById('fTitle'); t.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', isComposing: true, bubbles: true, cancelable: true })) });
   ok(await p.evaluate(() => document.getElementById('editor').classList.contains('open')), '選字中的 Esc 不會關閉編輯器');
+  // 加入照片：讀取中顯示進度，完成後恢復按鈕文字
+  await p.evaluate(() => { document.querySelectorAll('.layer.open').forEach(l => closeSheet(l.id)); clearDraft(); openEditor() }); await p.waitForTimeout(400);
+  const png = Buffer.from((await p.evaluate(() => { const c = document.createElement('canvas'); c.width = 2400; c.height = 1800; const x = c.getContext('2d'); x.fillStyle = '#48c'; x.fillRect(0, 0, 2400, 1800); return c.toDataURL('image/png') })).split(',')[1], 'base64');
+  await p.setInputFiles('#fPhoto', [1, 2, 3].map(i => ({ name: `p${i}.png`, mimeType: 'image/png', buffer: png })));
+  await p.waitForFunction(() => document.querySelectorAll('#fPhotos .ph-img').length === 3, null, { timeout: 8000 }).catch(() => {});
+  ok(await p.evaluate(async () => { const im = new Image(); im.src = curPhotos[0]; await im.decode(); return curPhotos.length === 3 && im.naturalWidth === 1600 && im.naturalHeight === 1200 && !document.getElementById('mdPhotoBtn').classList.contains('busy') && document.querySelector('#mdPhotoBtn small').textContent === '最多 10 張' }), '加入 3 張大照片：縮成長邊 1600px，按鈕恢復');
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

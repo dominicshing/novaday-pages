@@ -171,14 +171,22 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   for(const a of newAch.slice(0,2)){await showAch(a)}
   if(newAch.length>2){prof.achNew=[...new Set([...(prof.achNew||[]),...newAch.map(a=>a.id)])];saveProf();renderAchDot();toast(`還解鎖了 ${newAch.length-2} 個徽章，到「我的」看看`,3200)}
   if(wasEdit&&!newAch.length)toast(gained>0?`已儲存，額外獲得 ${gained} XP`:'已儲存變更')});
-function loadPhoto(f){return new Promise(res=>{const r=new FileReader();r.onerror=()=>res(null);
-  r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');
-    c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};
-    img.onerror=()=>res(null);img.src=r.result};r.readAsDataURL(f)})}
+/* 照片縮到長邊 1600px 存成 JPEG。直接從檔案解碼（createImageBitmap 會套用 EXIF 方向），不先轉成 base64 字串，大照片快很多；
+   不支援的瀏覽器改用 Image 讀暫時網址 */
+async function loadPhoto(f){const draw=(src,w,h)=>{const s=Math.min(1,1600/Math.max(w,h)),c=document.createElement('canvas');
+    c.width=Math.max(1,Math.round(w*s));c.height=Math.max(1,Math.round(h*s));c.getContext('2d').drawImage(src,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.82)};
+  if(window.createImageBitmap){try{const bm=await createImageBitmap(f,{imageOrientation:'from-image'});const u=draw(bm,bm.width,bm.height);bm.close&&bm.close();return u}catch(e){}}
+  return new Promise(res=>{const u=URL.createObjectURL(f),img=new Image();
+    img.onload=()=>{try{res(draw(img,img.naturalWidth,img.naturalHeight))}catch(e){res(null)}URL.revokeObjectURL(u)};
+    img.onerror=()=>{URL.revokeObjectURL(u);res(null)};img.src=u})}
 $('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
   if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}
   const room=PH_MAX-curPhotos.length,use=fs.slice(0,Math.max(0,room));if(!use.length){toast(`每則紀錄最多 ${PH_MAX} 張照片`);return}
-  const out=[];let bad=0;for(const f of use){const u=await loadPhoto(f);if(u)out.push(u);else bad++}
+  /* 讀取中顯示進度（手機上 10 張大照片可能要好幾秒） */
+  const btn=$('mdPhotoBtn'),sm=btn.querySelector('small');btn.classList.add('busy');btn.setAttribute('aria-busy','true');
+  const out=[];let bad=0;
+  try{for(const [i,f] of use.entries()){sm.textContent=use.length>1?`讀取中 ${i+1}/${use.length}…`:'讀取中…';const u=await loadPhoto(f);if(u)out.push(u);else bad++}}
+  finally{btn.classList.remove('busy');btn.removeAttribute('aria-busy');sm.textContent=`最多 ${PH_MAX} 張`}
   setPhotos(curPhotos.concat(out));
   if(fs.length>room)toast(`每則最多 ${PH_MAX} 張，已加入前 ${use.length} 張`,2600);else if(bad)toast('有照片無法讀取，請換一張試試',2600)};
 /* 讀影片長度並擷取一張封面（解不開的格式就沒有封面，但仍可儲存） */
@@ -198,7 +206,7 @@ $('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';
     setVideo({id,poster:p.poster,dur:Math.round(p.dur||0),type:f.type,size:f.size});if(!p.poster)toast('已加入影片（這個格式無法顯示預覽畫面）',2800)}
   catch(e){toast('影片無法儲存，可能是裝置空間不足',3000)}
   finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
-$('mdPhotoBtn').onclick=()=>$('fPhoto').click();
+$('mdPhotoBtn').onclick=()=>{if(!$('mdPhotoBtn').classList.contains('busy'))$('fPhoto').click()};
 $('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
 $('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').lastChild.textContent='定位中…';
   navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').lastChild.textContent='定位';onEdit()},
