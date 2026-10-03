@@ -97,7 +97,8 @@
 @keyframes fcSweep {0%,35%{left:-60%}75%,100%{left:130%}}
 @keyframes fcGlim {0%,100%{opacity:.6}50%{opacity:1;filter:brightness(1.8)}}
 @keyframes fcHue {0%,100%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(70deg) brightness(1.2)}}
-@keyframes fcLine {0%,100%{opacity:.35}50%{opacity:1;box-shadow:0 0 5px #fff}}
+@keyframes fcWave {from{-webkit-mask-position:0 0,0 8px;mask-position:0 0,0 8px}to{-webkit-mask-position:40px 0,0 8px;mask-position:40px 0,0 8px}}
+@keyframes fcWave2 {from{-webkit-mask-position:20px 0,0 8px;mask-position:20px 0,0 8px}to{-webkit-mask-position:-20px 0,0 8px;mask-position:-20px 0,0 8px}}
 @keyframes fcSpin {to{transform:rotate(360deg)}}
 @keyframes fcSpk {0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
 @keyframes fcJoy {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}

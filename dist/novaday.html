@@ -1195,9 +1195,13 @@ html{overflow:hidden}
 .fc:not(.on) .fc-gem::after{background:linear-gradient(180deg,#232968,#12154A)}
 .fc:not(.on) .fc-in{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.02));opacity:1}
 .fc:not(.on) .fc-sh{opacity:.35}
-.fc .fc-liq{position:absolute;left:0;right:0;bottom:0;height:calc(var(--p)*1%);overflow:hidden;z-index:1}
-.fc .fc-liq::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#FF9AD5,#FFE29A 30%,#9AFFD6 55%,#9AD0FF 78%,#C89AFF);opacity:.75}
-.fc .fc-liq::after{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.55)}
+/* 進度液面：液面是波浪（遮罩上緣是一段段波形），兩層波浪往相反方向流動；高度多留 6px 給波峰 */
+.fc .fc-liq{position:absolute;left:0;right:0;bottom:0;height:calc(var(--p)*1% + 6px);overflow:hidden;z-index:1;
+  --wv:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='8' viewBox='0 0 40 8'%3E%3Cpath d='M0 4Q10 .8 20 4T40 4V8H0Z'/%3E%3C/svg%3E")}
+.fc .fc-liq::before,.fc .fc-liq::after{content:"";position:absolute;inset:0;
+  -webkit-mask:var(--wv) 0 0/40px 8px repeat-x,linear-gradient(#000 0 0) 0 8px/100% 100% no-repeat;mask:var(--wv) 0 0/40px 8px repeat-x,linear-gradient(#000 0 0) 0 8px/100% 100% no-repeat}
+.fc .fc-liq::before{background:linear-gradient(135deg,#FF9AD5,#FFE29A 30%,#9AFFD6 55%,#9AD0FF 78%,#C89AFF);opacity:.75}
+.fc .fc-liq::after{top:-2px;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0) 12px);opacity:.8;-webkit-mask-position:20px 0,0 8px;mask-position:20px 0,0 8px}
 .fc .cr-ic{transform:translate(-50%,-50%);z-index:4;width:38%;height:38%}
 .fc.on .cr-ic .ach-ic{filter:drop-shadow(0 0 3px var(--c)) drop-shadow(0 1px 1px rgba(0,0,0,.35))}
 .fc-spk{position:absolute;width:14%;height:14%;background:#fff;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);z-index:5;animation:fcSpk 2.4s ease-in-out infinite;filter:drop-shadow(0 0 3px #fff)}
@@ -1215,12 +1219,12 @@ html{overflow:hidden}
 .fc-spk.c{width:9%;height:9%;animation-delay:.6s}
 .fc-spk.d{width:9%;height:9%;opacity:.7;animation-duration:3.2s;filter:none;background:#C9CDF5}
 .fc:not(.on) .fc-in{animation:fcGlim 3s ease-in-out infinite}
-.fc .fc-liq::before{animation:fcHue 6s ease-in-out infinite}
-.fc .fc-liq::after{animation:fcLine 2.4s ease-in-out infinite}
-#device:has(.app.calm) .fc,#device:has(.app.calm) .fc *,#device:has(.app.calm) .fc *::before,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before{animation:none!important}
+.fc .fc-liq::before{animation:fcHue 6s ease-in-out infinite,fcWave 2.6s linear infinite}
+.fc .fc-liq::after{animation:fcWave2 3.6s linear infinite}
+#device:has(.app.calm) .fc,#device:has(.app.calm) .fc *,#device:has(.app.calm) .fc *::before,#device:has(.app.calm) .fc *::after,.app.calm .fc,.app.calm .fc *,.app.calm .fc *::before,.app.calm .fc *::after{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
-  .fc,.fc *,.fc *::before{animation:none!important}
+  .fc,.fc *,.fc *::before,.fc *::after{animation:none!important}
 }
 .fc .fc-aura{inset:0;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 38%,transparent) 30%,transparent 70%);transform:none}
 .fc-spk.a{top:2%;right:6%}
@@ -1246,7 +1250,9 @@ html{overflow:hidden}
 }
 @keyframes fcHue {0%,100%{filter:hue-rotate(0deg) brightness(1)}50%{filter:hue-rotate(70deg) brightness(1.2)}
 }
-@keyframes fcLine {0%,100%{opacity:.35}50%{opacity:1;box-shadow:0 0 5px #fff}
+@keyframes fcWave {from{-webkit-mask-position:0 0,0 8px;mask-position:0 0,0 8px}to{-webkit-mask-position:40px 0,0 8px;mask-position:40px 0,0 8px}
+}
+@keyframes fcWave2 {from{-webkit-mask-position:20px 0,0 8px;mask-position:20px 0,0 8px}to{-webkit-mask-position:-20px 0,0 8px;mask-position:-20px 0,0 8px}
 }
 @keyframes fcSpin {to{transform:rotate(360deg)}
 }
