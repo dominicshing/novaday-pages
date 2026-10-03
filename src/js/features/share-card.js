@@ -29,7 +29,7 @@ function showShareCard({title,svg,file,alt,shareTitle,opt}){$('shTitle').textCon
   const img=new Image();img.onload=()=>{if(seq!==shSeq)return;const cv=document.createElement('canvas');cv.width=1080;cv.height=1350;const x=cv.getContext('2d');x.drawImage(img,0,0);
     cv.toBlob(b=>{if(seq!==shSeq)return;shBlob=b;if(shUrl)URL.revokeObjectURL(shUrl);shUrl=URL.createObjectURL(b);$('shPrev').innerHTML=`<img src="${shUrl}" alt="${esc(alt)}">`},'image/png')};
   img.onerror=()=>{if(seq===shSeq)$('shPrev').innerHTML='<div class="sh-load">圖卡產生失敗，請再試一次</div>'};
-  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  img.src=svgURL(svg);
   $('shSave').onclick=async()=>{if(!shBlob)return;const dl=window.claude&&await window.claude.use('downloads').catch(()=>null);
     if(!dl){toast('這個環境無法直接儲存，請長按圖片儲存',3000);return}
     try{await dl.save({filename:file,data:shBlob});toast('已儲存圖片')}catch(e){if(e&&e.code==='declined')return;toast('無法儲存，請長按圖片儲存',3000)}};

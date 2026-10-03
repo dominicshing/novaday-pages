@@ -8,7 +8,7 @@ function entryStarMap(){const A=ascEntries(),sig=A.length+'|'+A.map(e=>e.id+e.da
    剪影與連線每個星座只畫一次，存成圖片重複使用（列表很長時才不會卡）；只有「這顆星」另外疊上去 */
 const SKY_IMG=new Map(),SKY_W=230,SKY_H=178;
 function skyImg(k){if(!SKY_IMG.has(k)){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SKY_W} ${SKY_H}">${conSVG(k,SKY_W,SKY_H,18,CON[k].s.length,null,{sc:.6,lc:'#B9AEFF',figP:1})}</svg>`;
-  SKY_IMG.set(k,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg))}return SKY_IMG.get(k)}
+  SKY_IMG.set(k,svgURL(svg))}return SKY_IMG.get(k)}
 function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x,y]=conProj(S.k,SKY_W,SKY_H,18)[conOrd(S.k)[S.j]];
   return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><g class="cbg-st"><path d="${spk(x,y,5.5)}" fill="${col}" style="filter:drop-shadow(0 0 3px ${col})"/><path d="${spk(x,y,2)}" fill="#fff" opacity=".8"/></g></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();

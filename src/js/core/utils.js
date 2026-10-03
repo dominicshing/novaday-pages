@@ -14,3 +14,6 @@ function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+
 const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}};
 /* 文字欄位的 Enter：中文輸入法選字時按的 Enter 不算（否則選字時就送出、跳欄或收起鍵盤） */
 const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
+/* SVG 轉成圖片網址：去掉 XML 不允許的控制字元（從別的 App 貼上的文字可能夾帶），落單的代理字元換成 �，
+   否則整張圖會產生失敗，encodeURIComponent 也會丟出錯誤 */
+const svgURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,'').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g,'\uFFFD'));

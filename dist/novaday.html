@@ -3818,6 +3818,9 @@ function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+
 const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}};
 /* 文字欄位的 Enter：中文輸入法選字時按的 Enter 不算（否則選字時就送出、跳欄或收起鍵盤） */
 const isEnter=e=>e.key==='Enter'&&!e.isComposing&&e.keyCode!==229;
+/* SVG 轉成圖片網址：去掉 XML 不允許的控制字元（從別的 App 貼上的文字可能夾帶），落單的代理字元換成 �，
+   否則整張圖會產生失敗，encodeURIComponent 也會丟出錯誤 */
+const svgURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g,'').replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g,'\uFFFD'));
 /* 資料：心情、階級、等級所需 XP */
 /* 心情等級 0–4：月相越滿＝心情越好；顏色由暗到亮 */
 const MOODS=[{n:'很低落',c:'--m0',e:'🌑'},{n:'有點累',c:'--m1',e:'🌘'},{n:'還可以',c:'--m2',e:'🌓'},{n:'不錯',c:'--m3',e:'🌔'},{n:'很棒',c:'--m4',e:'🌕'}];
@@ -4833,7 +4836,7 @@ function showShareCard({title,svg,file,alt,shareTitle,opt}){$('shTitle').textCon
   const img=new Image();img.onload=()=>{if(seq!==shSeq)return;const cv=document.createElement('canvas');cv.width=1080;cv.height=1350;const x=cv.getContext('2d');x.drawImage(img,0,0);
     cv.toBlob(b=>{if(seq!==shSeq)return;shBlob=b;if(shUrl)URL.revokeObjectURL(shUrl);shUrl=URL.createObjectURL(b);$('shPrev').innerHTML=`<img src="${shUrl}" alt="${esc(alt)}">`},'image/png')};
   img.onerror=()=>{if(seq===shSeq)$('shPrev').innerHTML='<div class="sh-load">圖卡產生失敗，請再試一次</div>'};
-  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  img.src=svgURL(svg);
   $('shSave').onclick=async()=>{if(!shBlob)return;const dl=window.claude&&await window.claude.use('downloads').catch(()=>null);
     if(!dl){toast('這個環境無法直接儲存，請長按圖片儲存',3000);return}
     try{await dl.save({filename:file,data:shBlob});toast('已儲存圖片')}catch(e){if(e&&e.code==='declined')return;toast('無法儲存，請長按圖片儲存',3000)}};
@@ -5127,7 +5130,7 @@ function entryStarMap(){const A=ascEntries(),sig=A.length+'|'+A.map(e=>e.id+e.da
    剪影與連線每個星座只畫一次，存成圖片重複使用（列表很長時才不會卡）；只有「這顆星」另外疊上去 */
 const SKY_IMG=new Map(),SKY_W=230,SKY_H=178;
 function skyImg(k){if(!SKY_IMG.has(k)){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SKY_W} ${SKY_H}">${conSVG(k,SKY_W,SKY_H,18,CON[k].s.length,null,{sc:.6,lc:'#B9AEFF',figP:1})}</svg>`;
-  SKY_IMG.set(k,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg))}return SKY_IMG.get(k)}
+  SKY_IMG.set(k,svgURL(svg))}return SKY_IMG.get(k)}
 function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x,y]=conProj(S.k,SKY_W,SKY_H,18)[conOrd(S.k)[S.j]];
   return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><g class="cbg-st"><path d="${spk(x,y,5.5)}" fill="${col}" style="filter:drop-shadow(0 0 3px ${col})"/><path d="${spk(x,y,2)}" fill="#fff" opacity=".8"/></g></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
