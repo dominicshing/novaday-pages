@@ -19,7 +19,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
     <div class="fp-wrap"><div class="fp-wd" aria-hidden="true"><span></span><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span></div>
     <div><div class="fp-mo" aria-hidden="true">${mo}</div><div class="fp-grid${big?' big':''}" id="fpGrid" role="img" aria-label="${W>=26?'過去半年':`最近 ${W} 週`}有 ${days} 天寫了紀錄，點一下星星看那天的紀錄">${cells}</div></div></div>
     ${fpSel?(()=>{const d=parse(fpSel),dl=`${d.getMonth()+1}/${d.getDate()}（${WD[d.getDay()]}）`;
-      if(!tipE)return `<div class="fp-tip empty"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
+      if(!tipE)return `<div class="fp-tip fp-blank"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
       const m=Math.round(tipE.reduce((t,e)=>t+(e.mood??2),0)/tipE.length),t0=tipE[0];
       return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||untitled(t0))}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
       :`<div class="fp-leg">${by[tk]?'':'<button type="button" class="fp-cta" id="fpCta">今天還沒點亮，寫一則 ›</button>'}<span>星星＝當天心情</span>${[0,1,2,3,4].map(i=>moon(i)).join('')}</div>`}`;

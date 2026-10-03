@@ -1289,7 +1289,7 @@ html{overflow:hidden}
 .fp-grid i.sel::after{box-shadow:0 0 0 2px #fff,0 0 8px 1px rgba(255,255,255,.35)}
 .fp-leg{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:10px;font-size:11px;color:var(--muted)}
 .fp-leg .moon{width:17px;height:17px}
-.fp-tip{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(232,233,255,.05);border:1px solid var(--line);font-size:13px}
+.fp-tip{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;min-height:62px;box-sizing:border-box;border-radius:12px;background:rgba(232,233,255,.05);border:1px solid var(--line);font-size:13px}
 .fp-tip .moon{width:18px;height:18px;flex:none}
 .fp-tip button{flex:none;background:none;border:0;color:var(--ion);font-size:13px;min-height:32px;padding:0 4px}
 
@@ -1305,7 +1305,7 @@ html{overflow:hidden}
 .fp-tip span{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;flex:1;min-width:0}
 .fp-tip span b{font-size:14px;font-weight:600}
 .fp-tip span small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fp-tip.empty .fp-es{flex:none;width:26px;height:26px;background:rgba(232,233,255,.18);clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
+.fp-tip.fp-blank .fp-es{flex:none;width:22px;height:22px;margin:0 4px;background:rgba(232,233,255,.18);clip-path:polygon(50% 0,59% 16%,70.5% 29.5%,84% 41%,100% 50%,84% 59%,70.5% 70.5%,59% 84%,50% 100%,41% 84%,29.5% 70.5%,16% 59%,0 50%,16% 41%,29.5% 29.5%,41% 16%)}
 
 /* 捲到星光足跡時，星星依序亮起（每次打開「我的」頁一次） */
 .fp-grid.intro i.on::before,.fp-grid.intro i.on .moon{animation:fpLit .55s cubic-bezier(.3,1.5,.5,1) both;animation-delay:calc(var(--col,0) * 28ms)}
@@ -5450,7 +5450,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
     <div class="fp-wrap"><div class="fp-wd" aria-hidden="true"><span></span><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span></div>
     <div><div class="fp-mo" aria-hidden="true">${mo}</div><div class="fp-grid${big?' big':''}" id="fpGrid" role="img" aria-label="${W>=26?'過去半年':`最近 ${W} 週`}有 ${days} 天寫了紀錄，點一下星星看那天的紀錄">${cells}</div></div></div>
     ${fpSel?(()=>{const d=parse(fpSel),dl=`${d.getMonth()+1}/${d.getDate()}（${WD[d.getDay()]}）`;
-      if(!tipE)return `<div class="fp-tip empty"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
+      if(!tipE)return `<div class="fp-tip fp-blank"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
       const m=Math.round(tipE.reduce((t,e)=>t+(e.mood??2),0)/tipE.length),t0=tipE[0];
       return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||untitled(t0))}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
       :`<div class="fp-leg">${by[tk]?'':'<button type="button" class="fp-cta" id="fpCta">今天還沒點亮，寫一則 ›</button>'}<span>星星＝當天心情</span>${[0,1,2,3,4].map(i=>moon(i)).join('')}</div>`}`;
