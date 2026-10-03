@@ -6,13 +6,20 @@ const RKEY='orbitlog.reviews.v1';
 let reviews={ids:{},last:null};
 try{Object.assign(reviews,JSON.parse(localStorage.getItem(RKEY)||'{}'))}catch(e){}
 function saveReviews(){try{localStorage.setItem(RKEY,JSON.stringify(reviews))}catch(e){}}
-function xpMap(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));
+/* xpMap 會被很多畫面重複呼叫（圖鑑每張星座卡都要算星線顏色），結果依紀錄內容快取：
+   只要影響 XP 的欄位（id、日期、時間、照片／影片、地點、今日星語）都沒變，就直接用上次的結果。
+   保留最近兩份：編輯器會輪流計算「目前紀錄」和「加上這則草稿」 */
+const XPC=[];
+function xpSig(list){let s=list.length+'|';for(const e of list)s+=e.id+'\u0001'+e.date+'\u0001'+(e.time||'')+(e.photo||(e.video&&e.video.id)?'p':'')+(e.loc?'l':'')+(e.prompt?'q':'')+'\u0002';return s}
+function xpMap(list){const sig=xpSig(list),hit=XPC.find(c=>c.sig===sig);if(hit)return hit.m;
+  const m=xpMap0(list);XPC.unshift({sig,m});XPC.length=Math.min(XPC.length,2);return m}
+function xpMap0(list){const m=new Map(),by={};list.forEach(e=>{(by[e.date]=by[e.date]||[]).push(e)});const days=new Set(Object.keys(by));
   for(const k in by){const es=by[k].slice().sort((a,b)=>((a.time||'')+a.id).localeCompare((b.time||'')+b.id));
     const bonus=Math.min(XP.cap,Math.max(0,streakInfo(days,parse(k)).n-1)*XP.step);
     es.forEach((e,i)=>{const extra=(e.photo||(e.video&&e.video.id)?XP.photo:0)+(e.loc?XP.loc:0)+(e.prompt?XP.prompt:0);
       m.set(e.id,{total:(i?XP.extra:XP.first+bonus)+extra,bonus:i?0:bonus,first:!i})})}
   return m}
-const reviewXP=l=>Object.keys(reviews.ids||{}).filter(id=>l.some(e=>e.id===id)).length*XP.review;
+const reviewXP=l=>{const ids=new Set(l.map(e=>e.id));return Object.keys(reviews.ids||{}).filter(id=>ids.has(id)).length*XP.review};
 const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(prof.devXP||0)};
 /* devXP：開發者工具「快轉等級」的加成，平常為 0 */
 let XPM=new Map();
