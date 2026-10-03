@@ -24,5 +24,15 @@ export default async ({ ok, open, run }) => {
   for (const id of ['cdOk', 'lvUpOk']) await p.evaluate(id => { const b = document.getElementById(id); if (b && b.offsetParent) b.click() }, id);
   ok(await p.evaluate(n => entries.length === n + 1 && entries.some(e => e.title === '測試紀錄'), n0), '新增紀錄並存檔');
   ok(await p.evaluate(() => JSON.parse(localStorage.getItem('orbitlog.entries.v1')).some(e => e.title === '測試紀錄')), '紀錄寫進 localStorage');
+
+  // 不能寫未來的日記：選明天的日期按點亮 → 不會存，日期改回今天
+  const n1 = await p.evaluate(() => entries.length);
+  await run(p, "openEditor();const d=new Date();d.setDate(d.getDate()+1);document.getElementById('fDate').value=ymd(d)"); await p.waitForTimeout(300);
+  await p.fill('#fBody', '未來的紀錄');
+  await run(p, "document.getElementById('form').requestSubmit()"); await p.waitForTimeout(500);
+  const fu = await p.evaluate(n => [entries.length - n, document.getElementById('fDate').value, document.getElementById('fDate').max, ymd(new Date())], n1);
+  ok(fu[0] === 0 && fu[1] === fu[3] && fu[2] === fu[3], '不能寫未來日期的紀錄 ' + fu.join(' '));
+  await run(p, "const n=new Date();document.getElementById('fTime').value=pad((n.getHours()+1)%24)+':00';document.getElementById('fTime').dispatchEvent(new Event('change'))"); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => { const n = new Date(), v = document.getElementById('fTime').value; return n.getHours() === 23 || v <= pad(n.getHours()) + ':' + pad(n.getMinutes()) }), '今天的時間不能晚於現在');
   ok(!p.errors.length, '操作過程沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

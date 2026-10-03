@@ -90,6 +90,11 @@ $('draftBar').addEventListener('click',()=>{const d=readDraft();
   const ok=!d.editing||entries.some(e=>e.id===d.editing);
   if(!ok){d.editing=null;try{localStorage.setItem(DKEY,JSON.stringify(d))}catch(e){}}
   openEditor(ok?d.editing:null)});
+/* 不能寫未來的日記：日期最晚是今天；今天的話，時間最晚是現在。quiet＝開啟編輯器時默默修正，不跳提示 */
+function noFuture(quiet){const n=new Date(),td=ymd(n),now=pad(n.getHours())+':'+pad(n.getMinutes()),fd=$('fDate'),ft=$('fTime');let msg='';
+  fd.max=td;if(fd.value&&fd.value>td){fd.value=td;msg='不能寫未來的日記，已改成今天'}
+  ft.max=fd.value===td?now:'';if(fd.value===td&&ft.value&&ft.value>now){ft.value=now;msg=msg||'時間不能晚於現在，已改成現在'}
+  if(msg){if(!quiet)toast(msg,2600);updWhen();return false}return true}
 function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
   $('fDate').value=e?e.date:(presetDate||ymd(n));$('fTime').value=e?(e.time||''):pad(n.getHours())+':'+pad(n.getMinutes());
@@ -101,6 +106,7 @@ function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?
     $('fTitle').value=d.title||'';$('fBody').value=d.body||'';$('fTags').value=d.tags||'';$('fLoc').value=d.loc||'';
     if(d.date)$('fDate').value=d.date;$('fTime').value=d.time||'';curMood=d.mood??curMood;curVideo=d.video&&d.video.id?d.video:null;setPhotos((Array.isArray(d.photos)?d.photos:[]).map(r=>phSrc(r)||r),true);
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
+  noFuture(true);
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;$('xDate').hidden=true;
   $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
@@ -116,6 +122,9 @@ async function tryCloseEditor(){writeDraft();if(snap()===baseSnap||!edHas()){clo
   else if(k==='discard'){clearDraft();closeSheet('editor');renderDraftBar()}
   else $('fBody').focus({preventScroll:true})}
 ['fTitle','fBody','fLoc','fTags','fDate','fTime'].forEach(id=>$(id).addEventListener('input',onEdit));
+['fDate','fTime'].forEach(id=>$(id).addEventListener('change',()=>{noFuture();onEdit()}));
+/* 按點亮時日期超過今天：瀏覽器會先擋下（max），這時改回今天並說明，不顯示瀏覽器自己的提示 */
+['fDate','fTime'].forEach(id=>$(id).addEventListener('invalid',ev=>{if(!noFuture())ev.preventDefault();$('xDate').hidden=false;updWhen()}));
 document.querySelectorAll('.spark-chip').forEach(b=>b.onclick=()=>{const t=b.textContent;const f=$('fBody');f.value=t+(/[：:]$/.test(t)?'':'');f.focus();f.setSelectionRange(f.value.length,f.value.length);onEdit()});
 $('whenBtn').onclick=()=>{const s=$('xDate');s.hidden=!s.hidden;updWhen();if(!s.hidden){scrollToEl(s,'nearest');$('fDate').focus({preventScroll:true})}};
 $('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const f=$('fBody');f.focus({preventScroll:true});toast('💫 回答今日星語，多得 +10 XP')};
@@ -138,6 +147,7 @@ function renderSug(){const L=entries.filter(e=>!isSample(e));
 $('fLoc').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('fTags').addEventListener('input',()=>{clearTimeout(renderSug.t);renderSug.t=setTimeout(renderSug,200)});
 $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(dTimer);
+  if(!noFuture()){$('xDate').hidden=false;updWhen();return}
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
