@@ -7,10 +7,10 @@ function entryStarMap(){const A=ascEntries(),sig=A.length+'|'+A.map(e=>e.id+e.da
 /* 卡片背景的星座虛影（D 版）：這則紀錄所屬星座的星塵剪影＋連線，這顆星用當天心情色發光；放右下角往外延伸、邊緣淡出。
    剪影與連線每個星座只畫一次，存成圖片重複使用（列表很長時才不會卡）；只有「這顆星」另外疊上去 */
 const SKY_IMG=new Map(),SKY_W=230,SKY_H=178;
-function skyImg(k){if(!SKY_IMG.has(k)){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SKY_W} ${SKY_H}">${conSVG(k,SKY_W,SKY_H,18,CON[k].s.length,null,{sc:.8,lc:'#B9AEFF',figP:1})}</svg>`;
+function skyImg(k){if(!SKY_IMG.has(k)){const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SKY_W} ${SKY_H}">${conSVG(k,SKY_W,SKY_H,18,CON[k].s.length,null,{sc:.6,lc:'#B9AEFF',figP:1})}</svg>`;
   SKY_IMG.set(k,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg))}return SKY_IMG.get(k)}
 function cardSky(e,col){const S=entryStarMap().get(e.id);if(!S)return '';const[x,y]=conProj(S.k,SKY_W,SKY_H,18)[conOrd(S.k)[S.j]];
-  return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><path d="${spk(x,y,8)}" fill="${col}" style="filter:drop-shadow(0 0 6px ${col})"/><path d="${spk(x,y,3)}" fill="#fff"/></svg></span>`}
+  return `<span class="cbg" aria-hidden="true"><img src="${skyImg(S.k)}" alt=""><svg viewBox="0 0 ${SKY_W} ${SKY_H}"><g class="cbg-st"><path d="${spk(x,y,5.5)}" fill="${col}" style="filter:drop-shadow(0 0 3px ${col})"/><path d="${spk(x,y,2)}" fill="#fff" opacity=".8"/></g></svg></span>`}
 function entryCard(e){const m=MOODS[e.mood??2],T=qTerms();
   const tagHit=T.length?(e.tags||[]).filter(t=>T.some(w=>t.toLowerCase().includes(w))):[];
   return `<button class="entry${e.title?'':' nt'}" data-id="${esc(e.id)}" style="--mood:var(${m.c})">${cardSky(e,`var(${m.c})`)}<i class="e-spark" aria-hidden="true"></i>${e.photo?`<span class="thumb-w"><img class="thumb" src="${e.photo}" alt="">${photoCount(e)>1?`<b class="thumb-n" aria-label="共 ${photoCount(e)} 張照片">${photoCount(e)}</b>`:''}</span>`:hasVideo(e)?`<span class="thumb-w" aria-label="影片 ${fmtDur(e.video.dur)}">${e.video.poster?`<img class="thumb" src="${e.video.poster}" alt="">`:'<span class="thumb thumb-nv"></span>'}<i class="thumb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></i><b class="thumb-n">${fmtDur(e.video.dur)}</b></span>`:''}
