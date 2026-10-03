@@ -225,3 +225,8 @@
 /* 換頁時內容依序淡入 */
 @keyframes obIn {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}
 }
+
+/* 矮螢幕（例如 320×568）：最後一頁的星座圖縮小，說明文字和「保留範例紀錄」不用捲動就看得到較多 */
+@media (max-height:620px){
+  .ob-con{width:min(220px,100%)}
+}

@@ -2738,6 +2738,11 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 /* 換頁時內容依序淡入 */
 @keyframes obIn {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}
 }
+
+/* 矮螢幕（例如 320×568）：最後一頁的星座圖縮小，說明文字和「保留範例紀錄」不用捲動就看得到較多 */
+@media (max-height:620px){
+  .ob-con{width:min(220px,100%)}
+}
 /* 月報與年度回顧 */
 .cal-rp{display:block;margin:8px auto 0;min-height:36px;padding:0 14px;background:none;border:0;color:var(--flare);font-size:13px;font-weight:600}
 
