@@ -46,3 +46,4 @@
 .missions.collapsed.has-next .ms{margin-top:0;background:none;border-color:transparent}
 .missions.collapsed.has-next .ms-lab{display:block}
 .missions.collapsed .ms-more{min-height:34px;margin-top:0;border-top:1px solid var(--line)}
+.ms-xp:empty{display:none}
