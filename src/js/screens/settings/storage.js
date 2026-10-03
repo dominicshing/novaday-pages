@@ -1,11 +1,14 @@
 /* 設定：儲存空間 */
 const fmtB=n=>n>=1073741824?(n/1073741824).toFixed(1)+' GB':n>=1048576?(n/1048576).toFixed(n>=10485760?0:1)+' MB':n>=1024?Math.round(n/1024)+' KB':n+' B';
 async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);text+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}
-  let photo=0,video=0;for(const k of await mediaKeys()){const b=await mediaGet(k);if(b){if(k[0]==='p')photo+=b.size;else video+=b.size}}
+  const {photo,video}=await mediaSizes();
   let quota=0,usage=0,kept=false;try{const e=await navigator.storage.estimate();quota=e.quota||0;usage=e.usage||0;kept=await navigator.storage.persisted()}catch(e){}
   const total=text+photo+video,pn=entries.reduce((t,e)=>t+photoCount(e),0),vn=entries.filter(hasVideo).length;
   return{text,photo,video,pn,vn,total,quota,kept,free:quota?Math.max(0,quota-Math.max(usage,total)):0,pct:quota?Math.min(100,Math.max(usage,total)/quota*100):0}}
-async function renderStoreRow(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
+/* 每次重繪都會呼叫：同一時間只算一次，期間又被呼叫就等這次算完再補算一次（避免舊結果晚到蓋掉新結果） */
+let stBusy=false,stAgain=false;
+async function renderStoreRow(){if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
+async function renderStoreRow0(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
   $('stSub').textContent=u.pct>=90?'裝置空間快滿了，建議下載備份並移除部分影片':`照片 ${u.pn} 張・影片 ${u.vn} 部`}
 async function renderStore(){const u=await storeUse(),T=Math.max(1,u.total),w=x=>(x/T*100).toFixed(2)+'%';
   $('stBody').innerHTML=`<p class="ex-note">紀錄、照片和影片都存在這台裝置的瀏覽器裡。照片和影片沒有固定上限，可用空間由瀏覽器依裝置剩餘空間決定。</p>

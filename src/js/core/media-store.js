@@ -10,6 +10,10 @@ const mediaPut=(id,blob)=>mdbDo('readwrite',st=>st.put(blob,id));
 const mediaGet=id=>mdbDo('readonly',st=>st.get(id)).catch(()=>null);
 const mediaDel=id=>mdbDo('readwrite',st=>st.delete(id)).catch(()=>{});
 const mediaKeys=()=>mdbDo('readonly',st=>st.getAllKeys()).catch(()=>[]);
+/* 照片（p 開頭）與影片的總大小：一個交易用游標掃過，不必每個檔案各開一次交易 */
+const mediaSizes=()=>mdb().then(db=>new Promise(res=>{const o={photo:0,video:0},tx=db.transaction(MST,'readonly'),c=tx.objectStore(MST).openCursor();
+  c.onsuccess=()=>{const r=c.result;if(!r)return;const s=r.value&&r.value.size||0;if(String(r.key)[0]==='p')o.photo+=s;else o.video+=s;r.continue()};
+  tx.oncomplete=()=>res(o);tx.onerror=tx.onabort=()=>res(o)})).catch(()=>({photo:0,video:0}));
 const hasVideo=e=>!!(e&&e.video&&e.video.id);
 const hasMedia=e=>!!(e&&(e.photo||hasVideo(e)));
 /* 沒有標題的紀錄：只有影像時用「影片紀錄／照片紀錄」代替「未命名紀錄」 */
