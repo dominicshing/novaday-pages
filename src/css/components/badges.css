@@ -28,7 +28,8 @@
 /* 全息水晶徽章 */
 .medal .em{border:0;border-radius:0;background:none;box-shadow:none;margin:0 auto 4px;display:block}
 .medal .em .cr,.medal .em .cr span,.medal.locked .em .cr,.medal.locked .em .cr span{filter:none;opacity:1;line-height:normal}
-.cr{position:relative;display:block;width:100%;height:100%;perspective:280px}
+/* isolation：水晶內部的 z-index 只在水晶裡面比較，不會蓋過頁面的固定標題列 */
+.cr{position:relative;display:block;width:100%;height:100%;perspective:280px;isolation:isolate}
 .cr-ic{position:absolute;left:50%;top:50%;width:40%;height:40%;transform:translate(-50%,-50%) translateZ(14px);display:grid;place-items:center}
 .cr-ic .ach-ic{width:100%;height:100%;filter:drop-shadow(0 1px 1.5px rgba(20,10,60,.55))}
 .cr.on .ach-ic .al{stroke:#fff}
