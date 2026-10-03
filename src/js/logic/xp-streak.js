@@ -23,7 +23,6 @@ const reviewXP=l=>{const ids=new Set(l.map(e=>e.id));return Object.keys(reviews.
 const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(prof.devXP||0)};
 /* devXP：開發者工具「快轉等級」的加成，平常為 0 */
 let XPM=new Map();
-const xpOf=e=>(XPM.get(e.id)||{total:0}).total;
 function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}
 const rankOf=lv=>RANKS[rankIdx(lv)];
 const weekKey=d=>{const t=new Date(d.getFullYear(),d.getMonth(),d.getDate());t.setDate(t.getDate()-t.getDay());return ymd(t)};

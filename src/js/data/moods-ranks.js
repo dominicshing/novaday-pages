@@ -36,4 +36,3 @@ const rankIdx=lv=>Math.min(RANKS.length-1,Math.max(0,lv-1));
 const xpAt=L=>100*(L-1)+25*(L-1)*(L-2);
 /* 升到 Lv.L 需要的累積 XP */
 const hexA=(x,a)=>{const n=parseInt(x.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`};
-function starPath(cx,cy,r){let d='';for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rr=k%2?r*.45:r;d+=(k?'L':'M')+(cx+rr*Math.cos(a)).toFixed(2)+' '+(cy+rr*Math.sin(a)).toFixed(2)}return d+'Z'}

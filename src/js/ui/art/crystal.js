@@ -4,14 +4,6 @@ const CR_COL={streak:['#FF9A5C','#FFD9BD','#9C3A16'],write:['#9D8CFF','#E4DEFF',
 const CR_R=44,CR_r=21;
 const crPt=(a,r)=>[Math.cos(a)*r,Math.sin(a)*r];
 const CR_STAR=(()=>{let d='';for(let k=0;k<16;k++){const a=-Math.PI/2+k*Math.PI/8,[x,y]=crPt(a,k%2?CR_r:CR_R);d+=(k?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)}return d+'Z'})();
-/* 切面：每個尖角分成左右兩面，依左上方的光源決定明暗 */
-const CR_FACETS=(()=>{let s='';const L=-Math.PI*3/4;
-  for(let k=0;k<8;k++){const a=-Math.PI/2+k*Math.PI/4,T=crPt(a,CR_R),Il=crPt(a-Math.PI/8,CR_r),Ir=crPt(a+Math.PI/8,CR_r);
-    [[Il,a-Math.PI/10],[Ir,a+Math.PI/10]].forEach(([I,th])=>{const b=Math.cos(th-L);
-      const f=b>0?`rgba(255,255,255,${(b*.5).toFixed(3)})`:`rgba(10,6,40,${(-b*.42).toFixed(3)})`;
-      s+=`<path d="M0 0L${I[0].toFixed(2)} ${I[1].toFixed(2)}L${T[0].toFixed(2)} ${T[1].toFixed(2)}Z" fill="${f}"/>`})}
-  return s})();
-const CR_TABLE=(()=>{let d='';for(let k=0;k<16;k++){const a=-Math.PI/2+k*Math.PI/8,[x,y]=crPt(a,k%2?9:15);d+=(k?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)}return d+'Z'})();
 (()=>{let d=`<linearGradient id="crHolo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9AD5"/><stop offset=".22" stop-color="#FFE29A"/><stop offset=".45" stop-color="#9AFFD6"/><stop offset=".68" stop-color="#9AD0FF"/><stop offset=".86" stop-color="#C89AFF"/><stop offset="1" stop-color="#FF9AD5"/>
     <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="8s" repeatCount="indefinite"/></linearGradient>
   <linearGradient id="crDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B3278"/><stop offset="1" stop-color="#10133F"/></linearGradient>

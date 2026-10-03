@@ -1,6 +1,6 @@
 /* 星座圖鑑、星座詳情、今晚觀星指引 */
-.at-card .cfx *,.sky-c .cfx *,.ed-star .cfx *,.app.calm .cfx *{animation:none!important}
-.at-card .cfx-sheen,.sky-c .cfx-sheen,.ed-star .cfx-sheen,.app.calm .cfx-sheen{display:none}
+.at-card .cfx *,.ed-star .cfx *,.app.calm .cfx *{animation:none!important}
+.at-card .cfx-sheen,.ed-star .cfx-sheen,.app.calm .cfx-sheen{display:none}
 .at-h{margin:18px 0 8px;font-size:14px;color:var(--muted);font-weight:600}
 .at-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .at-card{min-width:0;border-radius:14px;border:1px solid var(--line);background:var(--surface);text-align:center;color:var(--text)}
@@ -142,5 +142,5 @@
 
 /* 圖鑑卡片：星座剪影不溢出卡片、不攔截旁邊卡片的點擊 */
 .at-card{overflow:hidden}
-.at-card svg,.sky-c svg,.rp-cons svg,.tc-star svg,.dv-star svg{pointer-events:none}
+.at-card svg,.rp-cons svg,.tc-star svg,.dv-star svg{pointer-events:none}
 .cn-info .cv-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

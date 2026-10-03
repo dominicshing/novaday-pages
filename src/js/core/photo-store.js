@@ -14,7 +14,6 @@ function phRef(src){if(typeof src!=='string'||!src||src.startsWith(PH_REF))retur
   if(!k&&src.startsWith('data:image/')){const b=dataURLBlob(src);if(!b)return null;k=phNewKey();phURL.set(k,src);phKey.set(src,k);phPut(k,b)}
   return k?PH_REF+k:null}
 const phSrc=r=>typeof r==='string'&&r.startsWith(PH_REF)?phURL.get(r.slice(PH_REF.length))||null:r||null;
-const phIsSrc=u=>typeof u==='string'&&(phKey.has(u)||/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u));
 /* 取得照片檔：備份時用 */
 async function phBlob(src){if(typeof src!=='string')return null;if(src.startsWith('data:'))return dataURLBlob(src);const k=phKey.get(src)||(src.startsWith(PH_REF)?src.slice(PH_REF.length):null);return k?await mediaGet(k):null}
 /* 儲存前：紀錄裡的照片換成參照 */

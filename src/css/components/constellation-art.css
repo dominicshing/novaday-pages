@@ -1,7 +1,7 @@
 /* 星座圖：連線、星點、星座剪影與星塵效果、下一顆星的光圈 */
 
 /* 星座虛影：淡淡的神話圖形，放在星星與連線後面 */
-.cfig,.cfx{pointer-events:none}
+.cfx{pointer-events:none}
 
 /* 虛影動畫：淡入滑入、緩慢游動（影子反向移動做出景深）、身上一道柔光掃過 */
 .cfx-fade{animation:cfxIn 1.4s cubic-bezier(.2,.8,.2,1) both}

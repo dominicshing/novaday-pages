@@ -4,8 +4,6 @@
 .detail .when{color:var(--flare);font-size:13px;margin-top:4px;font-variant-numeric:tabular-nums}
 .detail .body{margin-top:14px;white-space:pre-wrap;line-height:1.8;font-size:16px}
 .detail .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
-.detail .actions{display:flex;gap:10px;margin-top:22px}
-.detail .actions .btn{flex:1}
 .dsheet{max-height:92%}
 .dv{padding-bottom:6px}
 .dv-star{display:flex;align-items:center;gap:12px;width:100%;margin-bottom:16px;padding:8px 14px 8px 8px;border-radius:16px;text-align:left;color:var(--text);cursor:pointer;

@@ -40,7 +40,6 @@ function conVisR(k){const lat=regLat();if(lat==null)return null;const a=maxAlt(k
   if(Math.abs(lat)>=10&&circum(k,lat))return['整年都看得到','ok'];
   if(a<0)return['在這裡看不到','no'];if(a<10)return['幾乎看不到','no'];
   if(a<30)return[`在${d<lat?'南':'北'}方低空`,'low'];return['容易看到','ok']}
-function conVis(k){const r=conVisR(k);return r?r[0]:conZone(k)[0]}
 /* 下一個要收集的星座：當季、看得到、前三個挑星星少又有名的 */
 function conScore(k,n){const c=CON[k],now=new Date();return raDist(conCenter(k).ra,lst21(now))+(n<3?c.s.length*.8:c.s.length*.15)-(c.fm?2:0)+(()=>{const a=maxAlt(k);return a==null?(Math.abs(conCenter(k).dec)>60?30:0):a<15?100:0})()}
 function pickNext(order){if(prof.nextPick&&CON[prof.nextPick]&&!order.includes(prof.nextPick))return prof.nextPick;let best=null,bs=1e9;for(const k in CON){if(order.includes(k))continue;const s=conScore(k,order.length);if(s<bs){bs=s;best=k}}return best}

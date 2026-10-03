@@ -33,11 +33,3 @@ function openFortune(i){const mine=signIdx(prof.birthday);if(i==null)i=mine;if(i
   $('fsCon').onclick=()=>{if($('conSheet').classList.contains('open'))closeSheet('fortuneSheet');openCon(Z.k)};
   $('fsBody').querySelectorAll('.fs-other button').forEach(b=>b.onclick=()=>openFortune(+b.dataset.i));
   if(!$('fortuneSheet').classList.contains('open'))openSheet('fortuneSheet');else sheetTop('fortuneSheet')}
-function openMonth(){const n=new Date(),Y=n.getFullYear(),M=n.getMonth();
-  const list=sorted().filter(e=>{const d=parse(e.date);return d.getFullYear()===Y&&d.getMonth()===M});
-  if(!list.length){toast('本月還沒有紀錄，按下點亮寫第一則吧');return}
-  $('mTitle').textContent=`${M+1} 月・${list.length} 則紀錄`;let g='',last='';
-  list.forEach(e=>{if(e.date!==last){last=e.date;g+=`<div class="day-head"><strong>${esc(fmtDay(e.date))}</strong></div>`}g+=entryCard(e)});
-  $('mBody').innerHTML=g;$('mBody').scrollTop=0;
-  $('mBody').querySelectorAll('.entry').forEach(b=>b.onclick=()=>{closeSheet('monthSheet');setTimeout(()=>openDetail(b.dataset.id),reduce?0:220)});
-  openSheet('monthSheet')}

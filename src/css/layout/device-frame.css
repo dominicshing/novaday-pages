@@ -33,5 +33,5 @@
 }
 
 @media (prefers-reduced-motion:reduce){
-  .orb,.halo,.fresh-ring,.lvcard,.screen.active{animation:none}
+  .orb,.halo,.lvcard,.screen.active{animation:none}
 }

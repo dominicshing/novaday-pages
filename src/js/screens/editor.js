@@ -42,7 +42,6 @@ function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="butt
   $('moodNow').textContent=MOODS[curMood].n;paintEdStar()}
 const PH_MAX=10;
 function setPhotos(arr,quiet){curPhotos=(arr||[]).filter(Boolean).slice(0,PH_MAX);curPhoto=curPhotos[0]||null;renderMedia();if(!quiet)onEdit()}
-function setPhoto(p,quiet){setPhotos(p?[p]:[],quiet)}
 function setVideo(v,quiet){curVideo=v&&v.id?v:null;renderMedia();if(!quiet)onEdit()}
 /* 影像區：沒有影像時顯示「加入照片／加入影片」；照片最多 10 張，或 1 部影片，兩者擇一 */
 function renderMedia(){const b=$('fPhotos'),n=curPhotos.length;if(!b)return;

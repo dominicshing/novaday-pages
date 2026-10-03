@@ -63,12 +63,6 @@ function renderCal(){const Y=calMonth.getFullYear(),M=calMonth.getMonth(),first=
   $('calView').innerHTML=g;calAnimDir='';if($('calRp'))$('calRp').onclick=()=>openReport(Y,M);
   /* 把本月連續的紀錄日連成星座線（相隔 3 天以內） */
   calDays=days;requestAnimationFrame(drawCalLines);
-  function _unused(){const grid=$('calGrid'),svg=$('calLines');if(!grid)return;const gr=grid.getBoundingClientRect(),sc=gr.width/grid.offsetWidth||1;
-    const pos=d=>{const c=grid.querySelector(`.cell[data-d="${mk(d)}"] .cs`);if(!c)return null;const r=c.getBoundingClientRect();return[(r.left+r.width/2-gr.left)/sc,(r.top+r.height/2-gr.top)/sc]};
-    const LC=RINFO[shipLiv()].c;let l='';
-    for(let i=1;i<days.length;i++){if(days[i]-days[i-1]>3)continue;const a=pos(days[i-1]),b=pos(days[i]);if(!a||!b)continue;
-      l+=`<line pathLength="1" x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${LC}" stroke-opacity=".55" stroke-width="1.3" style="animation-delay:${(i*.06).toFixed(2)}s"/>`}
-    svg.innerHTML=l}
   const go2=dir=>{calMonth.setMonth(calMonth.getMonth()+dir);calAnimDir=dir>0?'slide-l':'slide-r';renderCal()};
   $('prevM').onclick=()=>go2(-1);$('nextM').onclick=()=>go2(1);
   $('calView').querySelectorAll('.cell[data-d]').forEach(c=>c.onclick=()=>{selDate=c.dataset.d;renderCal()});
