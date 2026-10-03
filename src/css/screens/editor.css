@@ -8,6 +8,8 @@
   box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 16px -6px rgba(138,124,255,.75);
   transition:background .25s,color .25s,box-shadow .25s,transform .12s}
 .launch-btn:active{transform:scale(.95)}
+/* 編輯舊紀錄時是「儲存」，沒有星星：左右留白一樣，文字置中 */
+.launch-btn:not(:has(.lbi)){padding:0 18px}
 .launch-btn:disabled{opacity:.35;box-shadow:none;cursor:default}
 /* 星星放在一個深色小圓（夜空）裡，任何心情的顏色都看得清楚。星星的顏色＝目前選的心情（--mc）；
    閃爍方式依心情（data-m）：低落慢慢呼吸、累了輕輕搖晃、還可以平穩閃爍、不錯明亮跳動、很棒旋轉發光 */

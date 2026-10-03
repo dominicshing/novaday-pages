@@ -90,3 +90,10 @@
 }
 @keyframes eSpark {0%,100%{transform:scale(.72) rotate(0);opacity:.55}50%{transform:scale(1.08) rotate(45deg);opacity:1}
 }
+
+/* 有照片或影片的卡片：縮圖放在右欄，和左邊的標題、內文一起垂直置中；底下的心情、地點列跨整張卡 */
+.entry:not(.row):has(.thumb-w){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:12px;align-items:start}
+.entry:not(.row):has(.thumb-w)>.thumb-w{grid-column:2;grid-row:1/3;align-self:center;float:none;margin:0}
+.entry:not(.row):has(.thumb-w)>h3,.entry:not(.row):has(.thumb-w)>p{grid-column:1}
+.entry:not(.row):has(.thumb-w)>.meta{grid-column:1/-1;grid-row:3}
+.entry:not(.row):has(.thumb-w)>h3:last-of-type:not(:has(+p)){grid-row:1/3;align-self:center}
