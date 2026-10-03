@@ -2300,6 +2300,11 @@ textarea.bare.body{font-size:17px;line-height:1.8}
 .bare::placeholder{color:var(--muted);opacity:.8}
 .xsec{border-top:1px solid var(--line);margin-top:10px;padding-top:2px}
 .xsec .f{margin-top:10px}
+/* 地點、標籤的小標題：前面加上和底部按鈕相同的圖示 */
+.xsec .xh{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--text)}
+.xsec .xh svg,.geo-btn svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--ion);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* 定位按鈕：圖示＋文字橫向排列，不換行 */
+.geo-btn{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding:8px 14px 8px 12px}
 .edbar{border-top:1px solid var(--line);background:rgba(9,12,34,.94);padding:8px 12px 10px}
 .moods.mini{margin-top:0}
 .moods.mini .mood{min-height:40px;flex-direction:row;gap:5px;font-size:12px;padding:4px 2px}
@@ -3221,8 +3226,8 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
             <button type="button" class="spark-chip">今天想感謝的是</button>
           </div>
         </div>
-        <div class="xsec" id="xLoc" hidden><label class="f">地點<span class="two"><input class="field" id="fLoc" placeholder="例如：台北・大安森林公園"><button type="button" class="btn" id="geo">定位</button></span></label><div class="sug" id="locSug" aria-label="最近的地點"></div></div>
-        <div class="xsec" id="xTags" hidden><label class="f">標籤<input class="field" id="fTags" placeholder="用逗號分隔，例如：工作, 旅行"></label><div class="sug" id="tagSug" aria-label="常用標籤"></div></div>
+        <div class="xsec" id="xLoc" hidden><label class="f"><span class="xh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>地點</span><span class="two"><input class="field" id="fLoc" placeholder="例如：台北・大安森林公園"><button type="button" class="btn geo-btn" id="geo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg><span>定位</span></button></span></label><div class="sug" id="locSug" aria-label="最近的地點"></div></div>
+        <div class="xsec" id="xTags" hidden><label class="f"><span class="xh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg>標籤</span><input class="field" id="fTags" placeholder="用逗號分隔，例如：工作, 旅行"></label><div class="sug" id="tagSug" aria-label="常用標籤"></div></div>
         <div class="xsec" id="xDate" hidden><label class="f">日期與時間<span class="two"><input class="field" type="date" id="fDate" required><input class="field" type="time" id="fTime"></span></label></div>
       </div>
       <div class="edbar">
@@ -5811,9 +5816,9 @@ $('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';
   finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
 $('mdPhotoBtn').onclick=()=>$('fPhoto').click();
 $('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
-$('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').textContent='定位中…';
-  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').textContent='定位';onEdit()},
-  ()=>{$('geo').textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
+$('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').lastChild.textContent='定位中…';
+  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').lastChild.textContent='定位';onEdit()},
+  ()=>{$('geo').lastChild.textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
 $('newBtn').onclick=()=>openEditor();
 /* 首頁一句話快記 */
 /* 首頁一句話快記：選心情、打一句話，直接點亮 */

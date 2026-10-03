@@ -57,6 +57,11 @@ textarea.bare.body{font-size:17px;line-height:1.8}
 .bare::placeholder{color:var(--muted);opacity:.8}
 .xsec{border-top:1px solid var(--line);margin-top:10px;padding-top:2px}
 .xsec .f{margin-top:10px}
+/* 地點、標籤的小標題：前面加上和底部按鈕相同的圖示 */
+.xsec .xh{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--text)}
+.xsec .xh svg,.geo-btn svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--ion);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* 定位按鈕：圖示＋文字橫向排列，不換行 */
+.geo-btn{flex:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding:8px 14px 8px 12px}
 .edbar{border-top:1px solid var(--line);background:rgba(9,12,34,.94);padding:8px 12px 10px}
 .moods.mini{margin-top:0}
 .moods.mini .mood{min-height:40px;flex-direction:row;gap:5px;font-size:12px;padding:4px 2px}

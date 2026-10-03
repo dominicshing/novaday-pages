@@ -138,6 +138,13 @@
 
 /* src/css/screens/editor.css */
 @keyframes lbPop {0%{transform:scale(.88)}100%{transform:none}}
+@keyframes lbM0 {0%,100%{opacity:.6;transform:scale(.86)}50%{opacity:1;transform:scale(1)}}
+@keyframes lbM1 {0%,100%{transform:rotate(-14deg) scale(.94)}50%{transform:rotate(14deg) scale(1)}}
+@keyframes lbM2 {0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(.82) rotate(45deg)}}
+@keyframes lbM3 {0%,100%{transform:scale(.9)}40%{transform:scale(1.14) rotate(20deg)}60%{transform:scale(1.06) rotate(20deg)}}
+@keyframes lbM4 {0%{transform:rotate(0) scale(1)}25%{transform:rotate(90deg) scale(1.14)}50%{transform:rotate(180deg) scale(1)}75%{transform:rotate(270deg) scale(1.14)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes lbHit {0%{transform:scale(1.9)}100%{transform:none}}
+@keyframes lbGlow {0%,100%{box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 14px -6px var(--mc)}50%{box-shadow:inset 0 0 0 1px rgba(214,209,255,.5),0 6px 18px -8px rgba(138,124,255,1),0 0 26px -4px var(--mc)}}
 @keyframes esDash {to{stroke-dashoffset:-6}}
 @keyframes esPulse {0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
 
@@ -165,4 +172,6 @@
 
 /* src/css/base/effects.css */
 @keyframes spark {to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+@keyframes trail {from{transform:scale(1);opacity:.9}to{transform:scale(.2);opacity:0}}
+@keyframes lring {0%{transform:scale(.4);opacity:.95}100%{transform:scale(6);opacity:0}}
 @keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}}

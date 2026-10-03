@@ -184,7 +184,7 @@ $('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';
   finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
 $('mdPhotoBtn').onclick=()=>$('fPhoto').click();
 $('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
-$('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').textContent='定位中…';
-  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').textContent='定位';onEdit()},
-  ()=>{$('geo').textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
+$('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').lastChild.textContent='定位中…';
+  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=p.coords.latitude.toFixed(4)+', '+p.coords.longitude.toFixed(4);$('geo').lastChild.textContent='定位';onEdit()},
+  ()=>{$('geo').lastChild.textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
 $('newBtn').onclick=()=>openEditor();
