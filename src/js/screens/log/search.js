@@ -1,5 +1,7 @@
 /* 日記頁：搜尋輸入與建議 */
-{let qT=null;$('q').addEventListener('input',e=>{const v=e.target.value.trim();$('qClr').hidden=!e.target.value;clearTimeout(qT);qT=setTimeout(()=>{q=v;renderLog();renderQSug()},entries.length>150?180:60)})}
+/* 輸入法選字中不搜尋（拼音、注音打到一半的字母不會讓列表閃成「沒有找到」），選好字才更新 */
+{let qT=null;const run=e=>{const v=e.target.value.trim();$('qClr').hidden=!e.target.value;clearTimeout(qT);qT=setTimeout(()=>{q=v;renderLog();renderQSug()},entries.length>150?180:60)};
+  $('q').addEventListener('input',e=>{if(!e.isComposing)run(e)});$('q').addEventListener('compositionend',run)}
 /* 搜尋建議：最近搜尋＋常用標籤與地點 */
 function pushRecent(v){v=(v||'').trim();if(!v||v.length>40)return;const r=(prof.recentQ||[]).filter(x=>x!==v);r.unshift(v);prof.recentQ=r.slice(0,6);saveProf()}
 function renderQSug(){const box=$('qSug'),inp=$('q');$('qClr').hidden=!inp.value;

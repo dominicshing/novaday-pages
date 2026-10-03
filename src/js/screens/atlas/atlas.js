@@ -43,7 +43,9 @@ function renderAtlas(){const st=consState(entries),M=new Date().getMonth()+1,N=s
   if($('atMp')){$('atMp').onclick=()=>{atMon--;renderAtlas()};$('atMn').onclick=()=>{atMon++;renderAtlas()}}}
 function openAtlas(){go('atlas')}
 $('atSearchBtn').onclick=()=>{const f=$('atSearch'),open=f.hidden;f.hidden=!open;$('atSearchBtn').setAttribute('aria-expanded',open);if(open)$('atQ').focus();else if(atQ){atQ='';$('atQ').value='';renderAtlas()}};
-$('atQ').addEventListener('input',e=>{atQ=e.target.value;renderAtlas()});
+/* 輸入法選字中（例如拼音打到一半是 lie）先不搜尋，避免畫面閃一下「找到 0 個星座」；選好字才更新 */
+$('atQ').addEventListener('input',e=>{if(e.isComposing)return;atQ=e.target.value;renderAtlas()});
+$('atQ').addEventListener('compositionend',e=>{atQ=e.target.value;renderAtlas()});
 /* 星座詳細頁：左右滑動切換星座（順序與星座圖鑑相同） */
 function conOrder(){const st=consState(entries),rest=Object.keys(CON).filter(k=>!st.done.includes(k)&&k!==st.cur).sort((a,b)=>conScore(a,9)-conScore(b,9));
   return [st.cur,...st.done.slice().reverse(),...rest].filter(Boolean)}

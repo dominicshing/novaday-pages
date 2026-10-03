@@ -4732,7 +4732,9 @@ function renderAtlas(){const st=consState(entries),M=new Date().getMonth()+1,N=s
   if($('atMp')){$('atMp').onclick=()=>{atMon--;renderAtlas()};$('atMn').onclick=()=>{atMon++;renderAtlas()}}}
 function openAtlas(){go('atlas')}
 $('atSearchBtn').onclick=()=>{const f=$('atSearch'),open=f.hidden;f.hidden=!open;$('atSearchBtn').setAttribute('aria-expanded',open);if(open)$('atQ').focus();else if(atQ){atQ='';$('atQ').value='';renderAtlas()}};
-$('atQ').addEventListener('input',e=>{atQ=e.target.value;renderAtlas()});
+/* 輸入法選字中（例如拼音打到一半是 lie）先不搜尋，避免畫面閃一下「找到 0 個星座」；選好字才更新 */
+$('atQ').addEventListener('input',e=>{if(e.isComposing)return;atQ=e.target.value;renderAtlas()});
+$('atQ').addEventListener('compositionend',e=>{atQ=e.target.value;renderAtlas()});
 /* 星座詳細頁：左右滑動切換星座（順序與星座圖鑑相同） */
 function conOrder(){const st=consState(entries),rest=Object.keys(CON).filter(k=>!st.done.includes(k)&&k!==st.cur).sort((a,b)=>conScore(a,9)-conScore(b,9));
   return [st.cur,...st.done.slice().reverse(),...rest].filter(Boolean)}
@@ -6453,7 +6455,9 @@ function tick(){const n=new Date();$('sysTime').textContent=(n.getHours()%12||12
 tick();
 setInterval(tick,15000);
 /* 日記頁：搜尋輸入與建議 */
-{let qT=null;$('q').addEventListener('input',e=>{const v=e.target.value.trim();$('qClr').hidden=!e.target.value;clearTimeout(qT);qT=setTimeout(()=>{q=v;renderLog();renderQSug()},entries.length>150?180:60)})}
+/* 輸入法選字中不搜尋（拼音、注音打到一半的字母不會讓列表閃成「沒有找到」），選好字才更新 */
+{let qT=null;const run=e=>{const v=e.target.value.trim();$('qClr').hidden=!e.target.value;clearTimeout(qT);qT=setTimeout(()=>{q=v;renderLog();renderQSug()},entries.length>150?180:60)};
+  $('q').addEventListener('input',e=>{if(!e.isComposing)run(e)});$('q').addEventListener('compositionend',run)}
 /* 搜尋建議：最近搜尋＋常用標籤與地點 */
 function pushRecent(v){v=(v||'').trim();if(!v||v.length>40)return;const r=(prof.recentQ||[]).filter(x=>x!==v);r.unshift(v);prof.recentQ=r.slice(0,6);saveProf()}
 function renderQSug(){const box=$('qSug'),inp=$('q');$('qClr').hidden=!inp.value;
