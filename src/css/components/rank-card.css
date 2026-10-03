@@ -51,7 +51,9 @@
 .rk-rew{align-self:stretch;display:flex;align-items:center;gap:10px;margin-top:12px;padding:8px 10px;border-radius:14px;background:rgba(7,10,28,.45);border:1px solid rgba(255,255,255,.06);text-align:left}
 .rk-rew svg{width:40px;height:26px;flex:none;overflow:visible}
 .rk-rew .t{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.rk-rew .t b{display:block;font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--text)}
 .rk-rew .t small{display:block;font-size:12px;color:var(--muted)}
+.rk-rew .st:not(.using){font-size:13px;font-variant-numeric:tabular-nums}
 .rk-rew .st{flex:none;font-size:12px;font-weight:600;color:var(--muted)}
 .rk-rew .st.using{color:var(--ion)}
 .rk-apply{flex:none;min-height:34px;padding:0 14px;border-radius:999px;border:0;font-size:13px;font-weight:700;color:#0A0D24;background:var(--rc)}

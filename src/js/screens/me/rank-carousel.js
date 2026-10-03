@@ -1,8 +1,8 @@
 /* 「我的」頁：階級輪播 */
 const RK={cur:0,idx:-1,placed:false,rank:-1,drag:null,raf:0};
 function rkRew(i,st,using){const R=RINFO[i],s=i+1;
-  const act=st==='lock'?`<span class="st">Lv.${s} 解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}">套用</button>`;
-  return `${miniShip(i)}<span class="t">星線顏色「${R.lv.n}」<small>${st==='lock'?'晉升後解鎖':st==='cur'?'這一階的專屬顏色':'已解鎖，可套用到星空圖'}</small></span>${act}`}
+  const act=st==='lock'?`<span class="st" aria-label="Lv.${s} 解鎖">Lv.${s}</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}" aria-label="套用星線顏色「${R.lv.n}」">套用</button>`;
+  return `${miniShip(i)}<span class="t"><b>${R.lv.n}</b><small>星線顏色</small></span>${act}`}
 /* 觀星者卡片本身就是輪播：目前階級那一頁是個人檔案，左右滑動看其他階 */
 /* 階級卡片背景：閃爍星點、星雲飄移、偶爾劃過的流星 */
 function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" style="--x:${(r()*50-10).toFixed(0)}%;--y:${(r()*20-12).toFixed(0)}%"></span>`;
