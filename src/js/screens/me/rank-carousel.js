@@ -1,6 +1,6 @@
 /* 「我的」頁：階級輪播 */
 const RK={cur:0,idx:-1,placed:false,rank:-1,drag:null,raf:0};
-function rkRew(i,st,using){const R=RINFO[i],s=i*2+1;
+function rkRew(i,st,using){const R=RINFO[i],s=i+1;
   const act=st==='lock'?`<span class="st">Lv.${s} 解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}">套用</button>`;
   return `${miniShip(i)}<span class="t">星線顏色「${R.lv.n}」<small>${st==='lock'?'晉升後解鎖':st==='cur'?'這一階的專屬顏色':'已解鎖，可套用到星空圖'}</small></span>${act}`}
 /* 觀星者卡片本身就是輪播：目前階級那一頁是個人檔案，左右滑動看其他階 */
@@ -12,18 +12,18 @@ function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" s
 function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,ps=$('pSlide');
   if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;const using=shipLiv();let g='';
   RANKS.forEach((name,i)=>{if(i===ri){g+='<i id="pSlot"></i>';return}
-    const R=RINFO[i],s=i*2+1,e=i===RANKS.length-1?null:s+1,st=i<ri?'done':'lock',a0=xpAt(s);
+    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock',a0=xpAt(s);
     const prog=st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
       :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`;
     g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="階級" aria-label="第 ${i+1} / ${RANKS.length} 階：${name}，${st==='done'?'已達成':'未解鎖'}">${rkSky(i)}
-      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${e?`Lv.${s}–${e}`:`Lv.${s}+`}</span></div>
+      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
       <div class="rk-badge">${rankBadge(i)}</div><h3>${name}</h3><p class="rk-desc">${R.d}</p>
       <div class="rk-prog">${prog}</div>
       <div class="rk-rew">${rkRew(i,st,using)}</div></article>`});
   if(ps.parentNode)ps.remove();t.innerHTML=g;$('pSlot').replaceWith(ps);
   if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',`第 ${ri+1} / ${RANKS.length} 階：${RANKS[ri]}，目前階級，我的檔案`);
   $('pRew').innerHTML=rkRew(ri,'cur',using);ps.style.setProperty('--rc',RINFO[ri].c);
-  $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri*2+1}+`:`Lv.${ri*2+1}–${ri*2+2}`;
+  $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri+1}+`:`Lv.${ri+1}`;
   t.scrollLeft=sl;
   $('rkDots').innerHTML=RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('');
   $('rkDots').querySelectorAll('.rk-dot').forEach(d=>d.onclick=()=>rkGo(+d.dataset.i,true));

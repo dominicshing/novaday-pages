@@ -10,9 +10,6 @@
 @keyframes spin {to{transform:rotate(360deg)}}
 @keyframes breathe {0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.06)}}
 
-/* src/css/layout/app-bar.css */
-@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}}
-
 /* src/css/components/avatar-picker.css */
 @keyframes kvRock {0%,100%{transform:rotate(-7deg)}50%{transform:rotate(5deg)}}
 @keyframes kvTilt {0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
@@ -135,6 +132,7 @@
 
 /* src/css/screens/me.css */
 @keyframes secFlash {0%,40%{background:rgba(255,180,92,.14);box-shadow:0 0 0 8px rgba(255,180,92,.14)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
+@keyframes hdSweep {0%,62%{left:-60%}82%,100%{left:130%}}
 
 /* src/css/screens/profile-editor.css */
 @keyframes pop {from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}

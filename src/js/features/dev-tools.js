@@ -141,7 +141,7 @@ function devUi(){const sec=(t,h,cls='')=>`<h3 class="set-h">${t}</h3><div class=
   $('dvUiBody').innerHTML=
     sec('心情星星',MOODS.map((m,i)=>cell(`<span class="dvu-moon">${moon(i)}</span>`,m.n)).join(''),'dvu5')
    +sec('頭像',AVATARS.map(k=>cell(`<span class="dvu-av">${avSVG(k)}</span>`,AVK[k]?AVK[k].n:k)).join(''))
-   +sec('階級徽章',RANKS.map((r,i)=>cell(`<span class="dvu-rb">${rankBadge(i)}</span>`,`${i*2+1}–${i*2+2} 級・${r}`)).join(''))
+   +sec('階級徽章',RANKS.map((r,i)=>cell(`<span class="dvu-rb">${rankBadge(i)}</span>`,`${i===RANKS.length-1?`${i+1} 級以上`:`${i+1} 級`}・${r}`)).join(''))
    +sec('徽章水晶（已解鎖・50%・未開始）',cats.map(([c,a])=>cell(`<span class="dvu-cr">${crystal(a.id,true)}${crystal(a.id,false,50)}${crystal(a.id,false,0)}</span>`,c[1])).join(''),'dvu1')
    +sec('按鈕',`<div class="dvu-row"><button type="button" class="btn">一般</button><button type="button" class="btn primary">主要</button><button type="button" class="btn danger">危險</button></div>
       <div class="dvu-row"><button type="button" class="dv-go">小按鈕</button><button type="button" class="dv-go ghost">次要</button><button type="button" class="dv-go danger">刪除</button><button type="button" class="dv-go" disabled>停用</button></div>

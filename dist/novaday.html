@@ -3773,7 +3773,7 @@ const buzz=p=>{try{if(!reduce&&navigator.vibrate)navigator.vibrate(p)}catch(_){}
 /* 心情等級 0–4：月相越滿＝心情越好；顏色由暗到亮 */
 const MOODS=[{n:'很低落',c:'--m0',e:'🌑'},{n:'有點累',c:'--m1',e:'🌘'},{n:'還可以',c:'--m2',e:'🌓'},{n:'不錯',c:'--m3',e:'🌔'},{n:'很棒',c:'--m4',e:'🌕'}];
 const RANKS=['見習觀星者','觀星者','星圖繪製者','星座獵人','天文學家','星空領航員','星河守護者','星雲探險家','銀河建築師','星系旅人','宇宙詩人','星際傳奇'];
-/* 每一階：代表色、介紹、解鎖的星線顏色（每 2 級晉升一階） */
+/* 每一階：代表色、介紹、解鎖的星線顏色（每升 1 級晉升一階，Lv.12 起是最高階） */
 const RINFO=[
  {c:'#B9BEE9',d:'剛拿起望遠鏡，開始認識夜空裡的第一批星星。',lv:{n:'月塵銀',c:['#F6F7FF','#B9BEE9','#6D73B3']}},
  {c:'#6FA8FF',d:'能在夜空中找到熟悉的星座，記錄沿途的風景。',lv:{n:'晴空藍',c:['#EEF5FF','#9CC2FF','#3F6FD1']}},
@@ -3787,7 +3787,7 @@ const RINFO=[
  {c:'#FF8C7A',d:'在不同的星系之間旅行，每段旅程都有回音。',lv:{n:'赤霞紅',c:['#FFF1EE','#FFB7AA','#C94A38']}},
  {c:'#8CF0B0',d:'把平凡的一天寫成詩，宇宙也為你停留。',lv:{n:'極光綠',c:['#F0FFF5','#B5F7CE','#2F9E62']}},
  {c:'#FFE7A3',d:'你的日記本身，就是一段星空傳奇。',lv:{n:'星河幻彩',c:['#FFF6FD','#D6C4FF','#5FB8D6']}}];
-const rankIdx=lv=>Math.min(RANKS.length-1,Math.floor((lv-1)/2));
+const rankIdx=lv=>Math.min(RANKS.length-1,Math.max(0,lv-1));
 const xpAt=L=>100*(L-1)+25*(L-1)*(L-2);
 /* 升到 Lv.L 需要的累積 XP */
 const hexA=(x,a)=>{const n=parseInt(x.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`};
@@ -4118,7 +4118,7 @@ const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(
 let XPM=new Map();
 const xpOf=e=>(XPM.get(e.id)||{total:0}).total;
 function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}
-const rankOf=lv=>RANKS[Math.min(RANKS.length-1,Math.floor((lv-1)/2))];
+const rankOf=lv=>RANKS[rankIdx(lv)];
 const weekKey=d=>{const t=new Date(d.getFullYear(),d.getMonth(),d.getDate());t.setDate(t.getDate()-t.getDay());return ymd(t)};
 /* 一週從星期日開始，和月曆一致 */
 /* 連續規則：每週（週一到週日）可休息 1 天不中斷；連續兩天沒寫才歸零 */
@@ -5245,7 +5245,7 @@ function renderEnergy(){
 }
 /* 「我的」頁：階級輪播 */
 const RK={cur:0,idx:-1,placed:false,rank:-1,drag:null,raf:0};
-function rkRew(i,st,using){const R=RINFO[i],s=i*2+1;
+function rkRew(i,st,using){const R=RINFO[i],s=i+1;
   const act=st==='lock'?`<span class="st">Lv.${s} 解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}">套用</button>`;
   return `${miniShip(i)}<span class="t">星線顏色「${R.lv.n}」<small>${st==='lock'?'晉升後解鎖':st==='cur'?'這一階的專屬顏色':'已解鎖，可套用到星空圖'}</small></span>${act}`}
 /* 觀星者卡片本身就是輪播：目前階級那一頁是個人檔案，左右滑動看其他階 */
@@ -5257,18 +5257,18 @@ function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" s
 function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),sl=t.scrollLeft,ps=$('pSlide');
   if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;const using=shipLiv();let g='';
   RANKS.forEach((name,i)=>{if(i===ri){g+='<i id="pSlot"></i>';return}
-    const R=RINFO[i],s=i*2+1,e=i===RANKS.length-1?null:s+1,st=i<ri?'done':'lock',a0=xpAt(s);
+    const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock',a0=xpAt(s);
     const prog=st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
       :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`;
     g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="階級" aria-label="第 ${i+1} / ${RANKS.length} 階：${name}，${st==='done'?'已達成':'未解鎖'}">${rkSky(i)}
-      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${e?`Lv.${s}–${e}`:`Lv.${s}+`}</span></div>
+      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
       <div class="rk-badge">${rankBadge(i)}</div><h3>${name}</h3><p class="rk-desc">${R.d}</p>
       <div class="rk-prog">${prog}</div>
       <div class="rk-rew">${rkRew(i,st,using)}</div></article>`});
   if(ps.parentNode)ps.remove();t.innerHTML=g;$('pSlot').replaceWith(ps);
   if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',`第 ${ri+1} / ${RANKS.length} 階：${RANKS[ri]}，目前階級，我的檔案`);
   $('pRew').innerHTML=rkRew(ri,'cur',using);ps.style.setProperty('--rc',RINFO[ri].c);
-  $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri*2+1}+`:`Lv.${ri*2+1}–${ri*2+2}`;
+  $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri+1}+`:`Lv.${ri+1}`;
   t.scrollLeft=sl;
   $('rkDots').innerHTML=RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('');
   $('rkDots').querySelectorAll('.rk-dot').forEach(d=>d.onclick=()=>rkGo(+d.dataset.i,true));
@@ -6526,7 +6526,7 @@ function devUi(){const sec=(t,h,cls='')=>`<h3 class="set-h">${t}</h3><div class=
   $('dvUiBody').innerHTML=
     sec('心情星星',MOODS.map((m,i)=>cell(`<span class="dvu-moon">${moon(i)}</span>`,m.n)).join(''),'dvu5')
    +sec('頭像',AVATARS.map(k=>cell(`<span class="dvu-av">${avSVG(k)}</span>`,AVK[k]?AVK[k].n:k)).join(''))
-   +sec('階級徽章',RANKS.map((r,i)=>cell(`<span class="dvu-rb">${rankBadge(i)}</span>`,`${i*2+1}–${i*2+2} 級・${r}`)).join(''))
+   +sec('階級徽章',RANKS.map((r,i)=>cell(`<span class="dvu-rb">${rankBadge(i)}</span>`,`${i===RANKS.length-1?`${i+1} 級以上`:`${i+1} 級`}・${r}`)).join(''))
    +sec('徽章水晶（已解鎖・50%・未開始）',cats.map(([c,a])=>cell(`<span class="dvu-cr">${crystal(a.id,true)}${crystal(a.id,false,50)}${crystal(a.id,false,0)}</span>`,c[1])).join(''),'dvu1')
    +sec('按鈕',`<div class="dvu-row"><button type="button" class="btn">一般</button><button type="button" class="btn primary">主要</button><button type="button" class="btn danger">危險</button></div>
       <div class="dvu-row"><button type="button" class="dv-go">小按鈕</button><button type="button" class="dv-go ghost">次要</button><button type="button" class="dv-go danger">刪除</button><button type="button" class="dv-go" disabled>停用</button></div>

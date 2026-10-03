@@ -18,7 +18,7 @@ const totalXP=l=>{let s=0;xpMap(l).forEach(v=>s+=v.total);return s+reviewXP(l)+(
 let XPM=new Map();
 const xpOf=e=>(XPM.get(e.id)||{total:0}).total;
 function levelInfo(xp){let lv=1,need=100,rest=xp;while(rest>=need){rest-=need;lv++;need=100+50*(lv-1)}return{lv,rest,need}}
-const rankOf=lv=>RANKS[Math.min(RANKS.length-1,Math.floor((lv-1)/2))];
+const rankOf=lv=>RANKS[rankIdx(lv)];
 const weekKey=d=>{const t=new Date(d.getFullYear(),d.getMonth(),d.getDate());t.setDate(t.getDate()-t.getDay());return ymd(t)};
 /* 一週從星期日開始，和月曆一致 */
 /* 連續規則：每週（週一到週日）可休息 1 天不中斷；連續兩天沒寫才歸零 */
