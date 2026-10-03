@@ -1,6 +1,7 @@
 /* 首頁：那年今日、回顧舊紀錄、月報卡片 */
 function memoryPick(){const t=new Date(),td=ymd(t),real=entries.filter(e=>!isSample(e));
-  const back=(y,m,d)=>{const x=new Date(t);x.setFullYear(x.getFullYear()-y);x.setMonth(x.getMonth()-m);x.setDate(x.getDate()-d);return ymd(x)};
+  /* 往前推幾年／幾個月：日期超過那個月的天數時取月底（3/31 的一個月前是 2/28，不是 setMonth 溢位成的 3/3） */
+  const back=(y,m,d)=>{if(d){const x=new Date(t);x.setDate(x.getDate()-d);return ymd(x)}const Y=t.getFullYear()-y,M=t.getMonth()-m,dim=new Date(Y,M+1,0).getDate();return ymd(new Date(Y,M,Math.min(t.getDate(),dim)))};
   for(const[lab,k]of[['一年前的今天',back(1,0,0)],['半年前的今天',back(0,6,0)],['一個月前的今天',back(0,1,0)],['一週前的今天',back(0,0,7)]]){
     const es=real.filter(e=>e.date===k);if(es.length)return{lab,e:es[es.length-1],n:es.length}}return null}
 function renderMemory(){const b=$('memCard');if(!b)return;const m=memoryPick();b.hidden=!m;if(!m)return;const e=m.e,md=MOODS[e.mood??2];

@@ -174,7 +174,9 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
   const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
-  if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
+  /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
+  if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
+  else if(editing){entries.push({id,...data,edited:1})}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
   clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;

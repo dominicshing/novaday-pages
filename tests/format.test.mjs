@@ -12,4 +12,11 @@ export default async ({ ok, open }) => {
   await p.evaluate(() => { closeSheet('detail'); go('log') }); await p.fill('#q', '#x'); await p.waitForTimeout(500);
   ok(await p.evaluate(() => [...document.querySelectorAll('#logList .entry')].map(e => e.dataset.id).join() === 'now'), '搜尋「#標籤」找得到有這個標籤的紀錄');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
-  await p.context().close() };
+  await p.context().close();
+
+  // 那年今日：3/31 的「一個月前」是 2/28，不是 setMonth 溢位成的 3/3
+  const off = new Date(2026, 2, 31, 12).getTime() - Date.now();
+  const q = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1 }, 'orbitlog.seeded.v1': '1', 'novaday.dev.dateOffset': String(off),
+    'orbitlog.entries.v1': [{ id: 'f', date: '2026-02-28', title: '二月底', mood: 2 }, { id: 'm', date: '2026-03-03', title: '三月三日', mood: 2 }] } });
+  ok(await q.evaluate(() => { const m = memoryPick(); return m && m.lab === '一個月前的今天' && m.e.id === 'f' }), '3/31 的「一個月前的今天」是 2/28');
+  await q.context().close() };

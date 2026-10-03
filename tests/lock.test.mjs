@@ -16,5 +16,11 @@ export default async ({ ok, open }) => {
   ok(await p.evaluate(() => !document.getElementById('lock').hidden), '密碼錯誤不會解鎖');
   await p.waitForTimeout(400); await type('1234');
   ok(await p.evaluate(() => document.getElementById('lock').hidden && !document.getElementById('app').inert), '輸入正確密碼解鎖');
+  // 提示（toast）要在密碼鎖與引導頁上面也看得到
+  const toastTop = () => p.evaluate(() => { const t = document.getElementById('toast'); t.style.pointerEvents = 'auto'; const r = t.getBoundingClientRect(), e = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); t.style.pointerEvents = ''; return !!(e && (e === t || t.contains(e))) });
+  await p.evaluate(() => { openLock('unlock'); toast('鎖畫面上的提示', 3000) }); await p.waitForTimeout(400);
+  ok(await toastTop(), '密碼鎖畫面上看得到提示');
+  await p.evaluate(() => { closeLock(); document.getElementById('onb').hidden = false; toast('引導頁上的提示', 3000) }); await p.waitForTimeout(400);
+  ok(await toastTop(), '引導頁上看得到提示');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

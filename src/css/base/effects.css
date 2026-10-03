@@ -9,7 +9,8 @@
 .spark{position:fixed;z-index:30;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
 .spark.st{width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:0;box-shadow:none;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
-.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
+/* 提示永遠在最上層（z 90）：引導頁（60）、密碼鎖（70）、慶祝畫面上的訊息（例如「無法取得位置」）才看得到 */
+.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:90;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
   padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

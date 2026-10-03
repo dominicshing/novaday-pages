@@ -453,7 +453,7 @@ html{overflow:hidden}
 .ios-bar{position:absolute;top:0;right:3px;width:3px;border-radius:2px;background:rgba(255,255,255,.5);opacity:0;z-index:6;pointer-events:none;
   transition:opacity .35s ease;will-change:transform}
 /* 可復原的提示列（snackbar） */
-.snack{position:absolute;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:36;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
+.snack{position:absolute;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:89;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:14px;
   background:#1B2054;border:1px solid var(--line);box-shadow:0 12px 30px -10px rgba(0,0,0,.7);font-size:14px;
   transform:translateY(20px);opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1);
   /* 收起時 visibility:hidden：裡面的「復原」按鈕不會被 Tab 移到、也不會被螢幕報讀讀到（淡出動畫結束才隱藏） */
@@ -3005,7 +3005,8 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .spark{position:fixed;z-index:30;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
 .spark.st{width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:0;box-shadow:none;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
-.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
+/* 提示永遠在最上層（z 90）：引導頁（60）、密碼鎖（70）、慶祝畫面上的訊息（例如「無法取得位置」）才看得到 */
+.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:90;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
   padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -5011,7 +5012,8 @@ $('bqOk').onclick=()=>bqSave();
 $('bqGo').onclick=()=>{if(bqSave())setTimeout(()=>openFortune(),reduce?0:260)};
 /* 首頁：那年今日、回顧舊紀錄、月報卡片 */
 function memoryPick(){const t=new Date(),td=ymd(t),real=entries.filter(e=>!isSample(e));
-  const back=(y,m,d)=>{const x=new Date(t);x.setFullYear(x.getFullYear()-y);x.setMonth(x.getMonth()-m);x.setDate(x.getDate()-d);return ymd(x)};
+  /* 往前推幾年／幾個月：日期超過那個月的天數時取月底（3/31 的一個月前是 2/28，不是 setMonth 溢位成的 3/3） */
+  const back=(y,m,d)=>{if(d){const x=new Date(t);x.setDate(x.getDate()-d);return ymd(x)}const Y=t.getFullYear()-y,M=t.getMonth()-m,dim=new Date(Y,M+1,0).getDate();return ymd(new Date(Y,M,Math.min(t.getDate(),dim)))};
   for(const[lab,k]of[['一年前的今天',back(1,0,0)],['半年前的今天',back(0,6,0)],['一個月前的今天',back(0,1,0)],['一週前的今天',back(0,0,7)]]){
     const es=real.filter(e=>e.date===k);if(es.length)return{lab,e:es[es.length-1],n:es.length}}return null}
 function renderMemory(){const b=$('memCard');if(!b)return;const m=memoryPick();b.hidden=!m;if(!m)return;const e=m.e,md=MOODS[e.mood??2];
@@ -6017,7 +6019,9 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
   const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
-  if(editing){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
+  /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
+  if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
+  else if(editing){entries.push({id,...data,edited:1})}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
   clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
