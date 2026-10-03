@@ -120,7 +120,7 @@ button{cursor:pointer;touch-action:manipulation}
 .tb.launch:focus-visible{outline:none}
 .tb.launch:focus-visible .lb{outline:2px solid var(--ion);outline-offset:4px}
 .tb.launch.firing .lb{animation:fbFire .6s cubic-bezier(.2,1.4,.4,1)}
-.tb.launch.firing .fbv{filter:drop-shadow(0 0 14px rgba(111,227,214,.85))}
+.tb.launch.firing .fbv{filter:drop-shadow(0 0 14px var(--mc,rgba(111,227,214,.85)))}
 .app.calm .tb.launch .fbv *,.app.calm .tb.launch .lb{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){
@@ -879,6 +879,8 @@ html{overflow:hidden}
 .cl-on{stroke-width:1.8;stroke-linecap:round}
 .cstar{cursor:pointer}
 .cstar .core{animation:twinkle 3.2s ease-in-out infinite}
+#gal .cstar.fresh{transition:opacity .25s}
+#gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
 .app.calm .cstar .core,.app.calm .nextring{animation:none}
@@ -2915,9 +2917,15 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
   .dv-fps{top:58px;left:22px}
 }
 /* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
-.comet{position:fixed;z-index:30;width:14px;height:14px;border-radius:50%;pointer-events:none;background:var(--flare);
-  box-shadow:0 0 14px 4px var(--flare),0 0 40px 10px var(--nebula);transition:transform .75s cubic-bezier(.5,0,.3,1)}
-.spark{position:fixed;z-index:30;width:6px;height:6px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
+/* 點亮動畫：彗星是心情色的四芒星（--mc），沿途留下星屑（.trail），抵達時擴散光圈（.lring）與火花（.spark，.st 為星形） */
+.comet{position:fixed;z-index:30;width:22px;height:22px;margin:-11px 0 0 -11px;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,var(--mc,var(--flare)) 0 22%,transparent 70%);box-shadow:0 0 18px 6px var(--mc,var(--flare)),0 0 44px 12px var(--nebula);
+  transition:transform .75s cubic-bezier(.5,0,.3,1)}
+.comet svg{display:block;width:100%;height:100%;fill:#fff;filter:drop-shadow(0 0 3px var(--mc,var(--flare)))}
+.trail{position:fixed;z-index:29;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 6px var(--c);animation:trail .6s ease-out forwards}
+.lring{position:fixed;z-index:29;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;pointer-events:none;border:2px solid var(--c);box-shadow:0 0 12px var(--c),inset 0 0 8px var(--c);opacity:0;animation:lring .85s ease-out forwards}
+.spark{position:fixed;z-index:30;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
+.spark.st{width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:0;box-shadow:none;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
 .floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
 .toast{position:absolute;left:50%;top:12px;transform:translate(-50%,-20px);opacity:0;z-index:35;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
   padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
@@ -2933,6 +2941,10 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 
 /* 動畫 */
 @keyframes spark {to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}
+}
+@keyframes trail {from{transform:scale(1);opacity:.9}to{transform:scale(.2);opacity:0}
+}
+@keyframes lring {0%{transform:scale(.4);opacity:.95}100%{transform:scale(6);opacity:0}
 }
 @keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}
 }
@@ -5761,7 +5773,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
   clearDraft();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
-  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);await launch()}
+  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
   {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}
   const lvA=levelInfo(totalXP(entries)).lv,newAch=ACH.filter(a=>a.t(entries)&&!achB.includes(a.id));
@@ -5816,15 +5828,27 @@ $('quickNote').addEventListener('submit',e=>{e.preventDefault();const t=$('qnTex
   openEditor();requestAnimationFrame(()=>{$('fBody').value=t;curMood=qnMood??2;renderMoods();$('qnText').value='';qnMood=null;setTimeout(()=>$('form').requestSubmit(),reduce?0:120)})});
 $('qnMore').onclick=()=>{const t=$('qnText').value.trim(),m=qnMood;openEditor();requestAnimationFrame(()=>{if(t)$('fBody').value=t;if(m!=null){curMood=m;renderMoods()}$('qnText').value='';qnMood=null;onEdit&&onEdit()})};
 /* 特效：彗星、火花、浮動 XP、升級畫面、snackbar、toast */
-async function launch(){if(reduce)return;const nb=$('newBtn');nb.classList.add('firing');setTimeout(()=>nb.classList.remove('firing'),900);await sleep(260);
-  const fb=$('newBtn').querySelector('span').getBoundingClientRect(),g=$('gal').getBoundingClientRect();
-  const sx=fb.left+fb.width/2-7,sy=fb.top+fb.height/2-7,tx=g.left+g.width/2-7,ty=g.top+g.height/2-7;
-  const c=document.createElement('div');c.className='comet';c.style.left=sx+'px';c.style.top=sy+'px';document.body.appendChild(c);
-  c.getBoundingClientRect();c.style.transform=`translate(${tx-sx}px,${ty-sy}px)`;await sleep(760);c.remove();burst(tx+7,ty+7)}
-function burst(x,y){const cols=['--m1','--m2','--m3','--m4','--flare','--nebula'];
-  for(let i=0;i<22;i++){const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=45+Math.random()*80;s.className='spark';
-    s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--c',`var(${cols[i%cols.length]})`);s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');
-    document.body.appendChild(s);setTimeout(()=>s.remove(),950)}}
+/* 點亮動畫：依心情決定顏色與節奏。彗星（四芒星）從＋按鈕飛到剛點亮的星，沿途留下星屑，抵達時擴散光圈＋火花
+   很低落：慢、火花少而柔；有點累：稍慢；還可以：一般；不錯：快、加星形火花；很棒：最快、兩圈光、大量星形火花 */
+const LAUNCH=[{t:950,n:10,d:[28,58],sd:1.3,st:0,ring:1},{t:850,n:14,d:[34,72],sd:1.15,st:0,ring:1},{t:750,n:22,d:[45,120],sd:.9,st:0,ring:1},
+  {t:650,n:28,d:[55,140],sd:.9,st:.35,ring:1},{t:600,n:36,d:[60,170],sd:1,st:.5,ring:2}];
+const MOOD_SPARKS=[['--m0','--m0','--m1'],['--m1','--m1','--m2'],['--m2','--m2','--m1'],['--m3','--m4','--m3'],['--m4','--m3','--flare']];
+async function launch(m=2){if(reduce)return;const P=LAUNCH[m]||LAUNCH[2],mc=`var(${MOODS[m].c})`,nb=$('newBtn');
+  nb.style.setProperty('--mc',mc);nb.classList.add('firing');setTimeout(()=>nb.classList.remove('firing'),900);await sleep(260);
+  const gal=$('gal'),nx=gal.querySelector('.cstar.fresh .core'),fb=nb.querySelector('span').getBoundingClientRect(),g=(nx||gal).getBoundingClientRect();gal.classList.add('arriving');   /* 新星先藏起來，彗星抵達時才亮 */
+  const sx=fb.left+fb.width/2,sy=fb.top+fb.height/2,tx=g.left+g.width/2,ty=g.top+g.height/2;
+  const c=document.createElement('div');c.className='comet';c.style.setProperty('--mc',mc);c.style.left=sx+'px';c.style.top=sy+'px';c.style.transitionDuration=P.t+'ms';
+  c.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1Q13.9 10.1 23 12Q13.9 13.9 12 23Q10.1 13.9 1 12Q10.1 10.1 12 1Z"/></svg>';document.body.appendChild(c);
+  c.getBoundingClientRect();c.style.transform=`translate(${tx-sx}px,${ty-sy}px) rotate(${180+m*90}deg)`;
+  const tr=setInterval(()=>{const r=c.getBoundingClientRect(),d=document.createElement('div');d.className='trail';d.style.setProperty('--c',mc);
+    d.style.left=(r.left+r.width/2)+'px';d.style.top=(r.top+r.height/2)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),600)},38);
+  await sleep(P.t+10);clearInterval(tr);c.remove();gal.classList.remove('arriving');burst(tx,ty,m)}
+function burst(x,y,m){const P=m==null?{n:22,d:[45,125],sd:.9,st:0,ring:0}:LAUNCH[m],cols=m==null?['--m1','--m2','--m3','--m4','--flare','--nebula']:MOOD_SPARKS[m];
+  for(let k=0;k<(P.ring||0);k++){const r=document.createElement('div');r.className='lring';r.style.setProperty('--c',`var(${cols[0]})`);r.style.left=x+'px';r.style.top=y+'px';r.style.animationDelay=k*.16+'s';
+    document.body.appendChild(r);setTimeout(()=>r.remove(),1000+k*160)}
+  for(let i=0;i<P.n;i++){const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=P.d[0]+Math.random()*(P.d[1]-P.d[0]);s.className='spark'+(Math.random()<P.st?' st':'');
+    s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--c',`var(${i%5===4?'--text':cols[i%cols.length]})`);s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');
+    s.style.animationDuration=P.sd+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),P.sd*1000+60)}}
 function floatXP(t){const g=$('gal').getBoundingClientRect(),f=document.createElement('div');f.className='floatxp';f.textContent=t;
   f.style.left=(g.left+g.width/2)+'px';f.style.top=(g.top+g.height/2-70)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1450)}
 function showLevel(lv){return new Promise(res=>{$('lvUpNum').textContent='Lv.'+lv;const nr=rankIdx(lv),promo=rankIdx(lv-1)!==nr;$('lvUpBadge').innerHTML=rankBadge(nr);$('lvUpRank').textContent=(promo?'晉升為「':'目前階級：「')+rankOf(lv)+'」';$('lvUpTitle').textContent=promo?'階級晉升':'等級提升';

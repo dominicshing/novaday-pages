@@ -17,6 +17,8 @@
 .cl-on{stroke-width:1.8;stroke-linecap:round}
 .cstar{cursor:pointer}
 .cstar .core{animation:twinkle 3.2s ease-in-out infinite}
+#gal .cstar.fresh{transition:opacity .25s}
+#gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
 .app.calm .cstar .core,.app.calm .nextring{animation:none}

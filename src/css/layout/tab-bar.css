@@ -18,7 +18,7 @@
 .tb.launch:focus-visible{outline:none}
 .tb.launch:focus-visible .lb{outline:2px solid var(--ion);outline-offset:4px}
 .tb.launch.firing .lb{animation:fbFire .6s cubic-bezier(.2,1.4,.4,1)}
-.tb.launch.firing .fbv{filter:drop-shadow(0 0 14px rgba(111,227,214,.85))}
+.tb.launch.firing .fbv{filter:drop-shadow(0 0 14px var(--mc,rgba(111,227,214,.85)))}
 .app.calm .tb.launch .fbv *,.app.calm .tb.launch .lb{animation:none!important}
 
 @media (prefers-reduced-motion:reduce){

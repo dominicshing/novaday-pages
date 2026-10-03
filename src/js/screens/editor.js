@@ -146,7 +146,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
   if(!save()){entries=before;return}
   clearDraft();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
-  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);await launch()}
+  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
   render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
   {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}
   const lvA=levelInfo(totalXP(entries)).lv,newAch=ACH.filter(a=>a.t(entries)&&!achB.includes(a.id));
