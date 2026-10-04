@@ -1,4 +1,4 @@
-// 下拉重新整理：重新讀取資料並重畫目前這一頁，不重新載入整個 App；畫面本身不移動
+// 下拉重新整理：畫面往下移、露出的空間和標題列同色；重新讀取資料並重畫目前這一頁，不重新載入整個 App
 export default async ({ ok, open }) => {
   const p = await open({ hasTouch: true, isMobile: true });
   await p.evaluate(() => { go('log'); window.__mark = 1 }); await p.waitForTimeout(400);
@@ -6,11 +6,11 @@ export default async ({ ok, open }) => {
   await p.evaluate(() => { const L = JSON.parse(localStorage.getItem('orbitlog.entries.v1')); L.push({ id: 'ext1', date: ymd(new Date()), time: '08:00', title: '外面新增的紀錄', mood: 3 }); localStorage.setItem('orbitlog.entries.v1', JSON.stringify(L)) });
   const c = await p.context().newCDPSession(p), T = (type, y) => c.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: 195, y }] });
   await T('touchStart', 200); let moved = false;
-  for (let y = 210; y <= 380; y += 10) { await T('touchMove', y); if (y === 300) moved = await p.evaluate(() => document.getElementById('s-log').style.transform === '' && +document.querySelector('.ptr').style.opacity > 0) }
+  for (let y = 210; y <= 380; y += 10) { await T('touchMove', y); if (y === 300) moved = await p.evaluate(() => { const sc = document.getElementById('s-log'), f = document.querySelector('.ptr-fill'); return /translateY\(\d+/.test(sc.style.transform) && parseFloat(f.style.height) > 0 && getComputedStyle(f).backgroundColor === getComputedStyle(sc.querySelector('.top')).backgroundColor && +document.querySelector('.ptr').style.opacity > 0 }) }
   await T('touchEnd', 380); await p.waitForTimeout(1300);
-  ok(moved, '往下拉時畫面不移動，只有星座指示器出現');
+  ok(moved, '往下拉時畫面往下移，露出的空間和標題列同色，顯示星座指示器');
   ok(await p.evaluate(() => window.__mark === 1 && document.querySelector('.screen.active').id === 's-log'), '重新整理不會重新載入 App，停在原本的分頁');
   ok(await p.evaluate(() => entries.some(e => e.id === 'ext1') && document.getElementById('logList').textContent.includes('外面新增的紀錄')), '重新讀取資料並重畫目前這一頁');
-  ok(await p.evaluate(() => getComputedStyle(document.getElementById('s-log')).overscrollBehaviorY === 'none' && getComputedStyle(document.documentElement).overscrollBehaviorY === 'none'), '關掉瀏覽器的回彈與內建下拉重新整理（畫面不會整片往下移）');
+  ok(await p.evaluate(() => getComputedStyle(document.getElementById('s-log')).overscrollBehaviorY === 'none' && getComputedStyle(document.documentElement).overscrollBehaviorY === 'none'), '關掉瀏覽器的回彈與內建下拉重新整理（改由 App 自己移動畫面）');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };

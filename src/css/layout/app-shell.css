@@ -16,7 +16,7 @@
 .sub{color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
-/* 下拉重新整理指示器：浮在內容上方往下滑（畫面本身不移動，不會露出後面不同顏色的底）。
+/* 下拉重新整理指示器：畫面往下移時，顯示在露出的空間中間；露出的空間（.ptr-fill）填上和標題列相同的底色。
    圖案是 Novaday 的 N 字星座：往下拉時連線一段段畫出、星星依序亮起，拉夠時右上角亮起金色四芒星；更新中星星輪流閃爍 */
 .ptr{position:absolute;top:0;left:50%;z-index:5;width:50px;height:50px;margin-left:-25px;display:grid;place-items:center;border-radius:50%;
   background:radial-gradient(circle at 50% 35%,#1C2160,#0B0E2C 75%);border:1px solid rgba(138,124,255,.35);
@@ -33,7 +33,8 @@
 .ptr.go .ps:nth-of-type(3){animation-delay:.5s}
 .ptr.go .ps:nth-of-type(4){animation-delay:.75s}
 .ptr.go .pk{animation:ptrK 1.6s ease-in-out infinite}
-.ptr.back{transition:transform .28s ease,opacity .28s ease}
+.ptr-fill{position:absolute;top:0;left:0;right:0;height:0;z-index:4;pointer-events:none}
+.ptr.back,.ptr-fill.back,.screen.ptr-back{transition:transform .28s ease,opacity .28s ease,height .28s ease}
 @keyframes ptrTw{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
 @keyframes ptrK{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.2) rotate(45deg)}}
 @media (prefers-reduced-motion:reduce){.ptr.go .ps,.ptr.go .pk{animation:none}}
