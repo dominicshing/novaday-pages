@@ -14,6 +14,7 @@ function fixEntry(o,seen){if(!o||typeof o!=='object'||Array.isArray(o)||!okDate(
   if(e.tags!=null&&!(Array.isArray(e.tags)&&e.tags.every(t=>typeof t==='string')))e.tags=Array.isArray(e.tags)?e.tags.filter(t=>typeof t==='string'&&t.trim()):typeof e.tags==='string'&&e.tags.trim()?[e.tags]:[];
   if(e.photo!=null&&typeof e.photo!=='string')e.photo=null;
   if('photoMore' in e){const a=Array.isArray(e.photoMore)?e.photoMore.filter(x=>typeof x==='string'):[];if(a.length)e.photoMore=a;else delete e.photoMore}
+  if('tz' in e&&!tzOK(e.tz))delete e.tz;
   if('video' in e&&!(e.video&&typeof e.video==='object'&&typeof e.video.id==='string'))delete e.video;
   return e}
 function load(){let raw=null;try{raw=localStorage.getItem(KEY)}catch(e){}

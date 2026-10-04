@@ -14,6 +14,7 @@ function cleanEntry(o){if(!o||typeof o!=='object')return null;
     tags:Array.isArray(o.tags)?[...new Set(o.tags.filter(t=>typeof t==='string').map(t=>t.trim().slice(0,30)).filter(Boolean))].slice(0,20):[],
     loc:st(o.loc,120).trim(),photo:null};
   if(typeof o.prompt==='string'&&o.prompt)e.prompt=o.prompt.slice(0,200);
+  if(tzOK(o.tz))e.tz=o.tz;
   if(o.sample)e.sample=1;if(o.edited)e.edited=1;if(o.fav)e.fav=1;
   const ph=(Array.isArray(o.photos)?o.photos:[]).filter(imPhotoOK).slice(0,10);if(ph.length){e.photo=ph[0];if(ph.length>1)e.photoMore=ph.slice(1)}
   if(!e.photo&&o.video&&typeof o.video.id==='string'&&/^v\w{1,40}$/.test(o.video.id))e.video={id:o.video.id,dur:Number(o.video.dur)||0,poster:imPhotoOK(o.video.poster)?o.video.poster:null};

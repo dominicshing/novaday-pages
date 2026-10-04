@@ -59,7 +59,7 @@ function entrySVG(e,full){const W=1080,H=1350,m=e.mood??2,col=MOOD_HEX[m],r=seed
   g+=`<circle cx="${W/2}" cy="${sy}" r="${sr*.9}" fill="${col}" opacity=".5" filter="url(#bl)"/><path d="${sp4(W/2,sy,sr)}" fill="${col}"/><circle cx="${W/2}" cy="${sy}" r="${sr*.12}" fill="#fff"/>`;
   let y=sy+sr+80;
   g+=`<text x="${W/2}" y="${y}" text-anchor="middle" font-family="${CARD_FONT}" font-size="34" font-weight="700" letter-spacing="4" fill="${col}">${MOODS[m].n}</text>`;
-  y+=58;const when=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}・星期${WD[d.getDay()]}${e.time?'・'+e.time:''}`;
+  y+=58;const when=`${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}・星期${WD[d.getDay()]}${e.time?'・'+fmtTime(e.time):''}`;
   g+=`<text x="${W/2}" y="${y}" text-anchor="middle" font-family="${CARD_FONT}" font-size="30" fill="#9AA0D0">${X(when)}${e.loc?`<tspan fill="#6FE3D6">　${X(e.loc.length>12?e.loc.slice(0,12)+'…':e.loc)}</tspan>`:''}</text>`;
   const title=e.title||(full?'':(e.body||'').slice(0,40))||'今天的星光';
   const tl=wrapText(title,full?60:72,800,880,2);y+=full?110:140;

@@ -177,7 +177,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
   if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else if(editing){entries.push({id,...data,edited:1})}
-  else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);entries.push({id,...data})}
+  else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);const tz=devTZ();entries.push({id,...data,...(tz?{tz}:{})})}
   if(!save()){entries=before;return}
   clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
   if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */

@@ -43,6 +43,7 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
       return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
     ${e.title?`<h3>${esc(e.title)}</h3>`:''}
     <div class="dv-when"><span>${esc(fmtDayY(e.date))}${e.time?` ${esc(fmtTime(e.time))}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
+    ${(H=>H?`<div class="dv-tz" title="${esc(e.tz)}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5s1.2-6.1 3.8-8.5z"/></svg>寫的時候在${esc(H.name)}・${H.rel}</div>`:'')(tzHint(e))}
     <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
     ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
     <div class="body">${esc(e.body)}</div>

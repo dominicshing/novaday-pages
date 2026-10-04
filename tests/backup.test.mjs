@@ -10,7 +10,7 @@ const SEED = {
   'orbitlog.entries.v1': [
     { id: 'a1', date: '2026-09-30', time: '10:00', title: '照片', body: '有照片', mood: 3, tags: [], loc: '', photo: PNG, photoMore: [PNG] },
     { id: 'a2', date: '2026-10-01', time: '11:00', title: '影片', body: '有影片', mood: 4, tags: [], loc: '', photo: null, video: { id: 'vtest123', dur: 3, poster: PNG } },
-    { id: 'a3', date: '2026-10-02', time: '12:00', title: '文字', body: '只有字', mood: 2, tags: [], loc: '家', photo: null, fav: 1 }] };
+    { id: 'a3', date: '2026-10-02', time: '12:00', title: '文字', body: '只有字', mood: 2, tags: [], loc: '家', photo: null, fav: 1, tz: 'Asia/Tokyo' }] };
 
 export default async ({ ok, open, run }) => {
   const p = await open({ seed: SEED });
@@ -50,6 +50,6 @@ export default async ({ ok, open, run }) => {
   const after = await p.evaluate(async () => { const o = {}; for (const e of entries) { o[e.id] = []; for (const u of [e.photo, ...(e.photoMore || []), e.video && e.video.poster].filter(Boolean)) { const b = await phBlob(u); o[e.id].push(b ? b.size : 0) } } return o });
   const norm = o => JSON.stringify(Object.keys(o).sort().map(k => [o[k].length, o[k]]));
   ok(norm(before) === norm(after), '還原後每張照片大小一致');
-  ok(await p.evaluate(async () => { const v = await mediaGet('vtest123'); return v && v.size === 1048576 && prof.avatar === 'photo' && prof.photoAv && prof.region.lon === 114.17 && entries.find(e => e.title === '文字').fav === 1 }), '影片、照片頭像、地區經度、收藏都還原');
+  ok(await p.evaluate(async () => { const v = await mediaGet('vtest123'); return v && v.size === 1048576 && prof.avatar === 'photo' && prof.photoAv && prof.region.lon === 114.17 && entries.find(e => e.title === '文字').fav === 1 && entries.find(e => e.title === '文字').tz === 'Asia/Tokyo' }), '影片、照片頭像、地區經度、收藏、時區都還原');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   fs.rmSync(zip, { force: true }); await p.context().close() };

@@ -2,6 +2,17 @@
 const WD=['日','一','二','三','四','五','六'];
 /* 時間顯示：預設 12 小時制（上午 9:05／下午 9:30），設定可改成 24 小時制（prof.clock24）。資料一律存 24 小時制 HH:MM */
 const fmtTime=t=>{if(!t)return '';if(typeof prof!=='undefined'&&prof.clock24)return t;const[h,m]=t.split(':').map(Number);return isNaN(h)?t:`${h<12?'上午':'下午'} ${h%12||12}:${String(m).padStart(2,'0')}`};
+/* 時區：新紀錄存下寫的當下裝置的時區（IANA 名稱，例如 Asia/Taipei）。date、time 仍是當地時間，不依時區換算；
+   只在紀錄的時區和現在裝置的時差不同時，詳情頁才提示「寫的時候是哪個時區」 */
+const devTZ=()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){return ''}};
+const tzOK=z=>typeof z==='string'&&/^[A-Za-z][\w+\-/]{0,63}$/.test(z);
+/* 某個時區在某個瞬間比 UTC 快幾分鐘；時區名稱無效時回傳 null */
+function tzOffset(z,d){try{const p={};new Intl.DateTimeFormat('en-US',{timeZone:z,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric'}).formatToParts(d).forEach(x=>p[x.type]=x.value);
+  return Math.round((Date.UTC(+p.year,p.month-1,+p.day,+p.hour%24,+p.minute)-Math.floor(d.getTime()/6e4)*6e4)/6e4)}catch(e){return null}}
+function tzHint(e){if(!e||!tzOK(e.tz))return null;const here=devTZ();if(!here||e.tz===here)return null;
+  const d=parse(e.date);d.setHours(12);const a=tzOffset(e.tz,d),b=tzOffset(here,d);if(a==null||b==null||a===b)return null;
+  let name='';try{name=new Intl.DateTimeFormat('zh-TW',{timeZone:e.tz,timeZoneName:'long'}).formatToParts(d).find(x=>x.type==='timeZoneName').value}catch(_){}
+  const h=Math.abs(a-b)/60;return{name:name||e.tz,rel:`比這裡${a>b?'快':'慢'} ${Number.isInteger(h)?h:h.toFixed(1).replace(/\.0$/,'')} 小時`}}
 const sysReduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $=id=>document.getElementById(id);
 const pad=n=>String(n).padStart(2,'0');
