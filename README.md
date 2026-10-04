@@ -27,7 +27,7 @@
 - **單檔版**：改完原始碼後執行 `npm run build`，重新產生 `dist/novaday.html`。
 - **測試**：`npm install` 後執行 `npm test`。
 - 程式結構、載入順序、資料存在哪裡、怎麼新增功能，都寫在 [docs/architecture.md](docs/architecture.md)。
-- 範例紀錄的照片與影片取自 Wikimedia Commons，作者與授權列在 [docs/sample-media-credits.md](docs/sample-media-credits.md)。
+- 範例紀錄的照片取自 Wikimedia Commons（CC0）、影片取自 Mixkit（免費授權），來源列在 [docs/sample-media-credits.md](docs/sample-media-credits.md)。
 
 ## Flutter 素材 `assets/`
 

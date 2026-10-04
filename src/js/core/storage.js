@@ -30,10 +30,16 @@ function seed(){const t=new Date(),a=n=>{const d=new Date(t);d.setDate(d.getDate
   const vid=(id,k,poster,dur)=>{if(!M||!M[k])return undefined;try{const b=atob(M[k]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);mediaPut(id,new Blob([u],{type:'video/mp4'})).catch(()=>{})}catch(e){return undefined}return{id,dur,poster:M[poster]}};
   const ph=k=>M&&M[k]||null;
   entries=[
-   {id:'s1',sample:1,date:a(1),time:'08:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上的咖啡特別好喝，窗邊的小盆栽也冒出新葉子了。',mood:3,tags:['開始'],loc:'家',photo:ph('coffee'),photoMore:ph('plant')?[ph('plant')]:undefined},
-   {id:'s2',sample:1,date:a(2),time:'16:40',title:'第一次自己烤瑪芬',body:'照著食譜烤了一盤柳橙瑪芬，有幾個烤得有點焦，但整間屋子都是香香的味道。下次想試試看藍莓口味。',mood:3,tags:['烘焙'],loc:'家',photo:ph('muffin')},
-   {id:'s4',sample:1,date:a(3),time:'17:48',title:'臨時起意去海邊',body:'臨時起意跑去海邊，沙灘上幾乎沒有人。浪一直打上來，拍了一段影片留著。',mood:4,tags:['旅行','海邊'],loc:'淡水・沙崙海灘',photo:null,video:vid('vsamplesea','sea','posterSea',4)},
-   {id:'s5',sample:1,date:a(4),time:'15:30',title:'森林裡的野餐',body:'和朋友帶著野餐籃去郊外，鋪上紅白格子桌巾，吃吃喝喝聊了一整個下午。樹蔭下很涼，連時間都變慢了。',mood:3,tags:['野餐','朋友'],loc:'陽明山',photo:ph('picnic'),photoMore:ph('chairs')?[ph('chairs')]:undefined},
-   {id:'s3',sample:1,date:a(5),time:'13:05',title:'睡到自然醒的星期天',body:'什麼都沒安排，睡到快中午才起床。下午泡了一壺茶，坐在窗邊發呆看雲，偶爾這樣慢下來也很好。',mood:2,tags:['休息'],loc:'家',photo:null},
-   {id:'s6',sample:1,date:a(7),time:'16:10',title:'窗邊的兩隻貓',body:'午後的陽光照進客廳，兩隻貓並排坐在窗邊看外面，尾巴一晃一晃的。我也跟著放空，看了好久。',mood:4,tags:['貓','家'],loc:'家',photo:null,video:vid('vsamplecat','cat','posterCat',4)}];
+   {id:'s1',sample:1,date:a(1),time:'08:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上泡了一壺花茶，配一塊小點心，慢慢喝完才出門。',mood:3,tags:['開始'],loc:'家',photo:ph('tea'),photoMore:ph('teatime')?[ph('teatime')]:undefined},
+   {id:'s2',sample:1,date:a(3),time:'10:20',title:'巷口新開的咖啡店',body:'巷口新開了一家咖啡店，點了一杯卡布奇諾。店員拉花的時候忍不住拍了下來，奶泡很綿，味道也很好。',mood:3,tags:['咖啡'],loc:'巷口咖啡店',photo:null,video:vid('vsamplelatte','latte','posterLatte',4)},
+   {id:'s3',sample:1,date:a(6),time:'16:10',title:'窗邊的小貓',body:'午後的陽光照進來，牠一直趴在窗邊看外面的鳥，耳朵動來動去，偶爾回頭看我一眼。',mood:4,tags:['貓','家'],loc:'家',photo:null,video:vid('vsamplecat','cat','posterCat',4)},
+   {id:'s4',sample:1,date:a(9),time:'17:20',title:'臨時起意去海邊',body:'臨時起意跑去海邊，沙灘上幾乎沒有人。浪一層一層打上來，待到太陽快下山才離開。',mood:4,tags:['旅行','海邊'],loc:'淡水・沙崙海灘',photo:ph('sand'),video:vid('vsamplewaves','waves','posterWaves',4)},
+   {id:'s5',sample:1,date:a(12),time:'12:30',title:'公園野餐',body:'和朋友約在公園野餐，每個人帶一道菜。鋪上藍白格子野餐墊，水果和麵包擺滿一整桌，聊到太陽都斜了。',mood:4,tags:['野餐','朋友'],loc:'大安森林公園',photo:ph('berries'),video:vid('vsamplepicnic','picnic','posterPicnic',4)},
+   {id:'s6',sample:1,date:a(15),time:'11:50',title:'睡到自然醒的星期天',body:'什麼都沒安排，睡到快中午才起床。泡了一杯咖啡窩在床上看詩集，貓在旁邊睡得好熟。偶爾這樣慢下來也很好。',mood:2,tags:['休息','閱讀'],loc:'家',photo:ph('bed'),photoMore:ph('kitten')?[ph('kitten')]:undefined},
+   {id:'s7',sample:1,date:a(18),time:'09:30',title:'週末的手沖咖啡',body:'終於學會用手沖壺慢慢繞圈注水，看著咖啡粉一點一點膨脹起來，整個早上都很安靜。',mood:3,tags:['咖啡'],loc:'家',photo:null,video:vid('vsamplepour','pour','posterPour',4)},
+   {id:'s8',sample:1,date:a(21),time:'14:20',title:'去看櫻花',body:'櫻花開了，趁平日人少去走走。風一吹花瓣就飄下來，抬頭是整片粉紅色的天空。',mood:4,tags:['賞花','散步'],loc:'陽明山',photo:ph('sakura'),video:vid('vsampleblossom','blossom','posterBlossom',4)},
+   {id:'s9',sample:1,date:a(24),time:'20:40',title:'小貓鑽進草帽',body:'剛買的草帽放在沙發上，一轉頭就被牠佔走了。窩在裡面東張西望，完全不打算出來。',mood:4,tags:['貓'],loc:'家',photo:null,video:vid('vsamplehat','hat','posterHat',4)},
+   {id:'s10',sample:1,date:a(28),time:'15:00',title:'海邊吊床上看書',body:'躺在海邊的吊床上看了一下午的書。海風很舒服，看幾頁就抬頭看看海，書反而沒看多少。',mood:4,tags:['旅行','閱讀'],loc:'綠島',photo:null,video:vid('vsamplehammock','hammock','posterHammock',4)},
+   {id:'s11',sample:1,date:a(29),time:'18:05',title:'金色的夕陽',body:'旅行的第一天，傍晚坐在沙灘上看夕陽，整片海都被染成金色。什麼都不想，就這樣看到天黑。',mood:4,tags:['旅行','夕陽'],loc:'綠島',photo:null,video:vid('vsamplesunset','sunset','posterSunset',4)},
+   {id:'s12',sample:1,date:a(32),time:'06:10',title:'清晨的熱氣球',body:'一大早起床去看熱氣球。太陽剛出來，熱氣球慢慢升空，倒影映在湖面上，像在作夢一樣。',mood:4,tags:['旅行'],loc:'台東・鹿野',photo:ph('balloon')}];
   entries.forEach(e=>{Object.keys(e).forEach(k=>e[k]===undefined&&delete e[k]);if(e.video===undefined)delete e.video});save()}
