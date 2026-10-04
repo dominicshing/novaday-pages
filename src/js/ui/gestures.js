@@ -20,7 +20,9 @@
     p={s,x:e.touches[0].clientX,y:e.touches[0].clientY,d:0,on:false}},{passive:true});
   wrap.addEventListener('touchmove',e=>{if(!p)return;if(e.touches.length!==1){if(p.on)hide();p=null;return}
     const dx=e.touches[0].clientX-p.x,dy=e.touches[0].clientY-p.y;
-    if(!p.on){if(Math.abs(dx)<8&&Math.abs(dy)<8)return;if(dy<=0||Math.abs(dx)>dy||p.s.scrollTop>0){p=null;return}p.on=true}
+    /* 在頁面頂端往下拉：第一次移動就擋下瀏覽器的捲動（iOS 一開始回彈之後就擋不住，整個畫面會跟著往下移） */
+    if(!p.on){if(dy>0&&dy>=Math.abs(dx)&&p.s.scrollTop<=0&&e.cancelable)e.preventDefault();
+      if(Math.abs(dx)<8&&Math.abs(dy)<8)return;if(dy<=0||Math.abs(dx)>dy||p.s.scrollTop>0){p=null;return}p.on=true}
     if(e.cancelable)e.preventDefault();p.d=Math.min(120,Math.max(0,dy)*.5);paint(p.d)},{passive:false});
   const end=()=>{if(!p)return;const {d,on}=p;p=null;if(!on)return;
     if(d>=TH){buzz(8);ind.classList.add('back');paint(TH);refresh()}

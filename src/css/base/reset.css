@@ -1,6 +1,7 @@
 /* 基本重設：盒模型、字型、按鈕預設樣式、[hidden] */
 /* text-size-adjust：手機橫拿時 iOS Safari 不會自動放大文字把版面撐亂（使用者仍可以雙指縮放） */
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%;overscroll-behavior:none}
+body{overscroll-behavior:none}
 [hidden]{display:none!important}
 *,*::before,*::after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
 body{margin:0;height:100%;color:var(--text);background:var(--bg);overflow:hidden;

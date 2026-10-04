@@ -11,5 +11,6 @@ export default async ({ ok, open }) => {
   ok(moved, '往下拉時畫面不移動，只有星座指示器出現');
   ok(await p.evaluate(() => window.__mark === 1 && document.querySelector('.screen.active').id === 's-log'), '重新整理不會重新載入 App，停在原本的分頁');
   ok(await p.evaluate(() => entries.some(e => e.id === 'ext1') && document.getElementById('logList').textContent.includes('外面新增的紀錄')), '重新讀取資料並重畫目前這一頁');
+  ok(await p.evaluate(() => getComputedStyle(document.getElementById('s-log')).overscrollBehaviorY === 'none' && getComputedStyle(document.documentElement).overscrollBehaviorY === 'none'), '關掉瀏覽器的回彈與內建下拉重新整理（畫面不會整片往下移）');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close() };
