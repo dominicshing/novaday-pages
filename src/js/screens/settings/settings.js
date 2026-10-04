@@ -15,7 +15,7 @@ $('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()}
 $('liAbout').onclick=()=>openSheet('aboutSheet');
 $('swFig').onclick=()=>{prof.noFig=!prof.noFig;saveProf();renderMe();render();toast(prof.noFig?'已隱藏星座剪影':'已顯示星座剪影')};
 $('swObDev').onclick=()=>{prof.devOnb=!prof.devOnb;saveProf();renderMe();toast(prof.devOnb?'下次開啟 App 時會顯示引導':'已關閉引導預覽')};
-$('liWipe').onclick=openWipe;
+$('liWipe').onclick=()=>openWipe('entries');$('liResetProf').onclick=()=>openWipe('prof');$('liInitAll').onclick=()=>openWipe('all');
 $('liSamples').onclick=async()=>{const n=entries.filter(isSample).length;const k=await ask('清除範例紀錄？',`會移除 ${n} 則範例紀錄，你自己寫的紀錄不受影響。`,[{k:'cancel',t:'取消'},{k:'ok',t:'清除範例',cls:'danger'}]);
   if(k!=='ok')return;entries=entries.filter(e=>!isSample(e));save();render();toast('已清除範例紀錄')};
 /* 設定：清除範例紀錄 */

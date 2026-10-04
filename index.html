@@ -590,13 +590,15 @@
       <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
       <div class="list panel">
         <button class="li danger" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄</span></span></button>
+        <button class="li" id="liResetProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、生日、地區與所有設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li danger" id="liInitAll"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>全部初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <p class="ver">Novaday・每天點亮一顆新星・v2.0</p>
       </div>
     </div>
   </div>
 
-  <!-- 清除所有紀錄（需輸入確認） -->
+  <!-- 清除所有紀錄／重設個人資料與設定／全部初始化（都要輸入確認字） -->
   <div class="layer" id="wipeSheet" aria-hidden="true">
     <div class="bd" data-close></div>
     <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="wpTitle">
@@ -605,7 +607,7 @@
       <div class="sb">
         <p class="wp-msg" id="wpMsg"></p>
         <button type="button" class="btn" id="wpExport" style="width:100%">先匯出備份</button>
-        <label class="mf" style="margin-top:16px"><span class="mf-l">輸入「刪除」兩個字以確認</span><input class="field" id="wpIn" autocomplete="off" placeholder="刪除"></label>
+        <label class="mf" style="margin-top:16px"><span class="mf-l" id="wpLbl">輸入「刪除」以確認</span><input class="field" id="wpIn" autocomplete="off" placeholder="刪除"></label>
         <button type="button" class="btn danger wp-go" id="wpGo" disabled>永久刪除全部紀錄</button>
       </div>
     </div>
@@ -697,8 +699,6 @@
         <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>初始化</h3>
         <div class="list panel">
           <button class="li" id="dvInitDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>重設開發者工具<small>關閉這頁的所有模擬與檢查，移除測試紀錄，日記保持不變</small></span></span><span class="chev" aria-hidden="true">›</span></button>
-          <button class="li" id="dvInitProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、生日、地區與所有設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
-          <button class="li danger" id="dvInitAll"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>全部初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
           <button class="li" id="dvHide"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1A9 9 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-2.6 3.3M6.5 7.6A16 16 0 0 0 2.5 12S6 18 12 18a9 9 0 0 0 4-.9"/></svg></i><span>隱藏開發者選項<small>之後在「版本資訊」連點版本號碼 7 次即可再次開啟</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         </div>
       </div>

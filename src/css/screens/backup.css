@@ -1,6 +1,7 @@
 /* 匯出、還原、儲存空間、清除所有紀錄 */
 .wp-msg{margin:0 0 14px;font-size:14px;line-height:1.6;color:var(--muted)}
 .wp-msg b{color:#FF9AA8}
+.wp-msg b.keep{color:var(--text,#E8E9FF)}
 .wp-go{width:100%;margin-top:14px}
 .wp-go:disabled{opacity:.4}
 

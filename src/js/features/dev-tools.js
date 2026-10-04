@@ -79,7 +79,7 @@ $('dvDateGo').onclick=()=>{const v=$('dvDate').value,tm=$('dvTime').value||'12:0
   try{localStorage.setItem(DEV_CLOCK,String(new R(y,m-1,d,hh,mm).getTime()-R.now()))}catch(_){}location.reload()};
 $('dvDateReset').onclick=()=>{try{localStorage.removeItem(DEV_CLOCK)}catch(_){}location.reload()};
 function devPill(){if(!devOff())return;const n=new Date(),b=document.createElement('button');b.type='button';b.className='dv-pill';
-  b.textContent=`模擬日期・${n.getMonth()+1}/${n.getDate()} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
+  b.textContent=`模擬日期・${fmtMD(n)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
 /* 極端緯度：一鍵切換測試地區，原本的地區存在 devRegPrev，按「還原」放回 */
 const DV_GEO=[{name:'赤道・基多（測試）',lat:-0.2,lon:-78.5},{name:'北極圈・特羅姆瑟（測試）',lat:69.6,lon:18.9},{name:'南極・麥克默多站（測試）',lat:-77.8,lon:166.7}];
 $('dvGeo').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{if(!('devRegPrev' in prof))prof.devRegPrev=prof.region||null;prof.region={...DV_GEO[+b.dataset.g]};saveProf();devRefresh();toast(`地區已切到${prof.region.name}`)});
@@ -165,24 +165,18 @@ function devStore(){const L=[];try{for(let i=0;i<localStorage.length;i++){const 
 $('liDvStore').onclick=()=>{devStore();$('devStoreSheet').querySelector('.sb').scrollTop=0;openSheet('devStoreSheet')};
 /* 錯誤紀錄：000-error-overlay.js 會把錯誤存進 novaday.dev.errors（最多 30 筆） */
 function devErrRender(){const L=devErrs();
-  $('dvErrList').innerHTML=L.length?L.map(e=>{const d=new Date(e.t);return `<div class="dve"><small>${d.getMonth()+1}/${d.getDate()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${e.s?'・'+esc(e.s):''}</small><code>${esc(e.m)}</code></div>`}).join(''):'<p class="dv-empty">目前沒有錯誤紀錄 ✦</p>';
+  $('dvErrList').innerHTML=L.length?L.map(e=>{const d=new Date(e.t);return `<div class="dve"><small>${fmtMD(d)} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${e.s?'・'+esc(e.s):''}</small><code>${esc(e.m)}</code></div>`}).join(''):'<p class="dv-empty">目前沒有錯誤紀錄 ✦</p>';
   $('dvErrClr').disabled=$('dvErrCopy').disabled=!L.length}
 $('liDvErr').onclick=()=>{devErrRender();openSheet('devErrSheet')};
 $('dvErrTest').onclick=()=>{setTimeout(()=>{throw new Error('這是開發者工具產生的測試錯誤')});setTimeout(()=>{devErrRender();devRender()},80)};
 $('dvErrCopy').onclick=()=>devCopy(devErrs().map(e=>`${new Date(e.t).toISOString()} ${e.s||''} ${e.m}`).join('\n'));
 $('dvErrClr').onclick=()=>{try{localStorage.removeItem(DV_ERR)}catch(_){}const b=$('errBox');if(b)b.remove();devErrRender();devRender();toast('已清除錯誤紀錄')};
-/* 初始化：重設開發者工具／重設個人資料與設定（保留日記）／全部初始化（回到第一次使用） */
+/* 重設開發者工具（「重設個人資料與設定」「全部初始化」在一般設定的「重設」裡，見 backup/wipe.js） */
 function devResetTools(){if(prof.devEmpty)devEmptyOff();devGeoReset();entries=entries.filter(e=>!e.dev);save();
   ['devFs','devSlow','devXP','devAch','devTouch','devFps','devW','devOnb','noFig'].forEach(k=>delete prof[k]);saveProf();
   try{[DEV_CLOCK,DV_ERR].forEach(k=>localStorage.removeItem(k))}catch(_){}}
 $('dvInitDev').onclick=async()=>{const k=await ask('重設開發者工具？','關閉這頁所有的模擬與檢查（日期、地區、等級、徽章、字級、外框等），並移除測試紀錄。你的日記與個人資料不受影響。',[{k:'cancel',t:'取消'},{k:'ok',t:'重設並重新載入'}]);
   if(k!=='ok')return;devResetTools();location.reload()};
-$('dvInitProf').onclick=async()=>{const k=await ask('重設個人資料與設定？','頭像、暱稱、生日、地區、提醒、密碼鎖與所有設定都會回到預設值，星座順序也會重新抽選。日記紀錄會保留。',[{k:'cancel',t:'取消'},{k:'ok',t:'重設',cls:'danger'}]);
-  if(k!=='ok')return;devResetTools();try{localStorage.setItem(PKEY,JSON.stringify({devOn:1}))}catch(_){}location.reload()};
-$('dvInitAll').onclick=async()=>{const k=await ask('全部初始化？','這台裝置上的所有日記、照片、影片、個人資料與設定都會被永久刪除，回到第一次打開 App 的樣子。建議先到「匯出與備份」下載備份。',[{k:'cancel',t:'取消'},{k:'ok',t:'全部刪除並初始化',cls:'danger'}]);
-  if(k!=='ok')return;
-  try{Object.keys(localStorage).filter(x=>/^(orbitlog|novaday)\./.test(x)).forEach(x=>localStorage.removeItem(x))}catch(_){}
-  const go=()=>location.reload();try{const r=indexedDB.deleteDatabase(MDB);r.onsuccess=r.onerror=r.onblocked=go;setTimeout(go,1500)}catch(_){go()}};
 /* 隱藏入口：預設不顯示開發者選項，在「版本資訊」連點版本號碼 7 次開啟 */
 function devSecSync(){$('devSecH').hidden=$('devSec').hidden=!prof.devOn}
 if(prof.devOn==null&&(prof.devOnb||prof.noFig||prof.devFs>1||prof.devSlow||devOff())){prof.devOn=1;saveProf()}
