@@ -6,11 +6,9 @@
 |---|---|---|---|---|---|
 | `tea` | 第一次啟動日誌（主照片） | [Tea(byCarliJeen).jpg](https://commons.wikimedia.org/wiki/File:Tea(byCarliJeen).jpg) | Carli Jean Miller | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
 | `teatime` | 第一次啟動日誌（第二張） | [Sweet tea time (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Sweet_tea_time_(Unsplash).jpg) | Hoang Viet | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
-| `sand` | 臨時起意去海邊（照片） | [Venice beach at sunset (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Venice_beach_at_sunset_(Unsplash).jpg) | Austin Dixon | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
-| `berries` | 公園野餐（照片） | [Fruit Platter (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Fruit_Platter_(Unsplash).jpg) | Cecilia Par | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
+| `berries` | 第一次啟動日誌（第三張） | [Fruit Platter (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Fruit_Platter_(Unsplash).jpg) | Cecilia Par | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
 | `bed` | 睡到自然醒的星期天（主照片） | [Woman roads poetry book while drinking coffee (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Woman_roads_poetry_book_while_drinking_coffee_(Unsplash).jpg) | Thought Catalog | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
 | `kitten` | 睡到自然醒的星期天（第二張） | [Get comfy (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Get_comfy_(Unsplash).jpg) | Alexandru Zdrobău | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
-| `sakura` | 去看櫻花（照片） | [Kungsträdgården cherry blossom (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Kungstr%C3%A4dg%C3%A5rden_cherry_blossom_(Unsplash).jpg) | Arno Smit | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
 | `balloon` | 清晨的熱氣球 | [Hot air balloon (Unsplash).jpg](https://commons.wikimedia.org/wiki/File:Hot_air_balloon_(Unsplash).jpg) | Sebastien Gabriel | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | 縮小、壓縮 |
 | `latte`、`posterLatte` | 巷口新開的咖啡店（影片與封面） | [Serving a sparkling cappuccino in a cup](https://mixkit.co/free-stock-video/serving-a-sparkling-cappuccino-in-a-cup-41859/) | Mixkit | [Mixkit 免費授權](https://mixkit.co/license/#videoFree) | 取 0.5–4.5 秒、去除聲音、轉成 576×324 H.264 |
 | `cat`、`posterCat` | 窗邊的小貓（影片與封面） | [Kitten by the window](https://mixkit.co/free-stock-video/kitten-by-the-window-7053/) | Mixkit | [Mixkit 免費授權](https://mixkit.co/license/#videoFree) | 取 1.5–5.5 秒、去除聲音、轉成 576×324 H.264 |
