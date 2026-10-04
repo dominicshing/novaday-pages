@@ -15,7 +15,7 @@
 │   ├── css/            base、layout、components（一個元件一個檔）、screens（一個畫面一個檔）
 │   └── js/             core、data、logic、ui、screens、features、app
 ├── assets/             Flutter 素材（見下方）
-├── docs/               架構說明、備份格式規格
+├── docs/               架構說明、備份格式規格、範例媒體來源
 ├── tests/              自動測試
 ├── tools/              打包單檔版、匯出 Flutter 素材
 └── dist/novaday.html   單檔版（可直接當 Claude artifact 發布）
@@ -27,6 +27,7 @@
 - **單檔版**：改完原始碼後執行 `npm run build`，重新產生 `dist/novaday.html`。
 - **測試**：`npm install` 後執行 `npm test`。
 - 程式結構、載入順序、資料存在哪裡、怎麼新增功能，都寫在 [docs/architecture.md](docs/architecture.md)。
+- 範例紀錄的照片與影片取自 Wikimedia Commons，作者與授權列在 [docs/sample-media-credits.md](docs/sample-media-credits.md)。
 
 ## Flutter 素材 `assets/`
 
