@@ -6,6 +6,9 @@ export default async ({ ok, open, run }) => {
   ok(await p.evaluate(() => entries.length > 0 && entries.every(isSample)), '放入範例紀錄');
   ok(await p.evaluate(() => entries.filter(e => entryPhotos(e).length).length >= 3 && entries.filter(e => e.photoMore).length >= 2), '範例紀錄有照片，也有多張照片的紀錄');
   ok(await p.evaluate(async () => { const v = entries.filter(hasVideo); await new Promise(r => setTimeout(r, 500)); const keys = await mediaKeys(); return v.length >= 2 && v.every(e => keys.includes(e.video.id) && e.video.poster) }), '範例影片存進 IndexedDB 並有封面');
+  ok(await p.evaluate(() => { const v = entries.find(e => hasVideo(e) && !e.photo), b = entries.find(e => hasVideo(e) && e.photo), d = document.createElement('div');
+    d.innerHTML = entryRow(v) + entryRow(b) + entryCard(b); const [r1, r2, c] = d.children;
+    return !!r1.querySelector('[aria-label="有影片"]') && !r1.querySelector('[aria-label="有照片"]') && !!r2.querySelector('[aria-label="有照片"]') && !!r2.querySelector('[aria-label="有影片"]') && !!c.querySelector('.thumb-play') }), '精簡列表標示影片；照片加影片的卡片縮圖有播放標記');
   ok(!p.errors.length, '載入沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 
