@@ -15,12 +15,28 @@
 .sub{color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--glow);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
-/* 下拉重新整理指示器 */
-.ptr{position:absolute;top:0;left:50%;z-index:5;width:38px;height:38px;margin-left:-19px;display:grid;place-items:center;border-radius:50%;background:rgba(20,23,63,.92);border:1px solid var(--line);box-shadow:0 8px 20px -8px rgba(138,124,255,.9);opacity:0;transform:translateY(-44px);pointer-events:none}
-.ptr svg{width:18px;height:18px;fill:var(--muted);transition:fill .2s}
-.ptr.ready svg,.ptr.go svg{fill:#FFE7A3}
-.ptr.go svg{animation:kvSpin .8s linear infinite}
-.ptr.back,.screen.ptr-back{transition:transform .25s ease,opacity .25s ease}
+/* 下拉重新整理指示器：浮在內容上方往下滑（畫面本身不移動，不會露出後面不同顏色的底）。
+   圖案是 Novaday 的 N 字星座：往下拉時連線一段段畫出、星星依序亮起，拉夠時右上角亮起金色四芒星；更新中星星輪流閃爍 */
+.ptr{position:absolute;top:0;left:50%;z-index:5;width:50px;height:50px;margin-left:-25px;display:grid;place-items:center;border-radius:50%;
+  background:radial-gradient(circle at 50% 35%,#1C2160,#0B0E2C 75%);border:1px solid rgba(138,124,255,.35);
+  box-shadow:0 10px 24px -10px rgba(0,0,0,.8),0 0 18px -6px rgba(138,124,255,.8);opacity:0;transform:translateY(-60px);pointer-events:none}
+.ptr svg{width:34px;height:34px;overflow:visible}
+.ptr .pl{fill:none;stroke:#8A7CFF;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.9}
+.ptr .ps{fill:#E8E9FF;opacity:.25;transform-box:fill-box;transform-origin:center;transition:opacity .15s}
+.ptr .ps.on{opacity:1;filter:drop-shadow(0 0 2px #B9AEFF)}
+.ptr .pk{fill:#FFD36F;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.3);transition:opacity .2s,transform .3s cubic-bezier(.3,1.6,.5,1);filter:drop-shadow(0 0 3px rgba(255,211,111,.9))}
+.ptr.ready .pk,.ptr.go .pk{opacity:1;transform:scale(1)}
+.ptr.ready .pl,.ptr.go .pl{stroke:#B9AEFF}
+.ptr.go .ps{animation:ptrTw 1s ease-in-out infinite}
+.ptr.go .ps:nth-of-type(2){animation-delay:.25s}
+.ptr.go .ps:nth-of-type(3){animation-delay:.5s}
+.ptr.go .ps:nth-of-type(4){animation-delay:.75s}
+.ptr.go .pk{animation:ptrK 1.6s ease-in-out infinite}
+.ptr.back{transition:transform .28s ease,opacity .28s ease}
+@keyframes ptrTw{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes ptrK{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.2) rotate(45deg)}}
+@media (prefers-reduced-motion:reduce){.ptr.go .ps,.ptr.go .pk{animation:none}}
+#device.calm .ptr.go :is(.ps,.pk){animation:none}
 
 /* 固定標題列的漸層淡出區不攔截點擊，只有標題列裡的按鈕、輸入框可點 */
 .top{pointer-events:none}
