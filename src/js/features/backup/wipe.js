@@ -1,10 +1,10 @@
-/* 重設：清除所有紀錄／重設個人資料與設定／全部初始化。三者共用一個面板，都要輸入確認字才能執行 */
+/* 重設：清除所有紀錄／重設個人資料與設定／完全初始化。三者共用一個面板，都要輸入確認字才能執行 */
 const WP={
   entries:{t:'清除所有紀錄',w:'刪除',go:'永久刪除全部紀錄',ex:1,
     msg:()=>`這會永久刪除全部 <b>${entries.length}</b> 則紀錄，已點亮的星座和徽章進度也會歸零，<b>無法復原</b>。建議先匯出一份備份。`},
   prof:{t:'重設個人資料與設定',w:'重設',go:'重設並重新載入',ex:0,
     msg:()=>`頭像、暱稱、生日、地區、提醒、密碼鎖與所有設定都會回到預設值，星座順序也會重新抽選。<b class="keep">日記紀錄會保留</b>。`},
-  all:{t:'全部初始化',w:'初始化',go:'全部刪除並初始化',ex:1,
+  all:{t:'完全初始化',w:'初始化',go:'全部刪除並初始化',ex:1,
     msg:()=>`這台裝置上的所有日記（<b>${entries.length}</b> 則）、照片、影片、個人資料與設定都會被永久刪除，回到第一次打開 App 的樣子，<b>無法復原</b>。建議先匯出一份備份。`}};
 let wpMode='entries';
 function openWipe(mode){wpMode=WP[mode]?mode:'entries';const m=WP[wpMode];
@@ -28,6 +28,6 @@ $('wpGo').onclick=async()=>{if(!wpOK())return;
 /* 重設個人資料與設定：保留日記，個人資料與所有設定回到預設（開發者選項若已開啟則保持開啟） */
 function resetProfile(){if(typeof devResetTools==='function')devResetTools();
   try{localStorage.setItem(PKEY,JSON.stringify(prof.devOn?{devOn:1}:{}))}catch(_){}location.reload()}
-/* 全部初始化：刪除這台裝置上 Novaday 的所有資料（localStorage 與 IndexedDB），回到第一次打開 App */
+/* 完全初始化：刪除這台裝置上 Novaday 的所有資料（localStorage 與 IndexedDB），回到第一次打開 App */
 function initAll(){try{Object.keys(localStorage).filter(x=>/^(orbitlog|novaday)\./.test(x)).forEach(x=>localStorage.removeItem(x))}catch(_){}
   const go=()=>location.reload();try{const r=indexedDB.deleteDatabase(MDB);r.onsuccess=r.onerror=r.onblocked=go;setTimeout(go,1500)}catch(_){go()}}

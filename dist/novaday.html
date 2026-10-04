@@ -3614,16 +3614,16 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
       </div>
       <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
       <div class="list panel">
-        <button class="li danger" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄</span></span></button>
+        <button class="li" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄<small>刪除全部日記、照片與影片，個人資料與設定保留</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liResetProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、生日、地區與所有設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
-        <button class="li danger" id="liInitAll"><span class="li-l"><i class="li-ic" style="--ic:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>全部初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liInitAll"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>完全初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <p class="ver">Novaday・每天點亮一顆新星・v2.0</p>
       </div>
     </div>
   </div>
 
-  <!-- 清除所有紀錄／重設個人資料與設定／全部初始化（都要輸入確認字） -->
+  <!-- 清除所有紀錄／重設個人資料與設定／完全初始化（都要輸入確認字） -->
   <div class="layer" id="wipeSheet" aria-hidden="true">
     <div class="bd" data-close></div>
     <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="wpTitle">
@@ -6302,13 +6302,13 @@ function geoRegion(done){if(!navigator.geolocation){toast('這個裝置無法取
   navigator.geolocation.getCurrentPosition(p=>{const la=Math.round(p.coords.latitude*10)/10,lo=Math.round(p.coords.longitude*10)/10;done({name:`目前位置（${Math.abs(la).toFixed(1)}°${la>=0?'N':'S'}）`,lat:la,lon:lo})},
     ()=>toast('無法取得位置，請直接選城市'),{timeout:8000,maximumAge:3600000})}
 $('rgGeo').onclick=()=>geoRegion(setRegion);
-/* 重設：清除所有紀錄／重設個人資料與設定／全部初始化。三者共用一個面板，都要輸入確認字才能執行 */
+/* 重設：清除所有紀錄／重設個人資料與設定／完全初始化。三者共用一個面板，都要輸入確認字才能執行 */
 const WP={
   entries:{t:'清除所有紀錄',w:'刪除',go:'永久刪除全部紀錄',ex:1,
     msg:()=>`這會永久刪除全部 <b>${entries.length}</b> 則紀錄，已點亮的星座和徽章進度也會歸零，<b>無法復原</b>。建議先匯出一份備份。`},
   prof:{t:'重設個人資料與設定',w:'重設',go:'重設並重新載入',ex:0,
     msg:()=>`頭像、暱稱、生日、地區、提醒、密碼鎖與所有設定都會回到預設值，星座順序也會重新抽選。<b class="keep">日記紀錄會保留</b>。`},
-  all:{t:'全部初始化',w:'初始化',go:'全部刪除並初始化',ex:1,
+  all:{t:'完全初始化',w:'初始化',go:'全部刪除並初始化',ex:1,
     msg:()=>`這台裝置上的所有日記（<b>${entries.length}</b> 則）、照片、影片、個人資料與設定都會被永久刪除，回到第一次打開 App 的樣子，<b>無法復原</b>。建議先匯出一份備份。`}};
 let wpMode='entries';
 function openWipe(mode){wpMode=WP[mode]?mode:'entries';const m=WP[wpMode];
@@ -6332,7 +6332,7 @@ $('wpGo').onclick=async()=>{if(!wpOK())return;
 /* 重設個人資料與設定：保留日記，個人資料與所有設定回到預設（開發者選項若已開啟則保持開啟） */
 function resetProfile(){if(typeof devResetTools==='function')devResetTools();
   try{localStorage.setItem(PKEY,JSON.stringify(prof.devOn?{devOn:1}:{}))}catch(_){}location.reload()}
-/* 全部初始化：刪除這台裝置上 Novaday 的所有資料（localStorage 與 IndexedDB），回到第一次打開 App */
+/* 完全初始化：刪除這台裝置上 Novaday 的所有資料（localStorage 與 IndexedDB），回到第一次打開 App */
 function initAll(){try{Object.keys(localStorage).filter(x=>/^(orbitlog|novaday)\./.test(x)).forEach(x=>localStorage.removeItem(x))}catch(_){}
   const go=()=>location.reload();try{const r=indexedDB.deleteDatabase(MDB);r.onsuccess=r.onerror=r.onblocked=go;setTimeout(go,1500)}catch(_){go()}}
 /* 頭像：選擇、上傳、裁切 */
@@ -6940,7 +6940,7 @@ $('liDvErr').onclick=()=>{devErrRender();openSheet('devErrSheet')};
 $('dvErrTest').onclick=()=>{setTimeout(()=>{throw new Error('這是開發者工具產生的測試錯誤')});setTimeout(()=>{devErrRender();devRender()},80)};
 $('dvErrCopy').onclick=()=>devCopy(devErrs().map(e=>`${new Date(e.t).toISOString()} ${e.s||''} ${e.m}`).join('\n'));
 $('dvErrClr').onclick=()=>{try{localStorage.removeItem(DV_ERR)}catch(_){}const b=$('errBox');if(b)b.remove();devErrRender();devRender();toast('已清除錯誤紀錄')};
-/* 重設開發者工具（「重設個人資料與設定」「全部初始化」在一般設定的「重設」裡，見 backup/wipe.js） */
+/* 重設開發者工具（「重設個人資料與設定」「完全初始化」在一般設定的「重設」裡，見 backup/wipe.js） */
 function devResetTools(){if(prof.devEmpty)devEmptyOff();devGeoReset();entries=entries.filter(e=>!e.dev);save();
   ['devFs','devSlow','devXP','devAch','devTouch','devFps','devW','devOnb','noFig'].forEach(k=>delete prof[k]);saveProf();
   try{[DEV_CLOCK,DV_ERR].forEach(k=>localStorage.removeItem(k))}catch(_){}}

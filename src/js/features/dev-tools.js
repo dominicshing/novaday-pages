@@ -171,7 +171,7 @@ $('liDvErr').onclick=()=>{devErrRender();openSheet('devErrSheet')};
 $('dvErrTest').onclick=()=>{setTimeout(()=>{throw new Error('這是開發者工具產生的測試錯誤')});setTimeout(()=>{devErrRender();devRender()},80)};
 $('dvErrCopy').onclick=()=>devCopy(devErrs().map(e=>`${new Date(e.t).toISOString()} ${e.s||''} ${e.m}`).join('\n'));
 $('dvErrClr').onclick=()=>{try{localStorage.removeItem(DV_ERR)}catch(_){}const b=$('errBox');if(b)b.remove();devErrRender();devRender();toast('已清除錯誤紀錄')};
-/* 重設開發者工具（「重設個人資料與設定」「全部初始化」在一般設定的「重設」裡，見 backup/wipe.js） */
+/* 重設開發者工具（「重設個人資料與設定」「完全初始化」在一般設定的「重設」裡，見 backup/wipe.js） */
 function devResetTools(){if(prof.devEmpty)devEmptyOff();devGeoReset();entries=entries.filter(e=>!e.dev);save();
   ['devFs','devSlow','devXP','devAch','devTouch','devFps','devW','devOnb','noFig'].forEach(k=>delete prof[k]);saveProf();
   try{[DEV_CLOCK,DV_ERR].forEach(k=>localStorage.removeItem(k))}catch(_){}}
