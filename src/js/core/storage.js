@@ -31,7 +31,7 @@ function seed(){const t=new Date(),a=n=>{const d=new Date(t);d.setDate(d.getDate
   const ph=k=>M&&M[k]||null;
   entries=[
    {id:'s1',sample:1,date:a(1),time:'08:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上的咖啡特別好喝，窗邊的小盆栽也冒出新葉子了。',mood:3,tags:['開始'],loc:'家',photo:ph('coffee'),photoMore:ph('plant')?[ph('plant')]:undefined},
-   {id:'s2',sample:1,date:a(2),time:'21:15',title:'雨天的夜間散步',body:'晚飯後雨還沒停，撐著傘出門散步，街燈倒映在濕濕的路面上。邊走邊想接下來三個月想完成的事。',mood:2,tags:['散步','思考'],loc:'',photo:ph('rain')},
+   {id:'s2',sample:1,date:a(2),time:'16:40',title:'第一次自己烤瑪芬',body:'照著食譜烤了一盤柳橙瑪芬，有幾個烤得有點焦，但整間屋子都是香香的味道。下次想試試看藍莓口味。',mood:3,tags:['烘焙'],loc:'家',photo:ph('muffin')},
    {id:'s4',sample:1,date:a(3),time:'17:48',title:'臨時起意去海邊',body:'臨時起意跑去海邊，沙灘上幾乎沒有人。浪一直打上來，拍了一段影片留著。',mood:4,tags:['旅行','海邊'],loc:'淡水・沙崙海灘',photo:null,video:vid('vsamplesea','sea','posterSea',4)},
    {id:'s5',sample:1,date:a(4),time:'15:30',title:'森林裡的野餐',body:'和朋友帶著野餐籃去郊外，鋪上紅白格子桌巾，吃吃喝喝聊了一整個下午。樹蔭下很涼，連時間都變慢了。',mood:3,tags:['野餐','朋友'],loc:'陽明山',photo:ph('picnic'),photoMore:ph('chairs')?[ph('chairs')]:undefined},
    {id:'s3',sample:1,date:a(5),time:'13:05',title:'睡到自然醒的星期天',body:'什麼都沒安排，睡到快中午才起床。下午泡了一壺茶，坐在窗邊發呆看雲，偶爾這樣慢下來也很好。',mood:2,tags:['休息'],loc:'家',photo:null},
