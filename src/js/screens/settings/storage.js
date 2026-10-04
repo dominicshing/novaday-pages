@@ -1,4 +1,7 @@
 /* 設定：儲存空間 */
+/* 設定裡的「儲存空間」列：目前隱藏（也不再計算用量）；改成 true 即可恢復 */
+const SHOW_STORE=false;
+if($('liStore'))$('liStore').hidden=!SHOW_STORE;
 const fmtB=n=>n>=1073741824?(n/1073741824).toFixed(1)+' GB':n>=1048576?(n/1048576).toFixed(n>=10485760?0:1)+' MB':n>=1024?Math.round(n/1024)+' KB':n+' B';
 async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);text+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}
   const {photo,video}=await mediaSizes();
@@ -7,7 +10,7 @@ async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){
   return{text,photo,video,pn,vn,total,quota,kept,free:quota?Math.max(0,quota-Math.max(usage,total)):0,pct:quota?Math.min(100,Math.max(usage,total)/quota*100):0}}
 /* 每次重繪都會呼叫：同一時間只算一次，期間又被呼叫就等這次算完再補算一次（避免舊結果晚到蓋掉新結果） */
 let stBusy=false,stAgain=false;
-async function renderStoreRow(){if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
+async function renderStoreRow(){if(!SHOW_STORE)return;if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
 async function renderStoreRow0(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
   $('stSub').textContent=u.pct>=90?'裝置空間快滿了，建議下載備份並移除部分影片':`照片 ${u.pn} 張・影片 ${u.vn} 部`}
 async function renderStore(){const u=await storeUse(),T=Math.max(1,u.total),w=x=>(x/T*100).toFixed(2)+'%';

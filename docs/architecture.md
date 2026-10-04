@@ -103,6 +103,8 @@ Flutter 用的素材在 `assets/`，說明見 [README](../README.md)。`assets/d
 |---|---|---|
 | 月曆上的流星雨標示與圖例 | `SHOW_METEORS` | `src/js/screens/log/star-calendar.js` |
 | 紅光夜視模式（設定列、星座頁按鈕；隱藏時一律關閉） | `SHOW_RED` | `src/js/screens/settings/settings.js` |
+| 設定裡的「儲存空間」列（隱藏時也不計算用量） | `SHOW_STORE` | `src/js/screens/settings/storage.js` |
+| 匯出與備份的「純文字」格式（隱藏時只有完整備份） | `SHOW_TEXT_EXPORT` | `src/js/features/backup/export.js` |
 
 ## 9. 測試
 

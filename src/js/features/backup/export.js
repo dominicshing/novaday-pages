@@ -1,12 +1,15 @@
 /* 匯出：完整備份（.zip）與純文字 */
 let fmt='full';
+/* 匯出與備份：目前只提供完整備份，純文字匯出隱藏；改成 true 即可恢復格式切換 */
+const SHOW_TEXT_EXPORT=false;
+{const sm=document.querySelector('#openExport small');if(sm&&!SHOW_TEXT_EXPORT)sm.textContent='下載完整備份（紀錄、照片、影片）'}
 const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
 function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
 const EX_HINT={full:'下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。',
   text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
 /* 純文字匯出：日期加上年份（跨年的紀錄才分得清楚），沒有時間、沒有內文的紀錄不留多餘的空白或 undefined */
 function exportText(){return sorted().map(e=>`【${e.date.slice(0,4)} 年 ${fmtDay(e.date)}${e.time?' '+fmtTime(e.time):''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}${(e.body||'').trim()?'\n\n'+e.body:''}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
-function refreshEx(){const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
+function refreshEx(){if(!SHOW_TEXT_EXPORT)fmt='full';$('exporter').querySelector('.exseg').hidden=!SHOW_TEXT_EXPORT;const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   $('exOut').hidden=$('copyEx').hidden=full;if(!full)$('exOut').value=exportText();$('dlEx').classList.toggle('primary',full);
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
   $('exHint').innerHTML=EX_HINT[fmt]+(full?`<span class="ex-sum"><span><b>${entries.length}</b>則紀錄</span><span><b>${ph}</b>張照片</span><span><b>${vd}</b>部影片</span></span>`:'')}

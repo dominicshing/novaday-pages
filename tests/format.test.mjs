@@ -25,4 +25,14 @@ export default async ({ ok, open }) => {
   const r = await open({ viewport: { width: 320, height: 568 } });
   await r.evaluate(() => { openEditor(); document.getElementById('whenDT').textContent = '前天・10/1（四）'; document.getElementById('whenTT').textContent = '下午 11:56' }); await r.waitForTimeout(400);
   ok(await r.evaluate(() => { const p = document.querySelector('.when-pill').getBoundingClientRect(), c = document.querySelector('.ed-when').getBoundingClientRect(); return p.height < 40 && p.right <= c.right + 1 }), '320px 時日期時間膠囊維持一行');
-  await r.context().close() };
+  await r.context().close();
+
+  // 設定：儲存空間隱藏；匯出與備份只有完整備份
+  const st = await open();
+  await st.evaluate(() => { go('me'); openSheet('settingsSheet') }); await st.waitForTimeout(300);
+  ok(await st.evaluate(() => !document.querySelector('#openExport small').textContent.includes('純文字')), '設定列的說明不再提到純文字');
+  ok(await st.evaluate(() => document.getElementById('liStore').hidden && !document.getElementById('liStore').getClientRects().length), '設定裡不顯示「儲存空間」');
+  await st.evaluate(() => document.getElementById('openExport').click()); await st.waitForTimeout(300);
+  ok(await st.evaluate(() => { const seg = document.querySelector('#exporter .exseg'); return !seg.getClientRects().length && fmt === 'full' && document.getElementById('exOut').hidden && document.getElementById('copyEx').hidden }), '匯出與備份只有完整備份，沒有純文字');
+  ok(!st.errors.length, '沒有程式錯誤 ' + st.errors.join('; '));
+  await st.context().close() };

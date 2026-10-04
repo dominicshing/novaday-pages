@@ -5542,6 +5542,9 @@ function openPhotoViewer(P,i){const t=$('pvTrack');t.innerHTML=P.map((u,j)=>`<di
 document.addEventListener('keydown',e=>{if(!$('phViewer').classList.contains('open'))return;const t=$('pvTrack');if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();t.scrollBy({left:(e.key==='ArrowRight'?1:-1)*t.clientWidth,behavior:reduce?'auto':'smooth'})}});
 $('pvTrack').addEventListener('click',e=>{if(e.target===$('pvTrack')||e.target.classList.contains('pv-s'))closeSheet('phViewer')});
 /* 設定：儲存空間 */
+/* 設定裡的「儲存空間」列：目前隱藏（也不再計算用量）；改成 true 即可恢復 */
+const SHOW_STORE=false;
+if($('liStore'))$('liStore').hidden=!SHOW_STORE;
 const fmtB=n=>n>=1073741824?(n/1073741824).toFixed(1)+' GB':n>=1048576?(n/1048576).toFixed(n>=10485760?0:1)+' MB':n>=1024?Math.round(n/1024)+' KB':n+' B';
 async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);text+=(k.length+(localStorage.getItem(k)||'').length)*2}}catch(e){}
   const {photo,video}=await mediaSizes();
@@ -5550,7 +5553,7 @@ async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){
   return{text,photo,video,pn,vn,total,quota,kept,free:quota?Math.max(0,quota-Math.max(usage,total)):0,pct:quota?Math.min(100,Math.max(usage,total)/quota*100):0}}
 /* 每次重繪都會呼叫：同一時間只算一次，期間又被呼叫就等這次算完再補算一次（避免舊結果晚到蓋掉新結果） */
 let stBusy=false,stAgain=false;
-async function renderStoreRow(){if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
+async function renderStoreRow(){if(!SHOW_STORE)return;if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
 async function renderStoreRow0(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
   $('stSub').textContent=u.pct>=90?'裝置空間快滿了，建議下載備份並移除部分影片':`照片 ${u.pn} 張・影片 ${u.vn} 部`}
 async function renderStore(){const u=await storeUse(),T=Math.max(1,u.total),w=x=>(x/T*100).toFixed(2)+'%';
@@ -6216,13 +6219,16 @@ function toast(m,ms){const t=$('toast');t.textContent=m;t.classList.add('show');
   readColor();size();if(reduce)draw(0);else start()})();
 /* 匯出：完整備份（.zip）與純文字 */
 let fmt='full';
+/* 匯出與備份：目前只提供完整備份，純文字匯出隱藏；改成 true 即可恢復格式切換 */
+const SHOW_TEXT_EXPORT=false;
+{const sm=document.querySelector('#openExport small');if(sm&&!SHOW_TEXT_EXPORT)sm.textContent='下載完整備份（紀錄、照片、影片）'}
 const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
 function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
 const EX_HINT={full:'下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。',
   text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
 /* 純文字匯出：日期加上年份（跨年的紀錄才分得清楚），沒有時間、沒有內文的紀錄不留多餘的空白或 undefined */
 function exportText(){return sorted().map(e=>`【${e.date.slice(0,4)} 年 ${fmtDay(e.date)}${e.time?' '+fmtTime(e.time):''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}${(e.body||'').trim()?'\n\n'+e.body:''}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
-function refreshEx(){const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
+function refreshEx(){if(!SHOW_TEXT_EXPORT)fmt='full';$('exporter').querySelector('.exseg').hidden=!SHOW_TEXT_EXPORT;const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   $('exOut').hidden=$('copyEx').hidden=full;if(!full)$('exOut').value=exportText();$('dlEx').classList.toggle('primary',full);
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
   $('exHint').innerHTML=EX_HINT[fmt]+(full?`<span class="ex-sum"><span><b>${entries.length}</b>則紀錄</span><span><b>${ph}</b>張照片</span><span><b>${vd}</b>部影片</span></span>`:'')}
