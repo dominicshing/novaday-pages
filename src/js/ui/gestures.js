@@ -2,7 +2,7 @@
 /* 下拉重新整理：在畫面頂端往下拉，畫面跟著往下移，露出的空間顯示 N 字星座指示器；超過門檻放開後，
    重新讀取資料並重畫目前這一頁（不重新載入整個 App，停在原本的分頁）。
    露出的空間填上和這一頁標題列相同的顏色，不會出現顏色不同的一條（首頁標題列透明，就維持原本的星空背景） */
-{const wrap=document.querySelector('.screens'),ind=document.createElement('div'),fill=document.createElement('div'),TH=70;let p=null,busy=false;
+{const wrap=document.querySelector('.screens'),ind=document.createElement('div'),fill=document.createElement('div'),TH=70,HOLD=76;let p=null,busy=false;
   /* N 字星座：左下 → 左上 → 右下 → 右上，右上角是金色四芒星 */
   const P=[[10,25],[10,9],[24,25],[24,9]];
   ind.className='ptr';ind.setAttribute('aria-hidden','true');fill.className='ptr-fill';fill.setAttribute('aria-hidden','true');
@@ -31,7 +31,8 @@
       if(Math.abs(dx)<8&&Math.abs(dy)<8)return;if(dy<=0||Math.abs(dx)>dy||p.s.scrollTop>0){p=null;return}p.on=true;fill.style.background=topBg(p.s)}
     if(e.cancelable)e.preventDefault();p.d=Math.min(120,Math.max(0,dy)*.5);paint(p.s,p.d)},{passive:false});
   const end=()=>{if(!p)return;const {s,d,on}=p;p=null;if(!on)return;
-    if(d>=TH){buzz(8);ind.classList.add('back');fill.classList.add('back');s.classList.add('ptr-back');paint(s,TH*.8);refresh(s)}
+    /* 更新中畫面停在往下 76px：指示器（50px）上下各留約 13px，不會貼著頂部 */
+    if(d>=TH){buzz(8);ind.classList.add('back');fill.classList.add('back');s.classList.add('ptr-back');paint(s,HOLD);refresh(s)}
     else hide(s)};
   wrap.addEventListener('touchend',end);wrap.addEventListener('touchcancel',end)}
 /* 桌面快捷鍵：N 新增、/ 搜尋；詳情頁左右方向鍵切換 */
