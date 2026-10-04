@@ -21,6 +21,8 @@ const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* 短日期一律寫「10月3日」，不用純數字的 10/3：香港、英國等地習慣「日/月」，純數字會被讀反 */
+const fmtMD=d=>`${d.getMonth()+1}月${d.getDate()}日`;
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
 /* 不是今年的日期前面加上年份（沒有月份標題可參考的地方用，例如紀錄詳情） */
 const fmtDayY=s=>(+s.slice(0,4)!==new Date().getFullYear()?s.slice(0,4)+' 年 ':'')+fmtDay(s);

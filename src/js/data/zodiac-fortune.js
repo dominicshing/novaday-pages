@@ -25,7 +25,7 @@ function seedRng(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){
   return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return(h>>>0)/4294967296}}
 function signIdx(bd){if(!bd)return -1;const[,m,d]=bd.split('-').map(Number);let r=11;
   for(let i=0;i<12;i++){const[a,b]=ZODIAC[i].d,[c,e]=ZODIAC[(i+1)%12].d;const on=(m===a&&d>=b)||(m===c&&d<e);if(on){r=i;break}}return r}
-function zRange(i){const[a,b]=ZODIAC[i].d,[c,e]=ZODIAC[(i+1)%12].d,x=new Date(2001,c-1,e-1);return `${a}/${b}–${x.getMonth()+1}/${x.getDate()}`}
+function zRange(i){const[a,b]=ZODIAC[i].d,[c,e]=ZODIAC[(i+1)%12].d,x=new Date(2001,c-1,e-1);return `${a}月${b}日–${fmtMD(x)}`}
 /* 本月運勢：依「星座＋年月」產生，同一個月內固定不變，只提供當月 */
 function fortune(i,Y,M){const r=seedRng(ZODIAC[i].k+Y+'-'+M),pk=a=>a[Math.floor(r()*a.length)],st=()=>2+Math.floor(r()*4);
   return{o:pk(FT.o),l:pk(FT.l),w:pk(FT.w),s:pk(FT.s),c:pk(FT.c),n:1+Math.floor(r()*9),q:pk(FT.q),so:st(),sl:st(),sw:st()}}

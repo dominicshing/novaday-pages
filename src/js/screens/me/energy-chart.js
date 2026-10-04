@@ -19,7 +19,7 @@ function renderEnergy(){
     <linearGradient id="enArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:#6FE3D6;stop-opacity:.22"/><stop offset="1" style="stop-color:#6FE3D6;stop-opacity:0"/></linearGradient></defs>`;
   MOODS.forEach((m,v)=>{g+=`<line class="en-grid" x1="${X0}" x2="${X1}" y1="${ys(v)}" y2="${ys(v)}"/><g><title>${m.n}</title>${moonG(v,17,ys(v),6)}</g>`});
   const f=parse(days[0]),mid=parse(days[15]);
-  g+=`<text class="en-xlab" x="${X0}" y="140">${f.getMonth()+1}/${f.getDate()}</text><text class="en-xlab" x="${xs(15)}" y="140" text-anchor="middle">${mid.getMonth()+1}/${mid.getDate()}</text><text class="en-xlab" x="${X1}" y="140" text-anchor="end">今天</text>`;
+  g+=`<text class="en-xlab" x="${X0}" y="140">${fmtMD(f)}</text><text class="en-xlab" x="${xs(15)}" y="140" text-anchor="middle">${fmtMD(mid)}</text><text class="en-xlab" x="${X1}" y="140" text-anchor="end">今天</text>`;
   g+=`<line x1="${X1}" x2="${X1}" y1="${Y1-4}" y2="${Y0}" stroke="rgba(255,180,92,.25)" stroke-dasharray="2 3"/>`;
   runs.forEach((r,j)=>{if(j){const a=runs[j-1][runs[j-1].length-1],b=r[0];g+=`<line class="egap" x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}"/>`}
     if(r.length>1){const d=smooth(r);g+=`<path class="earea" d="${d}L${r[r.length-1].x.toFixed(1)} ${Y0}L${r[0].x.toFixed(1)} ${Y0}Z" fill="url(#enArea)"/><path class="ecurve" pathLength="1" d="${d}" stroke="url(#enStroke)"/>`}});
@@ -52,7 +52,7 @@ function renderEnergy(){
     else if(streak>=3){head=`你已經連續 ${streak} 天是 ${tag(L)}${L>=2?'，節奏很穩':'，辛苦了'}`;if(L<=1)sub='累的時候，寫幾句就好。'}
     else if(d>=.5){const a=lvl(avgP(before)),b=lvl(avgP(wk));head=a!==b?`這週心情回升了，從 ${tag(a)} 來到 ${tag(b)}`:'這週心情比之前好一些'}
     else if(d<=-.5){head=`這週心情低了一些，最近多是 ${tag(lvl(avgP(wk)))}`;sub='累的時候，寫幾句就好。'}
-    else if(peakUnique&&peak.v>=3.5&&peak.i>=23){const pd=parse(peak.k);head=`${pd.getMonth()+1}/${pd.getDate()} 是這個月最棒的一天 ${moon(4)}`;sub='點曲線上最高的那個點，回顧那天發生了什麼。'}
+    else if(peakUnique&&peak.v>=3.5&&peak.i>=23){const pd=parse(peak.k);head=`${fmtMD(pd)}是這個月最棒的一天 ${moon(4)}`;sub='點曲線上最高的那個點，回顧那天發生了什麼。'}
     else{const vs=pts.map(p=>p.v),span=Math.max(...vs)-Math.min(...vs);head=span<=1.5?`你的心情大多是 ${tag(top)}，起伏不大，很穩定`:`你的心情有起有落，最常是 ${tag(top)}`}
     msg=`<b class="hl">${head}${/[。！]$/.test(head)||head.endsWith('</svg>')?'':'。'}</b><span class="s2">${sub}</span>`;
     $('enDist').innerHTML=cnt.map((c,i)=>`<div class="ed-cell${c?'':' zero'}" style="--c:var(${MOODS[i].c})">${moon(i,"big")}<b>${Math.round(c/tot*100)}%</b><small>${MOODS[i].n}</small></div>`).join('')}

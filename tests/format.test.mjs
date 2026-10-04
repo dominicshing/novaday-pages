@@ -23,7 +23,7 @@ export default async ({ ok, open }) => {
 
   // 320px 寬：編輯器的日期時間膠囊不換行
   const r = await open({ viewport: { width: 320, height: 568 } });
-  await r.evaluate(() => { openEditor(); document.getElementById('whenDT').textContent = '前天・10/1（四）'; document.getElementById('whenTT').textContent = '下午 11:56' }); await r.waitForTimeout(400);
+  await r.evaluate(() => { openEditor(); document.getElementById('whenDT').textContent = '前天・12月31日（四）'; document.getElementById('whenTT').textContent = '下午 11:56' }); await r.waitForTimeout(400);
   ok(await r.evaluate(() => { const p = document.querySelector('.when-pill').getBoundingClientRect(), c = document.querySelector('.ed-when').getBoundingClientRect(); return p.height < 40 && p.right <= c.right + 1 }), '320px 時日期時間膠囊維持一行');
   await r.context().close();
 

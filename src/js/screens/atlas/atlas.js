@@ -1,6 +1,6 @@
 /* 星座圖鑑與星座詳情的切換 */
 function atlasCard(k,st,sub2){const c=CON[k],done=st.done.includes(k),isCur=k===st.cur,lit=done?c.s.length:isCur?st.lit:0;
-  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${d.getMonth()+1}/${d.getDate()} 完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
+  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMD(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
   const badge=done?'<i class="at-bd ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i>':isCur?'<i class="at-bd now" aria-hidden="true"></i>':prof.nextPick===k?'<i class="at-tag nx">下一個</i>':'';
   const mine=signIdx(prof.birthday),mineTag=mine>=0&&ZODIAC[mine].k===k?'<i class="at-tag me">你的星座</i>':'';
   return `<button type="button" class="at-card ${done?'done':isCur?'cur':'lock'}" data-k="${k}" aria-label="${c.n}，${done?'已點亮':isCur?`點亮中 ${st.lit} / ${c.s.length}`:'尚未點亮'}">${badge}${mineTag}<svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,12,lit,done||isCur?conEntries(k):null,{sc:.6})}</svg><b>${c.n}</b><small>${sub}</small>${atDots(k,st)}</button>`}
