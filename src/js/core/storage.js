@@ -30,10 +30,10 @@ function seed(){const t=new Date(),a=n=>{const d=new Date(t);d.setDate(d.getDate
   const vid=(id,k,poster,dur)=>{if(!M||!M[k])return undefined;try{const b=atob(M[k]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);mediaPut(id,new Blob([u],{type:'video/mp4'})).catch(()=>{})}catch(e){return undefined}return{id,dur,poster:M[poster]}};
   const ph=k=>M&&M[k]||null;
   entries=[
-   {id:'s1',sample:1,date:a(1),time:'22:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。晚上把望遠鏡搬上頂樓看星星，還學會用旋轉星盤找星座。',mood:3,tags:['開始','觀星'],loc:'家・頂樓',photo:ph('tele'),photoMore:ph('chart')?[ph('chart')]:undefined},
-   {id:'s2',sample:1,date:a(2),time:'21:15',title:'雨天的夜間散步',body:'下班後雨剛停，街道反光像一條發亮的星河。邊走邊想接下來三個月想完成的事。',mood:2,tags:['散步','思考'],loc:'',photo:ph('rain')},
-   {id:'s4',sample:1,date:a(3),time:'17:48',title:'海邊看夕陽',body:'臨時起意跑去海邊，剛好趕上太陽落進海裡。整片天空被染成紅色，拍了一段影片留著。',mood:4,tags:['旅行','海邊'],loc:'淡水・沙崙海灘',photo:null,video:vid('vsamplesea','sea','posterSea',4)},
-   {id:'s5',sample:1,date:a(4),time:'23:10',title:'加班後的城市',body:'走出辦公室已經快十一點，整座城市還亮著。抬頭看到一彎月亮掛在屋頂上，心情好一點了。',mood:1,tags:['工作','夜晚'],loc:'信義區',photo:ph('city'),photoMore:ph('tower')?[ph('tower')]:undefined},
+   {id:'s1',sample:1,date:a(1),time:'08:40',title:'第一次啟動日誌',body:'決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上的咖啡特別好喝，窗邊的小盆栽也冒出新葉子了。',mood:3,tags:['開始'],loc:'家',photo:ph('coffee'),photoMore:ph('plant')?[ph('plant')]:undefined},
+   {id:'s2',sample:1,date:a(2),time:'21:15',title:'雨天的夜間散步',body:'下班後雨還沒停，撐著傘慢慢走，街燈倒映在濕濕的路面上。邊走邊想接下來三個月想完成的事。',mood:2,tags:['散步','思考'],loc:'',photo:ph('rain')},
+   {id:'s4',sample:1,date:a(3),time:'17:48',title:'臨時起意去海邊',body:'臨時起意跑去海邊，沙灘上幾乎沒有人。浪一直打上來，拍了一段影片留著。',mood:4,tags:['旅行','海邊'],loc:'淡水・沙崙海灘',photo:null,video:vid('vsamplesea','sea','posterSea',4)},
+   {id:'s5',sample:1,date:a(4),time:'23:10',title:'加班後的城市',body:'走出辦公室已經快十一點，整座城市還亮著。在街角的便利商店買了一杯熱可可，心情好一點了。',mood:1,tags:['工作','夜晚'],loc:'信義區',photo:ph('city'),photoMore:ph('store')?[ph('store')]:undefined},
    {id:'s3',sample:1,date:a(5),time:'13:05',title:'專案卡關',body:'花了一整個下午找一個小錯誤，最後發現是日期格式的問題。有點累，但解決的瞬間很痛快。',mood:1,tags:['工作'],loc:'辦公室',photo:null},
-   {id:'s6',sample:1,date:a(7),time:'02:30',title:'第一次看到銀河',body:'半夜爬上山，關掉手電筒等眼睛適應黑暗，銀河就這樣慢慢出現。還看到一顆流星！',mood:4,tags:['觀星','旅行'],loc:'合歡山',photo:null,video:vid('vsamplemilky','milky','posterMilky',4)}];
+   {id:'s6',sample:1,date:a(7),time:'15:20',title:'在家陪貓的週末',body:'難得沒有安排的週末，整個下午都在家陪貓。牠在貓抓板上滾來滾去，看著就覺得很療癒。',mood:4,tags:['家','貓'],loc:'家',photo:null,video:vid('vsamplecat','cat','posterCat',4)}];
   entries.forEach(e=>{Object.keys(e).forEach(k=>e[k]===undefined&&delete e[k]);if(e.video===undefined)delete e.video});save()}
