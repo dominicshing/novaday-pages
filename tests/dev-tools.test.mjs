@@ -27,7 +27,9 @@ export default async ({ ok, open, run }) => {
   ok(await p.evaluate(() => { const st = consState(entries); return st.done.length === 88 && !st.cur && document.getElementById('dvConsAll').disabled && document.getElementById('dvConsAllN').textContent === '88 / 88' }), '點亮所有星座（88 個），按鈕停用');
   for (const s of ['home', 'log', 'atlas', 'me']) { await run(p, `go('${s}')`); await p.waitForTimeout(250) }
   ok(!p.errors.length, '全部點亮後各分頁正常 ' + p.errors.join('; '));
-  ok(await p.evaluate(() => document.getElementById('conName').textContent === '全部完成' && document.getElementById('skyK').hidden), '全部完成時不顯示「正在點亮」');
+  ok(await p.evaluate(() => { go('home'); const st = consState(entries), k = reviewCon(st), g = document.getElementById('gal');
+    return document.getElementById('skyK').textContent === '全部完成' && !document.getElementById('skyK').hidden && document.getElementById('conName').textContent === CON[k].n
+      && g.querySelectorAll('.cstar').length === CON[k].s.length && !g.querySelector('.nextring') && document.getElementById('gcap').textContent.includes('88 個星座都已點亮') }), '全部完成時星空頁每天回顧一個已完成的星座，星星全亮');
   await run(p, "devOpen()"); await p.waitForTimeout(300);
 
   // 空白狀態：收起後放回
