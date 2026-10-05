@@ -62,6 +62,8 @@ export default async ({ ok, open, run }) => {
   await run(q, 'devOpen()'); await q.waitForTimeout(500);
   ok(await q.evaluate(() => ['dvMon', 'dvDate', 'dvTime'].every(id => document.getElementById(id).getBoundingClientRect().width >= 200)
     && [...document.querySelectorAll('#devSheet .dv-go')].filter(b => b.offsetParent).every(b => getComputedStyle(b).whiteSpace === 'nowrap' && b.scrollWidth <= b.clientWidth + 1)), '320px 時月份、日期、時間完整顯示，按鈕不斷行');
+  ok(await q.evaluate(() => [...document.querySelectorAll('#devSheet .dv-ctl')].filter(c => c.offsetParent).every(c => { const f = c.querySelector('.field'), b = c.querySelector('.dv-go'); if (!f || !b || c.classList.contains('dv-mon') || c.classList.contains('dv-dt')) return true;
+    const x = f.getBoundingClientRect(), y = b.getBoundingClientRect(); return Math.abs(x.top - y.top) <= 1 && Math.abs(x.height - y.height) <= 1 })), '選單和旁邊的按鈕等高、上緣對齊');
   ok(await q.evaluate(() => document.querySelector('#devSheet .dv-note').textContent.includes('不會動到你自己寫的日記') && [...document.querySelectorAll('#devSheet .set-h')].some(h => h.textContent.trim() === '重設與隱藏')), '說明文字正確，重設區改名');
   await run(q, "document.getElementById('dvOnbGo').click()"); await q.waitForTimeout(500);
   ok(await q.evaluate(() => !document.getElementById('onb').hidden), '打開引導預覽');
