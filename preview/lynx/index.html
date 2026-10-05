@@ -8,7 +8,7 @@
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 26%,#202044 0%,#090a18 65%)}
 header{max-width:1120px;margin:0 auto;padding:26px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:.08em}.brand svg{width:26px;height:26px;color:var(--mint)}.badge{font-size:12px;color:var(--mint);border:1px solid #bff4ee26;padding:6px 10px;border-radius:20px;background:#bff4ee08}
 main{max-width:1020px;margin:14px auto 60px;padding:0 24px}.intro{text-align:center;margin:22px 0 25px}.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--mint);margin:0 0 12px}h1{font-size:clamp(25px,4vw,36px);font-weight:600;letter-spacing:.12em;margin:0 0 9px}.intro p:last-child{font-size:14px;color:var(--muted);line-height:1.7;margin:0}
-.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px auto}.group{display:flex;padding:4px;gap:4px;border-radius:13px;border:1px solid #ffffff13;background:#101126}button{font:inherit;color:#aaaac6;background:transparent;border:0;border-radius:9px;padding:9px 16px;font-size:13px;cursor:pointer;transition:background .15s,color .15s}button[aria-pressed="true"]{background:#b9aeff20;color:#e9e6ff}button:hover{background:#ffffff0d;color:white}button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px auto}.group{display:flex;flex-wrap:wrap;justify-content:center;max-width:100%;padding:4px;gap:4px;border-radius:13px;border:1px solid #ffffff13;background:#101126}button{font:inherit;color:#aaaac6;background:transparent;border:0;border-radius:9px;padding:9px 16px;font-size:13px;cursor:pointer;transition:background .15s,color .15s}button[aria-pressed="true"]{background:#b9aeff20;color:#e9e6ff}button:hover{background:#ffffff0d;color:white}button:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
 .frame{width:100%;max-width:940px;margin:0 auto;border:1px solid #ffffff1b;border-radius:26px;overflow:hidden;background:#0a0b1c;box-shadow:0 20px 80px #0005;transition:max-width .25s}.frame.phone{max-width:390px}.frame-top{padding:21px 24px 0;display:flex;justify-content:space-between;align-items:center}.frame-top span{font-size:11px;letter-spacing:.1em;color:var(--mint)}.frame-top svg{width:19px;height:19px;color:#b9aeff}.art{position:relative;aspect-ratio:1411/1114;isolation:isolate}.art img{width:100%;height:100%;object-fit:contain;display:block}.old{display:none}.original .new{display:none}.original .old{display:block}.frame.phone .art{margin-top:22px}
 .caption{text-align:center;padding:8px 20px 25px}.caption h2{font-size:22px;font-weight:600;letter-spacing:.15em;margin:0 0 5px}.latin{color:var(--muted);font-size:12px;letter-spacing:.13em;margin:0 0 14px}.dots{display:flex;gap:9px;justify-content:center;margin:12px 0}.dots i{width:6px;height:6px;border-radius:50%;background:#b9aeff;box-shadow:0 0 8px #b9aeff55}.status{font-size:12px;color:#a3a4c1;margin:13px 0 0;line-height:1.6}.note{font-size:12px;text-align:center;color:#8b8ca6;margin:23px 0;line-height:1.8}.frame.phone .caption{padding-bottom:34px}
 @media(max-width:500px){header{padding:20px 18px}.badge{font-size:10px}main{padding:0 12px;margin-top:10px}.intro{margin-top:16px}.controls{gap:7px}button{padding:9px 13px}.frame{border-radius:22px}.frame-top{padding:18px 20px 0}.intro p:last-child{font-size:12px}.caption h2{font-size:20px}}
@@ -18,15 +18,15 @@ main{max-width:1020px;margin:14px auto 60px;padding:0 24px}.intro{text-align:cen
 <body>
 <header><div class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 2 Q16 12 26 14 Q16 16 14 26 Q12 16 2 14 Q12 12 14 2Z" fill="currentColor"/></svg>Novaday</div><span class="badge">剪影設計預覽</span></header>
 <main>
-<div class="intro"><p class="eyebrow">LYNX · STARDUST</p><h1>天貓座</h1><p>圓臉、小耳簇與四隻小腳，沿著星線舒展。</p></div>
+<div class="intro"><p class="eyebrow">LYNX · STARDUST</p><h1>天貓座</h1><p>四種可愛造型，切換看看你最喜歡哪一隻。</p></div>
 <div class="controls" aria-label="預覽選項">
 <div class="group" role="group" aria-label="預覽尺寸"><button type="button" data-size="desktop" aria-pressed="true">桌面</button><button type="button" data-size="phone" aria-pressed="false">手機</button></div>
-<div class="group" role="group" aria-label="剪影版本"><button type="button" data-version="new" aria-pressed="true">四腳修正版</button><button type="button" data-version="original" aria-pressed="false">原版對照</button></div>
+<div class="group" role="group" aria-label="剪影版本"><button type="button" data-version="round" aria-pressed="true">圓潤幼貓</button><button type="button" data-version="sleepy" aria-pressed="false">慵懶伸展</button><button type="button" data-version="playful" aria-pressed="false">俏皮躍起</button><button type="button" data-version="new" aria-pressed="false">經典大眼</button><button type="button" data-version="original" aria-pressed="false">原版對照</button></div>
 </div>
 <section class="frame" id="frame" aria-label="天貓座星圖預覽">
 <div class="frame-top"><span>全部點亮</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1 Q11.5 8.5 19 10 Q11.5 11.5 10 19 Q8.5 11.5 1 10 Q8.5 8.5 10 1Z" fill="currentColor"/></svg></div>
-<div class="art"><img class="new" src="lynx-cute.webp" width="1411" height="1114" alt="修正版天貓座：有圓臉、大眼、耳簇、短尾巴及四隻清楚分開的腳，紫色星線沿著身體延伸。"><img class="old" src="lynx-original.webp" width="1140" height="900" alt="原版天貓座星塵剪影與星線，供比較。"></div>
-<div class="caption"><h2>天貓座</h2><p class="latin">Lynx</p><div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="status" id="status" aria-live="polite">四腳修正版 · 6 / 6 顆星</p></div>
+<div class="art"><img id="variantArt" src="lynx-round.webp" width="1411" height="1114" alt="圓潤幼貓：圓臉、蓬鬆身體、四隻短腳與薄荷綠星塵，星線落在剪影內。"></div>
+<div class="caption"><h2>天貓座</h2><p class="latin">Lynx</p><div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><p class="status" id="status" aria-live="polite">圓潤幼貓 · 6 / 6 顆星</p></div>
 </section>
 <p class="note">此頁供確認剪影外觀與星線覆蓋效果。<br>尚未套用到正式 app。</p>
 </main>
@@ -36,10 +36,18 @@ document.querySelectorAll('[data-size]').forEach(button=>button.addEventListener
 document.querySelectorAll('[data-size]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));
 frame.classList.toggle('phone',button.dataset.size==='phone');
 }));
+const variants={
+round:{file:'lynx-round.webp',name:'圓潤幼貓',alt:'圓潤幼貓：圓臉、蓬鬆身體、四隻短腳與薄荷綠星塵，星線落在剪影內。'},
+sleepy:{file:'lynx-sleepy.webp',name:'慵懶伸展',alt:'慵懶伸展：閉眼微笑的山貓，四隻腳舒展，紫色星塵剪影覆蓋星線。'},
+playful:{file:'lynx-playful.webp',name:'俏皮躍起',alt:'俏皮躍起：眨眼微笑的山貓，四隻腳向外伸出，帶暖金色星塵。'},
+new:{file:'lynx-cute.webp',name:'經典大眼',alt:'經典大眼：第一版四腳修正造型，圓臉、大眼、耳簇與短尾巴。'},
+original:{file:'lynx-original.webp',name:'原版對照',alt:'app 原版天貓座星塵剪影與星線，供比較。'}
+};
 document.querySelectorAll('[data-version]').forEach(button=>button.addEventListener('click',()=>{
 document.querySelectorAll('[data-version]').forEach(other=>other.setAttribute('aria-pressed',String(other===button)));
-frame.classList.toggle('original',button.dataset.version==='original');
-document.getElementById('status').textContent=(button.dataset.version==='original'?'原版對照':'四腳修正版')+' · 6 / 6 顆星';
+const variant=variants[button.dataset.version],image=document.getElementById('variantArt');
+image.src=variant.file;image.alt=variant.alt;
+document.getElementById('status').textContent=variant.name+' · 6 / 6 顆星';
 }));
 </script>
 </body>
