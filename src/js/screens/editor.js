@@ -9,7 +9,7 @@ function edTarget(){const st=consState(entries);
   for(const d of st.done){const n=CON[d].s.length;if(ix<off+n)return{k:d,t:ix-off,lit:n,es:A.slice(off,off+n)};off+=n}
   return st.cur?{k:st.cur,t:ix-st.off,lit:st.lit,es:A.slice(st.off,st.off+st.lit)}:null}
 function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)return;
-  const c=CON[T.k],n=c.s.length,P=conProj(T.k,84,52,7),ord=conOrd(T.k),tg=ord[T.t],on=new Set(ord.slice(0,T.lit));on.delete(tg);
+  const c=CON[T.k],n=c.s.length,P=conProj(T.k,84,52,CFX[T.k]?.align==='stars'?9:7),ord=conOrd(T.k),tg=ord[T.t],on=new Set(ord.slice(0,T.lit));on.delete(tg);
   const col={};ord.slice(0,T.lit).forEach((si,j)=>{const e=T.es[j];if(e)col[si]=`var(${MOODS[e.mood??2].c})`});let g='';
   {const r=seedRng(T.k+'ed');for(let i=0;i<14;i++)g+=`<circle cx="${(r()*84).toFixed(1)}" cy="${(r()*52).toFixed(1)}" r="${(.3+r()*.5).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.3).toFixed(2)}"/>`}
   g+=conFig(T.k,84,52,P,T.lit/n);

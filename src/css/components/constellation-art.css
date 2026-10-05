@@ -39,6 +39,8 @@
 
 /* 剪影隨點亮進度成形：還沒完成時不游動、星雲不呼吸 */
 .cfx-wip .cfx-swim,.cfx-wip .cfx-neb{animation:none}
+/* 依星點對位的剪影固定輪廓位置，保留星塵閃爍與星雲呼吸。 */
+.cfx-aligned .cfx-swim{animation:none}
 /* 完成動畫（點睛）：光擴散完後眼睛眨一下亮起 */
 .cfx-awake .cfx-eye{transform-box:fill-box;transform-origin:center;animation:cfxEye 1s cubic-bezier(.3,1.4,.5,1) var(--ed,1.5s) both}
 
