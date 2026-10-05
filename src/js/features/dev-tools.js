@@ -16,6 +16,7 @@ function devRender(){const st=consState(entries),lv=levelInfo(totalXP(entries)).
   $('dvZod').innerHTML=ZODIAC.map((z,i)=>`<option value="${i}"${i===(zi<0?0:zi)?' selected':''}>${z.n}${i===zi?'（你的星座）':''}</option>`).join('');
   /* 測試資料 */
   $('dvDataSub').textContent=n?`目前有 ${n} 則測試紀錄`:'隨機心情、標籤、地點與長短文字';$('dvClr').disabled=!n;
+  {const T=Object.keys(CON).length;$('dvConsAllN').textContent=`${st.done.length} / ${T}`;$('dvConsAll').disabled=st.done.length>=T}
   $('dvFfSub').textContent=`目前連續 ${streakOf(entries).n} 天・完成 ${st.done.length} 個星座・Lv.${lv}${prof.devXP?`（加成 +${prof.devXP.toLocaleString()} XP）`:''}`;
   $('dvXp').innerHTML=`<option value="0">實際等級（Lv.${realLv}）</option>`+Array.from({length:60},(_,i)=>i+1).filter(v=>v>realLv).map(v=>`<option value="${v}"${prof.devXP&&v===lv?' selected':''}>Lv.${v}・${RANKS[rankIdx(v)]}</option>`).join('');
   $('dvAchM').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===(prof.devAch||'')));
@@ -59,9 +60,14 @@ $('dvClr').onclick=()=>{const n=entries.filter(e=>e.dev).length;entries=entries.
 $('dvStkGo').onclick=()=>{const N=+$('dvStk').value,have=new Set(entries.map(e=>e.date));let k=0;
   for(let i=0;i<N;i++){const d=dvDayAgo(i);if(!have.has(d)){entries.push(devEntry(d));k++}}
   save();devRefresh();toast(k?`已補上 ${k} 天的紀錄，目前連續 ${streakOf(entries).n} 天`:`已經連續 ${N} 天以上`)};
-$('dvConsGo').onclick=()=>{const N=+$('dvCons').value;let st=consState(entries),k=0;
+function devFillCons(N){let st=consState(entries),k=0;
   while(st.done.length<N&&st.cur){for(let j=CON[st.cur].s.length-st.lit;j>0;j--){entries.push(devEntry(dvDayAgo(Math.floor(Math.random()*365))));k++}st=consState(entries)}
-  save();devRefresh();toast(k?`已補上 ${k} 則紀錄，完成 ${st.done.length} 個星座`:`已經完成 ${st.done.length} 個星座`)};
+  if(k&&!save()){entries=entries.slice(0,entries.length-k);toast('儲存空間不足，無法補上紀錄');return}
+  devRefresh();const all=st.done.length>=Object.keys(CON).length;
+  toast(k?`已補上 ${k} 則紀錄，${all?'所有星座都已點亮':`完成 ${st.done.length} 個星座`}`:all?'所有星座都已點亮':`已經完成 ${st.done.length} 個星座`)}
+$('dvConsGo').onclick=()=>devFillCons(+$('dvCons').value);
+/* 點亮所有星座：用測試紀錄補滿全部 88 個星座（約 580 顆星），可用「清除測試紀錄」移除 */
+$('dvConsAll').onclick=()=>devFillCons(Object.keys(CON).length);
 $('dvXpGo').onclick=()=>{const L=+$('dvXp').value,real=totalXP(entries)-(prof.devXP||0);
   if(L)prof.devXP=Math.max(0,xpAt(L)-real);else delete prof.devXP;if(!prof.devXP)delete prof.devXP;saveProf();devRefresh();
   toast(L?`已快轉到 Lv.${levelInfo(totalXP(entries)).lv}`:'已恢復實際等級')};
@@ -79,7 +85,7 @@ $('dvDateGo').onclick=()=>{const v=$('dvDate').value,tm=$('dvTime').value||'12:0
   try{localStorage.setItem(DEV_CLOCK,String(new R(y,m-1,d,hh,mm).getTime()-R.now()))}catch(_){}location.reload()};
 $('dvDateReset').onclick=()=>{try{localStorage.removeItem(DEV_CLOCK)}catch(_){}location.reload()};
 function devPill(){if(!devOff())return;const n=new Date(),b=document.createElement('button');b.type='button';b.className='dv-pill';
-  b.textContent=`模擬日期・${fmtMD(n)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
+  b.textContent=`模擬日期・${n.getFullYear()}年${fmtMD(n)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
 /* 極端緯度：一鍵切換測試地區，原本的地區存在 devRegPrev，按「還原」放回 */
 const DV_GEO=[{name:'赤道・基多（測試）',lat:-0.2,lon:-78.5},{name:'北極圈・特羅姆瑟（測試）',lat:69.6,lon:18.9},{name:'南極・麥克默多站（測試）',lat:-77.8,lon:166.7}];
 $('dvGeo').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{if(!('devRegPrev' in prof))prof.devRegPrev=prof.region||null;prof.region={...DV_GEO[+b.dataset.g]};saveProf();devRefresh();toast(`地區已切到${prof.region.name}`)});

@@ -4,7 +4,7 @@ function tagStats(){const m={};entries.forEach(e=>(e.tags||[]).forEach(t=>{const
 function renderTagCnt(){const n=Object.keys(tagStats()).length;if($('tagCnt'))$('tagCnt').textContent=n?`${n} 個`:''}
 function renderTags(){const m=tagStats(),L=Object.keys(m).sort((a,b)=>m[b].n-m[a].n||a.localeCompare(b,'zh-Hant'));
   $('tgList').innerHTML=L.length?L.map(t=>{const o=m[t],d=parse(o.last),op=t===tgOpen;
-    return `<div class="tg-row${op?' open':''}" data-t="${esc(t)}"><button type="button" class="tg-main" aria-expanded="${op}"><b>${esc(t)}</b><small>最近 ${fmtMD(d)}</small><span class="tg-n">${o.n}</span></button>
+    return `<div class="tg-row${op?' open':''}" data-t="${esc(t)}"><button type="button" class="tg-main" aria-expanded="${op}"><b>${esc(t)}</b><small>最近 ${fmtMDY(d)}</small><span class="tg-n">${o.n}</span></button>
       ${op?`<div class="tg-ed"><label class="sr" for="tgIn">新的標籤名稱</label><input class="field" id="tgIn" value="${esc(t)}" maxlength="30" autocomplete="off" enterkeyhint="done"><span class="tg-hint" id="tgHint"></span>
         <div class="row"><button type="button" class="btn danger" id="tgDel">刪除標籤</button><button type="button" class="btn primary" id="tgSave">儲存</button></div></div>`:''}</div>`}).join('')
     :'<div class="tg-empty">還沒有使用過標籤。<br>寫紀錄時在「標籤」欄位輸入，就會出現在這裡。</div>';

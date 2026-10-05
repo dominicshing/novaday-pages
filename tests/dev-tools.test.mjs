@@ -1,4 +1,4 @@
-// 開發者工具：隱藏入口、動畫預覽、測試資料、快轉、空白狀態、字級、慢速、剪影總覽、初始化
+// 開發者工具：隱藏入口、動畫預覽、測試資料、快轉（含點亮所有星座）、空白狀態、字級、慢速、剪影總覽、初始化
 export default async ({ ok, open, run }) => {
   const p = await open();
   const $ = id => p.evaluate(id => document.getElementById(id), id);
@@ -23,6 +23,12 @@ export default async ({ ok, open, run }) => {
   ok(await p.evaluate(() => levelInfo(totalXP(entries)).lv === 25), '等級快轉到 Lv.25');
   await run(p, "document.querySelector('#dvAchM [data-m=\"all\"]').click()"); await p.waitForTimeout(200);
   ok(await p.evaluate(() => unlocked(entries).length === ACH.length), '徽章全部解鎖');
+  await run(p, "document.getElementById('dvConsAll').click()"); await p.waitForTimeout(800);
+  ok(await p.evaluate(() => { const st = consState(entries); return st.done.length === 88 && !st.cur && document.getElementById('dvConsAll').disabled && document.getElementById('dvConsAllN').textContent === '88 / 88' }), '點亮所有星座（88 個），按鈕停用');
+  for (const s of ['home', 'log', 'atlas', 'me']) { await run(p, `go('${s}')`); await p.waitForTimeout(250) }
+  ok(!p.errors.length, '全部點亮後各分頁正常 ' + p.errors.join('; '));
+  ok(await p.evaluate(() => document.getElementById('conName').textContent === '全部完成' && document.getElementById('skyK').hidden), '全部完成時不顯示「正在點亮」');
+  await run(p, "devOpen()"); await p.waitForTimeout(300);
 
   // 空白狀態：收起後放回
   const n = await p.evaluate(() => entries.length);

@@ -23,7 +23,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
     else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%4.2).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
 function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
-  if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}
+  $('skyK').hidden=!st.cur;if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
   $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
   svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25});

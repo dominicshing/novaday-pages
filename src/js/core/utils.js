@@ -23,6 +23,8 @@ const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 /* 短日期一律寫「10月3日」，不用純數字的 10/3：香港、英國等地習慣「日/月」，純數字會被讀反 */
 const fmtMD=d=>`${d.getMonth()+1}月${d.getDate()}日`;
+/* 不是今年的日期前面加年份（2025年10月21日），避免看起來像未來的日子 */
+const fmtMDY=d=>(d.getFullYear()!==new Date().getFullYear()?d.getFullYear()+'年':'')+fmtMD(d);
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
 /* 不是今年的日期前面加上年份（沒有月份標題可參考的地方用，例如紀錄詳情） */
 const fmtDayY=s=>(+s.slice(0,4)!==new Date().getFullYear()?s.slice(0,4)+' 年 ':'')+fmtDay(s);

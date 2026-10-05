@@ -131,7 +131,7 @@
       <button type="button" class="today-card" id="todayCard" hidden></button>
       <div class="galaxy">
         <div class="sky-head">
-          <div class="sky-t"><div class="sky-tr"><h2 id="conName"></h2><span class="sky-k">正在點亮</span></div><span class="sky-l" id="conLatin"></span></div>
+          <div class="sky-t"><div class="sky-tr"><h2 id="conName"></h2><span class="sky-k" id="skyK">正在點亮</span></div><span class="sky-l" id="conLatin"></span></div>
           <button type="button" class="atlas-btn" id="atlasBtn" aria-label="星座圖鑑"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="12" cy="12" r="8.8"/><path class="o dl" d="M7.2 15.2l3.2-3.4 3 1.6"/><circle class="dt" cx="7.2" cy="15.2" r="1.2"/><circle class="dt" cx="10.4" cy="11.8" r="1.1"/><path class="st" d="M15.2 5.9Q15.79 8.61 18.5 9.2Q15.79 9.79 15.2 12.5Q14.61 9.79 11.9 9.2Q14.61 8.61 15.2 5.9Z"/></svg><span><b id="conCount">0</b> / 88</span><small>星座圖鑑</small></button>
         </div>
         <svg viewBox="0 0 380 300" id="gal" role="img" style="cursor:pointer"></svg>
@@ -667,6 +667,7 @@
           <div class="dv-item"><div class="dv-lbl">快轉進度<small id="dvFfSub"></small></div>
             <div class="dv-ctl"><span class="dv-k">連續天數</span><select class="field" id="dvStk" aria-label="連續天數"><option>3</option><option>7</option><option selected>14</option><option>30</option><option>100</option><option>365</option></select><button type="button" class="dv-go" id="dvStkGo">補滿</button></div>
             <div class="dv-ctl"><span class="dv-k">完成星座</span><select class="field" id="dvCons" aria-label="完成星座數"><option>1</option><option selected>5</option><option>12</option><option>30</option></select><button type="button" class="dv-go" id="dvConsGo">補滿</button></div>
+            <div class="dv-ctl"><span class="dv-k">所有星座</span><span class="dv-k dv-n" id="dvConsAllN"></span><button type="button" class="dv-go" id="dvConsAll">全部點亮</button></div>
             <div class="dv-ctl"><span class="dv-k">等級</span><select class="field" id="dvXp" aria-label="等級"></select><button type="button" class="dv-go" id="dvXpGo">套用</button></div></div>
           <div class="dv-item"><div class="dv-lbl">徽章牆<small>暫時讓徽章全部解鎖或全部未解鎖，檢查全滿與全空的樣子</small></div><div class="dv-seg" id="dvAchM" role="group" aria-label="徽章牆"><button type="button" data-m="">實際</button><button type="button" data-m="all">全部解鎖</button><button type="button" data-m="none">全部未解鎖</button></div></div>
           <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><path d="M9 12h6"/></svg></i><span>空白狀態<small id="dvEmptySub">暫時收起所有紀錄，模擬全新使用者；關閉後原樣放回</small></span></span><button class="sw" role="switch" id="swDvEmpty" aria-checked="false" aria-label="空白狀態"></button></div>

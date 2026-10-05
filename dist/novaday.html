@@ -3022,6 +3022,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 @media (min-width:600px) and (min-height:600px){
   .dv-fps{top:58px;left:22px}
 }
+.dv-ctl .dv-n{flex:1;width:auto;font-variant-numeric:tabular-nums}
 /* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
 /* 點亮動畫：彗星是心情色的四芒星（--mc），沿途留下星屑（.trail），抵達時擴散光圈（.lring）與火花（.spark，.st 為星形） */
 .comet{position:fixed;z-index:30;width:22px;height:22px;margin:-11px 0 0 -11px;pointer-events:none;border-radius:50%;
@@ -3156,7 +3157,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
       <button type="button" class="today-card" id="todayCard" hidden></button>
       <div class="galaxy">
         <div class="sky-head">
-          <div class="sky-t"><div class="sky-tr"><h2 id="conName"></h2><span class="sky-k">正在點亮</span></div><span class="sky-l" id="conLatin"></span></div>
+          <div class="sky-t"><div class="sky-tr"><h2 id="conName"></h2><span class="sky-k" id="skyK">正在點亮</span></div><span class="sky-l" id="conLatin"></span></div>
           <button type="button" class="atlas-btn" id="atlasBtn" aria-label="星座圖鑑"><svg class="nic" viewBox="0 0 24 24" aria-hidden="true"><circle class="o fi" cx="12" cy="12" r="8.8"/><path class="o dl" d="M7.2 15.2l3.2-3.4 3 1.6"/><circle class="dt" cx="7.2" cy="15.2" r="1.2"/><circle class="dt" cx="10.4" cy="11.8" r="1.1"/><path class="st" d="M15.2 5.9Q15.79 8.61 18.5 9.2Q15.79 9.79 15.2 12.5Q14.61 9.79 11.9 9.2Q14.61 8.61 15.2 5.9Z"/></svg><span><b id="conCount">0</b> / 88</span><small>星座圖鑑</small></button>
         </div>
         <svg viewBox="0 0 380 300" id="gal" role="img" style="cursor:pointer"></svg>
@@ -3692,6 +3693,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
           <div class="dv-item"><div class="dv-lbl">快轉進度<small id="dvFfSub"></small></div>
             <div class="dv-ctl"><span class="dv-k">連續天數</span><select class="field" id="dvStk" aria-label="連續天數"><option>3</option><option>7</option><option selected>14</option><option>30</option><option>100</option><option>365</option></select><button type="button" class="dv-go" id="dvStkGo">補滿</button></div>
             <div class="dv-ctl"><span class="dv-k">完成星座</span><select class="field" id="dvCons" aria-label="完成星座數"><option>1</option><option selected>5</option><option>12</option><option>30</option></select><button type="button" class="dv-go" id="dvConsGo">補滿</button></div>
+            <div class="dv-ctl"><span class="dv-k">所有星座</span><span class="dv-k dv-n" id="dvConsAllN"></span><button type="button" class="dv-go" id="dvConsAll">全部點亮</button></div>
             <div class="dv-ctl"><span class="dv-k">等級</span><select class="field" id="dvXp" aria-label="等級"></select><button type="button" class="dv-go" id="dvXpGo">套用</button></div></div>
           <div class="dv-item"><div class="dv-lbl">徽章牆<small>暫時讓徽章全部解鎖或全部未解鎖，檢查全滿與全空的樣子</small></div><div class="dv-seg" id="dvAchM" role="group" aria-label="徽章牆"><button type="button" data-m="">實際</button><button type="button" data-m="all">全部解鎖</button><button type="button" data-m="none">全部未解鎖</button></div></div>
           <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15" rx="3"/><path d="M9 12h6"/></svg></i><span>空白狀態<small id="dvEmptySub">暫時收起所有紀錄，模擬全新使用者；關閉後原樣放回</small></span></span><button class="sw" role="switch" id="swDvEmpty" aria-checked="false" aria-label="空白狀態"></button></div>
@@ -3874,6 +3876,8 @@ const chars=e=>((e.title||'')+(e.body||'')).replace(/\s/g,'').length;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 /* 短日期一律寫「10月3日」，不用純數字的 10/3：香港、英國等地習慣「日/月」，純數字會被讀反 */
 const fmtMD=d=>`${d.getMonth()+1}月${d.getDate()}日`;
+/* 不是今年的日期前面加年份（2025年10月21日），避免看起來像未來的日子 */
+const fmtMDY=d=>(d.getFullYear()!==new Date().getFullYear()?d.getFullYear()+'年':'')+fmtMD(d);
 function fmtDay(s){const d=parse(s);return (d.getMonth()+1)+' 月 '+d.getDate()+' 日・星期'+WD[d.getDay()]}
 /* 不是今年的日期前面加上年份（沒有月份標題可參考的地方用，例如紀錄詳情） */
 const fmtDayY=s=>(+s.slice(0,4)!==new Date().getFullYear()?s.slice(0,4)+' 年 ':'')+fmtDay(s);
@@ -4736,7 +4740,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
     else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%4.2).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
 function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
-  if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}
+  $('skyK').hidden=!st.cur;if(!st.cur){$('conName').textContent='全部完成';$('conLatin').textContent='你點亮了全天 88 個星座';svg.innerHTML='';$('gcap').textContent='';$('skyDots').innerHTML='';return}
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
   $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
   svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25});
@@ -4751,7 +4755,7 @@ function galStop(){}
 $('gal').addEventListener('click',ev=>{if(ev.target.closest('.cstar[data-id]'))return;const st=consState(entries);st.cur?openCon(st.cur):openAtlas()});
 /* 星座圖鑑與星座詳情的切換 */
 function atlasCard(k,st,sub2){const c=CON[k],done=st.done.includes(k),isCur=k===st.cur,lit=done?c.s.length:isCur?st.lit:0;
-  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMD(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
+  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMDY(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
   const badge=done?'<i class="at-bd ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i>':isCur?'<i class="at-bd now" aria-hidden="true"></i>':prof.nextPick===k?'<i class="at-tag nx">下一個</i>':'';
   const mine=signIdx(prof.birthday),mineTag=mine>=0&&ZODIAC[mine].k===k?'<i class="at-tag me">你的星座</i>':'';
   return `<button type="button" class="at-card ${done?'done':isCur?'cur':'lock'}" data-k="${k}" aria-label="${c.n}，${done?'已點亮':isCur?`點亮中 ${st.lit} / ${c.s.length}`:'尚未點亮'}">${badge}${mineTag}<svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,12,lit,done||isCur?conEntries(k):null,{sc:.6})}</svg><b>${c.n}</b><small>${sub}</small>${atDots(k,st)}</button>`}
@@ -5598,7 +5602,7 @@ function tagStats(){const m={};entries.forEach(e=>(e.tags||[]).forEach(t=>{const
 function renderTagCnt(){const n=Object.keys(tagStats()).length;if($('tagCnt'))$('tagCnt').textContent=n?`${n} 個`:''}
 function renderTags(){const m=tagStats(),L=Object.keys(m).sort((a,b)=>m[b].n-m[a].n||a.localeCompare(b,'zh-Hant'));
   $('tgList').innerHTML=L.length?L.map(t=>{const o=m[t],d=parse(o.last),op=t===tgOpen;
-    return `<div class="tg-row${op?' open':''}" data-t="${esc(t)}"><button type="button" class="tg-main" aria-expanded="${op}"><b>${esc(t)}</b><small>最近 ${fmtMD(d)}</small><span class="tg-n">${o.n}</span></button>
+    return `<div class="tg-row${op?' open':''}" data-t="${esc(t)}"><button type="button" class="tg-main" aria-expanded="${op}"><b>${esc(t)}</b><small>最近 ${fmtMDY(d)}</small><span class="tg-n">${o.n}</span></button>
       ${op?`<div class="tg-ed"><label class="sr" for="tgIn">新的標籤名稱</label><input class="field" id="tgIn" value="${esc(t)}" maxlength="30" autocomplete="off" enterkeyhint="done"><span class="tg-hint" id="tgHint"></span>
         <div class="row"><button type="button" class="btn danger" id="tgDel">刪除標籤</button><button type="button" class="btn primary" id="tgSave">儲存</button></div></div>`:''}</div>`}).join('')
     :'<div class="tg-empty">還沒有使用過標籤。<br>寫紀錄時在「標籤」欄位輸入，就會出現在這裡。</div>';
@@ -5637,7 +5641,7 @@ function renderFootprint(){const box=$('footprint');if(!box)return;const today=n
   box.innerHTML=`<div class="fp-stat"><span>寫了<b>${days}</b>天</span><span>最長連續<b>${best}</b>天</span>${days?`<span>最常是 ${moon(top)} ${MOODS[top].n}</span>`:''}</div>
     <div class="fp-wrap"><div class="fp-wd" aria-hidden="true"><span></span><span>一</span><span></span><span>三</span><span></span><span>五</span><span></span></div>
     <div><div class="fp-mo" aria-hidden="true">${mo}</div><div class="fp-grid${big?' big':''}" id="fpGrid" role="img" aria-label="${W>=26?'過去半年':`最近 ${W} 週`}有 ${days} 天寫了紀錄，點一下星星看那天的紀錄">${cells}</div></div></div>
-    ${fpSel?(()=>{const d=parse(fpSel),dl=`${fmtMD(d)}（${WD[d.getDay()]}）`;
+    ${fpSel?(()=>{const d=parse(fpSel),dl=`${fmtMDY(d)}（${WD[d.getDay()]}）`;
       if(!tipE)return `<div class="fp-tip fp-blank"><i class="fp-es" aria-hidden="true"></i><span><b>${dl}</b><small>這天還沒有點亮星星</small></span><button type="button" id="fpGo">補寫 ›</button></div>`;
       const m=Math.round(tipE.reduce((t,e)=>t+(e.mood??2),0)/tipE.length),t0=tipE[0];
       return `<div class="fp-tip" style="--c:${MOOD_HEX[m]}">${moon(m,'big')}<span><b>${dl}・${MOODS[m].n}</b><small>${tipE.length>1?`${tipE.length} 則紀錄・`:''}${esc(t0.title||(t0.body||'').slice(0,24)||untitled(t0))}</small></span><button type="button" id="fpGo">查看 ›</button></div>`})()
@@ -6002,7 +6006,7 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
   $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
 /* 日期時間膠囊：左半「昨天・10/2（五）」、右半「21:30」，點哪半就打開手機的日期或時間選擇器 */
 function updWhen(){const td=ymd(new Date()),d=$('fDate').value||td,t=$('fTime').value,x=parse(d),n=Math.round((parse(td)-x)/864e5),r=n===0?'今天':n===1?'昨天':n===2?'前天':'';
-  $('whenDT').textContent=`${r?r+'・':''}${fmtMD(x)}（${WD[x.getDay()]}）`;$('whenTT').textContent=t?fmtTime(t):'--:--'}
+  $('whenDT').textContent=`${r?r+'・':''}${fmtMDY(x)}（${WD[x.getDay()]}）`;$('whenTT').textContent=t?fmtTime(t):'--:--'}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
 const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);
@@ -6785,6 +6789,7 @@ function devRender(){const st=consState(entries),lv=levelInfo(totalXP(entries)).
   $('dvZod').innerHTML=ZODIAC.map((z,i)=>`<option value="${i}"${i===(zi<0?0:zi)?' selected':''}>${z.n}${i===zi?'（你的星座）':''}</option>`).join('');
   /* 測試資料 */
   $('dvDataSub').textContent=n?`目前有 ${n} 則測試紀錄`:'隨機心情、標籤、地點與長短文字';$('dvClr').disabled=!n;
+  {const T=Object.keys(CON).length;$('dvConsAllN').textContent=`${st.done.length} / ${T}`;$('dvConsAll').disabled=st.done.length>=T}
   $('dvFfSub').textContent=`目前連續 ${streakOf(entries).n} 天・完成 ${st.done.length} 個星座・Lv.${lv}${prof.devXP?`（加成 +${prof.devXP.toLocaleString()} XP）`:''}`;
   $('dvXp').innerHTML=`<option value="0">實際等級（Lv.${realLv}）</option>`+Array.from({length:60},(_,i)=>i+1).filter(v=>v>realLv).map(v=>`<option value="${v}"${prof.devXP&&v===lv?' selected':''}>Lv.${v}・${RANKS[rankIdx(v)]}</option>`).join('');
   $('dvAchM').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===(prof.devAch||'')));
@@ -6828,9 +6833,14 @@ $('dvClr').onclick=()=>{const n=entries.filter(e=>e.dev).length;entries=entries.
 $('dvStkGo').onclick=()=>{const N=+$('dvStk').value,have=new Set(entries.map(e=>e.date));let k=0;
   for(let i=0;i<N;i++){const d=dvDayAgo(i);if(!have.has(d)){entries.push(devEntry(d));k++}}
   save();devRefresh();toast(k?`已補上 ${k} 天的紀錄，目前連續 ${streakOf(entries).n} 天`:`已經連續 ${N} 天以上`)};
-$('dvConsGo').onclick=()=>{const N=+$('dvCons').value;let st=consState(entries),k=0;
+function devFillCons(N){let st=consState(entries),k=0;
   while(st.done.length<N&&st.cur){for(let j=CON[st.cur].s.length-st.lit;j>0;j--){entries.push(devEntry(dvDayAgo(Math.floor(Math.random()*365))));k++}st=consState(entries)}
-  save();devRefresh();toast(k?`已補上 ${k} 則紀錄，完成 ${st.done.length} 個星座`:`已經完成 ${st.done.length} 個星座`)};
+  if(k&&!save()){entries=entries.slice(0,entries.length-k);toast('儲存空間不足，無法補上紀錄');return}
+  devRefresh();const all=st.done.length>=Object.keys(CON).length;
+  toast(k?`已補上 ${k} 則紀錄，${all?'所有星座都已點亮':`完成 ${st.done.length} 個星座`}`:all?'所有星座都已點亮':`已經完成 ${st.done.length} 個星座`)}
+$('dvConsGo').onclick=()=>devFillCons(+$('dvCons').value);
+/* 點亮所有星座：用測試紀錄補滿全部 88 個星座（約 580 顆星），可用「清除測試紀錄」移除 */
+$('dvConsAll').onclick=()=>devFillCons(Object.keys(CON).length);
 $('dvXpGo').onclick=()=>{const L=+$('dvXp').value,real=totalXP(entries)-(prof.devXP||0);
   if(L)prof.devXP=Math.max(0,xpAt(L)-real);else delete prof.devXP;if(!prof.devXP)delete prof.devXP;saveProf();devRefresh();
   toast(L?`已快轉到 Lv.${levelInfo(totalXP(entries)).lv}`:'已恢復實際等級')};
@@ -6848,7 +6858,7 @@ $('dvDateGo').onclick=()=>{const v=$('dvDate').value,tm=$('dvTime').value||'12:0
   try{localStorage.setItem(DEV_CLOCK,String(new R(y,m-1,d,hh,mm).getTime()-R.now()))}catch(_){}location.reload()};
 $('dvDateReset').onclick=()=>{try{localStorage.removeItem(DEV_CLOCK)}catch(_){}location.reload()};
 function devPill(){if(!devOff())return;const n=new Date(),b=document.createElement('button');b.type='button';b.className='dv-pill';
-  b.textContent=`模擬日期・${fmtMD(n)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
+  b.textContent=`模擬日期・${n.getFullYear()}年${fmtMD(n)} ${pad(n.getHours())}:${pad(n.getMinutes())}`;b.onclick=devOpen;$('device').appendChild(b)}
 /* 極端緯度：一鍵切換測試地區，原本的地區存在 devRegPrev，按「還原」放回 */
 const DV_GEO=[{name:'赤道・基多（測試）',lat:-0.2,lon:-78.5},{name:'北極圈・特羅姆瑟（測試）',lat:69.6,lon:18.9},{name:'南極・麥克默多站（測試）',lat:-77.8,lon:166.7}];
 $('dvGeo').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{if(!('devRegPrev' in prof))prof.devRegPrev=prof.region||null;prof.region={...DV_GEO[+b.dataset.g]};saveProf();devRefresh();toast(`地區已切到${prof.region.name}`)});
