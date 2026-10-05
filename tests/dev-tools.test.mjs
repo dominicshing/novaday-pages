@@ -1,4 +1,4 @@
-// 開發者工具：隱藏入口、動畫預覽、測試資料、快轉（含點亮所有星座）、空白狀態、字級、慢速、剪影總覽、初始化
+// 開發者工具：隱藏入口、動畫預覽、測試資料、快轉（含點亮所有星座）、空白狀態、字級、慢速、剪影總覽、重設、小螢幕版面、引導預覽
 export default async ({ ok, open, run }) => {
   const p = await open();
   const $ = id => p.evaluate(id => document.getElementById(id), id);
@@ -55,4 +55,17 @@ export default async ({ ok, open, run }) => {
   await run(p, "document.querySelector('#askBtns button:last-child').click()"); await p.waitForLoadState(); await p.waitForTimeout(1200);
   ok(await p.evaluate(() => !prof.devFs && !prof.devSlow && !prof.devXP && !prof.devAch && !entries.some(e => e.dev) && prof.devOn === 1), '重設開發者工具');
   ok(!p.errors.length, '沒有程式錯誤 ' + p.errors.join('; '));
-  await p.context().close() };
+  await p.context().close();
+
+  // 320px：月份、日期、時間欄位完整顯示，按鈕文字不斷行；引導預覽可用 Esc 結束
+  const q = await open({ viewport: { width: 320, height: 568 }, seed: { 'orbitlog.profile.v1': { onboarded: 1, devOn: 1 } } });
+  await run(q, 'devOpen()'); await q.waitForTimeout(500);
+  ok(await q.evaluate(() => ['dvMon', 'dvDate', 'dvTime'].every(id => document.getElementById(id).getBoundingClientRect().width >= 200)
+    && [...document.querySelectorAll('#devSheet .dv-go')].filter(b => b.offsetParent).every(b => getComputedStyle(b).whiteSpace === 'nowrap' && b.scrollWidth <= b.clientWidth + 1)), '320px 時月份、日期、時間完整顯示，按鈕不斷行');
+  ok(await q.evaluate(() => document.querySelector('#devSheet .dv-note').textContent.includes('不會動到你自己寫的日記') && [...document.querySelectorAll('#devSheet .set-h')].some(h => h.textContent.trim() === '重設與隱藏')), '說明文字正確，重設區改名');
+  await run(q, "document.getElementById('dvOnbGo').click()"); await q.waitForTimeout(500);
+  ok(await q.evaluate(() => !document.getElementById('onb').hidden), '打開引導預覽');
+  await q.keyboard.press('Escape'); await q.waitForTimeout(600);
+  ok(await q.evaluate(() => document.getElementById('onb').hidden && prof.onboarded === 1), '按 Esc 結束引導預覽，資料不變');
+  ok(!q.errors.length, '小螢幕沒有程式錯誤 ' + q.errors.join('; '));
+  await q.context().close() };

@@ -96,6 +96,8 @@ $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}el
 $('obAlt').onclick=()=>obFinish(false);
 $('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
 $('obSkip').onclick=()=>{ob.i=3;obRender()};
+/* 開發者工具的引導預覽：按 Esc 直接結束預覽 */
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ob&&ob.pv&&!$('onb').hidden){e.preventDefault();obFinish(false)}});
 /* 引導頁顯示時，後面的 App 設為 inert：Tab 不會跑到看不見的按鈕，螢幕報讀也只讀引導頁 */
 new MutationObserver(()=>{$('app').inert=!$('onb').hidden}).observe($('onb'),{attributes:true,attributeFilter:['hidden']});
 $('app').inert=!$('onb').hidden;

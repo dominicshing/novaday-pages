@@ -130,7 +130,7 @@ function devFpsApply(){cancelAnimationFrame(devFpsRaf);let el=$('dvFpsBox');if(!
   let n=0,t0=performance.now(),last=t0,worst=0;
   const f=now=>{n++;worst=Math.max(worst,now-last);last=now;if(now-t0>=500){const fps=Math.round(n*1000/(now-t0));el.textContent=`${fps} FPS・最慢 ${Math.round(worst)} ms`;el.classList.toggle('bad',fps<45);n=0;t0=now;worst=0}devFpsRaf=requestAnimationFrame(f)};
   devFpsRaf=requestAnimationFrame(f)}
-$('swDvFps').onclick=()=>{prof.devFps=!prof.devFps;saveProf();devFpsApply();devRender()};
+$('swDvFps').onclick=()=>{prof.devFps=!prof.devFps;saveProf();devFpsApply();devRender();toast(prof.devFps?'已在左上角顯示 FPS':'已關閉 FPS 顯示')};
 /* 星座剪影總覽：88 個星座一次檢查，可篩選星塵／一般剪影／無剪影，點一下開啟詳情 */
 let devFigF='all';
 function devFigs(){const ks=Object.keys(CON),W=160,H=120,kind=k=>CFX[k]?(CFX[k].dust?'dust':'fig'):'none',LB={dust:'星塵',fig:'一般剪影',none:'無剪影'};
@@ -171,7 +171,7 @@ function devStore(){const L=[];try{for(let i=0;i<localStorage.length;i++){const 
 $('liDvStore').onclick=()=>{devStore();$('devStoreSheet').querySelector('.sb').scrollTop=0;openSheet('devStoreSheet')};
 /* 錯誤紀錄：000-error-overlay.js 會把錯誤存進 novaday.dev.errors（最多 30 筆） */
 function devErrRender(){const L=devErrs();
-  $('dvErrList').innerHTML=L.length?L.map(e=>{const d=new Date(e.t);return `<div class="dve"><small>${fmtMD(d)} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${e.s?'・'+esc(e.s):''}</small><code>${esc(e.m)}</code></div>`}).join(''):'<p class="dv-empty">目前沒有錯誤紀錄 ✦</p>';
+  $('dvErrList').innerHTML=L.length?L.map(e=>{const d=new Date(e.t);return `<div class="dve"><small>${fmtMDY(d)} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${e.s?'・'+esc(e.s):''}</small><code>${esc(e.m)}</code></div>`}).join(''):'<p class="dv-empty">目前沒有錯誤紀錄 ✦</p>';
   $('dvErrClr').disabled=$('dvErrCopy').disabled=!L.length}
 $('liDvErr').onclick=()=>{devErrRender();openSheet('devErrSheet')};
 $('dvErrTest').onclick=()=>{setTimeout(()=>{throw new Error('這是開發者工具產生的測試錯誤')});setTimeout(()=>{devErrRender();devRender()},80)};
