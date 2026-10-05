@@ -2322,8 +2322,11 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .rg-none{display:block;width:100%;margin-top:14px;min-height:44px;background:none;border:0;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
 /* 設定列裡的二選一（時間格式） */
 .li-seg{flex:none;display:inline-flex;padding:3px;border-radius:11px;border:1px solid var(--line);background:rgba(232,233,255,.05)}
-.li-seg button{min-height:30px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;white-space:nowrap}
+.li-seg button{min-height:36px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;white-space:nowrap}
 .li-seg button[aria-checked="true"]{background:linear-gradient(135deg,rgba(111,227,214,.22),rgba(138,124,255,.28));color:var(--text);box-shadow:inset 0 0 0 1px rgba(111,227,214,.35)}
+/* 時間格式：小螢幕時標題和範例不斷行，切換按鈕收窄 */
+#liClock .li-l>span{white-space:nowrap}
+@media (max-width:360px){.li-seg button{padding:0 7px}}
 /* 新增／編輯紀錄、草稿提示 */
 .draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
 .draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
@@ -3586,13 +3589,13 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
       </div>
       <h3 class="set-h" style="--c:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>通知</h3>
       <div class="list panel">
-        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></i><span>每日提醒<small>預覽版不會實際發送通知</small></span></span><button class="sw" role="switch" id="swRemind" aria-checked="false" aria-label="每日提醒"></button></div>
+        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></i><span>每日提醒<small>網頁版不會發送通知</small></span></span><button class="sw" role="switch" id="swRemind" aria-checked="false" aria-label="每日提醒"></button></div>
         <label class="li" id="liTime"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></i><span>提醒時間</span></span><input type="time" id="remindTime"></label>
       </div>
       <h3 class="set-h" style="--c:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>顯示</h3>
       <div class="list panel">
         <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg></i><span>減少動態效果<small>停止星星閃爍與點亮動畫</small></span></span><button class="sw" role="switch" id="swCalm" aria-checked="false" aria-label="減少動態效果"></button></div>
-        <div class="li"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></i><span>時間格式<small id="clockEx">下午 9:30</small></span></span><span class="li-seg" role="radiogroup" aria-label="時間格式"><button type="button" role="radio" data-c="12" id="clk12">12 小時</button><button type="button" role="radio" data-c="24" id="clk24">24 小時</button></span></div>
+        <div class="li" id="liClock"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.2 2"/></svg></i><span>時間格式<small id="clockEx">下午 9:30</small></span></span><span class="li-seg" role="radiogroup" aria-label="時間格式"><button type="button" role="radio" data-c="12" id="clk12">12 小時</button><button type="button" role="radio" data-c="24" id="clk24">24 小時</button></span></div>
         <div class="li" id="liRed" hidden><span class="li-l"><i class="li-ic" style="--ic:#FF6B6B"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M18.7 5.3l-1.8 1.8M7.1 16.9l-1.8 1.8"/></svg></i><span>紅光夜視模式<small>戶外觀星時使用，不刺眼、不破壞暗適應</small></span></span><button class="sw" role="switch" id="swRed" aria-checked="false" aria-label="紅光夜視模式"></button></div>
       </div>
       <h3 class="set-h" style="--c:#7EE0A8"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>隱私與安全</h3>
@@ -3604,7 +3607,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
         <button class="li" id="liStore"><span class="li-l"><i class="li-ic" style="--ic:#6FA8FF"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="2.8"/><path d="M4.5 6v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V6M4.5 12v6c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-6"/></svg></i><span>儲存空間<small id="stSub">紀錄和照片存在這台裝置</small></span></span><span class="li-v" id="stVal"></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liTags"><span class="li-l"><i class="li-ic" style="--ic:#5FD8CC"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.4V4h8.4l8.6 8.6-8.4 8.4z"/><circle cx="8" cy="8.4" r="1.4"/></svg></i><span>管理標籤<small>改名、合併或刪除標籤</small></span></span><span class="li-v" id="tagCnt"></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liSamples" hidden><span class="li-l"><i class="li-ic" style="--ic:#A99EFF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z"/><path d="M9 9l6 6M15 9l-6 6"/></svg></i><span>清除範例紀錄<small></small></span></span><span class="chev" aria-hidden="true">›</span></button>
-        <button class="li" id="openExport"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg></i><span>匯出與備份<small>下載完整備份，或匯出成純文字</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="openExport"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 19.5h15"/></svg></i><span>匯出與備份<small>下載完整備份（紀錄、照片、影片）</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liImport"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M4.5 14v4a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></i><span>從備份還原<small>匯入之前下載的備份檔</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <h3 class="set-h" style="--c:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg>關於</h3>
@@ -3615,11 +3618,11 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
       <div class="list panel" id="devSec" hidden>
         <button class="li" id="liDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>開發者工具<small>動畫預覽、測試資料、模擬日期、樣式檢查</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
-      <h3 class="set-h" style="--c:#FF7A8A"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
+      <h3 class="set-h" style="--c:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg>重設</h3>
       <div class="list panel">
-        <button class="li" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄<small>刪除全部日記、照片與影片，個人資料與設定保留</small></span></span><span class="chev" aria-hidden="true">›</span></button>
-        <button class="li" id="liResetProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、生日、地區與所有設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
-        <button class="li" id="liInitAll"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>完全初始化<small>清除這台裝置上的所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liWipe"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/></svg></i><span>清除所有紀錄<small>刪除全部日記、照片與影片</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liResetProf"><span class="li-l"><i class="li-ic" style="--ic:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></i><span>重設個人資料與設定<small>頭像、暱稱、地區與設定回到預設，保留日記</small></span></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liInitAll"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/></svg></i><span>完全初始化<small>清除所有資料，回到第一次打開 App 的樣子</small></span></span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <p class="ver">Novaday・每天點亮一顆新星・v2.0</p>
       </div>
@@ -6449,8 +6452,10 @@ $('meForm').addEventListener('submit',e=>{e.preventDefault();if($('meSave').disa
   const zi=signIdx(prof.birthday);toast(zi>=0&&!hadSign?`已設定星座：${ZODIAC[zi].n}，看看你的本月運勢吧`:'已更新個人資料',zi>=0&&!hadSign?3000:2200)});
 /* 設定頁：開關、提醒、紅光模式（目前隱藏）、減少動態、範例紀錄 */
 $('editMe').onclick=()=>openSheet('settingsSheet');
-$('swRemind').onclick=()=>{prof.remind=!prof.remind;saveProf();renderMe();toast(prof.remind?`已開啟每日提醒（${prof.remindTime}）`:'已關閉每日提醒')};
-$('remindTime').onchange=e=>{prof.remindTime=e.target.value;saveProf()};
+$('swRemind').onclick=()=>{prof.remind=!prof.remind;saveProf();renderMe();toast(prof.remind?`已開啟每日提醒（${fmtTime(prof.remindTime)}）`:'已關閉每日提醒')};
+/* 清空或格式不對就還原成原本的時間，不存空值 */
+$('remindTime').onchange=e=>{const v=e.target.value;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(v)){e.target.value=prof.remindTime;return}
+  if(v===prof.remindTime)return;prof.remindTime=v;saveProf();toast(`提醒時間改為 ${fmtTime(v)}`)};
 function applyCalm(){reduce=sysReduce||!!prof.calm;try{['crDefs','fabSvg'].forEach(id=>{const d=$(id);if(d)reduce?d.pauseAnimations():d.unpauseAnimations()})}catch(_){}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);reduce?skyApi.still():skyApi.start();if(reduce){galStop();placeGal()}else galStart()}
 /* 紅光夜視模式：目前隱藏（設定列與星座頁的按鈕都不顯示，一律關閉）；改成 true 即可恢復 */
 const SHOW_RED=false;
@@ -6460,7 +6465,7 @@ $('swRed').onclick=toggleRed;
 /* 時間格式：12 小時制（預設）或 24 小時制 */
 function renderClock(){const c24=!!prof.clock24;$('clk12').setAttribute('aria-checked',!c24);$('clk24').setAttribute('aria-checked',c24);$('clockEx').textContent=c24?'21:30':'下午 9:30'}
 ['clk12','clk24'].forEach(id=>$(id).onclick=()=>{const v=id==='clk24';if(!!prof.clock24===v)return;if(v)prof.clock24=true;else delete prof.clock24;saveProf();renderClock();render();toast(v?'已改成 24 小時制':'已改成 12 小時制')});
-$('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe()};
+$('swCalm').onclick=()=>{prof.calm=!prof.calm;saveProf();applyCalm();renderMe();toast(prof.calm?'已開啟減少動態效果':'已關閉減少動態效果')};
 $('liAbout').onclick=()=>openSheet('aboutSheet');
 $('swFig').onclick=()=>{prof.noFig=!prof.noFig;saveProf();renderMe();render();toast(prof.noFig?'已隱藏星座剪影':'已顯示星座剪影')};
 $('swObDev').onclick=()=>{prof.devOnb=!prof.devOnb;saveProf();renderMe();toast(prof.devOnb?'下次開啟 App 時會顯示引導':'已關閉引導預覽')};
@@ -6468,7 +6473,7 @@ $('liWipe').onclick=()=>openWipe('entries');$('liResetProf').onclick=()=>openWip
 $('liSamples').onclick=async()=>{const n=entries.filter(isSample).length;const k=await ask('清除範例紀錄？',`會移除 ${n} 則範例紀錄，你自己寫的紀錄不受影響。`,[{k:'cancel',t:'取消'},{k:'ok',t:'清除範例',cls:'danger'}]);
   if(k!=='ok')return;entries=entries.filter(e=>!isSample(e));save();render();toast('已清除範例紀錄')};
 /* 設定：清除範例紀錄 */
-function renderSampleRow(){const n=entries.filter(isSample).length,r=$('liSamples');if(!r)return;r.hidden=!n;r.querySelector('small').textContent=`目前有 ${n} 則範例，清除後不影響你自己寫的紀錄`}
+function renderSampleRow(){const n=entries.filter(isSample).length,r=$('liSamples');if(!r)return;r.hidden=!n;r.querySelector('small').textContent=`目前有 ${n} 則，不影響你自己寫的紀錄`}
 /* 首頁頂部列與捲動後的精簡列 */
 function renderAppBar(){const n=new Date(),hr=n.getHours(),g=hr>=5&&hr<11?'早安':hr<18&&hr>=11?'午安':hr>=18&&hr<23?'晚安':'夜深了';
   const name=prof.name||'星旅人';$('greet').textContent=`${g}，${name}`;$('greet').title=`${g}，${name}`;

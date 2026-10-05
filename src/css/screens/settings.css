@@ -22,5 +22,8 @@
 .rg-none{display:block;width:100%;margin-top:14px;min-height:44px;background:none;border:0;color:var(--muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}
 /* 設定列裡的二選一（時間格式） */
 .li-seg{flex:none;display:inline-flex;padding:3px;border-radius:11px;border:1px solid var(--line);background:rgba(232,233,255,.05)}
-.li-seg button{min-height:30px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;white-space:nowrap}
+.li-seg button{min-height:36px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;white-space:nowrap}
 .li-seg button[aria-checked="true"]{background:linear-gradient(135deg,rgba(111,227,214,.22),rgba(138,124,255,.28));color:var(--text);box-shadow:inset 0 0 0 1px rgba(111,227,214,.35)}
+/* 時間格式：小螢幕時標題和範例不斷行，切換按鈕收窄 */
+#liClock .li-l>span{white-space:nowrap}
+@media (max-width:360px){.li-seg button{padding:0 7px}}
