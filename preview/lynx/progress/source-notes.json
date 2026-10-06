@@ -9,5 +9,5 @@
     "src/js/ui/effects.js",
     "src/css/base/effects.css"
   ],
-  "figure_change": "Stages 0–5 reuse original app stardust and star effects with the round baby Lynx outline. The fully lit final state reuses the approved original ../lynx-round.webp, revealed by the native six-star completion mask."
+  "figure_change": "Stages 1–5 progressively reveal the detailed round baby Lynx artwork using deterministic soft stardust masks, while native app stars and lines remain above the image. Each comet arrival reveals more artwork. Completion expands light over the already visible image and settles to the approved original ../lynx-round.webp."
 }

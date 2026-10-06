@@ -12,7 +12,7 @@
 <body>
 <header><div class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 2 Q16 12 26 14 Q16 16 14 26 Q12 16 2 14 Q12 12 14 2Z" fill="currentColor"/></svg>Novaday</div><a href="../">造型比較 ↗</a></header>
 <main id="app" class="app">
-<div class="intro"><p class="eyebrow">LYNX · 圓潤幼貓</p><h1>一顆一顆，點亮天貓座</h1><p>星塵隨進度聚集，六顆星全部點亮，圓潤幼貓完整現身。</p></div>
+<div class="intro"><p class="eyebrow">LYNX · 圓潤幼貓</p><h1>一顆一顆，點亮天貓座</h1><p>每點亮一顆星，幼貓的毛色、臉部與星塵細節就更清晰。</p></div>
 <div class="toolbar"><div class="segmented" role="group" aria-label="預覽尺寸"><button type="button" data-size="desktop" aria-pressed="true">桌面</button><button type="button" data-size="phone" aria-pressed="false">手機</button></div><button type="button" class="play" id="newBtn"><span>＋</span> 點亮下一顆</button><button type="button" class="play" id="play" aria-pressed="false">▶ 播放點亮</button><button type="button" class="play complete" id="complete">✧ 完成動畫</button></div>
 <section class="frame" id="frame" aria-label="天貓座點亮預覽"><div class="frame-top"><span id="stateLabel">尚未點亮</span><span id="stateCount">0 / 6</span></div><div class="figure" id="figure"><svg id="gal" viewBox="0 0 380 300" role="img" aria-label="天貓座"></svg></div><div class="caption"><h2>天貓座</h2><p class="latin">Lynx</p><div class="dots" id="dots" aria-hidden="true"></div><p class="message" id="message" aria-live="polite">點亮第一顆星，喚醒小山貓。</p></div></section>
 <section class="progress" aria-label="點亮進度控制"><div class="progress-head"><label for="progress">點亮進度</label><output id="progressCount" for="progress">0 / 6 顆星</output></div><input id="progress" type="range" min="0" max="6" step="1" value="0" aria-valuetext="尚未點亮，0 顆星"><div class="stages" role="group" aria-label="七個點亮階段"></div><div class="end-labels"><span>尚未點亮</span><span>全部點亮</span></div></section>
@@ -27,29 +27,42 @@ const frame=$('frame'),gal=$('gal'),slider=$('progress'),play=$('play'),nextButt
 const sampleMoods=[2,3,1,4,2,3];const samples=sampleMoods.map((m,i)=>({id:'preview-'+i,mood:m,date:'心情示例',title:MOODS[m].n}));
 let current=0,playing=false,busy=false,token=0,finishTimer=null,revealId=0;
 const finalArt=(w=380,h=300)=>`<image class="final-art" href="../lynx-round.webp" x="0" y="0" width="${w}" height="${h}" preserveAspectRatio="xMidYMid meet"/>`;
+const revealRandom=seedRng('round-kitten-content');
+const revealDust=Array.from({length:360},()=>({x:revealRandom()*380,y:revealRandom()*300,r:7+revealRandom()*13,rank:revealRandom()}));
+const revealAlpha=(n,rank)=>Math.max(0,Math.min(1,(n/6-rank)/.2+.5));
+function growingOpacity(a,b){return a===b||reduce?'':`<animate attributeName="opacity" from="${a}" to="${b}" dur=".8s" fill="freeze"/>`}
+function progressiveArt(n,w=380,h=300,from=n){
+  if(n===0)return '';
+  const id='round-content-'+(++revealId),base=.025+.24*n/6,previous=.025+.24*from/6;
+  return `<defs><filter id="${id}-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.4"/></filter><mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="300" style="mask-type:alpha"><rect width="380" height="300" fill="white" opacity="${base}">${growingOpacity(previous,base)}</rect><g filter="url(#${id}-soft)">${revealDust.map(d=>{const a=revealAlpha(from,d.rank),b=revealAlpha(n,d.rank);return `<circle cx="${d.x}" cy="${d.y}" r="${d.r}" fill="white" opacity="${b}">${growingOpacity(a,b)}</circle>`}).join('')}</g></mask></defs><g class="progress-art" data-revealed="${n}" transform="scale(${w/380} ${h/300})" mask="url(#${id})"><image href="lynx-round-art.webp" width="380" height="300" preserveAspectRatio="xMidYMid meet"/></g>`
+}
+function progressScene(n,w=380,h=300,pad=46,from=n,sc=1.25,artN=n){
+  const figure=artN===0?conFig('Lyn',w,h,conProj('Lyn',w,h,pad),0):'';
+  return figure+progressiveArt(artN,w,h,from)+conSVG('Lyn',w,h,pad,n,samples,{bg:70,next:true,sc,fig:false})
+}
 function settleFinal(){clearTimeout(finishTimer);finishTimer=null;gal.innerHTML=finalArt();gal.classList.remove('finishing')}
 const stageName=n=>n===0?'未點亮':n===6?'全部點亮':n+' 顆星';
 function previewStar(id){const entry=samples.find(e=>e.id===id);if(entry)$('message').textContent='這顆星的心情：'+MOODS[entry.mood].n+'（示例）'}
 document.querySelector('.stages').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" data-stage="${n}" aria-label="${stageName(n)}" aria-pressed="${n===0}">${n}</button>`).join('');
-$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${n===6?finalArt(110,86):conSVG('Lyn',110,86,12,n,samples,{sc:.6})}</svg><span>${stageName(n)}</span></button>`).join('');
-function render(n,finish=false){clearTimeout(finishTimer);finishTimer=null;gal.classList.remove('finishing');current=Math.max(0,Math.min(6,Number(n)));
+$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${n===6?finalArt(110,86):progressScene(n,110,86,12,n,.6)}</svg><span>${stageName(n)}</span></button>`).join('');
+function render(n,finish=false,from=Number(n)){clearTimeout(finishTimer);finishTimer=null;gal.classList.remove('finishing');current=Math.max(0,Math.min(6,Number(n)));
 if(current===6&&!freshId){
   if(finish&&!reduce){
     const id='round-final-'+(++revealId);
-    gal.innerHTML=conSVG('Lyn',380,300,46,6,samples,{bg:70,sc:1.25})+awakeMask(id,conProj('Lyn',380,300,46),conOrd('Lyn'),380,300,.3)+`<g class="final-reveal" mask="url(#fxm${id})">${finalArt()}</g>`;
+    gal.innerHTML=progressiveArt(5)+conSVG('Lyn',380,300,46,6,samples,{bg:70,sc:1.25,fig:false})+awakeMask(id,conProj('Lyn',380,300,46),conOrd('Lyn'),380,300,.3)+`<g class="final-reveal" mask="url(#fxm${id})">${finalArt()}</g>`;
     gal.classList.add('finishing');finishTimer=setTimeout(settleFinal,4200);
   }else{gal.innerHTML=finalArt()}
-}else{gal.innerHTML=conSVG('Lyn',380,300,46,current,samples,{bg:70,next:true,sc:1.25})}
-gal.setAttribute('aria-label','天貓座，已點亮 '+current+' / 6 顆星');gal.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=()=>previewStar(el.dataset.id);el.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();previewStar(el.dataset.id)}}});if(finish)gal.setCurrentTime?.(0);slider.value=current;slider.setAttribute('aria-valuetext',stageName(current)+'，'+current+' / 6 顆星');$('progressCount').textContent=current+' / 6 顆星';$('stateCount').textContent=current+' / 6';$('stateLabel').textContent=current===0?'尚未點亮':current===6?'全部點亮':'正在點亮';$('message').textContent=current===0?'寫下一則紀錄，點亮天貓座的第一顆星。':current===6?'六顆星都亮了，圓潤幼貓完整現身。':'已點亮 '+current+' / 6 顆星 · 再寫 '+(6-current)+' 則就完成';$('dots').innerHTML=sampleMoods.map((m,i)=>`<i class="${i<current?'on':''}" style="--c:var(${MOODS[m].c})"></i>`).join('');document.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.stage)===current)));nextButton.disabled=current===6||busy}
-function stop(){if(current===6&&gal.querySelector('.final-reveal'))settleFinal();token++;playing=false;play.textContent='▶ 播放點亮';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving')}
-async function advance(runToken){if(busy||current>=6)return;busy=true;const n=current+1;freshId=samples[n-1].id;render(n);nextButton.disabled=true;try{await launch(samples[n-1].mood);if(runToken===token&&n===6){freshId=null;render(6,true);if(!reduce){const r=gal.getBoundingClientRect();setTimeout(()=>{if(runToken===token)burst(r.left+r.width/2,r.top+r.height/2)},600)}}}finally{busy=false;freshId=null;nextButton.disabled=current===6;if(runToken!==token)document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove())}}
+}else{gal.innerHTML=progressScene(current,380,300,46,freshId?Math.max(0,current-1):from,1.25,freshId?Math.max(0,current-1):current)}
+gal.setAttribute('aria-label','天貓座，已點亮 '+current+' / 6 顆星');gal.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=()=>previewStar(el.dataset.id);el.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();previewStar(el.dataset.id)}}});if(finish||from!==current)gal.setCurrentTime?.(0);slider.value=current;slider.setAttribute('aria-valuetext',stageName(current)+'，'+current+' / 6 顆星');$('progressCount').textContent=current+' / 6 顆星';$('stateCount').textContent=current+' / 6';$('stateLabel').textContent=current===0?'尚未點亮':current===6?'全部點亮':'正在點亮';$('message').textContent=current===0?'寫下一則紀錄，點亮天貓座的第一顆星。':current===6?'六顆星都亮了，圓潤幼貓完整現身。':'已點亮 '+current+' / 6 顆星 · 再寫 '+(6-current)+' 則就完成';$('dots').innerHTML=sampleMoods.map((m,i)=>`<i class="${i<current?'on':''}" style="--c:var(${MOODS[m].c})"></i>`).join('');document.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.stage)===current)));nextButton.disabled=current===6||busy}
+function stop(){if(current===6)settleFinal();token++;playing=false;play.textContent='▶ 播放點亮';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving')}
+async function advance(runToken){if(busy||current>=6)return;busy=true;const n=current+1;freshId=samples[n-1].id;render(n);nextButton.disabled=true;try{await launch(samples[n-1].mood);if(runToken===token){freshId=null;render(n,n===6,n-1);if(n===6&&!reduce){const r=gal.getBoundingClientRect();setTimeout(()=>{if(runToken===token)burst(r.left+r.width/2,r.top+r.height/2)},600)}}}finally{busy=false;freshId=null;nextButton.disabled=current===6;if(runToken!==token)document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove())}}
 document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>{stop();freshId=null;render(b.dataset.stage)}));slider.addEventListener('input',()=>{stop();freshId=null;render(slider.value)});
 nextButton.addEventListener('click',async()=>{stop();await advance(token)});
 play.addEventListener('click',async()=>{if(playing){stop();return}if(busy)return;stop();playing=true;const t=token;render(0);play.textContent='❚❚ 暫停播放';play.setAttribute('aria-pressed','true');while(playing&&t===token&&current<6){await sleep(reduce?500:450);if(t!==token)break;await advance(t)}if(t===token){playing=false;play.textContent='▶ 播放點亮';play.setAttribute('aria-pressed','false')}});
 $('complete').addEventListener('click',()=>{stop();freshId=null;render(6,true)});
 document.querySelectorAll('[data-size]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-size]').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));frame.classList.toggle('phone',b.dataset.size==='phone')}));
 
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;stop();render(current)});render(6);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;stop();render(current)});render(0);
 </script>
 </body>
 </html>
