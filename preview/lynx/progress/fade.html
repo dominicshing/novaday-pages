@@ -8,7 +8,7 @@
 </style>
 <link rel="stylesheet" href="app-effects.css"><link rel="stylesheet" href="app-launch.css">
 <style>:root{--m0:#7E72C8;--m1:#5F8FEA;--m2:#5FD8CC;--m3:#FFE7A3;--m4:#FFC744;--flare:#FFB45C;--nebula:#8A7CFF;--text:#E8E9FF}.thumb *{animation:none!important}.sample-moods{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:14px 0 20px}.sample-moods span{display:flex;align-items:center;gap:5px}.sample-moods i{width:6px;height:6px;border-radius:50%;background:var(--c)}.play:disabled{opacity:.45;cursor:default}.complete{color:#ffe7a3;border-color:#ffe7a33b;background:#ffe7a308}.cstar{cursor:default}.preview-eye-note{text-align:center;font-size:12px;color:var(--muted);line-height:1.8}.figure .cfx{pointer-events:none}.caption .dots i.on{background:var(--c);box-shadow:0 0 8px var(--c)}.cfx-fade{animation-duration:1.4s}#gal.finishing .cfx-eye{display:none}
-#fadeArt{transition:opacity .9s ease;pointer-events:none}#finishArt,#fadeStars{transition:opacity .9s ease}#fadeArt.reset{transition:none}@media(prefers-reduced-motion:reduce){#fadeArt,#finishArt,#fadeStars{transition:none}}.variant-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}.variant-nav a{color:var(--muted);text-decoration:none;font-size:12px;padding:9px 15px;border-radius:12px;border:1px solid #ffffff20}.variant-nav a[aria-current="page"]{color:var(--mint);border-color:#bff4ee55;background:#bff4ee10}.variant-nav a:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+#fadeArt{transition:opacity .9s ease;pointer-events:none}#fadeArt.reset{transition:none}@media(prefers-reduced-motion:reduce){#fadeArt{transition:none}}.variant-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}.variant-nav a{color:var(--muted);text-decoration:none;font-size:12px;padding:9px 15px;border-radius:12px;border:1px solid #ffffff20}.variant-nav a[aria-current="page"]{color:var(--mint);border-color:#bff4ee55;background:#bff4ee10}.variant-nav a:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
 </style></head>
 <body>
 <header><div class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 2 Q16 12 26 14 Q16 16 14 26 Q12 16 2 14 Q12 12 14 2Z" fill="currentColor"/></svg>Novaday</div><a href="../">造型比較 ↗</a></header>
@@ -31,15 +31,15 @@ let current=0,playing=false,busy=false,token=0;
 const imageOpacity=n=>n/6;
 const stageName=n=>n===0?'未點亮':n===6?'全部點亮':n+' 顆星';
 const fadeArt=(w=380,h=300,n=0)=>`<image class="fade-art" href="lynx-round-art.webp" width="${w}" height="${h}" opacity="${imageOpacity(n)}" preserveAspectRatio="xMidYMid meet"/>`;
-gal.innerHTML=`<g id="fadeArt" style="opacity:0">${fadeArt(380,300,6)}<image id="finishArt" href="../lynx-round.webp" width="380" height="300" preserveAspectRatio="xMidYMid meet" style="opacity:0"/></g><g id="fadeStars"></g>`;
-const art=$('fadeArt'),stars=$('fadeStars'),finishArt=$('finishArt');
+gal.innerHTML=`<g id="fadeArt" style="opacity:0">${fadeArt(380,300,6)}</g><g id="fadeStars"></g>`;
+const art=$('fadeArt'),stars=$('fadeStars');
 function previewStar(id){const entry=samples.find(e=>e.id===id);if(entry)$('message').textContent='這顆星的心情：'+MOODS[entry.mood].n+'（示例）'}
 document.querySelector('.stages').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" data-stage="${n}" aria-label="${stageName(n)}" aria-pressed="${n===0}">${n}</button>`).join('');
-$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${n===6?'<image href="../lynx-round.webp" width="110" height="86" preserveAspectRatio="xMidYMid meet"/>':fadeArt(110,86,n)+conSVG('Lyn',110,86,12,n,samples,{sc:.6,fig:false})}</svg><span>${stageName(n)} · 圖案 ${Math.round(imageOpacity(n)*100)}%</span></button>`).join('');
+$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${fadeArt(110,86,n)+conSVG('Lyn',110,86,12,n,samples,{sc:.6,fig:false})}</svg><span>${stageName(n)} · 圖案 ${Math.round(imageOpacity(n)*100)}%</span></button>`).join('');
 function render(n,holdArt=false){
   current=Math.max(0,Math.min(6,Number(n)));
   stars.innerHTML=conSVG('Lyn',380,300,46,current,samples,{bg:70,next:true,sc:1.25,fig:false});
-  if(!holdArt){art.style.opacity=imageOpacity(current);finishArt.style.opacity=current===6?1:0;stars.style.opacity=current===6?0:1;stars.style.pointerEvents=current===6?'none':'auto'}
+  if(!holdArt)art.style.opacity=imageOpacity(current);
   gal.setAttribute('aria-label','天貓座，已點亮 '+current+' / 6 顆星，圖案清晰度 '+Math.round(imageOpacity(current)*100)+'%');
   stars.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=()=>previewStar(el.dataset.id);el.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();previewStar(el.dataset.id)}}});
   slider.value=current;slider.setAttribute('aria-valuetext',stageName(current)+'，圖案清晰度 '+Math.round(imageOpacity(current)*100)+'%');
@@ -50,7 +50,7 @@ function render(n,holdArt=false){
   document.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.stage)===current)));
   nextButton.disabled=current===6||busy;replayButton.disabled=busy;
 }
-function stop(){token++;playing=false;play.textContent='▶ 播放淡入';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving');art.style.opacity=imageOpacity(current);finishArt.style.opacity=current===6?1:0;stars.style.opacity=current===6?0:1;stars.style.pointerEvents=current===6?'none':'auto'}
+function stop(){token++;playing=false;play.textContent='▶ 播放淡入';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving');art.style.opacity=imageOpacity(current)}
 async function advance(runToken){
   if(busy||current>=6)return;
   busy=true;const n=current+1;freshId=samples[n-1].id;render(n,true);

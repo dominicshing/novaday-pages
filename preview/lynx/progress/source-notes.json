@@ -9,5 +9,5 @@
     "src/js/ui/effects.js",
     "src/css/base/effects.css"
   ],
-  "figure_change": "Stages 1–5 progressively reveal the detailed round baby Lynx artwork using deterministic soft stardust masks, while native app stars and lines remain above the image. Each comet arrival reveals more artwork. Completion expands light over the already visible image and settles to the approved original ../lynx-round.webp."
+  "figure_change": "Both preview variants now use lynx-round-art.webp at identical fixed geometry in every stage, including completion. The native app star and line layer stays above the artwork. The stardust variant varies a soft reveal mask; the fade-in variant varies opacity from 0 to 1. Completion no longer swaps to a differently framed image."
 }
