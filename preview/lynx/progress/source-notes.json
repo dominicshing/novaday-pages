@@ -10,5 +10,5 @@
     "src/css/base/effects.css"
   ],
   "figure_change": "Both preview variants now use lynx-round-art.webp at identical fixed geometry in every stage, including completion. The native app star and line layer stays above the artwork. The stardust variant varies a soft reveal mask; the fade-in variant varies opacity from 0 to 1. Completion no longer swaps to a differently framed image.",
-  "fade_in_effects": "The fade-in preview adds an alpha-derived mint rim that increases with star count, then fixed-position eye highlights flash once after the final image fade completes. Artwork geometry stays fixed; reduced-motion preference suppresses the eye flash."
+  "fade_in_effects": "The fixed-geometry fade-in preview adds animated light along constellation connections, particles gathering toward lit stars, arrival light rings, an image-alpha-masked completion sweep, a soft nebula bloom, surrounding star flashes and one-time eye highlights. Animations are cancellable, stop on hidden tabs, and respect reduced motion. The visible preview auto-plays once unless the user interacts or autoplay=0."
 }

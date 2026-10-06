@@ -1,0 +1,18 @@
+#magicAmbient,#magicSheen,#magicOverlay{pointer-events:none}
+.magic-ring{opacity:0;transform-box:fill-box;transform-origin:center;animation:magicRing 1.15s cubic-bezier(.12,.55,.32,1) both}
+@keyframes magicRing{0%{opacity:.9;transform:scale(.12)}45%{opacity:.5}100%{opacity:0;transform:scale(1)}}
+.magic-gather{opacity:0;animation:magicGather 1.18s cubic-bezier(.22,.65,.32,1) var(--delay,0s) both}
+@keyframes magicGather{0%{opacity:0;transform:translate(var(--sx),var(--sy))}22%{opacity:.88}80%{opacity:.65}100%{opacity:0;transform:translate(0,0)}}
+.magic-energy{opacity:0;stroke-dasharray:.2 1;animation:magicEnergy .9s ease-out both}
+@keyframes magicEnergy{0%{opacity:0;stroke-dashoffset:1.2}12%{opacity:1}78%{opacity:.95}100%{opacity:0;stroke-dashoffset:.2}}
+.magic-orb{opacity:0;animation:magicOrb .95s ease both}
+@keyframes magicOrb{0%{opacity:0}12%,75%{opacity:1}100%{opacity:0}}
+.magic-sweep{opacity:0;animation:magicSweep 1.85s cubic-bezier(.3,.06,.35,1) .6s both}
+@keyframes magicSweep{0%{opacity:0;transform:translateX(0)}15%{opacity:.85}75%{opacity:.55}100%{opacity:0;transform:translateX(550px)}}
+.magic-bloom{opacity:0;animation:magicBloom 2.65s ease .25s both}
+@keyframes magicBloom{0%,100%{opacity:0}38%{opacity:.9}70%{opacity:.32}}
+.magic-finale-star{opacity:0;transform-box:fill-box;transform-origin:center;animation:magicFinale 1.3s ease var(--delay,.9s) both}
+@keyframes magicFinale{0%{opacity:0;transform:scale(.45) rotate(-12deg)}32%{opacity:1;transform:scale(1.18) rotate(0)}65%{opacity:.72}100%{opacity:0;transform:scale(.82)}}
+.eye-glint path:first-child{filter:url(#kittenEyeGlow)}
+#awake{background:linear-gradient(120deg,#bff4ee22,#b9aeff20);border-color:#bff4ee70;color:#E5FFF3}
+@media(prefers-reduced-motion:reduce){#magicAmbient,#magicSheen,#magicOverlay{display:none!important}}
