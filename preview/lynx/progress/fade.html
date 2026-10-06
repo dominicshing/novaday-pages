@@ -8,58 +8,65 @@
 </style>
 <link rel="stylesheet" href="app-effects.css"><link rel="stylesheet" href="app-launch.css">
 <style>:root{--m0:#7E72C8;--m1:#5F8FEA;--m2:#5FD8CC;--m3:#FFE7A3;--m4:#FFC744;--flare:#FFB45C;--nebula:#8A7CFF;--text:#E8E9FF}.thumb *{animation:none!important}.sample-moods{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin:14px 0 20px}.sample-moods span{display:flex;align-items:center;gap:5px}.sample-moods i{width:6px;height:6px;border-radius:50%;background:var(--c)}.play:disabled{opacity:.45;cursor:default}.complete{color:#ffe7a3;border-color:#ffe7a33b;background:#ffe7a308}.cstar{cursor:default}.preview-eye-note{text-align:center;font-size:12px;color:var(--muted);line-height:1.8}.figure .cfx{pointer-events:none}.caption .dots i.on{background:var(--c);box-shadow:0 0 8px var(--c)}.cfx-fade{animation-duration:1.4s}#gal.finishing .cfx-eye{display:none}
-#fadeArt{transition:opacity .9s ease;pointer-events:none}#fadeArt.reset{transition:none}@media(prefers-reduced-motion:reduce){#fadeArt{transition:none}}.variant-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}.variant-nav a{color:var(--muted);text-decoration:none;font-size:12px;padding:9px 15px;border-radius:12px;border:1px solid #ffffff20}.variant-nav a[aria-current="page"]{color:var(--mint);border-color:#bff4ee55;background:#bff4ee10}.variant-nav a:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+#fadeArt{transition:opacity .9s ease;pointer-events:none}#fadeArt.reset{transition:none}@media(prefers-reduced-motion:reduce){#fadeArt{transition:none}}#kittenOutline{transition:opacity .9s ease;pointer-events:none}#kittenOutline.reset{transition:none}.eye-glint{opacity:0;pointer-events:none}.sparkling .eye-glint{animation:kittenEyeFlash 1.3s ease .95s both}.sparkling .eye-glint.second{animation-delay:1.09s}@keyframes kittenEyeFlash{0%,100%{opacity:0}24%{opacity:.95}45%{opacity:.15}64%{opacity:.6}85%{opacity:.08}}@media(prefers-reduced-motion:reduce){#kittenOutline{transition:none}.eye-glint{display:none!important}}.variant-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}.variant-nav a{color:var(--muted);text-decoration:none;font-size:12px;padding:9px 15px;border-radius:12px;border:1px solid #ffffff20}.variant-nav a[aria-current="page"]{color:var(--mint);border-color:#bff4ee55;background:#bff4ee10}.variant-nav a:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
 </style></head>
 <body>
 <header><div class="brand"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 2 Q16 12 26 14 Q16 16 14 26 Q12 16 2 14 Q12 12 14 2Z" fill="currentColor"/></svg>Novaday</div><a href="../">造型比較 ↗</a></header>
 <main id="app" class="app">
-<div class="intro"><p class="eyebrow">LYNX · 圓潤幼貓</p><h1>星星越亮，幼貓越清晰</h1><p>星星從 0 增加到 6 顆，幼貓由透明逐漸浮現，最後完整現身。</p></div>
+<div class="intro"><p class="eyebrow">LYNX · 圓潤幼貓</p><h1>星星越亮，幼貓越清晰</h1><p>幼貓逐漸淡入，輪廓隨星星增亮；全亮後，眼睛輕輕閃光。</p></div>
 <nav class="variant-nav" aria-label="點亮效果版本"><a href="./">星塵逐步顯現</a><a href="fade.html" aria-current="page">整體逐漸淡入</a></nav>
-<div class="toolbar"><div class="segmented" role="group" aria-label="預覽尺寸"><button type="button" data-size="desktop" aria-pressed="true">桌面</button><button type="button" data-size="phone" aria-pressed="false">手機</button></div><button type="button" class="play" id="newBtn"><span>＋</span> 點亮下一顆</button><button type="button" class="play" id="play" aria-pressed="false">▶ 播放淡入</button><button type="button" class="play complete" id="complete">↺ 重播淡入</button></div>
+<div class="toolbar"><div class="segmented" role="group" aria-label="預覽尺寸"><button type="button" data-size="desktop" aria-pressed="true">桌面</button><button type="button" data-size="phone" aria-pressed="false">手機</button></div><button type="button" class="play" id="newBtn"><span>＋</span> 點亮下一顆</button><button type="button" class="play" id="play" aria-pressed="false">▶ 播放淡入</button><button type="button" class="play complete" id="complete">↺ 重播淡入</button><button type="button" class="play complete" id="awake">✧ 全亮光效</button></div>
 <section class="frame" id="frame" aria-label="天貓座點亮預覽"><div class="frame-top"><span id="stateLabel">尚未點亮</span><span id="stateCount">0 / 6</span></div><div class="figure" id="figure"><svg id="gal" viewBox="0 0 380 300" role="img" aria-label="天貓座"></svg></div><div class="caption"><h2>天貓座</h2><p class="latin">Lynx</p><div class="dots" id="dots" aria-hidden="true"></div><p class="message" id="message" aria-live="polite">點亮星星，讓幼貓逐漸浮現。</p></div></section>
 <section class="progress" aria-label="點亮進度控制"><div class="progress-head"><label for="progress">點亮進度</label><output id="progressCount" for="progress">0 / 6 顆星</output></div><input id="progress" type="range" min="0" max="6" step="1" value="0" aria-valuetext="尚未點亮，0 顆星"><div class="stages" role="group" aria-label="七個點亮階段"></div><div class="end-labels"><span>0 顆星 · 圖案透明</span><span>6 顆星 · 圖案清晰</span></div></section>
 <div class="sample-moods" aria-label="心情色星示例"><span><i style="--c:var(--m0)"></i>很低落</span><span><i style="--c:var(--m1)"></i>有點累</span><span><i style="--c:var(--m2)"></i>還可以</span><span><i style="--c:var(--m3)"></i>不錯</span><span><i style="--c:var(--m4)"></i>很棒</span></div>
 <details class="gallery"><summary>並排比較七個點亮階段</summary><div class="cards" id="cards"></div></details>
-<p class="note">圓潤幼貓 · 整體淡入預覽<br>正式 app 尚未套用。</p>
+<p class="note">圓潤幼貓 · 淡入、輪廓光與眼睛閃光預覽<br>正式 app 尚未套用。</p>
 </main>
 <script>const $=id=>document.getElementById(id);const sleep=ms=>new Promise(r=>setTimeout(r,ms));</script>
 <script src="app-engine.js"></script><script src="app-launch.js"></script>
 <script>
 const frame=$('frame'),gal=$('gal'),slider=$('progress'),play=$('play'),nextButton=$('newBtn'),replayButton=$('complete');
 const sampleMoods=[2,3,1,4,2,3],samples=sampleMoods.map((m,i)=>({id:'fade-preview-'+i,mood:m,date:'心情示例',title:MOODS[m].n}));
-let current=0,playing=false,busy=false,token=0;
+let current=0,playing=false,busy=false,token=0,visualStage=0;
 const imageOpacity=n=>n/6;
 const stageName=n=>n===0?'未點亮':n===6?'全部點亮':n+' 顆星';
+const contourOpacity=n=>.58*Math.pow(n/6,1.7);
 const fadeArt=(w=380,h=300,n=0)=>`<image class="fade-art" href="lynx-round-art.webp" width="${w}" height="${h}" opacity="${imageOpacity(n)}" preserveAspectRatio="xMidYMid meet"/>`;
-gal.innerHTML=`<g id="fadeArt" style="opacity:0">${fadeArt(380,300,6)}</g><g id="fadeStars"></g>`;
-const art=$('fadeArt'),stars=$('fadeStars');
+const contourFilter=`<defs><filter id="kittenContour" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".5" result="smoothAlpha"/><feComponentTransfer in="smoothAlpha" result="body"><feFuncA type="discrete" tableValues="0 0 0 0 0 0 1 1"/></feComponentTransfer><feMorphology in="body" operator="dilate" radius=".65" result="expanded"/><feComposite in="expanded" in2="body" operator="out" result="edge"/><feFlood flood-color="#BFFFEF" result="mint"/><feComposite in="mint" in2="edge" operator="in" result="rim"/><feGaussianBlur in="rim" stdDeviation=".85" result="halo"/><feMerge><feMergeNode in="halo"/><feMergeNode in="rim"/></feMerge></filter><filter id="kittenEyeGlow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation=".65"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+const eyeSpark=(x,y,second=false)=>`<g class="eye-glint${second?' second':''}"><path d="${sp4(x,y,2.05)}" fill="#F3FFFD" filter="url(#kittenEyeGlow)"/><path d="${sp4(x,y,.9)}" fill="white"/></g>`;
+gal.innerHTML=contourFilter+`<g id="fadeArt" style="opacity:0"><image id="kittenImage" class="fade-art" href="lynx-round-art.webp" width="380" height="300" preserveAspectRatio="xMidYMid meet"/></g><g id="kittenOutline" style="opacity:0" filter="url(#kittenContour)" aria-hidden="true"><use href="#kittenImage"/></g><g id="eyeGlints" aria-hidden="true">${eyeSpark(280.9,98.3)}${eyeSpark(328.5,115.1,true)}</g><g id="fadeStars"></g>`;
+const art=$('fadeArt'),stars=$('fadeStars'),outline=$('kittenOutline'),eyes=$('eyeGlints');
+function cancelEyeFlash(){eyes.classList.remove('sparkling')}
+function flashEyes(){cancelEyeFlash();if(reduce||document.hidden)return;eyes.getBoundingClientRect();eyes.classList.add('sparkling')}
+function setAppearance(n,celebrate=false){art.style.opacity=imageOpacity(n);outline.style.opacity=contourOpacity(n);if(n<6)cancelEyeFlash();else if(celebrate||visualStage<6)flashEyes();visualStage=n}
+const cardArt=n=>`<g transform="scale(${110/380} ${86/300})"><g opacity="${imageOpacity(n)}"><image id="cardKitten${n}" class="fade-art" href="lynx-round-art.webp" width="380" height="300" preserveAspectRatio="xMidYMid meet"/></g><g opacity="${contourOpacity(n)}" filter="url(#kittenContour)"><use href="#cardKitten${n}" opacity="1"/></g></g>`;
 function previewStar(id){const entry=samples.find(e=>e.id===id);if(entry)$('message').textContent='這顆星的心情：'+MOODS[entry.mood].n+'（示例）'}
 document.querySelector('.stages').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" data-stage="${n}" aria-label="${stageName(n)}" aria-pressed="${n===0}">${n}</button>`).join('');
-$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${fadeArt(110,86,n)+conSVG('Lyn',110,86,12,n,samples,{sc:.6,fig:false})}</svg><span>${stageName(n)} · 圖案 ${Math.round(imageOpacity(n)*100)}%</span></button>`).join('');
-function render(n,holdArt=false){
+$('cards').innerHTML=Array.from({length:7},(_,n)=>`<button type="button" class="card" data-stage="${n}" aria-pressed="${n===0}" aria-label="預覽${stageName(n)}"><svg class="thumb" viewBox="0 0 110 86" aria-hidden="true">${cardArt(n)+conSVG('Lyn',110,86,12,n,samples,{sc:.6,fig:false})}</svg><span>${stageName(n)} · 圖案 ${Math.round(imageOpacity(n)*100)}%</span></button>`).join('');
+function render(n,holdArt=false,celebrate=false){
   current=Math.max(0,Math.min(6,Number(n)));
   stars.innerHTML=conSVG('Lyn',380,300,46,current,samples,{bg:70,next:true,sc:1.25,fig:false});
-  if(!holdArt)art.style.opacity=imageOpacity(current);
+  if(!holdArt)setAppearance(current,celebrate);
   gal.setAttribute('aria-label','天貓座，已點亮 '+current+' / 6 顆星，圖案清晰度 '+Math.round(imageOpacity(current)*100)+'%');
   stars.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=()=>previewStar(el.dataset.id);el.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();previewStar(el.dataset.id)}}});
   slider.value=current;slider.setAttribute('aria-valuetext',stageName(current)+'，圖案清晰度 '+Math.round(imageOpacity(current)*100)+'%');
   $('progressCount').textContent=current+' / 6 顆星';$('stateCount').textContent=current+' / 6';
   $('stateLabel').textContent='圖案清晰度 '+Math.round(imageOpacity(current)*100)+'%';
-  $('message').textContent=current===0?'幼貓尚未顯現，點亮第一顆星，讓圖案開始淡入。':current===6?'六顆星都亮了，圓潤幼貓完整現身。':'已點亮 '+current+' / 6 顆星 · 幼貓逐漸浮現';
+  $('message').textContent=current===0?'幼貓尚未顯現，點亮第一顆星，讓圖案開始淡入。':current===6?'六顆星都亮了，幼貓完整現身，眼中閃過一點星光。':'已點亮 '+current+' / 6 顆星 · 幼貓逐漸浮現';
   $('dots').innerHTML=sampleMoods.map((m,i)=>`<i class="${i<current?'on':''}" style="--c:var(${MOODS[m].c})"></i>`).join('');
   document.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.stage)===current)));
-  nextButton.disabled=current===6||busy;replayButton.disabled=busy;
+  nextButton.disabled=current===6||busy;replayButton.disabled=busy;$('awake').disabled=busy;
 }
-function stop(){token++;playing=false;play.textContent='▶ 播放淡入';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving');art.style.opacity=imageOpacity(current)}
+function stop(){token++;playing=false;play.textContent='▶ 播放淡入';play.setAttribute('aria-pressed','false');document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove());gal.classList.remove('arriving');cancelEyeFlash();art.style.opacity=imageOpacity(current);outline.style.opacity=contourOpacity(current);visualStage=current}
 async function advance(runToken){
   if(busy||current>=6)return;
   busy=true;const n=current+1;freshId=samples[n-1].id;render(n,true);
   try{await launch(samples[n-1].mood);if(runToken===token){freshId=null;render(n)}}
-  finally{busy=false;freshId=null;nextButton.disabled=current===6;replayButton.disabled=false;if(runToken!==token)document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove())}
+  finally{busy=false;freshId=null;nextButton.disabled=current===6;replayButton.disabled=false;$('awake').disabled=false;if(runToken!==token)document.querySelectorAll('.comet,.trail,.spark,.lring').forEach(el=>el.remove())}
 }
 async function startPlayback(){
   if(busy)return;stop();playing=true;const t=token;
-  art.classList.add('reset');render(0);art.getBoundingClientRect();art.classList.remove('reset');
+  art.classList.add('reset');outline.classList.add('reset');render(0);art.getBoundingClientRect();art.classList.remove('reset');outline.classList.remove('reset');
   play.textContent='❚❚ 暫停播放';play.setAttribute('aria-pressed','true');
   while(playing&&t===token&&current<6){await sleep(reduce?500:900);if(t!==token)break;await advance(t)}
   if(t===token){playing=false;play.textContent='▶ 播放淡入';play.setAttribute('aria-pressed','false')}
@@ -69,6 +76,7 @@ slider.addEventListener('input',()=>{stop();freshId=null;render(slider.value)});
 nextButton.addEventListener('click',async()=>{stop();await advance(token)});
 play.addEventListener('click',()=>{if(playing){stop();freshId=null;render(current)}else startPlayback()});
 replayButton.addEventListener('click',startPlayback);
+$('awake').addEventListener('click',()=>{if(busy)return;stop();freshId=null;render(6,false,true)});
 document.querySelectorAll('[data-size]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-size]').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));frame.classList.toggle('phone',b.dataset.size==='phone')}));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{reduce=event.matches;stop();freshId=null;render(current)});
