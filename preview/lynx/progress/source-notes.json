@@ -9,5 +9,5 @@
     "src/js/ui/effects.js",
     "src/css/base/effects.css"
   ],
-  "figure_change": "Round baby Lynx silhouette geometry, star alignment, two larger eyes; original stardust progress and animation functions are reused."
+  "figure_change": "Stages 0–5 reuse original app stardust and star effects with the round baby Lynx outline. The fully lit final state reuses the approved original ../lynx-round.webp, revealed by the native six-star completion mask."
 }
