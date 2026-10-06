@@ -1,0 +1,13 @@
+{
+  "source_revision": "d65bee55dd22d7e21390d82215f0ab8e2d3876da",
+  "live_app": "https://dominicshing.github.io/novaday-pages/",
+  "renderer_sources": [
+    "src/js/data/constellation-figures.js",
+    "src/js/ui/art/constellation-map.js",
+    "src/js/logic/sky-projection.js",
+    "src/css/components/constellation-art.css",
+    "src/js/ui/effects.js",
+    "src/css/base/effects.css"
+  ],
+  "figure_change": "Round baby Lynx silhouette geometry, star alignment, two larger eyes; original stardust progress and animation functions are reused."
+}

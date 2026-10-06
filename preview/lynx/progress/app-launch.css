@@ -1,0 +1,33 @@
+/* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
+/* 點亮動畫：彗星是心情色的四芒星（--mc），沿途留下星屑（.trail），抵達時擴散光圈（.lring）與火花（.spark，.st 為星形） */
+.comet{position:fixed;z-index:30;width:22px;height:22px;margin:-11px 0 0 -11px;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,var(--mc,var(--flare)) 0 22%,transparent 70%);box-shadow:0 0 18px 6px var(--mc,var(--flare)),0 0 44px 12px var(--nebula);
+  transition:transform .75s cubic-bezier(.5,0,.3,1)}
+.comet svg{display:block;width:100%;height:100%;fill:#fff;filter:drop-shadow(0 0 3px var(--mc,var(--flare)))}
+.trail{position:fixed;z-index:29;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 6px var(--c);animation:trail .6s ease-out forwards}
+.lring{position:fixed;z-index:29;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;pointer-events:none;border:2px solid var(--c);box-shadow:0 0 12px var(--c),inset 0 0 8px var(--c);opacity:0;animation:lring .85s ease-out forwards}
+.spark{position:fixed;z-index:30;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;background:var(--c);box-shadow:0 0 8px var(--c);animation:spark .9s ease-out forwards}
+.spark.st{width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:0;box-shadow:none;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+.floatxp{position:fixed;z-index:31;pointer-events:none;font-weight:700;font-size:26px;color:var(--flare);text-shadow:0 0 12px var(--flare);transform:translate(-50%,0);animation:rise 1.4s ease-out forwards}
+/* 提示永遠在最上層（z 90）：引導頁（60）、密碼鎖（70）、慶祝畫面上的訊息（例如「無法取得位置」）才看得到 */
+.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translate(-50%,-20px);opacity:0;z-index:90;background:var(--bg2);border:1px solid var(--flare);border-radius:14px;
+  padding:10px 16px;transition:.3s;pointer-events:none;font-size:14px;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 30px -10px var(--flare)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (prefers-reduced-motion:reduce){
+  .comet{transition:none}
+}
+.red-q{flex:none;align-self:flex-start;margin-left:auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;padding:0;border:1px solid rgba(255,107,107,.4);background:rgba(255,107,107,.08);color:#FF8F8F}
+.red-q svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round}
+.red-q[aria-pressed="true"]{background:#FF6B6B;color:#2A0000;border-color:#FF6B6B}
+
+/* 動畫 */
+@keyframes spark {to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}
+}
+@keyframes trail {from{transform:scale(1);opacity:.9}to{transform:scale(.2);opacity:0}
+}
+@keyframes lring {0%{transform:scale(.4);opacity:.95}100%{transform:scale(6);opacity:0}
+}
+@keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}
+}
