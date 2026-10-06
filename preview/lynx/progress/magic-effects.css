@@ -16,3 +16,8 @@
 .eye-glint path:first-child{filter:url(#kittenEyeGlow)}
 #awake{background:linear-gradient(120deg,#bff4ee22,#b9aeff20);border-color:#bff4ee70;color:#E5FFF3}
 @media(prefers-reduced-motion:reduce){#magicAmbient,#magicSheen,#magicOverlay{display:none!important}}
+
+#kittenBreath{pointer-events:none}
+#kittenBreath.breathing{animation:kittenBreath 5s ease-in-out 3.1s infinite;will-change:opacity}
+@keyframes kittenBreath{0%,100%{opacity:0}50%{opacity:.86}}
+@media(prefers-reduced-motion:reduce){#kittenBreath{display:none!important}}
