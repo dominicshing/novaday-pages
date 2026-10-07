@@ -900,9 +900,9 @@ html{overflow:hidden}
 /* 星星閃爍（呼吸漣漪）：大星圖（首頁、星座詳情、完成畫面、引導頁）上，已點亮的整顆星（.st＝心情色星＋白色核心）
    慢慢一明一暗，光暈一圈圈往外擴散；未點亮的星柔和明暗。各星用 --d 錯開。圖鑑小卡片不動，避免一次動太多元素 */
 .cstar .st,.cstar .halo,.cu{transform-box:fill-box;transform-origin:center}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .st{animation:starBr 3.2s ease-in-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloRip 3.2s ease-out var(--d,0s) infinite}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cstar .st{animation:starBr 3.2s ease-in-out var(--d,0s) infinite}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cstar .halo{animation:haloRip 3.2s ease-out var(--d,0s) infinite}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
@@ -960,9 +960,9 @@ html{overflow:hidden}
 .cfx-lynx{pointer-events:none}
 .cfx-lynx.revealing .lynx-reveal{animation:lynxReveal .9s ease both}
 .cfx-lynx.revealing .lynx-rim{animation:lynxRimReveal .9s ease both}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-body{animation:lynxBreathBody 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:filter}
-:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-rim{animation:lynxBreathRim 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-body{animation:lynxBreathBody 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:filter}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-rim{animation:lynxBreathRim 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
 .lynx-fx{pointer-events:none}
 .lynx-gather{animation:lynxGather 1.1s cubic-bezier(.12,.68,.2,1) var(--particle-delay,0s) both}
 .lynx-ring{transform-box:fill-box;transform-origin:center;animation:lynxRing 1.15s ease-out var(--ring-delay,0s) both}
@@ -3062,6 +3062,24 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .dv-ctl .dv-n{flex:1;width:auto;font-variant-numeric:tabular-nums}
 /* 小螢幕：月份、日期、時間欄位放不下時各佔一行，按鈕平分下一行 */
 @media (max-width:360px){.dv-mon,.dv-dt{flex-wrap:wrap}.dv-mon .field,.dv-dt .field{flex:1 1 100%}.dv-mon .dv-go{flex:1}}
+
+/* 逐顆點亮：固定畫框，讓手動與自動預覽共用正式星座圖。 */
+.dv-star-settings{display:grid;grid-template-columns:1.25fr 1fr;gap:10px;margin:14px 0}
+.dv-star-settings label,.dv-star-progress{font-size:12px;color:var(--muted)}
+.dv-star-settings .field{width:100%;margin-top:6px;min-height:44px;font-size:13px}
+.dv-star-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 60% 40%,#1C1B42,#0A0C22 75%)}
+.dv-star-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 0}
+.dv-star-heading b{font-size:15px}.dv-star-heading small{display:block;margin-top:3px;font-size:11px;color:var(--ion)}
+.dv-star-heading output{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+#dvStarFig{display:block;width:100%;height:auto;aspect-ratio:380/300}
+.dv-star-effect{z-index:34}
+#dvStarFig .cstar.fresh{transition:opacity .25s}#dvStarFig.arriving .cstar.fresh{opacity:0}
+.dv-star-message{min-height:36px;margin:12px 4px;font-size:12px;line-height:1.5;color:var(--muted)}
+.dv-star-buttons{display:grid;grid-template-columns:1.65fr 1fr 1fr;gap:8px}
+.dv-star-buttons .dv-go{min-width:0;min-height:44px;padding:0 8px;font-size:13px}
+.dv-star-progress{display:block;margin:18px 0 8px}.dv-star-progress input{display:block;width:100%;min-height:44px;margin:4px 0 0;accent-color:var(--ion)}
+#device.calm #dvStarFig *{animation:none!important}
+@media(prefers-reduced-motion:reduce){#dvStarFig *{animation:none!important;transition:none!important}}
 /* 特效：彗星、火花、浮動 XP、提示訊息 toast、紅光夜視模式 */
 /* 點亮動畫：彗星是心情色的四芒星（--mc），沿途留下星屑（.trail），抵達時擴散光圈（.lring）與火花（.spark，.st 為星形） */
 .comet{position:fixed;z-index:30;width:22px;height:22px;margin:-11px 0 0 -11px;pointer-events:none;border-radius:50%;
@@ -3717,6 +3735,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
         <h3 class="set-h first" style="--c:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>動畫預覽</h3>
         <div class="list panel">
           <div class="dv-item"><div class="dv-lbl">星座完成<small>完成一個星座時的慶祝畫面</small></div><div class="dv-ctl"><select class="field" id="dvCon" aria-label="星座"></select><button type="button" class="dv-go" id="dvConGo">播放</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">逐顆點亮星座<small>查看星星、星線、剪影漸亮與全亮效果</small></div><div class="dv-ctl"><select class="field" id="dvStarPick" aria-label="逐顆點亮的星座"></select><button type="button" class="dv-go" id="dvStarGo">預覽</button></div></div>
           <div class="dv-item"><div class="dv-lbl">徽章解鎖<small>解鎖徽章時的提示與水晶</small></div><div class="dv-ctl"><select class="field" id="dvAch" aria-label="徽章"></select><button type="button" class="dv-go" id="dvAchGo">播放</button></div></div>
           <div class="dv-item"><div class="dv-lbl">升級／晉階<small>等級提升時的畫面，標示「晉階」的等級會換階級徽章</small></div><div class="dv-ctl"><select class="field" id="dvLv" aria-label="等級"></select><button type="button" class="dv-go" id="dvLvGo">播放</button></div></div>
         </div>
@@ -3767,6 +3786,23 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
           <button class="li" id="dvInitDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>重設開發者工具<small>關閉這頁的所有模擬與檢查，移除測試紀錄，日記保持不變</small></span></span><span class="chev" aria-hidden="true">›</span></button>
           <button class="li" id="dvHide"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1A9 9 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-2.6 3.3M6.5 7.6A16 16 0 0 0 2.5 12S6 18 12 18a9 9 0 0 0 4-.9"/></svg></i><span>隱藏開發者選項<small>之後在「版本資訊」連點版本號碼 7 次即可再次開啟</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：逐顆點亮星座 -->
+  <div class="layer" id="devStarSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvStarTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvStarTitle">逐顆點亮星座</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb dv-star-body">
+        <p class="dv-note">自由預覽點亮效果，日記與實際星座進度保持不變。</p>
+        <div class="dv-star-settings"><label>星座<select class="field" id="dvStarCon"></select></label><label>下一顆心情<select class="field" id="dvStarMood"></select></label></div>
+        <div class="dv-star-frame"><div class="dv-star-heading"><span><b id="dvStarName"></b><small id="dvStarLatin"></small></span><output id="dvStarCount" aria-live="polite">0 / 6 顆星</output></div><svg id="dvStarFig" viewBox="0 0 380 300" role="img" aria-label="星座點亮預覽"></svg></div>
+        <p class="dv-star-message" id="dvStarMessage" aria-live="polite"></p>
+        <div class="dv-star-buttons"><button type="button" class="dv-go" id="dvStarNext"><span aria-hidden="true">✦</span> 點亮下一顆</button><button type="button" class="dv-go" id="dvStarPlay" aria-pressed="false">▶ 播放</button><button type="button" class="dv-go ghost" id="dvStarReset">重設</button></div>
+        <label class="dv-star-progress" for="dvStarRange">點亮進度<input id="dvStarRange" type="range" min="0" max="6" step="1" value="0"></label>
       </div>
     </div>
   </div>
@@ -4792,7 +4828,7 @@ const spk=(x,y,r,k=.18,rot=45)=>{const f=v=>+v.toFixed(2),q=k*r*Math.SQRT2,P=(a,
 /* p＝點亮進度 0–1（剪影隨進度成形）；aw＝完成動畫設定 */
 function conFig(k,W,H,P,p=1,aw,from){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw,from):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
-function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c;
+function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c,fresh=opt.freshId===undefined?freshId:opt.freshId;
   const byStar={};ord.slice(0,lit).forEach((si,j)=>byStar[si]=es&&es[j]);let g='';
   if(opt.bg){const r=seedRng(k);for(let i=0;i<opt.bg;i++)g+=`<circle cx="${(r()*W).toFixed(1)}" cy="${(r()*H).toFixed(1)}" r="${(.4+r()*.9).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.35).toFixed(2)}"/>`}
   if(opt.fig!==false){const p=opt.figP??lit/c.s.length;g+=conFig(k,W,H,P,p,opt.anim&&!reduce&&p>=1?{d0:opt.d0||0}:null,opt.figFrom)}
@@ -4801,9 +4837,9 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
-      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
+      g+=`<g class="cstar${e&&e.id===fresh?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle class="halo" cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2" style="--d:-${(si*.73%3.2).toFixed(2)}s"/>
-        ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
+        ${e&&e.id===fresh?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <g class="st" style="--d:-${(si*.73%3.2).toFixed(2)}s"><path class="core" d="${spk(x,y,base*2.6)}" fill="${col}"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g></g>`}
     else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%4.2).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}
@@ -6277,20 +6313,21 @@ $('qnMore').onclick=()=>{const t=$('qnText').value.trim(),m=qnMood;openEditor();
 const LAUNCH=[{t:950,n:10,d:[28,58],sd:1.3,st:0,ring:1},{t:850,n:14,d:[34,72],sd:1.15,st:0,ring:1},{t:750,n:22,d:[45,120],sd:.9,st:0,ring:1},
   {t:650,n:28,d:[55,140],sd:.9,st:.35,ring:1},{t:600,n:36,d:[60,170],sd:1,st:.5,ring:2}];
 const MOOD_SPARKS=[['--m0','--m0','--m1'],['--m1','--m1','--m2'],['--m2','--m2','--m1'],['--m3','--m4','--m3'],['--m4','--m3','--flare']];
-async function launch(m=2){if(reduce)return;const P=LAUNCH[m]||LAUNCH[2],mc=`var(${MOODS[m].c})`,nb=$('newBtn');
+async function launch(m=2,opt={}){if(reduce||opt.reduced||opt.cancelled?.())return;const P=LAUNCH[m]||LAUNCH[2],mc=`var(${MOODS[m].c})`,nb=opt.button||$('newBtn'),tag=opt.preview?' dv-star-effect':'';
   nb.style.setProperty('--mc',mc);nb.classList.add('firing');setTimeout(()=>nb.classList.remove('firing'),900);await sleep(260);
-  const gal=$('gal'),nx=gal.querySelector('.cstar.fresh .core'),fb=nb.querySelector('span').getBoundingClientRect(),g=(nx||gal).getBoundingClientRect();gal.classList.add('arriving');   /* 新星先藏起來，彗星抵達時才亮 */
+  if(opt.cancelled?.())return;
+  const gal=opt.gal||$('gal'),nx=gal.querySelector('.cstar.fresh .core'),fb=(nb.querySelector('span')||nb).getBoundingClientRect(),g=(nx||gal).getBoundingClientRect();gal.classList.add('arriving');   /* 新星先藏起來，彗星抵達時才亮 */
   const sx=fb.left+fb.width/2,sy=fb.top+fb.height/2,tx=g.left+g.width/2,ty=g.top+g.height/2;
-  const c=document.createElement('div');c.className='comet';c.style.setProperty('--mc',mc);c.style.left=sx+'px';c.style.top=sy+'px';c.style.transitionDuration=P.t+'ms';
+  const c=document.createElement('div');c.className='comet'+tag;c.style.setProperty('--mc',mc);c.style.left=sx+'px';c.style.top=sy+'px';c.style.transitionDuration=P.t+'ms';
   c.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1Q13.9 10.1 23 12Q13.9 13.9 12 23Q10.1 13.9 1 12Q10.1 10.1 12 1Z"/></svg>';document.body.appendChild(c);
   c.getBoundingClientRect();c.style.transform=`translate(${tx-sx}px,${ty-sy}px) rotate(${180+m*90}deg)`;
-  const tr=setInterval(()=>{const r=c.getBoundingClientRect(),d=document.createElement('div');d.className='trail';d.style.setProperty('--c',mc);
+  const tr=setInterval(()=>{if(opt.cancelled?.()){clearInterval(tr);c.remove();return}const r=c.getBoundingClientRect(),d=document.createElement('div');d.className='trail'+tag;d.style.setProperty('--c',mc);
     d.style.left=(r.left+r.width/2)+'px';d.style.top=(r.top+r.height/2)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),600)},38);
-  await sleep(P.t+10);clearInterval(tr);c.remove();gal.classList.remove('arriving');burst(tx,ty,m)}
-function burst(x,y,m){const P=m==null?{n:22,d:[45,125],sd:.9,st:0,ring:0}:LAUNCH[m],cols=m==null?['--m1','--m2','--m3','--m4','--flare','--nebula']:MOOD_SPARKS[m];
-  for(let k=0;k<(P.ring||0);k++){const r=document.createElement('div');r.className='lring';r.style.setProperty('--c',`var(${cols[0]})`);r.style.left=x+'px';r.style.top=y+'px';r.style.animationDelay=k*.16+'s';
+  await sleep(P.t+10);clearInterval(tr);c.remove();if(opt.cancelled?.())return;gal.classList.remove('arriving');burst(tx,ty,m,tag)}
+function burst(x,y,m,tag=''){const P=m==null?{n:22,d:[45,125],sd:.9,st:0,ring:0}:LAUNCH[m],cols=m==null?['--m1','--m2','--m3','--m4','--flare','--nebula']:MOOD_SPARKS[m];
+  for(let k=0;k<(P.ring||0);k++){const r=document.createElement('div');r.className='lring'+tag;r.style.setProperty('--c',`var(${cols[0]})`);r.style.left=x+'px';r.style.top=y+'px';r.style.animationDelay=k*.16+'s';
     document.body.appendChild(r);setTimeout(()=>r.remove(),1000+k*160)}
-  for(let i=0;i<P.n;i++){const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=P.d[0]+Math.random()*(P.d[1]-P.d[0]);s.className='spark'+(Math.random()<P.st?' st':'');
+  for(let i=0;i<P.n;i++){const s=document.createElement('div'),a=Math.random()*Math.PI*2,d=P.d[0]+Math.random()*(P.d[1]-P.d[0]);s.className='spark'+(Math.random()<P.st?' st':'')+tag;
     s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--c',`var(${i%5===4?'--text':cols[i%cols.length]})`);s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');
     s.style.animationDuration=P.sd+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),P.sd*1000+60)}}
 function floatXP(t){const g=$('gal').getBoundingClientRect(),f=document.createElement('div');f.className='floatxp';f.textContent=t;
@@ -6854,6 +6891,45 @@ $('swLock').onclick=()=>prof.pin?openLock('off'):openLock('set');
 let hiddenAt=0;
 document.addEventListener('visibilitychange',()=>{$('device').classList.toggle('privacy',document.hidden&&!!prof.pin);
   if(document.hidden)hiddenAt=Date.now();else if(prof.pin&&hiddenAt&&Date.now()-hiddenAt>60000&&$('lock').hidden)openLock('unlock')});
+/* 開發者星座預覽：模擬逐顆點亮，共用正式繪圖與彗星效果，不寫入日記或星座進度。 */
+const DV_STAR={k:'Lyn',n:0,visual:0,samples:[],busy:false,playing:false,active:false,run:0,sequence:0};
+const devStarReduced=()=>reduce||matchMedia('(prefers-reduced-motion:reduce)').matches;
+function devStarOptions(){const options=Object.keys(CON).map(k=>`<option value="${k}"${k===DV_STAR.k?' selected':''}>${CON[k].n}・${CON[k].s.length} 顆星</option>`).join('');
+  $('dvStarPick').innerHTML=options;$('dvStarCon').innerHTML=options;
+  $('dvStarMood').innerHTML=MOODS.map((m,i)=>`<option value="${i}"${i===2?' selected':''}>${m.n}</option>`).join('')}
+function devStarControls(){const s=DV_STAR,total=CON[s.k].s.length;
+  $('dvStarNext').disabled=s.busy||s.playing||s.n>=total;$('dvStarPlay').disabled=s.busy&&!s.playing;
+  $('dvStarPlay').textContent=s.playing?'❚❚ 暫停':'▶ '+(s.n===total?'重播':'播放');$('dvStarPlay').setAttribute('aria-pressed',String(s.playing));
+  $('dvStarCount').textContent=`${s.n} / ${total} 顆星`;$('dvStarRange').max=total;$('dvStarRange').value=s.n;
+  $('dvStarRange').setAttribute('aria-valuetext',`${CON[s.k].n}，已點亮 ${s.n} / ${total} 顆星`)}
+function devStarRender({hold=false,celebrate=false}={}){const s=DV_STAR,total=CON[s.k].s.length,fig=$('dvStarFig'),p=(hold?s.visual:s.n)/total;
+  fig.innerHTML=conSVG(s.k,380,300,46,s.n,s.samples,{bg:70,next:true,sc:1.25,figP:p,figFrom:devStarReduced()?p:s.visual/total,freshId:hold?s.samples[s.n-1]?.id:null,anim:celebrate&&!devStarReduced(),d0:0});
+  fig.setAttribute('aria-label',`${CON[s.k].n}，已點亮 ${s.n} / ${total} 顆星`);
+  if(!hold){s.visual=s.n;fig.setCurrentTime?.(0)}
+  fig.querySelectorAll('.cstar[data-id]').forEach(el=>{const show=()=>{const e=s.samples.find(e=>e.id===el.dataset.id);if(e)$('dvStarMessage').textContent='這顆星的心情：'+MOODS[e.mood].n+'（預覽）'};el.onclick=show;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show()}}});
+  $('dvStarMessage').textContent=s.n===0?'點亮第一顆星，看看圖案如何逐漸顯現。':s.n===total?'全部點亮了，可以停留查看完成效果。':`已點亮 ${s.n} 顆星，繼續讓圖案成形。`;
+  devStarControls()}
+function devStarStop(){const s=DV_STAR;s.run++;s.sequence++;s.playing=false;s.busy=false;s.n=s.visual;
+  document.querySelectorAll('.dv-star-effect').forEach(e=>e.remove());$('dvStarFig').classList.remove('arriving');$('dvStarNext').classList.remove('firing');devStarControls()}
+function devStarReset(){devStarStop();const s=DV_STAR;s.n=s.visual=0;
+  s.samples=Array.from({length:CON[s.k].s.length},(_,i)=>({id:`dv-star-${s.k}-${i}`,date:ymd(new Date()),title:'星星預覽',mood:2}));devStarRender()}
+function devStarOpen(k=$('dvStarPick').value){const s=DV_STAR;s.k=CON[k]?k:'Lyn';devStarOptions();devStarReset();s.active=true;
+  $('dvStarName').textContent=CON[s.k].n;$('dvStarLatin').textContent=CON[s.k].la;$('devStarSheet').querySelector('.sb').scrollTop=0;openSheet('devStarSheet')}
+async function devStarAdvance(){const s=DV_STAR;if(!s.active||s.busy||s.n>=CON[s.k].s.length)return;
+  const run=s.run,mood=+$('dvStarMood').value;s.busy=true;s.samples[s.n].mood=mood;s.n++;if(!devStarReduced())$('dvStarFig').classList.add('arriving');devStarRender({hold:true});
+  const cancelled=()=>!s.active||s.run!==run;
+  try{await launch(mood,{gal:$('dvStarFig'),button:$('dvStarNext'),preview:true,reduced:devStarReduced(),cancelled});if(!cancelled())devStarRender({celebrate:s.n===CON[s.k].s.length})}
+  finally{if(s.run===run){s.busy=false;devStarControls()}}}
+async function devStarPlay(){const s=DV_STAR;if(s.playing){s.playing=false;s.sequence++;devStarControls();return}if(s.busy||!s.active)return;
+  if(s.n>=CON[s.k].s.length)devStarReset();s.playing=true;const sequence=++s.sequence;devStarControls();
+  while(s.active&&s.playing&&sequence===s.sequence&&s.n<CON[s.k].s.length){await sleep(devStarReduced()?350:700);if(!s.active||!s.playing||sequence!==s.sequence)break;await devStarAdvance()}
+  if(sequence===s.sequence){s.playing=false;devStarControls()}}
+$('dvStarGo').onclick=()=>devStarOpen();$('dvStarCon').onchange=()=>devStarOpen($('dvStarCon').value);
+$('dvStarNext').onclick=devStarAdvance;$('dvStarPlay').onclick=devStarPlay;$('dvStarReset').onclick=devStarReset;
+$('dvStarRange').oninput=()=>{const n=+$('dvStarRange').value;devStarStop();DV_STAR.n=n;devStarRender({celebrate:n===CON[DV_STAR.k].s.length})};
+new MutationObserver(()=>{if(!$('devStarSheet').classList.contains('open')&&DV_STAR.active){DV_STAR.active=false;devStarStop();$('dvStarFig').replaceChildren()}}).observe($('devStarSheet'),{attributes:true,attributeFilter:['class']});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&DV_STAR.active){devStarStop();devStarRender()}});
+matchMedia('(prefers-reduced-motion:reduce)').addEventListener('change',()=>{if(DV_STAR.active){devStarStop();devStarRender()}});
 /* 開發者工具（設定 → 開發者選項） */
 const DEV_CLOCK='novaday.dev.dateOffset',DV_ERR='novaday.dev.errors',DV_STASH='novaday.dev.stash';
 const devOff=()=>{try{return +localStorage.getItem(DEV_CLOCK)||0}catch(_){return 0}};
@@ -6865,6 +6941,7 @@ function devRefresh(){render();renderMe();renderCal();devRender()}
 function devOpen(){devRender();openSheet('devSheet')}
 function devRender(){const st=consState(entries),lv=levelInfo(totalXP(entries)).lv,realLv=levelInfo(totalXP(entries)-(prof.devXP||0)).lv,now=new Date(),n=entries.filter(e=>e.dev).length,off=devOff(),zi=signIdx(prof.birthday),ne=devErrs().length;
   $('dvCon').innerHTML=Object.keys(CON).map(k=>`<option value="${k}"${k===st.cur?' selected':''}>${CON[k].n}</option>`).join('');
+  devStarOptions();
   $('dvAch').innerHTML=ACH.map(a=>`<option value="${a.id}">${esc(a.n)}</option>`).join('');
   $('dvLv').innerHTML=Array.from({length:59},(_,i)=>i+2).map(v=>`<option value="${v}"${v===lv+1?' selected':''}>Lv.${v}${rankIdx(v)!==rankIdx(v-1)?'・晉階':''}</option>`).join('');
   /* 畫面預覽 */
