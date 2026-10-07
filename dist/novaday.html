@@ -6914,7 +6914,7 @@ function devStarStop(){const s=DV_STAR;s.run++;s.sequence++;s.playing=false;s.bu
 function devStarReset(){devStarStop();const s=DV_STAR;s.n=s.visual=0;
   s.samples=Array.from({length:CON[s.k].s.length},(_,i)=>({id:`dv-star-${s.k}-${i}`,date:ymd(new Date()),title:'星星預覽',mood:2}));devStarRender()}
 function devStarOpen(k=$('dvStarPick').value){const s=DV_STAR;s.k=CON[k]?k:'Lyn';devStarOptions();devStarReset();s.active=true;
-  $('dvStarName').textContent=CON[s.k].n;$('dvStarLatin').textContent=CON[s.k].la;$('devStarSheet').querySelector('.sb').scrollTop=0;openSheet('devStarSheet')}
+  $('dvStarName').textContent=CON[s.k].n;$('dvStarLatin').textContent=CON[s.k].la;$('devStarSheet').querySelector('.sb').scrollTop=0;if(!$('devStarSheet').classList.contains('open'))openSheet('devStarSheet')}
 async function devStarAdvance(){const s=DV_STAR;if(!s.active||s.busy||s.n>=CON[s.k].s.length)return;
   const run=s.run,mood=+$('dvStarMood').value;s.busy=true;s.samples[s.n].mood=mood;s.n++;if(!devStarReduced())$('dvStarFig').classList.add('arriving');devStarRender({hold:true});
   const cancelled=()=>!s.active||s.run!==run;
