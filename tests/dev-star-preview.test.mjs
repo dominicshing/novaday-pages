@@ -32,6 +32,7 @@ export default async ({ok,open,run})=>{
   await page.emulateMedia({reducedMotion:'no-preference'});await page.waitForTimeout(100);await page.locator('#dvStarReset').click();await page.locator('#dvStarNext').click();
   await page.waitForSelector('.comet.dv-star-effect');await page.keyboard.press('Escape');await page.waitForTimeout(1500);
   ok(await page.locator('#devStarSheet').getAttribute('aria-hidden')==='true'&&await page.locator('.dv-star-effect').count()===0,'Esc 關閉預覽會取消飛行並清除特效');
+  ok(await page.evaluate(()=>document.activeElement.id==='dvStarGo'),'切換星座後關閉預覽，焦點仍回到開發者工具的預覽按鈕');
   const after=await page.evaluate(()=>JSON.stringify({entries,profile:prof,storedEntries:localStorage.getItem(KEY),storedProfile:localStorage.getItem('orbitlog.profile.v1'),freshId,gal:$('gal').innerHTML}));
   ok(before===after,'預覽、重播、重設與關閉都不改動日記、個人設定、實際進度或首頁星圖');
   ok(!page.errors.length,'逐顆預覽沒有程式錯誤：'+page.errors.join('; '));await page.context().close();
