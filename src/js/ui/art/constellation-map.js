@@ -7,7 +7,7 @@ const spk=(x,y,r,k=.18,rot=45)=>{const f=v=>+v.toFixed(2),q=k*r*Math.SQRT2,P=(a,
 /* p＝點亮進度 0–1（剪影隨進度成形）；aw＝完成動畫設定 */
 function conFig(k,W,H,P,p=1,aw,from){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw,from):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
-function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c;
+function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c,fresh=opt.freshId===undefined?freshId:opt.freshId;
   const byStar={};ord.slice(0,lit).forEach((si,j)=>byStar[si]=es&&es[j]);let g='';
   if(opt.bg){const r=seedRng(k);for(let i=0;i<opt.bg;i++)g+=`<circle cx="${(r()*W).toFixed(1)}" cy="${(r()*H).toFixed(1)}" r="${(.4+r()*.9).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.35).toFixed(2)}"/>`}
   if(opt.fig!==false){const p=opt.figP??lit/c.s.length;g+=conFig(k,W,H,P,p,opt.anim&&!reduce&&p>=1?{d0:opt.d0||0}:null,opt.figFrom)}
@@ -16,9 +16,9 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
-      g+=`<g class="cstar${e&&e.id===freshId?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
+      g+=`<g class="cstar${e&&e.id===fresh?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle class="halo" cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2" style="--d:-${(si*.73%3.2).toFixed(2)}s"/>
-        ${e&&e.id===freshId?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
+        ${e&&e.id===fresh?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <g class="st" style="--d:-${(si*.73%3.2).toFixed(2)}s"><path class="core" d="${spk(x,y,base*2.6)}" fill="${col}"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g></g>`}
     else g+=`<path class="cu" d="${spk(x,y,base*1.6)}" fill="rgba(232,233,255,.55)" style="--d:-${(si*1.13%4.2).toFixed(2)}s"/>${opt.next&&si===ord[lit]?`<circle class="nextring" cx="${x}" cy="${y}" r="7" fill="none" stroke="#FFB45C" stroke-width="1.4"/>`:''}`});
   return g}

@@ -125,6 +125,7 @@
     "src/js/app/init.js",
     "src/js/screens/onboarding.js",
     "src/js/features/pin-lock.js",
+    "src/js/features/dev-star-preview.js",
     "src/js/features/dev-tools.js",
     "src/js/app/boot.js"
   ],

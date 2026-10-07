@@ -9,6 +9,7 @@ function devRefresh(){render();renderMe();renderCal();devRender()}
 function devOpen(){devRender();openSheet('devSheet')}
 function devRender(){const st=consState(entries),lv=levelInfo(totalXP(entries)).lv,realLv=levelInfo(totalXP(entries)-(prof.devXP||0)).lv,now=new Date(),n=entries.filter(e=>e.dev).length,off=devOff(),zi=signIdx(prof.birthday),ne=devErrs().length;
   $('dvCon').innerHTML=Object.keys(CON).map(k=>`<option value="${k}"${k===st.cur?' selected':''}>${CON[k].n}</option>`).join('');
+  devStarOptions();
   $('dvAch').innerHTML=ACH.map(a=>`<option value="${a.id}">${esc(a.n)}</option>`).join('');
   $('dvLv').innerHTML=Array.from({length:59},(_,i)=>i+2).map(v=>`<option value="${v}"${v===lv+1?' selected':''}>Lv.${v}${rankIdx(v)!==rankIdx(v-1)?'・晉階':''}</option>`).join('');
   /* 畫面預覽 */

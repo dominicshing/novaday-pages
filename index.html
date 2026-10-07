@@ -34,7 +34,7 @@
 <link rel="stylesheet" href="src/css/components/hud.css">
 <link rel="stylesheet" href="src/css/components/rank-card.css">
 <link rel="stylesheet" href="src/css/components/mood-star.css">
-<link rel="stylesheet" href="src/css/components/constellation-art.css?v=lynx-1">
+<link rel="stylesheet" href="src/css/components/constellation-art.css?v=star-preview-1">
 <link rel="stylesheet" href="src/css/components/celebrations.css">
 <link rel="stylesheet" href="src/css/components/fortune-card.css">
 <link rel="stylesheet" href="src/css/components/zodiac.css">
@@ -65,7 +65,7 @@
 <link rel="stylesheet" href="src/css/screens/backup.css">
 <link rel="stylesheet" href="src/css/screens/tag-manager.css">
 <link rel="stylesheet" href="src/css/screens/pin-lock.css">
-<link rel="stylesheet" href="src/css/screens/dev-tools.css">
+<link rel="stylesheet" href="src/css/screens/dev-tools.css?v=star-preview-1">
 <link rel="stylesheet" href="src/css/base/effects.css">
 <link rel="stylesheet" href="src/css/layout/device-frame.css">
 </head>
@@ -652,6 +652,7 @@
         <h3 class="set-h first" style="--c:#FFB45C"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>動畫預覽</h3>
         <div class="list panel">
           <div class="dv-item"><div class="dv-lbl">星座完成<small>完成一個星座時的慶祝畫面</small></div><div class="dv-ctl"><select class="field" id="dvCon" aria-label="星座"></select><button type="button" class="dv-go" id="dvConGo">播放</button></div></div>
+          <div class="dv-item"><div class="dv-lbl">逐顆點亮星座<small>查看星星、星線、剪影漸亮與全亮效果</small></div><div class="dv-ctl"><select class="field" id="dvStarPick" aria-label="逐顆點亮的星座"></select><button type="button" class="dv-go" id="dvStarGo">預覽</button></div></div>
           <div class="dv-item"><div class="dv-lbl">徽章解鎖<small>解鎖徽章時的提示與水晶</small></div><div class="dv-ctl"><select class="field" id="dvAch" aria-label="徽章"></select><button type="button" class="dv-go" id="dvAchGo">播放</button></div></div>
           <div class="dv-item"><div class="dv-lbl">升級／晉階<small>等級提升時的畫面，標示「晉階」的等級會換階級徽章</small></div><div class="dv-ctl"><select class="field" id="dvLv" aria-label="等級"></select><button type="button" class="dv-go" id="dvLvGo">播放</button></div></div>
         </div>
@@ -702,6 +703,23 @@
           <button class="li" id="dvInitDev"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg></i><span>重設開發者工具<small>關閉這頁的所有模擬與檢查，移除測試紀錄，日記保持不變</small></span></span><span class="chev" aria-hidden="true">›</span></button>
           <button class="li" id="dvHide"><span class="li-l"><i class="li-ic" style="--ic:#9AA3C7"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1A9 9 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-2.6 3.3M6.5 7.6A16 16 0 0 0 2.5 12S6 18 12 18a9 9 0 0 0 4-.9"/></svg></i><span>隱藏開發者選項<small>之後在「版本資訊」連點版本號碼 7 次即可再次開啟</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 開發者工具：逐顆點亮星座 -->
+  <div class="layer" id="devStarSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dvStarTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="dvStarTitle">逐顆點亮星座</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb dv-star-body">
+        <p class="dv-note">自由預覽點亮效果，日記與實際星座進度保持不變。</p>
+        <div class="dv-star-settings"><label>星座<select class="field" id="dvStarCon"></select></label><label>下一顆心情<select class="field" id="dvStarMood"></select></label></div>
+        <div class="dv-star-frame"><div class="dv-star-heading"><span><b id="dvStarName"></b><small id="dvStarLatin"></small></span><output id="dvStarCount" aria-live="polite">0 / 6 顆星</output></div><svg id="dvStarFig" viewBox="0 0 380 300" role="img" aria-label="星座點亮預覽"></svg></div>
+        <p class="dv-star-message" id="dvStarMessage" aria-live="polite"></p>
+        <div class="dv-star-buttons"><button type="button" class="dv-go" id="dvStarNext"><span aria-hidden="true">✦</span> 點亮下一顆</button><button type="button" class="dv-go" id="dvStarPlay" aria-pressed="false">▶ 播放</button><button type="button" class="dv-go ghost" id="dvStarReset">重設</button></div>
+        <label class="dv-star-progress" for="dvStarRange">點亮進度<input id="dvStarRange" type="range" min="0" max="6" step="1" value="0"></label>
       </div>
     </div>
   </div>
@@ -833,7 +851,7 @@
 <script src="src/js/logic/sky-projection.js?v=lynx-1"></script>
 <script src="src/js/ui/art/lynx-figure.js"></script>
 <script src="src/js/data/constellation-figures.js?v=lynx-1"></script>
-<script src="src/js/ui/art/constellation-map.js?v=lynx-1"></script>
+<script src="src/js/ui/art/constellation-map.js?v=star-preview-1"></script>
 <script src="src/js/screens/atlas/atlas.js"></script>
 <script src="src/js/screens/atlas/tonight-guide.js"></script>
 <script src="src/js/features/share-card.js"></script>
@@ -864,7 +882,7 @@
 <script src="src/js/screens/detail.js"></script>
 <script src="src/js/screens/editor.js"></script>
 <script src="src/js/screens/home/quick-note.js"></script>
-<script src="src/js/ui/effects.js"></script>
+<script src="src/js/ui/effects.js?v=star-preview-1"></script>
 <script src="src/js/ui/starfield.js"></script>
 <script src="src/js/features/backup/export.js"></script>
 <script src="src/js/screens/settings/region.js"></script>
@@ -882,7 +900,8 @@
 <script src="src/js/app/init.js"></script>
 <script src="src/js/screens/onboarding.js"></script>
 <script src="src/js/features/pin-lock.js"></script>
-<script src="src/js/features/dev-tools.js"></script>
+<script src="src/js/features/dev-star-preview.js"></script>
+<script src="src/js/features/dev-tools.js?v=star-preview-1"></script>
 <script src="src/js/app/boot.js"></script>
 </body>
 </html>

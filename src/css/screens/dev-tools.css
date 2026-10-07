@@ -76,3 +76,21 @@
 .dv-ctl .dv-n{flex:1;width:auto;font-variant-numeric:tabular-nums}
 /* 小螢幕：月份、日期、時間欄位放不下時各佔一行，按鈕平分下一行 */
 @media (max-width:360px){.dv-mon,.dv-dt{flex-wrap:wrap}.dv-mon .field,.dv-dt .field{flex:1 1 100%}.dv-mon .dv-go{flex:1}}
+
+/* 逐顆點亮：固定畫框，讓手動與自動預覽共用正式星座圖。 */
+.dv-star-settings{display:grid;grid-template-columns:1.25fr 1fr;gap:10px;margin:14px 0}
+.dv-star-settings label,.dv-star-progress{font-size:12px;color:var(--muted)}
+.dv-star-settings .field{width:100%;margin-top:6px;min-height:44px;font-size:13px}
+.dv-star-frame{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 60% 40%,#1C1B42,#0A0C22 75%)}
+.dv-star-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 0}
+.dv-star-heading b{font-size:15px}.dv-star-heading small{display:block;margin-top:3px;font-size:11px;color:var(--ion)}
+.dv-star-heading output{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+#dvStarFig{display:block;width:100%;height:auto;aspect-ratio:380/300}
+.dv-star-effect{z-index:34}
+#dvStarFig .cstar.fresh{transition:opacity .25s}#dvStarFig.arriving .cstar.fresh{opacity:0}
+.dv-star-message{min-height:36px;margin:12px 4px;font-size:12px;line-height:1.5;color:var(--muted)}
+.dv-star-buttons{display:grid;grid-template-columns:1.65fr 1fr 1fr;gap:8px}
+.dv-star-buttons .dv-go{min-width:0;min-height:44px;padding:0 8px;font-size:13px}
+.dv-star-progress{display:block;margin:18px 0 8px}.dv-star-progress input{display:block;width:100%;min-height:44px;margin:4px 0 0;accent-color:var(--ion)}
+#device.calm #dvStarFig *{animation:none!important}
+@media(prefers-reduced-motion:reduce){#dvStarFig *{animation:none!important;transition:none!important}}
