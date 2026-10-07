@@ -18,6 +18,10 @@
 @media(prefers-reduced-motion:reduce){#magicAmbient,#magicSheen,#magicOverlay{display:none!important}}
 
 #kittenBreath{pointer-events:none}
-#kittenBreath.breathing{animation:kittenBreath 5s ease-in-out 3.1s infinite;will-change:opacity}
-@keyframes kittenBreath{0%,100%{opacity:0}50%{opacity:.86}}
-@media(prefers-reduced-motion:reduce){#kittenBreath{display:none!important}}
+#kittenBreath.breathing{animation:kittenBreath 5s ease-in-out var(--breath-delay,3.1s) infinite;will-change:opacity}
+#fadeArt.breathing{animation:kittenBreathBody 5s ease-in-out var(--breath-delay,3.1s) infinite;will-change:filter}
+#kittenOutline.breathing{animation:kittenBreathRim 5s ease-in-out var(--breath-delay,3.1s) infinite;will-change:opacity}
+@keyframes kittenBreath{0%,100%{opacity:.32}25%{opacity:.85}75%{opacity:.025}}
+@keyframes kittenBreathBody{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.24) saturate(1.12)}75%{filter:brightness(.78) saturate(1)}}
+@keyframes kittenBreathRim{0%,100%{opacity:.58}25%{opacity:1}75%{opacity:.12}}
+@media(prefers-reduced-motion:reduce){#kittenBreath{display:none!important}#fadeArt.breathing,#kittenOutline.breathing{animation:none!important}}
