@@ -74,3 +74,32 @@
 }
 @keyframes cfxEye {0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(2)}66%{transform:scale(1.9,.12)}82%{transform:scale(1.3)}100%{opacity:1;transform:scale(1)}
 }
+
+/* 圓潤幼貓固定不縮放：只有光的強弱改變，大圖才持續呼吸，小卡與分享圖保持靜態。 */
+.cfx-lynx{pointer-events:none}
+.cfx-lynx.revealing .lynx-reveal{animation:lynxReveal .9s ease both}
+.cfx-lynx.revealing .lynx-rim{animation:lynxRimReveal .9s ease both}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-body{animation:lynxBreathBody 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:filter}
+:where(#gal,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-rim{animation:lynxBreathRim 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
+.lynx-fx{pointer-events:none}
+.lynx-gather{animation:lynxGather 1.1s cubic-bezier(.12,.68,.2,1) var(--particle-delay,0s) both}
+.lynx-ring{transform-box:fill-box;transform-origin:center;animation:lynxRing 1.15s ease-out var(--ring-delay,0s) both}
+.lynx-energy{stroke-dasharray:.12 .88;animation:lynxEnergy .85s ease-out var(--lynx-fx-delay,0s) both}
+.lynx-bloom{animation:lynxBloom 2.8s ease-out var(--lynx-fx-delay,0s) both}
+.lynx-sweep{animation:lynxSweep 1.8s ease-in-out calc(var(--lynx-fx-delay,0s) + .3s) both}
+.lynx-glint{opacity:0;animation:lynxGlint 1.3s ease var(--glint-delay,.95s) both}
+@keyframes lynxReveal{from{opacity:var(--lynx-from)}to{opacity:var(--lynx-p)}}
+@keyframes lynxRimReveal{from{opacity:var(--lynx-rim-from)}to{opacity:var(--lynx-rim)}}
+@keyframes lynxBreathAura{0%,100%{opacity:.32}25%{opacity:.85}75%{opacity:.025}}
+@keyframes lynxBreathBody{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.24) saturate(1.12)}75%{filter:brightness(.78) saturate(1)}}
+@keyframes lynxBreathRim{0%,100%{opacity:.58}25%{opacity:1}75%{opacity:.12}}
+@keyframes lynxGather{0%{opacity:0;transform:translate(var(--sx),var(--sy))}15%{opacity:1}70%{opacity:.9}100%{opacity:0;transform:translate(0,0)}}
+@keyframes lynxRing{0%{opacity:0;transform:scale(.12)}15%{opacity:.7}100%{opacity:0;transform:scale(1.4)}}
+@keyframes lynxEnergy{0%{stroke-dashoffset:1;opacity:0}15%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes lynxBloom{0%{opacity:0}22%{opacity:.9}100%{opacity:0}}
+@keyframes lynxSweep{0%{transform:translateX(0);opacity:0}18%{opacity:.9}85%{opacity:.4}100%{transform:translateX(570px);opacity:0}}
+@keyframes lynxGlint{0%,100%{opacity:0}24%{opacity:.95}45%{opacity:.15}64%{opacity:.6}85%{opacity:.08}}
+#device.calm .cfx-lynx *{animation:none!important}
+#device.calm .lynx-aura,#device.calm .lynx-fx{display:none}
+@media(prefers-reduced-motion:reduce){.cfx-lynx *{animation:none!important}.lynx-aura,.lynx-fx{display:none}}

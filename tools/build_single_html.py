@@ -27,7 +27,7 @@ while i < len(lines):
         i += 1
         css = []
         while i < len(lines) and lines[i].startswith('<link rel="stylesheet" href="src/css/'):
-            css.append(re.search(r'href="([^"]+)"', lines[i]).group(1)); i += 1
+            css.append(re.search(r'href="([^"]+)"', lines[i]).group(1).split('?',1)[0]); i += 1
         assert css == man['css'], 'index.html 的 CSS 順序和 build-order.json 不一致'
         res.append('<style>')
         res.append(''.join(read(c) for c in css).rstrip('\n'))
@@ -37,7 +37,7 @@ while i < len(lines):
         i += 1
         js = []
         while i < len(lines) and lines[i].startswith('<script src="src/js/'):
-            js.append(re.search(r'src="([^"]+)"', lines[i]).group(1)); i += 1
+            js.append(re.search(r'src="([^"]+)"', lines[i]).group(1).split('?',1)[0]); i += 1
         assert js[0] == man['error_overlay'] and js[1:] == man['js'], 'index.html 的 JS 順序和 build-order.json 不一致'
         res += ['<script>', read(js[0]).rstrip('\n'), '</script>', '<script>', '(function(){']
         res.append(''.join(read(j) for j in js[1:]).rstrip('\n'))

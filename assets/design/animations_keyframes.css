@@ -82,6 +82,17 @@
 @keyframes cfxTw {0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
 @keyframes cfxNeb {0%,100%{opacity:.26}50%{opacity:.4}}
 @keyframes cfxEye {0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(2)}66%{transform:scale(1.9,.12)}82%{transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+@keyframes lynxReveal{from{opacity:var(--lynx-from)}to{opacity:var(--lynx-p)}}
+@keyframes lynxRimReveal{from{opacity:var(--lynx-rim-from)}to{opacity:var(--lynx-rim)}}
+@keyframes lynxBreathAura{0%,100%{opacity:.32}25%{opacity:.85}75%{opacity:.025}}
+@keyframes lynxBreathBody{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.24) saturate(1.12)}75%{filter:brightness(.78) saturate(1)}}
+@keyframes lynxBreathRim{0%,100%{opacity:.58}25%{opacity:1}75%{opacity:.12}}
+@keyframes lynxGather{0%{opacity:0;transform:translate(var(--sx),var(--sy))}15%{opacity:1}70%{opacity:.9}100%{opacity:0;transform:translate(0,0)}}
+@keyframes lynxRing{0%{opacity:0;transform:scale(.12)}15%{opacity:.7}100%{opacity:0;transform:scale(1.4)}}
+@keyframes lynxEnergy{0%{stroke-dashoffset:1;opacity:0}15%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes lynxBloom{0%{opacity:0}22%{opacity:.9}100%{opacity:0}}
+@keyframes lynxSweep{0%{transform:translateX(0);opacity:0}18%{opacity:.9}85%{opacity:.4}100%{transform:translateX(570px);opacity:0}}
+@keyframes lynxGlint{0%,100%{opacity:0}24%{opacity:.95}45%{opacity:.15}64%{opacity:.6}85%{opacity:.08}}
 
 /* src/css/components/celebrations.css */
 @keyframes fadeA {to{opacity:1}}

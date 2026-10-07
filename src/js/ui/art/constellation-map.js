@@ -5,12 +5,12 @@
 const spk=(x,y,r,k=.18,rot=45)=>{const f=v=>+v.toFixed(2),q=k*r*Math.SQRT2,P=(a,d)=>{a=(a+rot)*Math.PI/180;return f(x+d*Math.cos(a))+' '+f(y+d*Math.sin(a))};
   let d='M'+P(-90,r);for(let i=0;i<4;i++){const a=-90+i*90;d+=`Q${P(a+45,q)} ${P(a+90,r)}`}return d+'Z'};
 /* p＝點亮進度 0–1（剪影隨進度成形）；aw＝完成動畫設定 */
-function conFig(k,W,H,P,p=1,aw){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw):''}
+function conFig(k,W,H,P,p=1,aw,from){return !prof.noFig&&CFX[k]?customFig(k,P,W,H,p,aw,from):''}
 /* 星座圖：lit = 已點亮顆數；es = 對應的紀錄（決定顏色、點擊） */
 function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord=conOrd(k),on=new Set(ord.slice(0,lit)),LC=opt.lc||RINFO[shipLiv()].c;
   const byStar={};ord.slice(0,lit).forEach((si,j)=>byStar[si]=es&&es[j]);let g='';
   if(opt.bg){const r=seedRng(k);for(let i=0;i<opt.bg;i++)g+=`<circle cx="${(r()*W).toFixed(1)}" cy="${(r()*H).toFixed(1)}" r="${(.4+r()*.9).toFixed(2)}" fill="#E8E9FF" opacity="${(.15+r()*.35).toFixed(2)}"/>`}
-  if(opt.fig!==false){const p=opt.figP??lit/c.s.length;g+=conFig(k,W,H,P,p,opt.anim&&!reduce&&p>=1?{d0:opt.d0||0}:null)}
+  if(opt.fig!==false){const p=opt.figP??lit/c.s.length;g+=conFig(k,W,H,P,p,opt.anim&&!reduce&&p>=1?{d0:opt.d0||0}:null,opt.figFrom)}
   c.l.forEach(pl=>{for(let j=0;j<pl.length-1;j++){const a=pl[j],b=pl[j+1],A=P[a],B=P[b],both=on.has(a)&&on.has(b);
     g+=both?`<line class="cl-on${opt.anim?' cd-line':''}" pathLength="1" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${LC}" style="filter:drop-shadow(0 0 3px ${LC})${opt.anim?`;animation-delay:${(opt.d0||0)+j*.12}s`:''}"/>`
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
@@ -34,7 +34,9 @@ function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').t
   $('skyK').textContent='正在點亮';
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
   $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
-  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25});
+  const figP=st.lit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
+  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figFrom});
+  svg.dataset.figureKey=st.cur;svg.dataset.figureProgress=figP;
   svg.setAttribute('aria-label',`${c.n}，已點亮 ${st.lit} / ${n} 顆星`);
   const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<st.lit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===st.lit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
   $('gcap').innerHTML=`<span>${st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
