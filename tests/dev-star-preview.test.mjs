@@ -7,8 +7,10 @@ export default async ({ok,open,run})=>{
   await page.selectOption('#dvStarPick','Lyn');await page.locator('#dvStarGo').click();await page.waitForTimeout(400);
   ok(await page.locator('#dvStarFig .cstar').count()===0&&await page.locator('#dvStarRange').inputValue()==='0','天貓座從 0 顆星開始預覽');
   await page.selectOption('#dvStarMood','4');
-  await page.locator('#dvStarNext').click();await page.waitForSelector('.comet.dv-star-effect');
-  ok(await page.evaluate(()=>$('dvStarFig').classList.contains('arriving')&&getComputedStyle($('dvStarFig').querySelector('.fresh')).opacity==='0'&&$('dvStarFig').querySelector('.cfx-lynx').dataset.progress==='0'),'彗星飛行時新星保持隱藏，圖案停在上一階段');
+  // 在彗星加入畫面當刻擷取狀態，避免工具往返時飛行已經結束。
+  await page.evaluate(()=>{window.devFlightCheck=new Promise(resolve=>{const observer=new MutationObserver(()=>{if(!document.querySelector('.comet.dv-star-effect'))return;observer.disconnect();resolve($('dvStarFig').classList.contains('arriving')&&getComputedStyle($('dvStarFig').querySelector('.fresh')).opacity==='0'&&$('dvStarFig').querySelector('.cfx-lynx').dataset.progress==='0')});observer.observe(document.body,{childList:true})})});
+  await page.locator('#dvStarNext').click();
+  ok(await page.evaluate(()=>window.devFlightCheck),'彗星飛行時新星保持隱藏，圖案停在上一階段');
   await page.waitForFunction(()=>!$('dvStarNext').disabled);
   ok(await page.locator('#dvStarFig .cstar').count()===1&&await page.locator('#dvStarFig .cfx-lynx').getAttribute('data-progress')==='0.16666666666666666','抵達後點亮第一顆，幼貓顯現 1/6');
   ok(await page.locator('#dvStarFig .st .core').getAttribute('fill')==='var(--m4)','下一顆心情選擇套用正式星星色彩');

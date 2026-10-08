@@ -50,7 +50,7 @@ const D = await page.evaluate(() => {
       for (const key in c) if (!['n', 'la', 'f', 's', 'l', 'z'].includes(key)) extra[key] = c[key];
       return [k, { abbr: k, name_zh: c.n, name_latin: c.la, zodiac: ZODIAC.some(z => z.k === k), fact: c.f,
         stars: c.s.map(([ra, dec, mag]) => ({ ra_hours: ra, dec_deg: dec, mag })), lines: c.l, ...extra,
-        figure: X ? { style: X.art ? 'image' : X.dust ? 'dust' : 'outline', ...(X.art ? {image_data_url:LYNX_ART,reference_frame:[380,300],progress_reveal:{type:'nearest-star-soft-mask',feather:24,duration_ms:1250,unlit_opacity:.14,unlit_brightness:.65,unlit_grayscale:.8},breathing_seconds:5} : {}), ...(X.align ? { align: X.align } : {}), ref_points: X.ref, body_path: X.body, eye: X.eye || null, eye2: X.eye2 || null, eyes: X.eyes || null, eye_r: X.er || null } : null }] })),
+        figure: X ? { style: X.art ? 'image' : X.dust ? 'dust' : 'outline', ...(X.art ? {image_data_url:LYNX_ART,reference_frame:[380,300],progress_reveal:{type:'nearest-star-soft-mask',feather:24,duration_ms:1800,unlit_opacity:.14,unlit_brightness:.65,unlit_grayscale:.8},breathing_seconds:5} : {}), ...(X.align ? { align: X.align } : {}), ref_points: X.ref, body_path: X.body, eye: X.eye || null, eye2: X.eye2 || null, eyes: X.eyes || null, eye_r: X.er || null } : null }] })),
     achievements: {
       categories: ACH_CAT.map(([key, name_zh, subtitle_zh, icon_svg_inner]) => ({ key, name_zh, subtitle_zh, icon_svg_inner })),
       crystal_colors: CR_COL, crystal_star_path_100: CR_STAR,

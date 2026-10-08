@@ -13,9 +13,16 @@ export default async ({ok,open,run})=>{
   ok(regions.cache,'區域遮罩快取重用');
   ok(await page.evaluate(()=>{const s=document.querySelector('#gal .lynx-shadow');return +getComputedStyle(s).opacity===.14&&getComputedStyle(s).filter.includes('brightness')}),'未點亮區域保留 14% 低亮度剪影');
   const wave=await page.evaluate(()=>{const host=document.createElement('div');document.body.append(host);host.innerHTML=`<svg width="380" height="300">${conSVG('Lyn',380,300,46,3,null,{figFrom:2/6})}</svg>`;
-    const c=host.querySelector('.lynx-region-wave'),a=c.getAnimations()[0];a.pause();a.currentTime=0;const first=parseFloat(getComputedStyle(c).r);a.currentTime=625;const middle=parseFloat(getComputedStyle(c).r);a.currentTime=1300;const last=parseFloat(getComputedStyle(c).r);
+    const c=host.querySelector('.lynx-region-wave'),a=c.getAnimations()[0];a.pause();a.currentTime=0;const scale=()=>parseFloat(getComputedStyle(c).r)/+c.getAttribute('r'),first=scale();a.currentTime=900;const middle=scale();a.currentTime=1900;const last=scale();
     const P=conProj('Lyn',380,300,46)[conOrd('Lyn')[2]],center=+c.getAttribute('cx')===P[0]&&+c.getAttribute('cy')===P[1];host.remove();return {first,middle,last,center};});
-  ok(wave.center&&wave.first===0&&wave.middle>0&&wave.last>wave.middle,'新區域從剛點亮的主星向外柔和擴散');
+  ok(wave.center&&wave.first===0&&wave.middle>0&&wave.last>wave.middle&&wave.last===1,'新區域從剛點亮的主星向外柔和擴散');
+  ok(await page.evaluate(()=>{for(let n=1;n<=6;n++){const a=lynxRegion(n-1).values,b=lynxRegion(n).values,step=lynxRegionStep(n-1,n),D=lynxDistances()[n-1];for(let i=0;i<a.length;i++)if(b[i]>a[i]&&D[i]>(step.radius*.5)**2)return false}return true}),'擴散結束時所有新增區域都進入不透明核心，不留下半透明尾緣');
+  // 比對真正繪出的遮罩，避免數值有變但巢狀 SVG 遮罩沒有重繪的回歸。
+  await page.evaluate(()=>{const host=document.createElement('div');host.id='lynxMaskCheck';host.style='position:fixed;left:0;top:0;width:380px;height:300px;background:black;z-index:99999';
+    host.innerHTML=`<svg width="380" height="300"><defs>${lynxRegionMask('lynxVisualCheck',3,2,0)}</defs><rect width="380" height="300" fill="white" mask="url(#lynxVisualCheck)"/></svg>`;document.body.append(host);host.querySelector('.lynx-region-wave').getAnimations()[0].pause()});
+  const frames=[];for(const ms of [0,450,1900]){await page.evaluate(ms=>document.querySelector('#lynxMaskCheck .lynx-region-wave').getAnimations()[0].currentTime=ms,ms);frames.push(await page.locator('#lynxMaskCheck').screenshot({animations:'allow'}))}
+  ok(!frames[0].equals(frames[1])&&!frames[1].equals(frames[2]),'起點、中途與終點的實際遮罩畫面持續改變');
+  await page.evaluate(()=>document.getElementById('lynxMaskCheck').remove());
   const sizes=[[380,300,46],[110,86,12],[160,120,12],[300,220,30],[380,300,30],[84,52,9]];
   const results=await page.evaluate(sizes=>{
     const host=document.createElement('div');document.body.append(host);

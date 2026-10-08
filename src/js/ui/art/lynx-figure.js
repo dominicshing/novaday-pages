@@ -22,24 +22,28 @@ function lynxFig(W,H,p=1,aw,from){const n=++FIGN,q=Math.max(0,Math.min(1,p)),ful
     ${fx?lynxSparkFx(Math.max(1,Math.round(q*6)),n,d0,!!aw):''}</g></g></g>`}
 /* 方案 A：依最近的已亮／未亮主星距離柔和分區；快取七個階段，不逐幀重畫。 */
 const LYNX_REGIONS=new Map(),LYNX_STEPS=new Map();
+let LYNX_DISTANCE_SQUARED=null;
+/* 距離場只算一次；各階段只比較距離，避免點亮當刻重複做大量 hypot。 */
+function lynxDistances(){if(LYNX_DISTANCE_SQUARED)return LYNX_DISTANCE_SQUARED;
+  const P=conProj('Lyn',380,300,46);return LYNX_DISTANCE_SQUARED=conOrd('Lyn').map(si=>{const d=new Float32Array(380*300),[sx,sy]=P[si];for(let y=0;y<300;y++)for(let x=0;x<380;x++)d[y*380+x]=(x-sx)**2+(y-sy)**2;return d})}
 function lynxMaskURL(values){const c=document.createElement('canvas');c.width=380;c.height=300;const x=c.getContext('2d'),d=x.createImageData(380,300);
   for(let i=0;i<values.length;i++){d.data[i*4]=d.data[i*4+1]=d.data[i*4+2]=255;d.data[i*4+3]=values[i]}x.putImageData(d,0,0);return c.toDataURL()}
 function lynxRegion(lit){lit=Math.max(0,Math.min(6,Math.round(lit)));if(LYNX_REGIONS.has(lit))return LYNX_REGIONS.get(lit);
-  const P=conProj('Lyn',380,300,46),ord=conOrd('Lyn'),values=new Uint8ClampedArray(380*300);
-  if(lit===6)values.fill(255);else if(lit)for(let i=0;i<values.length;i++){const x=i%380,y=Math.floor(i/380);let a=Infinity,b=Infinity;
-    ord.forEach((si,j)=>{const d=Math.hypot(x-P[si][0],y-P[si][1]);if(j<lit)a=Math.min(a,d);else b=Math.min(b,d)});
-    const t=Math.max(0,Math.min(1,(b-a+24)/48));values[i]=255*t*t*(3-2*t)}
+  const values=new Uint8ClampedArray(380*300);
+  if(lit===6)values.fill(255);else if(lit){const D=lynxDistances();for(let i=0;i<values.length;i++){let a=Infinity,b=Infinity;
+    for(let j=0;j<6;j++){const d=D[j][i];if(j<lit)a=Math.min(a,d);else b=Math.min(b,d)}
+    const t=Math.max(0,Math.min(1,(Math.sqrt(b)-Math.sqrt(a)+24)/48));values[i]=255*t*t*(3-2*t)}}
   const out={values,url:lynxMaskURL(values)};LYNX_REGIONS.set(lit,out);return out}
 function lynxRegionStep(before,lit){const key=before+'-'+lit;if(LYNX_STEPS.has(key))return LYNX_STEPS.get(key);
-  const a=lynxRegion(before).values,b=lynxRegion(lit).values,values=new Uint8ClampedArray(a.length),center=conProj('Lyn',380,300,46)[conOrd('Lyn')[lit-1]];let radius=1;
-  for(let i=0;i<a.length;i++)if(b[i]>a[i]){values[i]=255*(b[i]-a[i])/(255-a[i]);radius=Math.max(radius,Math.hypot(i%380-center[0],Math.floor(i/380)-center[1]))}
-  const out={url:lynxMaskURL(values),center,radius:Math.ceil(radius+24)};LYNX_STEPS.set(key,out);return out}
+  const a=lynxRegion(before).values,b=lynxRegion(lit).values,values=new Uint8ClampedArray(a.length),center=conProj('Lyn',380,300,46)[conOrd('Lyn')[lit-1]],D=lynxDistances()[lit-1];let radiusSquared=1;
+  for(let i=0;i<a.length;i++)if(b[i]>a[i]){values[i]=255*(b[i]-a[i])/(255-a[i]);radiusSquared=Math.max(radiusSquared,D[i])}
+  const out={url:lynxMaskURL(values),center,radius:Math.ceil(Math.sqrt(radiusSquared)/.5)+2};LYNX_STEPS.set(key,out);return out}
 function lynxRegionMask(id,lit,before,d0){const frame='maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="300" style="mask-type:alpha"',img=url=>`<image href="${url}" width="380" height="300"/>`;
   if(before>=lit)return `<mask id="${id}" ${frame}>${lit===6?'<rect width="380" height="300" fill="white"/>':img(lynxRegion(lit).url)}</mask>`;
-  const step=lynxRegionStep(before,lit),wave=id+'Wave',gradient=id+'Gradient';
-  return `<radialGradient id="${gradient}"><stop offset=".82" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient>
-    <mask id="${wave}" ${frame}><circle class="lynx-region-wave" cx="${step.center[0]}" cy="${step.center[1]}" r="${step.radius}" fill="url(#${gradient})" style="--region-radius:${step.radius}px;--region-delay:${d0}s"/></mask>
-    <mask id="${id}" ${frame}>${img(lynxRegion(before).url)}<g mask="url(#${wave})">${img(step.url)}</g></mask>`}
+  const step=lynxRegionStep(before,lit),delta=id+'Delta',gradient=id+'Gradient';
+  return `<radialGradient id="${gradient}"><stop offset=".5" stop-color="white"/><stop offset=".65" stop-color="white" stop-opacity=".84"/><stop offset=".8" stop-color="white" stop-opacity=".38"/><stop offset="1" stop-color="white" stop-opacity="0"/></radialGradient>
+    <filter id="${delta}" filterUnits="userSpaceOnUse" x="0" y="0" width="380" height="300"><feImage href="${step.url}" x="0" y="0" width="380" height="300" result="delta"/><feComposite in="SourceGraphic" in2="delta" operator="in"/></filter>
+    <mask id="${id}" ${frame}>${img(lynxRegion(before).url)}<circle class="lynx-region-wave" cx="${step.center[0]}" cy="${step.center[1]}" r="${step.radius}" fill="url(#${gradient})" filter="url(#${delta})" style="--region-radius:${step.radius}px;--region-delay:${d0}s"/></mask>`}
 /* 細小星塵位置固定、錯開閃爍；避開六顆主星，透明遮罩限制在幼貓身上。 */
 function lynxTwinkles(mask){const points=[[73,146],[68,160],[104,163],[128,148],[154,151],[182,143],[209,132],[226,159],[199,174],[145,182],[110,197],[137,213],[183,217],[212,204],[243,188],[263,210],[168,254],[66,268],[88,285],[266,83],[292,67],[315,84],[340,91],[331,178]],P=conProj('Lyn',380,300,46),rng=seedRng('lynx-twinkles');
   return `<g class="lynx-twinkles" mask="url(#${mask})">${points.filter(([x,y])=>P.every(([px,py])=>Math.hypot(x-px,y-py)>9)).map(([x,y],i)=>{const r=.7+rng()*.35,d=2.2+rng()*1.4,delay=-rng()*3.6;
