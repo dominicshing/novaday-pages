@@ -6,14 +6,14 @@ const distances=points.map(([sx,sy])=>Float32Array.from({length:N},(_,i)=>Math.h
 const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)};
 const modes=[{id:'soft',feather:24},{id:'defined',feather:4}];
 let count=0,raf=0,timer=0,playing=false,lastFrame=0;
-const stageText=['從第一顆星開始，喚醒腳邊的星塵。','第一顆星亮起，腳邊浮現。','第二顆星亮起，後腿逐漸成形。','第三顆星亮起，身體與尾巴浮現。','第四顆星亮起，前胸與前腳成形。','第五顆星亮起，臉部逐漸清晰。','六顆星全部點亮，完整的天貓座醒來。'];
+const stageText=['淡淡剪影已浮現，點亮第一顆星來喚醒腳邊的星塵。','第一顆星亮起，腳邊浮現。','第二顆星亮起，後腿逐漸成形。','第三顆星亮起，身體與尾巴浮現。','第四顆星亮起，前胸與前腳成形。','第五顆星亮起，臉部逐漸清晰。','六顆星全部點亮，完整的天貓座醒來。'];
 
 function coverage(n,feather){const out=new Uint8ClampedArray(N);if(n===6){out.fill(255);return out}if(!n)return out;
   for(let p=0;p<N;p++){let lit=Infinity,dark=Infinity;order.forEach((si,j)=>{if(j<n)lit=Math.min(lit,distances[si][p]);else dark=Math.min(dark,distances[si][p])});out[p]=255*smooth((dark-lit+feather)/(2*feather))}return out}
 function starMarkup(){const lines=CON.Lyn.l.flatMap(path=>path.slice(1).map((b,i)=>{const a=path[i];return `<line class="star-line dim" data-a="${a}" data-b="${b}" x1="${points[a][0]}" y1="${points[a][1]}" x2="${points[b][0]}" y2="${points[b][1]}"/>`})).join('');
   return lines+points.map(([x,y],i)=>`<path class="main-star dim" data-star="${i}" d="${sp4(x,y,4.5)}"/>`).join('')}
 function setup(mode){mode.frames=Array.from({length:7},(_,n)=>coverage(n,mode.feather));mode.current=mode.frames[0].slice();mode.canvas=document.createElement('canvas');mode.canvas.width=W;mode.canvas.height=H;mode.ctx=mode.canvas.getContext('2d');mode.pixels=mode.ctx.createImageData(W,H);for(let i=0;i<N;i++){mode.pixels.data[i*4]=255;mode.pixels.data[i*4+1]=255;mode.pixels.data[i*4+2]=255}
-  document.getElementById(mode.id).innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="天貓座，已點亮 0 顆星"><defs><mask id="region-${mode.id}" maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="300" style="mask-type:alpha"><image class="region-mask" width="380" height="300"/></mask></defs><g mask="url(#region-${mode.id})">${lynxFig(W,H,1)}</g><g class="constellation">${starMarkup()}</g></svg>`;
+  document.getElementById(mode.id).innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="天貓座，已點亮 0 顆星"><defs><mask id="region-${mode.id}" maskUnits="userSpaceOnUse" x="0" y="0" width="380" height="300" style="mask-type:alpha"><image class="region-mask" width="380" height="300"/></mask></defs><image class="unlit-silhouette" href="${LYNX_ART}" width="380" height="300" preserveAspectRatio="xMidYMid meet"/><g mask="url(#region-${mode.id})">${lynxFig(W,H,1)}</g><g class="constellation">${starMarkup()}</g></svg>`;
   mode.svg=document.querySelector(`#${mode.id} svg`);mode.image=mode.svg.querySelector('.region-mask');paint(mode,mode.current)}
 function paint(mode,values){mode.current=values;for(let i=0;i<N;i++)mode.pixels.data[i*4+3]=values[i];mode.ctx.putImageData(mode.pixels,0,0);mode.image.setAttribute('href',mode.canvas.toDataURL());}
 function stopAnimation(){cancelAnimationFrame(raf);raf=0}

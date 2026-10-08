@@ -3,11 +3,12 @@ export default async ({ok,open})=>{
   const page=await open({url:'/preview/lynx/reveal/index.html',viewport:{width:390,height:844}});
   const initial=await page.evaluate(()=>JSON.stringify(localStorage));
   const sample=()=>page.evaluate(async()=>Promise.all([...document.querySelectorAll('.region-mask')].map(async el=>{const img=new Image();img.src=el.getAttribute('href');await img.decode();const c=document.createElement('canvas');c.width=380;c.height=300;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);const d=ctx.getImageData(0,0,380,300).data;let total=0;for(let i=3;i<d.length;i+=4)total+=d[i];return {total,foot:d[(254*380+75)*4+3],head:d[(46*380+305)*4+3],src:img.src}})));
-  let values=await sample();ok(values.every(x=>x.total===0),'0 顆星：身體完全隱藏');
+  let values=await sample();ok(values.every(x=>x.total===0),'0 顆星：明亮身體尚未揭露');
+  ok(await page.evaluate(()=>{const shadows=[...document.querySelectorAll('.unlit-silhouette')];return shadows.length===2&&shadows.every(s=>{const c=getComputedStyle(s);return +c.opacity>0&&+c.opacity<=.2&&c.filter.includes('brightness')&&s.getAttribute('href').startsWith('data:image/webp')&&!s.getAnimations().length})}),'兩個方案都有淡淡、靜態的完整剪影底層');
   let prev=values.map(x=>x.total),monotonic=true;
   for(let n=1;n<=6;n++){await page.locator(`[data-count="${n}"]`).click();values=await sample();monotonic&&=values.every((x,i)=>x.total>prev[i]);prev=values.map(x=>x.total);
     ok(await page.locator('.main-star:not(.dim)').count()===n*2,`${n} 顆星：兩個方案的主星同步點亮`);
-    if(n===2)ok(values.every(x=>x.foot>200&&x.head===0),'2 顆星：腳邊已揭露，頭部仍隱藏');
+    if(n===2)ok(values.every(x=>x.foot>200&&x.head===0),'2 顆星：腳邊已揭露，頭部仍維持淡淡剪影');
     if(n===3)ok(values[0].src!==values[1].src,'A 與 B 使用不同柔邊，能比較兩種效果');
   }
   ok(monotonic,'每次點亮只增加揭露範圍');
