@@ -3,6 +3,7 @@ export default async ({ok,open,run})=>{
   const seed={'orbitlog.profile.v1':{onboarded:1,conOrder:['Lyn']},'orbitlog.seeded.v1':'1','orbitlog.entries.v1':Array.from({length:5},(_,i)=>({id:'kitten-'+i,date:'2026-01-0'+(i+1),time:'10:00',title:'小星星 '+i,body:'今天的紀錄',mood:i,tags:[]}))};
   const page=await open({seed});
   ok(await page.locator('#gal .cfx-lynx').getAttribute('data-progress')==='0.8333333333333334','五顆星：圓潤幼貓已顯現 5/6');
+  ok(await page.evaluate(()=>{const stars=[...document.querySelectorAll('#gal .lynx-twinkle')];return stars.length>0&&stars.every(s=>s.querySelectorAll('path').length===2&&!s.querySelector('circle'))}),'閃爍星點及外圍微光都是四芒星，沒有圓點或圓形光暈');
   ok(await page.evaluate(()=>{const stars=[...document.querySelectorAll('#gal .lynx-twinkle')];return stars.length>10&&stars.length<=24&&stars.every(s=>s.getAnimations().some(a=>a.animationName==='lynxTwinkle'))&&new Set(stars.map(s=>s.style.getPropertyValue('--twinkle-delay'))).size>10}),'細小星塵以不同節奏閃爍，進行中也可顯示');
   ok(await page.evaluate(()=>{const s=document.querySelector('#gal .lynx-twinkle'),a=s.getAnimations()[0];const t=a.currentTime,d=a.effect.getTiming().delay+2*a.effect.getTiming().duration;a.pause();a.currentTime=d;const low=+getComputedStyle(s).opacity;a.currentTime=d+a.effect.getTiming().duration*.45;const high=+getComputedStyle(s).opacity;a.currentTime=t;a.play();return high-low>.5}),'星塵明暗確實變化');
   const sizes=[[380,300,46],[110,86,12],[160,120,12],[300,220,30],[380,300,30],[84,52,9]];

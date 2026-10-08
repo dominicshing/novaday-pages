@@ -4640,7 +4640,7 @@ function lynxFig(W,H,p=1,aw,from){const n=++FIGN,q=Math.max(0,Math.min(1,p)),ful
 /* 細小星塵位置固定、錯開閃爍；避開六顆主星，透明遮罩限制在幼貓身上。 */
 function lynxTwinkles(mask){const points=[[73,146],[68,160],[104,163],[128,148],[154,151],[182,143],[209,132],[226,159],[199,174],[145,182],[110,197],[137,213],[183,217],[212,204],[243,188],[263,210],[168,254],[66,268],[88,285],[266,83],[292,67],[315,84],[340,91],[331,178]],P=conProj('Lyn',380,300,46),rng=seedRng('lynx-twinkles');
   return `<g class="lynx-twinkles" mask="url(#${mask})">${points.filter(([x,y])=>P.every(([px,py])=>Math.hypot(x-px,y-py)>9)).map(([x,y],i)=>{const r=.7+rng()*.35,d=2.2+rng()*1.4,delay=-rng()*3.6;
-    return `<g class="lynx-twinkle" opacity=".2" fill="${i%3===0?'#FFF0CA':'#F0FFFC'}" style="--twinkle-duration:${d.toFixed(2)}s;--twinkle-delay:${delay.toFixed(2)}s"><circle cx="${x}" cy="${y}" r="${(r*2.4).toFixed(2)}" opacity=".16"/>${i%2===0?`<path d="${sp4(x,y,r*1.4)}"/>`:`<circle cx="${x}" cy="${y}" r="${r.toFixed(2)}"/>`}</g>`}).join('')}</g>`}
+    return `<g class="lynx-twinkle" opacity=".2" fill="${i%3===0?'#FFF0CA':'#F0FFFC'}" style="--twinkle-duration:${d.toFixed(2)}s;--twinkle-delay:${delay.toFixed(2)}s"><path d="${sp4(x,y,r*2.1)}" opacity=".18"/><path d="${sp4(x,y,r*1.4)}"/></g>`}).join('')}</g>`}
 function lynxSparkFx(count,n,d0,full){const P=conProj('Lyn',380,300,46),rng=seedRng('kitten-magic-'+count),B=P[count-1];let g='';
   if(count>1){const A=P[count-2];g+=`<path class="lynx-energy" d="M${A} L${B}" pathLength="1" fill="none" stroke="#F2FFF7" stroke-width="1.3" stroke-linecap="round"/>`}
   for(let j=0;j<(full?38:22);j++){const a=P[j%3===0?Math.floor(rng()*count):count-1],x=a[0]+(rng()-.5)*64,y=a[1]+(rng()-.5)*48,angle=rng()*Math.PI*2,d=42+rng()*64;
