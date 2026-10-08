@@ -81,8 +81,8 @@
 .lynx-twinkle{transform-box:fill-box;transform-origin:center}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .lynx-twinkle{animation:lynxTwinkle var(--twinkle-duration,3s) ease-in-out var(--twinkle-delay,0s) infinite}
 @keyframes lynxTwinkle{0%,100%{opacity:.06;transform:scale(.7)}35%,45%{opacity:1;transform:scale(1.25)}75%{opacity:.18;transform:scale(.85)}}
-.cfx-lynx.revealing .lynx-reveal{animation:lynxReveal .9s ease both}
-.cfx-lynx.revealing .lynx-rim{animation:lynxRimReveal .9s ease both}
+.lynx-shadow{opacity:.14;filter:grayscale(.8) brightness(.65)}
+.lynx-region-wave{animation:lynxRegionWave 1.25s ease-in-out var(--region-delay,0s) both}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-body{animation:lynxBreathBody 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:filter}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-rim{animation:lynxBreathRim 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
@@ -93,8 +93,7 @@
 .lynx-bloom{animation:lynxBloom 2.8s ease-out var(--lynx-fx-delay,0s) both}
 .lynx-sweep{animation:lynxSweep 1.8s ease-in-out calc(var(--lynx-fx-delay,0s) + .3s) both}
 .lynx-glint{opacity:0;animation:lynxGlint 1.3s ease var(--glint-delay,.95s) both}
-@keyframes lynxReveal{from{opacity:var(--lynx-from)}to{opacity:var(--lynx-p)}}
-@keyframes lynxRimReveal{from{opacity:var(--lynx-rim-from)}to{opacity:var(--lynx-rim)}}
+@keyframes lynxRegionWave{from{r:0}to{r:var(--region-radius)}}
 @keyframes lynxBreathAura{0%,100%{opacity:.32}25%{opacity:.85}75%{opacity:.025}}
 @keyframes lynxBreathBody{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.24) saturate(1.12)}75%{filter:brightness(.78) saturate(1)}}
 @keyframes lynxBreathRim{0%,100%{opacity:.58}25%{opacity:1}75%{opacity:.12}}
