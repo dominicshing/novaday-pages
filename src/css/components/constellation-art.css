@@ -77,6 +77,9 @@
 
 /* 圓潤幼貓固定不縮放：只有光的強弱改變，大圖才持續呼吸，小卡與分享圖保持靜態。 */
 .cfx-lynx{pointer-events:none}
+.lynx-twinkles{pointer-events:none}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .lynx-twinkle{animation:lynxTwinkle var(--twinkle-duration,5s) ease-in-out var(--twinkle-delay,0s) infinite}
+@keyframes lynxTwinkle{0%,100%{opacity:.12}45%{opacity:.85}70%{opacity:.25}}
 .cfx-lynx.revealing .lynx-reveal{animation:lynxReveal .9s ease both}
 .cfx-lynx.revealing .lynx-rim{animation:lynxRimReveal .9s ease both}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}

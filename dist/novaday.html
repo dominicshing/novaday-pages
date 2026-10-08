@@ -958,6 +958,9 @@ html{overflow:hidden}
 
 /* 圓潤幼貓固定不縮放：只有光的強弱改變，大圖才持續呼吸，小卡與分享圖保持靜態。 */
 .cfx-lynx{pointer-events:none}
+.lynx-twinkles{pointer-events:none}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .lynx-twinkle{animation:lynxTwinkle var(--twinkle-duration,5s) ease-in-out var(--twinkle-delay,0s) infinite}
+@keyframes lynxTwinkle{0%,100%{opacity:.12}45%{opacity:.85}70%{opacity:.25}}
 .cfx-lynx.revealing .lynx-reveal{animation:lynxReveal .9s ease both}
 .cfx-lynx.revealing .lynx-rim{animation:lynxRimReveal .9s ease both}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-lynx.full .lynx-aura{animation:lynxBreathAura 5s ease-in-out var(--lynx-delay,0s) infinite;will-change:opacity}
@@ -4628,11 +4631,15 @@ function lynxFig(W,H,p=1,aw,from){const n=++FIGN,q=Math.max(0,Math.min(1,p)),ful
     <g clip-path="url(#${clip})">
     <g class="lynx-aura" opacity="0" filter="url(#${aura})"><use href="#${image}"/></g>
     ${aw&&!reduce?`<ellipse class="lynx-fx lynx-bloom" cx="206" cy="154" rx="168" ry="116" fill="url(#${bloom})"/>`:''}
-    <g class="lynx-reveal" opacity="${q}"><g class="lynx-body"><image id="${image}" href="${LYNX_ART}" width="380" height="300" preserveAspectRatio="xMidYMid meet"/></g></g>
+    <g class="lynx-reveal" opacity="${q}"><g class="lynx-body"><image id="${image}" href="${LYNX_ART}" width="380" height="300" preserveAspectRatio="xMidYMid meet"/></g>${q?lynxTwinkles(mask):''}</g>
     <g class="lynx-rim" opacity="${.58*Math.pow(q,1.7)}" filter="url(#${rim})"><use href="#${image}"/></g>
     ${aw&&!reduce?`<g class="lynx-fx" mask="url(#${mask})"><g class="lynx-sweep"><rect x="-130" y="-100" width="105" height="520" fill="url(#${sweep})" transform="rotate(-18 190 150)"/></g></g>
     <g class="lynx-fx lynx-eyes">${[[280.9,98.3],[328.5,115.1]].map(([x,y],i)=>`<path class="lynx-glint" d="${sp4(x,y,2.65)}" fill="#F3FFFD" style="--glint-delay:${d0+.95+i*.14}s"/>`).join('')}</g>`:''}
     ${fx?lynxSparkFx(Math.max(1,Math.round(q*6)),n,d0,!!aw):''}</g></g>`}
+/* 細小星塵位置固定、錯開閃爍；避開六顆主星，透明遮罩限制在幼貓身上。 */
+function lynxTwinkles(mask){const points=[[73,146],[68,160],[104,163],[128,148],[154,151],[182,143],[209,132],[226,159],[199,174],[145,182],[110,197],[137,213],[183,217],[212,204],[243,188],[263,210],[168,254],[66,268],[88,285],[266,83],[292,67],[315,84],[340,91],[331,178]],P=conProj('Lyn',380,300,46),rng=seedRng('lynx-twinkles');
+  return `<g class="lynx-twinkles" mask="url(#${mask})">${points.filter(([x,y])=>P.every(([px,py])=>Math.hypot(x-px,y-py)>9)).map(([x,y],i)=>{const r=.35+rng()*.3,d=4+rng()*3,delay=-rng()*7;
+    return `<g class="lynx-twinkle" opacity=".2" fill="${i%3===0?'#FFE7C0':'#D9FFF8'}" style="--twinkle-duration:${d.toFixed(2)}s;--twinkle-delay:${delay.toFixed(2)}s">${i%3===0?`<path d="${sp4(x,y,r*1.4)}"/>`:`<circle cx="${x}" cy="${y}" r="${r.toFixed(2)}"/>`}</g>`}).join('')}</g>`}
 function lynxSparkFx(count,n,d0,full){const P=conProj('Lyn',380,300,46),rng=seedRng('kitten-magic-'+count),B=P[count-1];let g='';
   if(count>1){const A=P[count-2];g+=`<path class="lynx-energy" d="M${A} L${B}" pathLength="1" fill="none" stroke="#F2FFF7" stroke-width="1.3" stroke-linecap="round"/>`}
   for(let j=0;j<(full?38:22);j++){const a=P[j%3===0?Math.floor(rng()*count):count-1],x=a[0]+(rng()-.5)*64,y=a[1]+(rng()-.5)*48,angle=rng()*Math.PI*2,d=42+rng()*64;
