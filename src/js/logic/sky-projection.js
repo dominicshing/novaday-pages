@@ -50,6 +50,11 @@ const ascEntries=l=>(l||entries).slice().sort((a,b)=>(a.date+(a.time||'')+a.id).
 function consState(list){const order=prof.conOrder||(prof.conOrder=[]);let rem=list.length,i=0,changed=false;const done=[];
   for(;;){if(i>=order.length){const nx=pickNext(order);if(!nx){if(changed)saveProf();return{done,cur:null,lit:0,off:list.length}}order.push(nx);changed=true;if(nx===prof.nextPick)prof.nextPick=null}
     const n=CON[order[i]].s.length;if(rem>=n){done.push(order[i]);rem-=n;i++}else break}
+  /* 使用者指定的下一個優先於刪除紀錄等操作留下的未開始順序。
+     只整理實際紀錄的排程；成就／歷史查詢較短的清單不能改動目前星座。 */
+  if(list.length===entries.length&&prof.nextPick&&CON[prof.nextPick]){
+    if(done.includes(prof.nextPick)||order[i]===prof.nextPick){prof.nextPick=null;changed=true}
+    else if(order.length>i+1){order.splice(i+1);changed=true}}
   if(changed)saveProf();return{done,cur:order[i],lit:rem,off:list.length-rem}}
 function conEntries(k){const st=consState(entries),A=ascEntries();let off=0;
   for(const d of st.done){const n=CON[d].s.length;if(d===k)return A.slice(off,off+n);off+=n}
