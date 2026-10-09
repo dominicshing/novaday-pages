@@ -4,8 +4,8 @@ function conCenter(k){const c=CON[k];let x=0,y=0,z=0;c.s.forEach(([r,d])=>{const
   const n=Math.hypot(x,y,z);return{ra:((Math.atan2(y,x)/D2R/15)+24)%24,dec:Math.asin(z/n)/D2R}}
 /* 以星座中心做切平面投影，北上東左，等比縮放塞進方框 */
 function conProj(k,W,H,pad){const key=k+W+'x'+H+'p'+pad;if(PROJ[key])return PROJ[key];const c=CON[k],cc=conCenter(k),a0=cc.ra*15*D2R,d0=cc.dec*D2R;
-  /* 幼貓與星線共用已確認的 380×300 畫框，各尺寸等比縮放，避免不同邊距讓星線移出圖案。 */
-  if(k==='Lyn'&&(W!==380||H!==300||pad!==46)){const s=Math.min(W/380,H/300),x=(W-380*s)/2,y=(H-300*s)/2;
+  /* 透明插畫與星線共用已確認的 380×300 畫框，各尺寸等比縮放，避免不同邊距讓星線移出圖案。 */
+  if((k==='Lyn'||k==='Psc')&&(W!==380||H!==300||pad!==46)){const s=Math.min(W/380,H/300),x=(W-380*s)/2,y=(H-300*s)/2;
     return PROJ[key]=conProj(k,380,300,46).map(([a,b])=>[+(x+a*s).toFixed(2),+(y+b*s).toFixed(2)])}
   const P=c.s.map(([r,d])=>{const a=r*15*D2R,b=d*D2R,q=Math.sin(d0)*Math.sin(b)+Math.cos(d0)*Math.cos(b)*Math.cos(a-a0);
     return[-Math.cos(b)*Math.sin(a-a0)/q,-(Math.cos(d0)*Math.sin(b)-Math.sin(d0)*Math.cos(b)*Math.cos(a-a0))/q]});

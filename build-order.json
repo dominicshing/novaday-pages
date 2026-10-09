@@ -75,6 +75,7 @@
     "src/js/screens/home/hud.js",
     "src/js/logic/sky-projection.js",
     "src/js/ui/art/lynx-figure.js",
+    "src/js/ui/art/pisces-figure.js",
     "src/js/data/constellation-figures.js",
     "src/js/ui/art/constellation-map.js",
     "src/js/screens/atlas/atlas.js",

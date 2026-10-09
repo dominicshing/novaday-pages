@@ -109,3 +109,15 @@
 #device.calm .cfx-lynx *{animation:none!important}
 #device.calm .lynx-aura,#device.calm .lynx-fx{display:none}
 @media(prefers-reduced-motion:reduce){.cfx-lynx *{animation:none!important}.lynx-aura,.lynx-fx{display:none}}
+
+/* 星河雙魚：細星閃爍與柔和分區揭露，身體保持固定尺寸。 */
+.cfx-pisces{pointer-events:none}
+.pisces-twinkle{transform-box:fill-box;transform-origin:center}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .pisces-twinkle{animation:piscesTwinkle var(--twinkle-duration,3s) ease-in-out var(--twinkle-delay,0s) infinite}
+.pisces-region-wave{animation:piscesRegionWave 1.8s cubic-bezier(.22,.61,.36,1) var(--region-delay,0s) both}
+:where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cfx-pisces.full .pisces-body{animation:piscesBreath 5s ease-in-out var(--pisces-delay,0s) infinite}
+@keyframes piscesTwinkle{0%,100%{opacity:.06;transform:scale(.75)}35%,45%{opacity:.95;transform:scale(1.15)}75%{opacity:.18;transform:scale(.85)}}
+@keyframes piscesRegionWave{from{r:0}to{r:var(--region-radius)}}
+@keyframes piscesBreath{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.15) saturate(1.08)}75%{filter:brightness(.86) saturate(1)}}
+#device.calm .cfx-pisces *{animation:none!important}
+@media(prefers-reduced-motion:reduce){.cfx-pisces *{animation:none!important}}

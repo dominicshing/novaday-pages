@@ -94,6 +94,9 @@
 @keyframes lynxBloom{0%{opacity:0}22%{opacity:.9}100%{opacity:0}}
 @keyframes lynxSweep{0%{transform:translateX(0);opacity:0}18%{opacity:.9}85%{opacity:.4}100%{transform:translateX(570px);opacity:0}}
 @keyframes lynxGlint{0%,100%{opacity:0}24%{opacity:.95}45%{opacity:.15}64%{opacity:.6}85%{opacity:.08}}
+@keyframes piscesTwinkle{0%,100%{opacity:.06;transform:scale(.75)}35%,45%{opacity:.95;transform:scale(1.15)}75%{opacity:.18;transform:scale(.85)}}
+@keyframes piscesRegionWave{from{r:0}to{r:var(--region-radius)}}
+@keyframes piscesBreath{0%,100%{filter:brightness(1) saturate(1)}25%{filter:brightness(1.15) saturate(1.08)}75%{filter:brightness(.86) saturate(1)}}
 
 /* src/css/components/celebrations.css */
 @keyframes fadeA {to{opacity:1}}

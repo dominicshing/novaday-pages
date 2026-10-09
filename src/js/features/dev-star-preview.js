@@ -25,7 +25,7 @@ function devStarOpen(k=$('dvStarPick').value){const s=DV_STAR;s.k=CON[k]?k:'Lyn'
 async function devStarAdvance(){const s=DV_STAR;if(!s.active||s.busy||s.n>=CON[s.k].s.length)return;
   const run=s.run,mood=+$('dvStarMood').value;s.busy=true;s.samples[s.n].mood=mood;s.n++;if(!devStarReduced())$('dvStarFig').classList.add('arriving');devStarRender({hold:true});
   const cancelled=()=>!s.active||s.run!==run;
-  try{await launch(mood,{gal:$('dvStarFig'),button:$('dvStarNext'),preview:true,reduced:devStarReduced(),cancelled});if(!cancelled()){devStarRender({celebrate:s.n===CON[s.k].s.length});if(s.k==='Lyn'&&!devStarReduced())await sleep(1800)}}
+  try{await launch(mood,{gal:$('dvStarFig'),button:$('dvStarNext'),preview:true,reduced:devStarReduced(),cancelled});if(!cancelled()){devStarRender({celebrate:s.n===CON[s.k].s.length});if(['Lyn','Psc'].includes(s.k)&&!devStarReduced())await sleep(1800)}}
   finally{if(s.run===run){s.busy=false;devStarControls()}}}
 async function devStarPlay(){const s=DV_STAR;if(s.playing){s.playing=false;s.sequence++;devStarControls();return}if(s.busy||!s.active)return;
   if(s.n>=CON[s.k].s.length)devStarReset();s.playing=true;const sequence=++s.sequence;devStarControls();

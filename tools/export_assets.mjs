@@ -50,7 +50,7 @@ const D = await page.evaluate(() => {
       for (const key in c) if (!['n', 'la', 'f', 's', 'l', 'z'].includes(key)) extra[key] = c[key];
       return [k, { abbr: k, name_zh: c.n, name_latin: c.la, zodiac: ZODIAC.some(z => z.k === k), fact: c.f,
         stars: c.s.map(([ra, dec, mag]) => ({ ra_hours: ra, dec_deg: dec, mag })), lines: c.l, ...extra,
-        figure: X ? { style: X.art ? 'image' : X.dust ? 'dust' : 'outline', ...(X.art ? {image_data_url:LYNX_ART,reference_frame:[380,300],progress_reveal:{type:'nearest-star-soft-mask',feather:24,duration_ms:1800,unlit_opacity:.14,unlit_brightness:.65,unlit_grayscale:.8},breathing_seconds:5} : {}), ...(X.align ? { align: X.align } : {}), ref_points: X.ref, body_path: X.body, eye: X.eye || null, eye2: X.eye2 || null, eyes: X.eyes || null, eye_r: X.er || null } : null }] })),
+        figure: X ? { style: X.art ? 'image' : X.dust ? 'dust' : 'outline', ...(X.art ? {image_data_url:k==='Psc'?PISCES_ART:LYNX_ART,reference_frame:[380,300],progress_reveal:{type:'nearest-star-soft-mask',feather:24,duration_ms:1800,unlit_opacity:.14,unlit_brightness:.65,unlit_grayscale:.8},breathing_seconds:5} : {}), ...(X.align ? { align: X.align } : {}), ref_points: X.ref, body_path: X.body, eye: X.eye || null, eye2: X.eye2 || null, eyes: X.eyes || null, eye_r: X.er || null } : null }] })),
     achievements: {
       categories: ACH_CAT.map(([key, name_zh, subtitle_zh, icon_svg_inner]) => ({ key, name_zh, subtitle_zh, icon_svg_inner })),
       crystal_colors: CR_COL, crystal_star_path_100: CR_STAR,
@@ -118,6 +118,9 @@ await page.evaluate(() => {
       const tag = el.tagName, cs = getComputedStyle(el);
       /* 幼貓為內嵌透明圖；Flutter 使用原圖，光暈和呼吸由 App 動畫重現。 */
       // 匯出端只有全亮／未亮兩種；未亮保留淡剪影，不輸出被遮住的本體。
+      if(el.classList.contains('pisces-regional')&&el.dataset.lit==='0')return '';
+      if(el.classList.contains('pisces-shadow'))return el.closest('.cfx-pisces').classList.contains('full')?'':`<image href="${PISCES_ART}" width="380" height="300" preserveAspectRatio="none" opacity=".09"/>`;
+      if(el.classList.contains('pisces-twinkles'))return '';
       if(el.classList.contains('lynx-regional')&&el.dataset.lit==='0')return '';
       if(el.classList.contains('lynx-shadow'))return el.closest('.cfx-lynx').classList.contains('full')?'':`<image href="${LYNX_ART}" width="380" height="300" opacity=".09"/>`;
       if(el.classList.contains('lynx-rim')||el.classList.contains('lynx-aura')||el.classList.contains('lynx-fx'))return '';
