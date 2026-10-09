@@ -25,7 +25,7 @@
 
 - **執行**：在這個資料夾執行 `python3 -m http.server 8000`，再打開 http://localhost:8000（也可以直接用瀏覽器打開 `index.html`）。
 - **單檔版**：改完原始碼後執行 `npm run build`，重新產生 `dist/novaday.html`。
-- **測試**：`npm install` 後執行 `npm test`。
+- **測試**：`npm install` 後執行 `npm test`。完整星座插畫驗收可執行 `ART_REQUIRE_COMPLETE=1 npm test constellation-library`，檢查全部 88 座的透明圖像、星數、分區揭露、跨尺寸對位、分享與匯出素材，以及完成收藏與單檔版流程。
 - 程式結構、載入順序、資料存在哪裡、怎麼新增功能，都寫在 [docs/architecture.md](docs/architecture.md)。
 - 範例紀錄的照片取自 Wikimedia Commons（CC0）、影片取自 Mixkit（免費授權），來源列在 [docs/sample-media-credits.md](docs/sample-media-credits.md)。
 
@@ -41,7 +41,7 @@
 | `svg/achievement_icons_locked/` | 54 個成就徽章圖示（未解鎖、灰紫配色） |
 | `svg/zodiac_glyphs/` | 12 個黃道星座符號，另有 `_zodiac_ring.svg` 轉動環 |
 | `svg/mood_stars/` | 5 個心情星星（mood_0 很低落 … mood_4 很棒） |
-| `svg/constellations/lit/` | 88 個星座圖：全部點亮，完整的星座剪影（星塵、星雲、閃爍、眼睛） |
+| `svg/constellations/lit/` | 88 個星座圖：全部點亮，內嵌透明插畫與對應星點、連線 |
 | `svg/constellations/unlit/` | 88 個星座圖：未點亮，剪影只剩淡淡的影子 |
 | `svg/ui_icons/` | 99 個介面圖示：分頁列、按鈕、設定分類與各列、開發者工具等。`_index.json` 對照每個圖示的中文用途 |
 | `svg/brand/novaday_logo.svg` | App Logo |
@@ -54,8 +54,8 @@
 ### 資料檔 `data/`
 
 - `constellations.json`：88 個 IAU 星座，包含中文名、拉丁名、是否黃道、小知識。星星以 [赤經時, 赤緯度, 星等] 表示，另有連線索引和星座剪影。
-  - `figure.style` 多數是 `dust`（星塵剪影，預設在畫框內自行置中縮放）；天貓座，以及一月、十月、十一月、十二月的全部星座是 `image`，使用各自的透明插畫。`image_data_url` 為內嵌圖像，`reference_frame` 為 `[380,300]`，圖案與星點按同一畫框等比縮放。未點亮時保留 14% 的低亮度剪影，點亮後依最近的已亮／未亮主星距離，以 24px 柔邊逐區揭露；新增星星時從該主星向外擴散 1.8 秒。`progress_reveal` 記錄遮罩與底影設定，全亮後以 5 秒循環呼吸：幼貓同步改變光暈、輪廓與圖像亮度；其餘透明插畫改變圖像亮度。圖案大小固定。其他星塵輪廓仍可設定 `figure.align: "stars"`，依 `ref_points` 與投影星點共同縮放、平移。程式仍支援 `outline`（一般剪影，依星點位置對齊）。
-  - `figure.eye` 是眼睛位置 `[x, y]`；俯視的圖案（例如蝎虎座的壁虎）另有第二隻眼睛 `figure.eye2`；超過兩隻（例如雙子座的雙胞胎）其餘放在 `figure.eyes` 陣列；`figure.eye_r` 是放大的眼睛半徑（可愛造型用，預設星塵 2.4、一般 2.2）。沒有就是 `null`。
+  - `figure.style` 全部是 `image`，88 個星座各自使用獨立的透明插畫。`image_data_url` 為內嵌圖像，`reference_frame` 為 `[380,300]`，圖案與星點按同一畫框等比縮放。未點亮時保留 14% 的低亮度剪影，點亮後依最近的已亮／未亮主星距離，以 24px 柔邊逐區揭露；新增星星時從該主星向外擴散 1.8 秒。`progress_reveal` 記錄遮罩與底影設定，全亮後以 5 秒循環呼吸：幼貓同步改變光暈、輪廓與圖像亮度；其餘透明插畫改變圖像亮度。圖案大小固定。其他星塵輪廓仍可設定 `figure.align: "stars"`，依 `ref_points` 與投影星點共同縮放、平移。程式仍支援 `outline`（一般剪影，依星點位置對齊）。
+  - 舊版剪影相容欄位 `figure.eye` 是眼睛位置 `[x, y]`；俯視的圖案（例如蝎虎座的壁虎）另有第二隻眼睛 `figure.eye2`；超過兩隻（例如雙子座的雙胞胎）其餘放在 `figure.eyes` 陣列；`figure.eye_r` 是放大的眼睛半徑（可愛造型用，預設星塵 2.4、一般 2.2）。沒有就是 `null`。
 - `zodiac.json`：12 星座的日期、元素、關鍵字、性格描述和符號路徑。
 - `fortune_texts.json`：每月運勢文字庫。原始的產生演算法（`seedRng`）也附在裡面，要在 Flutter 得到相同結果，必須照原樣移植。
 - `moods.json`：5 種心情的名稱和顏色。
@@ -135,12 +135,9 @@ flutter:
   - `achievements.json` 裡的 `crystal_star_path_100`（16 角星外框）和 `crystal_colors`
   - `src/css/components/badges.css` 的 `.fc` 樣式
 
-- **二月至九月重繪進度**：`src/js/ui/art/remaining-art.js` 已收錄 41／57 個其餘星座，沿用相同的分區揭露、細星閃爍與完成收藏流程。
-- **透明插畫來源**：十月星座在 `src/js/ui/art/october-art.js`，十一月新增插畫在 `src/js/ui/art/november-art.js`，十二月插畫在 `src/js/ui/art/december-art.js`，一月插畫在 `src/js/ui/art/january-art.js`；這些插畫與雙魚共用 `src/js/ui/art/constellation-image.js` 的分區揭露、微星閃爍與呼吸效果。每個星座依自己的主星位置、點亮順序及星數計算遮罩，首頁、圖鑑、完成卡片及分享圖使用同一座標框。
-- **剪影隨點亮進度成形**：設進度 p＝已點亮顆數 ÷ 星數（0–1），依 `dustFig()`、`customFig0()`（`src/js/data/constellation-figures.js`）：
-  - 星塵剪影：外圍星雲、內部星雲、18px 寬光暈的透明度乘上 p；填色 0.14→0.3、6px 光暈 0.14→0.4、細輪廓 0.42→0.9 隨 p 線性增加；星塵粒子只顯示 rank < p 的部分（rank 由 `seedRng(k+'-rank')` 依序產生）。p＜1 時沒有閃爍亮星和眼睛，也不游動。
-  - 一般剪影：p＜1 時填色透明度 0.4＋0.45p，沒有影子、柔光和眼睛。
-  - 完成動畫（點睛）：光從每顆星依點亮順序先亮起一小圈、再擴散到整個剪影（`awakeMask()`），之後眼睛放大、眨一下亮起（`cfxEye`）。
+- **星座插畫完成度**：全部 88／88 個星座已使用各自的透明插畫。`src/js/ui/art/remaining-art.js` 收錄二月至九月其餘 57 座，天貓座保留獨立版本。
+- **透明插畫來源**：十月星座在 `src/js/ui/art/october-art.js`，十一月新增插畫在 `src/js/ui/art/november-art.js`，十二月插畫在 `src/js/ui/art/december-art.js`，一月插畫在 `src/js/ui/art/january-art.js`，二月至九月其餘插畫在 `src/js/ui/art/remaining-art.js`；這些插畫與雙魚共用 `src/js/ui/art/constellation-image.js` 的分區揭露、微星閃爍與呼吸效果。每個星座依自己的主星位置、點亮順序及星數計算遮罩，首頁、圖鑑、完成卡片及分享圖使用同一座標框。
+- **插畫隨點亮進度成形**：未點亮時顯示淡剪影；每顆主星點亮後向外擴散，揭露對應區域。最後一顆星完成後先顯示完整收藏卡片，收進圖鑑後才切換下一座。啟用「減少動態效果」時顯示靜態插畫。`dustFig()` 與一般剪影渲染仍保留為舊版相容實作。
 - **星座圖**：用 `conProj()` 把赤經和赤緯投影到畫面座標，演算法在 `src/js/logic/sky-projection.js`；畫圖在 `src/js/ui/art/constellation-map.js`，剪影在 `src/js/data/constellation-figures.js`。
 - **遊戲邏輯**：
   - XP、等級、連續天數：`src/js/logic/xp-streak.js`

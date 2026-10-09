@@ -25,7 +25,13 @@ export default async ({ ok, open, run }) => {
   await run(p, 'openEditor()'); await p.waitForTimeout(500);
   await p.fill('#fTitle', '測試紀錄'); await p.fill('#fBody', '今天天氣很好。');
   await run(p, "document.getElementById('form').requestSubmit()"); await p.waitForTimeout(2500);
-  for (const id of ['cdOk', 'lvUpOk']) await p.evaluate(id => { const b = document.getElementById(id); if (b && b.offsetParent) b.click() }, id);
+  // 完成星座時須等最後一區揭露與收藏卡片出現，才能再次開啟編輯器。
+  await p.waitForFunction(() => !finishingCon || document.getElementById('conDone').classList.contains('show'));
+  if (await p.locator('#conDone').evaluate(el => el.classList.contains('show'))) {
+    await p.locator('#cdOk').click();
+    await p.waitForFunction(() => !finishingCon);
+  }
+  await p.evaluate(() => { const b = document.getElementById('lvUpOk'); if (b && b.offsetParent) b.click() });
   ok(await p.evaluate(n => entries.length === n + 1 && entries.some(e => e.title === '測試紀錄'), n0), '新增紀錄並存檔');
   ok(await p.evaluate(() => JSON.parse(localStorage.getItem('orbitlog.entries.v1')).some(e => e.title === '測試紀錄')), '紀錄寫進 localStorage');
 
