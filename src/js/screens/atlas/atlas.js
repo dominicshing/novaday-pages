@@ -1,9 +1,10 @@
 /* 星座圖鑑與星座詳情的切換 */
 function atlasCard(k,st,sub2){const c=CON[k],done=st.done.includes(k),isCur=k===st.cur,lit=done?c.s.length:isCur?st.lit:0;
   const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMDY(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
-  const badge=done?'<i class="at-bd ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i>':isCur?'<i class="at-bd now" aria-hidden="true"></i>':prof.nextPick===k?'<i class="at-tag nx">下一個</i>':'';
+  const badge=done?'':isCur?'<i class="at-bd now" aria-hidden="true"></i>':prof.nextPick===k?'<i class="at-tag nx">下一個</i>':'';
+  const status=done?`<small class="at-completion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg><span>${sub}</span></small>`:`<small>${sub}</small>`;
   const mine=signIdx(prof.birthday),mineTag=mine>=0&&ZODIAC[mine].k===k?'<i class="at-tag me">你的星座</i>':'';
-  return `<button type="button" class="at-card ${done?'done':isCur?'cur':'lock'}" data-k="${k}" aria-label="${c.n}，${done?'已點亮':isCur?`點亮中 ${st.lit} / ${c.s.length}`:'尚未點亮'}">${badge}${mineTag}<svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,12,lit,done||isCur?conEntries(k):null,{sc:.6})}</svg><b>${c.n}</b><small>${sub}</small>${atDots(k,st)}</button>`}
+  return `<button type="button" class="at-card ${done?'done':isCur?'cur':'lock'}" data-k="${k}" aria-label="${c.n}，${done?'已點亮':isCur?`點亮中 ${st.lit} / ${c.s.length}`:'尚未點亮'}">${badge}${mineTag}<svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,12,lit,done||isCur?conEntries(k):null,{sc:.6})}</svg><b>${c.n}</b>${status}${atDots(k,st)}</button>`}
 /* 本月夜空：晚上九點左右位在南方高空的星座 */
 function skyList(m){const lat=regLat(),alt=k=>lat==null?90-Math.abs(conCenter(k).dec):maxAlt(k,lat);
   return Object.keys(CON).filter(k=>conSeason(k).m===m&&(lat==null?Math.abs(conCenter(k).dec)<60:alt(k)>=15)).sort((a,b)=>(CON[b].fm?1:0)-(CON[a].fm?1:0)||alt(b)-alt(a))}
