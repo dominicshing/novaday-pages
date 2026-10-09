@@ -134,6 +134,8 @@ flutter:
   未解鎖徽章的「進度液面」和各種動畫是動態的，SVG 裡沒有。需要時可以參考下面兩個來源，用 `CustomPainter` 重畫：
   - `achievements.json` 裡的 `crystal_star_path_100`（16 角星外框）和 `crystal_colors`
   - `src/css/components/badges.css` 的 `.fc` 樣式
+
+- **二月至九月重繪進度**：`src/js/ui/art/remaining-art.js` 已收錄 11／57 個其餘星座，沿用相同的分區揭露、細星閃爍與完成收藏流程。
 - **透明插畫來源**：十月星座在 `src/js/ui/art/october-art.js`，十一月新增插畫在 `src/js/ui/art/november-art.js`，十二月插畫在 `src/js/ui/art/december-art.js`，一月插畫在 `src/js/ui/art/january-art.js`；這些插畫與雙魚共用 `src/js/ui/art/constellation-image.js` 的分區揭露、微星閃爍與呼吸效果。每個星座依自己的主星位置、點亮順序及星數計算遮罩，首頁、圖鑑、完成卡片及分享圖使用同一座標框。
 - **剪影隨點亮進度成形**：設進度 p＝已點亮顆數 ÷ 星數（0–1），依 `dustFig()`、`customFig0()`（`src/js/data/constellation-figures.js`）：
   - 星塵剪影：外圍星雲、內部星雲、18px 寬光暈的透明度乘上 p；填色 0.14→0.3、6px 光暈 0.14→0.4、細輪廓 0.42→0.9 隨 p 線性增加；星塵粒子只顯示 rank < p 的部分（rank 由 `seedRng(k+'-rank')` 依序產生）。p＜1 時沒有閃爍亮星和眼睛，也不游動。
