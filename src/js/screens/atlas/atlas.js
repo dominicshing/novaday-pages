@@ -12,7 +12,7 @@ let atTab='month',atQ='',atMon=0;
 /* 目前星座完成後，接下來會點亮哪一個（不改動資料，只預覽） */
 function nextPreview(st){if(!st.cur)return null;const order=prof.conOrder||[],i=order.indexOf(st.cur);return order[i+1]||pickNext(order.slice(0,i+1))}
 /* 卡片下方的星點：已點亮的星用當時的心情色 */
-function atDots(k,st){const n=CON[k].s.length,es=k===st.cur||st.done.includes(k)?conEntries(k):[];if(!es.length||n>12)return '';
+function atDots(k,st){const n=CON[k].s.length,es=k===st.cur||st.done.includes(k)?conEntries(k):[];if(!es.length)return '';
   return `<span class="at-dots" aria-hidden="true">${Array.from({length:n},(_,j)=>j<es.length?`<i style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:'<i></i>').join('')}</span>`}
 function renderAtlas(){const st=consState(entries),M=new Date().getMonth()+1,N=st.done.length,pct=N/88;
   const rest=Object.keys(CON).filter(k=>!st.done.includes(k)&&k!==st.cur).sort((a,b)=>conScore(a,9)-conScore(b,9));

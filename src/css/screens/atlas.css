@@ -93,8 +93,8 @@
 .ah-foot{display:flex;justify-content:space-between;gap:10px;margin:8px 4px 0;font-size:12px;color:var(--muted)}
 .ah-foot b{color:var(--text);font-weight:700}
 .ah-cur span{color:var(--ion)!important}
-.at-dots{display:flex;justify-content:center;gap:3px;margin-top:5px}
-.at-dots i{width:5px;height:5px;border-radius:50%;background:rgba(232,233,255,.18)}
+.at-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;margin-top:5px}
+.at-dots i{flex:none;width:5px;height:5px;border-radius:50%;background:rgba(232,233,255,.18)}
 .at-dots i[style]{background:var(--c);box-shadow:0 0 4px var(--c)}
 .at-card{content-visibility:auto;contain-intrinsic-size:auto 150px}
 .at-note{margin-top:12px}
