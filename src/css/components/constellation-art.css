@@ -24,6 +24,7 @@
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
+#gal.completing .cstar.fresh .ring{animation-iteration-count:1;animation-fill-mode:both}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
 .app.calm .cstar .st,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}

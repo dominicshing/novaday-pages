@@ -905,6 +905,7 @@ html{overflow:hidden}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .cu{animation:cuSoft 4.2s ease-in-out var(--d,0s) infinite}
 #gal .cstar.fresh{transition:opacity .25s}
 #gal.arriving .cstar.fresh{opacity:0}
+#gal.completing .cstar.fresh .ring{animation-iteration-count:1;animation-fill-mode:both}
 .cstar.fresh .ring{transform-box:fill-box;transform-origin:center;animation:fresh 1.6s ease-out 3}
 .nextring{transform-box:fill-box;transform-origin:center;animation:nextp 2.2s ease-in-out infinite}
 .app.calm .cstar .st,.app.calm .cstar .halo,.app.calm .cu,.app.calm .nextring{animation:none}
@@ -4885,29 +4886,31 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
   return g}
 /* 88 個星座都點亮後，星空頁每天輪流回顧一個已完成的星座（依完成順序），不留白 */
 function reviewCon(st){const d=new Date(),day=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return st.done[day%st.done.length]}
-function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
+/* 日記已儲存時，首頁仍保留完成中的星座，直到收進圖鑑的卡片關閉。 */
+let finishingCon=null;
+function renderGalaxy(){const st=finishingCon?.state||consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){const k=reviewCon(st),c=CON[k],n=c.s.length,es=conEntries(k),last=es[es.length-1];
     $('skyK').textContent='全部完成';$('conName').textContent=c.n;$('conLatin').textContent=`${c.la}・今天回顧的星座`;
     svg.innerHTML=conSVG(k,380,300,46,n,es,{bg:70,sc:1.25});svg.setAttribute('aria-label',`${c.n}，${n} 顆星都已點亮`);
     $('skyDots').innerHTML=conOrd(k).map((_,j)=>`<i class="on" style="--c:var(${MOODS[(es[j]||{}).mood??2].c})"></i>`).join('');
     $('gcap').innerHTML=`<span>全天 88 個星座都已點亮・這是你在${last?fmtMDY(parse(last.date)):''}完成的${c.n}</span>`;
     bindGalStars(svg);return}
-  $('skyK').textContent='正在點亮';
+  $('skyK').textContent=finishingCon?.arrived?'已完成':'正在點亮';
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
   $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
-  const figP=st.lit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
-  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figFrom});
+  const visualLit=finishingCon?.visualLit??st.lit,figP=visualLit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
+  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figP,figFrom});
   svg.dataset.figureKey=st.cur;svg.dataset.figureProgress=figP;
-  svg.setAttribute('aria-label',`${c.n}，已點亮 ${st.lit} / ${n} 顆星`);
-  const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<st.lit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===st.lit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
-  $('gcap').innerHTML=`<span>${st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
+  svg.setAttribute('aria-label',`${c.n}，已點亮 ${visualLit} / ${n} 顆星`);
+  const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<visualLit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===visualLit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
+  $('gcap').innerHTML=`<span>${finishingCon?(finishingCon.arrived?`已點亮全部 ${n} 顆星・${c.n}完成了`:'正在點亮最後一顆星…'):st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
   bindGalStars(svg)}
 function bindGalStars(svg){svg.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=ev=>{ev.stopPropagation();openDetail(el.dataset.id)};
     el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openDetail(el.dataset.id)}}})}
 function placeGal(){}
 function galStart(){}
 function galStop(){}
-$('gal').addEventListener('click',ev=>{if(ev.target.closest('.cstar[data-id]'))return;const st=consState(entries);openCon(st.cur||reviewCon(st))});
+$('gal').addEventListener('click',ev=>{if(ev.target.closest('.cstar[data-id]'))return;const st=finishingCon?.state||consState(entries);openCon(st.cur||reviewCon(st))});
 /* 星座圖鑑與星座詳情的切換 */
 function atlasCard(k,st,sub2){const c=CON[k],done=st.done.includes(k),isCur=k===st.cur,lit=done?c.s.length:isCur?st.lit:0;
   const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMDY(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
@@ -6198,7 +6201,7 @@ function noFuture(quiet){const n=new Date(),td=ymd(n),now=pad(n.getHours())+':'+
   fd.max=td;if(fd.value&&fd.value>td){fd.value=td;msg='不能寫未來的日記，已改成今天'}
   ft.max=fd.value===td?now:'';if(fd.value===td&&ft.value&&ft.value>now){ft.value=now;msg=msg||'時間不能晚於現在，已改成現在'}
   if(msg){if(!quiet)toast(msg,2600);updWhen();return false}return true}
-function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
+function openEditor(id,usePrompt,presetDate){if(finishingCon)return;setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
   $('fDate').value=e?e.date:(presetDate||ymd(n));$('fTime').value=e?(e.time||''):pad(n.getHours())+':'+pad(n.getMinutes());
   $('fTitle').value=e?e.title:'';$('fBody').value=e?e.body:'';$('fTags').value=e?(e.tags||[]).join(', '):'';$('fLoc').value=e?(e.loc||''):'';
@@ -6267,16 +6270,27 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
-  const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
+  const before=entries.slice(),conBefore=consState(before),cB=conBefore.done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
   /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
   if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else if(editing){entries.push({id,...data,edited:1})}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);const tz=devTZ();entries.push({id,...data,...(tz?{tz}:{})})}
   if(!save()){entries=before;return}
   clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
-  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
-  render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
-  {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}
+  const conAfter=consState(entries),completed=conAfter.done.length>cB?conAfter.done[conAfter.done.length-1]:null;
+  if(completed){finishingCon={state:{...conBefore,cur:completed,lit:CON[completed].s.length},visualLit:conBefore.lit,arrived:false};
+    $('newBtn').disabled=true;$('gal').classList.add('completing');if(!reduce&&!wasEdit)$('gal').classList.add('arriving')}
+  try{
+    if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}
+    if(completed){
+      finishingCon.arrived=true;finishingCon.visualLit=CON[completed].s.length;renderGalaxy();
+      // 彗星抵達後，等最後一顆星及身體揭露的有限動畫結束，再顯示完成卡片。
+      const animations=$('gal').getAnimations({subtree:true}).filter(a=>Number.isFinite(a.effect.getComputedTiming().endTime));
+      await Promise.allSettled(animations.map(a=>a.finished));
+      if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
+      await showConDone(completed);
+    }else{render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP')}
+  }finally{if(completed){finishingCon=null;$('newBtn').disabled=false;$('gal').classList.remove('arriving','completing');render()}}
   const lvA=levelInfo(totalXP(entries)).lv,newAch=ACH.filter(a=>a.t(entries)&&!achB.includes(a.id));
   if(lvA>lvB){await sleep(reduce?0:900);await showLevel(lvA)}
   if(!wasEdit&&before.length&&stB===0&&streakOf(entries).n>0){toast('✨ 重新點亮！新的星光從今天開始',2600);await sleep(2700)}

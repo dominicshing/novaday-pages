@@ -24,26 +24,28 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
   return g}
 /* 88 個星座都點亮後，星空頁每天輪流回顧一個已完成的星座（依完成順序），不留白 */
 function reviewCon(st){const d=new Date(),day=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return st.done[day%st.done.length]}
-function renderGalaxy(){const st=consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
+/* 日記已儲存時，首頁仍保留完成中的星座，直到收進圖鑑的卡片關閉。 */
+let finishingCon=null;
+function renderGalaxy(){const st=finishingCon?.state||consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){const k=reviewCon(st),c=CON[k],n=c.s.length,es=conEntries(k),last=es[es.length-1];
     $('skyK').textContent='全部完成';$('conName').textContent=c.n;$('conLatin').textContent=`${c.la}・今天回顧的星座`;
     svg.innerHTML=conSVG(k,380,300,46,n,es,{bg:70,sc:1.25});svg.setAttribute('aria-label',`${c.n}，${n} 顆星都已點亮`);
     $('skyDots').innerHTML=conOrd(k).map((_,j)=>`<i class="on" style="--c:var(${MOODS[(es[j]||{}).mood??2].c})"></i>`).join('');
     $('gcap').innerHTML=`<span>全天 88 個星座都已點亮・這是你在${last?fmtMDY(parse(last.date)):''}完成的${c.n}</span>`;
     bindGalStars(svg);return}
-  $('skyK').textContent='正在點亮';
+  $('skyK').textContent=finishingCon?.arrived?'已完成':'正在點亮';
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
   $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
-  const figP=st.lit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
-  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figFrom});
+  const visualLit=finishingCon?.visualLit??st.lit,figP=visualLit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
+  svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figP,figFrom});
   svg.dataset.figureKey=st.cur;svg.dataset.figureProgress=figP;
-  svg.setAttribute('aria-label',`${c.n}，已點亮 ${st.lit} / ${n} 顆星`);
-  const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<st.lit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===st.lit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
-  $('gcap').innerHTML=`<span>${st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
+  svg.setAttribute('aria-label',`${c.n}，已點亮 ${visualLit} / ${n} 顆星`);
+  const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<visualLit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===visualLit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
+  $('gcap').innerHTML=`<span>${finishingCon?(finishingCon.arrived?`已點亮全部 ${n} 顆星・${c.n}完成了`:'正在點亮最後一顆星…'):st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
   bindGalStars(svg)}
 function bindGalStars(svg){svg.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=ev=>{ev.stopPropagation();openDetail(el.dataset.id)};
     el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openDetail(el.dataset.id)}}})}
 function placeGal(){}
 function galStart(){}
 function galStop(){}
-$('gal').addEventListener('click',ev=>{if(ev.target.closest('.cstar[data-id]'))return;const st=consState(entries);openCon(st.cur||reviewCon(st))});
+$('gal').addEventListener('click',ev=>{if(ev.target.closest('.cstar[data-id]'))return;const st=finishingCon?.state||consState(entries);openCon(st.cur||reviewCon(st))});

@@ -104,7 +104,7 @@ function noFuture(quiet){const n=new Date(),td=ymd(n),now=pad(n.getHours())+':'+
   fd.max=td;if(fd.value&&fd.value>td){fd.value=td;msg='不能寫未來的日記，已改成今天'}
   ft.max=fd.value===td?now:'';if(fd.value===td&&ft.value&&ft.value>now){ft.value=now;msg=msg||'時間不能晚於現在，已改成現在'}
   if(msg){if(!quiet)toast(msg,2600);updWhen();return false}return true}
-function openEditor(id,usePrompt,presetDate){setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
+function openEditor(id,usePrompt,presetDate){if(finishingCon)return;setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
   $('fDate').value=e?e.date:(presetDate||ymd(n));$('fTime').value=e?(e.time||''):pad(n.getHours())+':'+pad(n.getMinutes());
   $('fTitle').value=e?e.title:'';$('fBody').value=e?e.body:'';$('fTags').value=e?(e.tags||[]).join(', '):'';$('fLoc').value=e?(e.loc||''):'';
@@ -173,16 +173,27 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
   if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
-  const before=entries.slice(),cB=consState(before).done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
+  const before=entries.slice(),conBefore=consState(before),cB=conBefore.done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
   /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
   if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
   else if(editing){entries.push({id,...data,edited:1})}
   else{id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);const tz=devTZ();entries.push({id,...data,...(tz?{tz}:{})})}
   if(!save()){entries=before;return}
   clearDraft();stashRestore();baseSnap=snap();closeSheet('editor');const gained=totalXP(entries)-xpB;
-  if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}   /* 先畫好新的版面，彗星才飛得到新星的位置 */
-  render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
-  {const sA=consState(entries);if(sA.done.length>cB){await sleep(reduce?0:500);await showConDone(sA.done[sA.done.length-1])}}
+  const conAfter=consState(entries),completed=conAfter.done.length>cB?conAfter.done[conAfter.done.length-1]:null;
+  if(completed){finishingCon={state:{...conBefore,cur:completed,lit:CON[completed].s.length},visualLit:conBefore.lit,arrived:false};
+    $('newBtn').disabled=true;$('gal').classList.add('completing');if(!reduce&&!wasEdit)$('gal').classList.add('arriving')}
+  try{
+    if(!wasEdit){freshId=id;go('home');$('s-home').scrollTop=0;buzz(14);render();await launch(data.mood)}
+    if(completed){
+      finishingCon.arrived=true;finishingCon.visualLit=CON[completed].s.length;renderGalaxy();
+      // 彗星抵達後，等最後一顆星及身體揭露的有限動畫結束，再顯示完成卡片。
+      const animations=$('gal').getAnimations({subtree:true}).filter(a=>Number.isFinite(a.effect.getComputedTiming().endTime));
+      await Promise.allSettled(animations.map(a=>a.finished));
+      if(gained>0&&cur==='home')floatXP('+'+gained+' XP');
+      await showConDone(completed);
+    }else{render();if(gained>0&&cur==='home')floatXP('+'+gained+' XP')}
+  }finally{if(completed){finishingCon=null;$('newBtn').disabled=false;$('gal').classList.remove('arriving','completing');render()}}
   const lvA=levelInfo(totalXP(entries)).lv,newAch=ACH.filter(a=>a.t(entries)&&!achB.includes(a.id));
   if(lvA>lvB){await sleep(reduce?0:900);await showLevel(lvA)}
   if(!wasEdit&&before.length&&stB===0&&streakOf(entries).n>0){toast('✨ 重新點亮！新的星光從今天開始',2600);await sleep(2700)}

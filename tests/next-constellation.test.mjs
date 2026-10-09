@@ -12,7 +12,9 @@ export default async ({ok,open,run})=>{
     await p.reload();await p.waitForFunction(()=>document.getElementById('conName').textContent);
     ok(await p.evaluate(()=>JSON.parse(localStorage.getItem('orbitlog.profile.v1')).nextPick==='Lyn'&&document.getElementById('conName').textContent==='天箭座'),url+'：重新載入仍保留指定的下一個星座');
     await p.locator('#newBtn').click();await p.locator('#fBody').fill('完成目前星座');await p.locator('#saveBtn').click();
-    await p.waitForFunction(()=>document.getElementById('conName').textContent==='天貓座');
+    await p.waitForSelector('#conDone.show');
+    ok(await p.locator('#conName').textContent()==='天箭座'&&await p.locator('#cdName').textContent()==='天箭座',url+'：完成卡片關閉前保留天箭座');
+    await p.locator('#cdOk').click();await p.waitForFunction(()=>document.getElementById('conName').textContent==='天貓座');
     ok(await p.evaluate(()=>{const prof=JSON.parse(localStorage.getItem('orbitlog.profile.v1')),es=JSON.parse(localStorage.getItem('orbitlog.entries.v1'));return prof.conOrder.join(',')==='Sge,Lyn'&&!prof.nextPick&&es.length===4&&es.filter(e=>e.id.startsWith('next-')).length===3&&document.querySelectorAll('#gal .cstar').length===0}),url+'：實際存下最後一則後切換到天貓座，原有紀錄歸屬不變');
     await p.reload();await p.waitForFunction(()=>document.getElementById('conName').textContent==='天貓座');
     ok(await p.evaluate(()=>document.getElementById('conName').textContent==='天貓座'&&!JSON.parse(localStorage.getItem('orbitlog.profile.v1')).nextPick),url+'：切換結果已儲存，重新載入不退回舊順序');
