@@ -1,5 +1,7 @@
 /* 獨立預覽：共用正式版素材與星座座標，不讀寫日記及個人設定。 */
 let FIGN=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// 此獨立預覽只載入天貓座素材，提供共用投影所需的插畫查詢。
+function constellationArt(k){return k==='Lyn'?LYNX_ART:null}
 const W=380,H=300,N=W*H,points=conProj('Lyn',W,H,46),order=conOrd('Lyn');
 const media=matchMedia('(prefers-reduced-motion: reduce)');
 const distances=points.map(([sx,sy])=>Float32Array.from({length:N},(_,i)=>Math.hypot(i%W-sx,Math.floor(i/W)-sy)));

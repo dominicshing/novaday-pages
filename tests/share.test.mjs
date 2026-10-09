@@ -6,8 +6,11 @@ export default async ({ ok, open }) => {
   const p = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1, name: '名 & <字>' }, 'orbitlog.seeded.v1': '1', 'orbitlog.entries.v1': E } });
   for (const id of ['amp', 'ctl']) {
     await p.evaluate(i => openEntryShare(i), id);
-    await p.waitForFunction(() => /<img|失敗/.test(document.getElementById('shPrev').innerHTML), null, { timeout: 5000 }).catch(() => {});
-    ok(await p.evaluate(() => !!document.querySelector('#shPrev img')), `分享圖卡能產生（${id}）`) }
+    await p.waitForFunction(() => {
+      const img = document.querySelector('#shPrev img');
+      return (img && img.complete) || document.getElementById('shPrev').textContent.includes('失敗');
+    });
+    ok(await p.evaluate(() => document.querySelector('#shPrev img')?.naturalWidth === 1080), `分享圖卡能產生（${id}）`) }
   const [dl] = await Promise.all([p.waitForEvent('download', { timeout: 5000 }).catch(() => null), p.click('#shSave')]);
   ok(dl && /\.png$/.test(dl.suggestedFilename()), '一般瀏覽器按「儲存圖片」會直接下載 PNG ' + (dl && dl.suggestedFilename()));
   // 星座完成的慶祝畫面上點「分享圖卡」：分享面板要在慶祝畫面上面

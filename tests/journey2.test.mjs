@@ -6,6 +6,17 @@ export default async ({ ok, open }) => {
     { id: 'b', date: day(2), time: '20:00', title: '上班', body: 'y', mood: 3, tags: ['上班', '工作'] },
     { id: 'c', date: day(3), time: '20:00', title: '加班', body: 'z', mood: 1, tags: ['上班'] }];
   const p = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1 }, 'orbitlog.seeded.v1': '1', 'orbitlog.entries.v1': E } });
+  // 等待揭露完成並真正收進圖鑑，讓完成流程解除編輯器鎖定。
+  const finishCelebration = async levelBefore => {
+    await p.waitForFunction(() => !finishingCon || document.getElementById('conDone').classList.contains('show'));
+    if (await p.locator('#conDone').evaluate(el => el.classList.contains('show'))) {
+      await p.locator('#cdOk').click();
+      await p.waitForFunction(() => !finishingCon);
+    }
+    if (await p.evaluate(lv => levelInfo(totalXP(entries)).lv > lv, levelBefore)) {
+      await p.locator('#lvUp.show #lvUpOk').click();
+    }
+  };
 
   // 草稿：寫到一半按取消 → 選「保留草稿」→ 首頁出現草稿列 → 重新整理後點草稿列，內容還在
   await p.click('#newBtn'); await p.waitForTimeout(500);
@@ -52,16 +63,18 @@ export default async ({ ok, open }) => {
   await p.fill('#fTitle', '草稿標題'); await p.fill('#fBody', '草稿的長內文');
   await p.click('#form .sh [data-close]'); await p.waitForTimeout(400); await p.click('#askBtns [data-k="later"]'); await p.waitForTimeout(500);
   const n0 = await p.evaluate(() => entries.length);
+  const quickLevel = await p.evaluate(() => levelInfo(totalXP(entries)).lv);
   await p.fill('#qnText', '今天好累'); await p.click('#qnGo'); await p.waitForTimeout(2500);
-  await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+  await finishCelebration(quickLevel);
   const q = await p.evaluate(() => { const e = entries.find(x => x.body === '今天好累'); const d = JSON.parse(localStorage.getItem('orbitlog.draft.v1') || 'null'); return { n: entries.length, title: e && e.title, dT: d && d.title, dB: d && d.body, bar: !document.getElementById('draftBar').hidden } });
   ok(q.n === n0 + 1 && q.title === '' && q.dT === '草稿標題' && q.dB === '草稿的長內文' && q.bar, '快記不會帶上草稿內容，草稿保留 ' + JSON.stringify(q));
   // 指定日期補寫 + 草稿：編輯器是全新的、日期是指定的那天；存完草稿仍在
   const back = day(5), draftOK = () => p.evaluate(() => { const d = JSON.parse(localStorage.getItem('orbitlog.draft.v1') || 'null'); return !!d && d.title === '草稿標題' && d.body === '草稿的長內文' });
   await p.evaluate(b => openEditor(null, false, b), back); await p.waitForTimeout(500);
   ok(await p.evaluate(b => document.getElementById('fDate').value === b && document.getElementById('fTitle').value === '' && document.getElementById('fBody').value === '', back), '補寫指定日期時不會套用草稿，日期正確');
+  const backLevel = await p.evaluate(() => levelInfo(totalXP(entries)).lv);
   await p.fill('#fBody', '補寫的內容'); await p.click('#saveBtn'); await p.waitForTimeout(2500);
-  await p.evaluate(() => document.querySelectorAll('.overlay.show').forEach(o => o.classList.remove('show')));
+  await finishCelebration(backLevel);
   ok(await p.evaluate(b => entries.some(e => e.body === '補寫的內容' && e.date === b), back) && await draftOK(), '補寫存檔後，原本的草稿還在');
   // 補寫到一半取消：只能繼續寫或捨棄這則，原本的草稿不受影響
   await p.evaluate(b => openEditor(null, false, b), day(6)); await p.waitForTimeout(500);
