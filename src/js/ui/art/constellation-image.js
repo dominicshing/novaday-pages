@@ -1,4 +1,4 @@
-function constellationArt(k){return k==='Lyn'?LYNX_ART:k==='Psc'?PISCES_ART:OCTOBER_ART[k]||NOVEMBER_ART[k]||null}
+function constellationArt(k){return k==='Lyn'?LYNX_ART:k==='Psc'?PISCES_ART:OCTOBER_ART[k]||NOVEMBER_ART[k]||DECEMBER_ART[k]||null}
 function imagePrefix(k){return k==='Psc'?'pisces':'image'}
 function imageTwinklePoints(k){const rng=seedRng(k+'-dust-positions');return Array.from({length:54},()=>[35+rng()*310,24+rng()*252])}
 /* 透明星座插畫共用渲染：以各自主星分區揭露，固定於 380×300 星圖座標。 */
