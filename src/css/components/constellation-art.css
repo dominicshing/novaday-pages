@@ -122,7 +122,7 @@
 #device.calm .cfx-pisces *{animation:none!important}
 @media(prefers-reduced-motion:reduce){.cfx-pisces *{animation:none!important}}
 
-/* 十月透明插畫共用效果；以主星附近區域逐步成形。 */
+/* 透明插畫共用效果；以主星附近區域逐步成形。 */
 .cfx-image{pointer-events:none}
 .image-twinkle{transform-box:fill-box;transform-origin:center}
 :where(#gal,#dvStarFig,.cn-fig,#cdFig,.ob-con) .image-twinkle{animation:imageTwinkle var(--twinkle-duration,3s) ease-in-out var(--twinkle-delay,0s) infinite}

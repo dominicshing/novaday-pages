@@ -77,6 +77,7 @@
     "src/js/ui/art/lynx-figure.js",
     "src/js/ui/art/pisces-figure.js",
     "src/js/ui/art/october-art.js",
+    "src/js/ui/art/november-art.js",
     "src/js/ui/art/constellation-image.js",
     "src/js/data/constellation-figures.js",
     "src/js/ui/art/constellation-map.js",
