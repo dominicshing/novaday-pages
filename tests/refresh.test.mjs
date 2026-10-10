@@ -4,7 +4,9 @@ export default async ({ ok, open }) => {
   await p.evaluate(() => { go('log'); window.__mark = 1 }); await p.waitForTimeout(400);
   // 在 App 外面改動儲存的資料（例如另一個分頁寫了一則）
   await p.evaluate(() => { const L = JSON.parse(localStorage.getItem('orbitlog.entries.v1')); L.push({ id: 'ext1', date: ymd(new Date()), time: '08:00', title: '外面新增的紀錄', mood: 3 }); localStorage.setItem('orbitlog.entries.v1', JSON.stringify(L)) });
-  const c = await p.context().newCDPSession(p), T = (type, y) => c.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: 195, y }] });
+  /* 從 App 畫面頂端往下 200px 開始拉（App 上方可能有預覽工具列） */
+  const top = await p.evaluate(() => document.getElementById('device').getBoundingClientRect().top);
+  const c = await p.context().newCDPSession(p), T = (type, y) => c.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x: 195, y: top + y }] });
   await T('touchStart', 200); let moved = false;
   for (let y = 210; y <= 380; y += 10) { await T('touchMove', y); if (y === 300) moved = await p.evaluate(() => { const sc = document.getElementById('s-log'), f = document.querySelector('.ptr-fill'); return /translateY\(\d+/.test(sc.style.transform) && parseFloat(f.style.height) > 0 && getComputedStyle(f).backgroundColor === getComputedStyle(sc.querySelector('.top')).backgroundColor && +document.querySelector('.ptr').style.opacity > 0 }) }
   await T('touchEnd', 380); await p.waitForTimeout(1300);
