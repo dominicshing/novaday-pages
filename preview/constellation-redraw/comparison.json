@@ -1,0 +1,128 @@
+{
+  "frame": [
+    380,
+    300
+  ],
+  "threshold_px": 20,
+  "alpha_threshold": 96,
+  "median_filter_px": 5,
+  "tool": "built-in image_gen",
+  "validation": {
+    "constellation_library_passed": 273,
+    "failed": 0
+  },
+  "constellations": [
+    {
+      "key": "Sge",
+      "name": "天箭座",
+      "before_line_far_percent": 79.7,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 116.7,
+      "after_max_star_px": 8.9
+    },
+    {
+      "key": "Cir",
+      "name": "圓規座",
+      "before_line_far_percent": 67.2,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 46.0,
+      "after_max_star_px": 10.3
+    },
+    {
+      "key": "Tel",
+      "name": "望遠鏡座",
+      "before_line_far_percent": 48.1,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 38.5,
+      "after_max_star_px": 1.0
+    },
+    {
+      "key": "Lib",
+      "name": "天秤座",
+      "before_line_far_percent": 42.9,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 40.5,
+      "after_max_star_px": 5.0
+    },
+    {
+      "key": "Com",
+      "name": "后髮座",
+      "before_line_far_percent": 37.4,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 78.8,
+      "after_max_star_px": 0.0
+    },
+    {
+      "key": "Aps",
+      "name": "天燕座",
+      "before_line_far_percent": 32.0,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 83.5,
+      "after_max_star_px": 10.3
+    },
+    {
+      "key": "Cam",
+      "name": "鹿豹座",
+      "before_line_far_percent": 29.7,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 29.3,
+      "after_max_star_px": 8.5
+    },
+    {
+      "key": "Del",
+      "name": "海豚座",
+      "before_line_far_percent": 27.2,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 77.5,
+      "after_max_star_px": 0.0
+    },
+    {
+      "key": "Mic",
+      "name": "顯微鏡座",
+      "before_line_far_percent": 24.4,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 48.3,
+      "after_max_star_px": 0.0
+    },
+    {
+      "key": "Col",
+      "name": "天鴿座",
+      "before_line_far_percent": 22.5,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 30.8,
+      "after_max_star_px": 11.3
+    },
+    {
+      "key": "Nor",
+      "name": "矩尺座",
+      "before_line_far_percent": 21.5,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 60.5,
+      "after_max_star_px": 3.2
+    },
+    {
+      "key": "Mus",
+      "name": "蒼蠅座",
+      "before_line_far_percent": 19.7,
+      "after_line_far_percent": 0.5,
+      "before_max_star_px": 65.0,
+      "after_max_star_px": 17.0
+    },
+    {
+      "key": "Aql",
+      "name": "天鷹座",
+      "before_line_far_percent": 18.7,
+      "after_line_far_percent": 0.0,
+      "before_max_star_px": 58.9,
+      "after_max_star_px": 15.2
+    },
+    {
+      "key": "CrB",
+      "name": "北冕座",
+      "before_line_far_percent": 16.7,
+      "after_line_far_percent": 0.9,
+      "before_max_star_px": 44.9,
+      "after_max_star_px": 16.1
+    }
+  ]
+}

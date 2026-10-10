@@ -1,0 +1,223 @@
+[
+  {
+    "key": "CrB",
+    "name": "北冕座",
+    "max_star": 16.1,
+    "stars_far": 0,
+    "n": 7,
+    "line_far": 0.9,
+    "line_40": 0.0,
+    "star_dist": [
+      16.1,
+      9.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      3.6
+    ]
+  },
+  {
+    "key": "Mus",
+    "name": "蒼蠅座",
+    "max_star": 17.0,
+    "stars_far": 0,
+    "n": 6,
+    "line_far": 0.5,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      17.0
+    ]
+  },
+  {
+    "key": "Aql",
+    "name": "天鷹座",
+    "max_star": 15.2,
+    "stars_far": 0,
+    "n": 7,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      15.2,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "key": "Col",
+    "name": "天鴿座",
+    "max_star": 11.3,
+    "stars_far": 0,
+    "n": 6,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      1.4,
+      11.3,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "key": "Cir",
+    "name": "圓規座",
+    "max_star": 10.3,
+    "stars_far": 0,
+    "n": 3,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      7.1,
+      1.0,
+      10.3
+    ]
+  },
+  {
+    "key": "Aps",
+    "name": "天燕座",
+    "max_star": 10.3,
+    "stars_far": 0,
+    "n": 4,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      10.3,
+      0.0,
+      0.0,
+      2.2
+    ]
+  },
+  {
+    "key": "Sge",
+    "name": "天箭座",
+    "max_star": 8.9,
+    "stars_far": 0,
+    "n": 4,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      8.9,
+      3.6,
+      0.0
+    ]
+  },
+  {
+    "key": "Cam",
+    "name": "鹿豹座",
+    "max_star": 8.5,
+    "stars_far": 0,
+    "n": 4,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      8.5,
+      2.8
+    ]
+  },
+  {
+    "key": "Lib",
+    "name": "天秤座",
+    "max_star": 5.0,
+    "stars_far": 0,
+    "n": 6,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      5.0,
+      0.0,
+      2.2,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "key": "Nor",
+    "name": "矩尺座",
+    "max_star": 3.2,
+    "stars_far": 0,
+    "n": 4,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      3.2,
+      0.0
+    ]
+  },
+  {
+    "key": "Tel",
+    "name": "望遠鏡座",
+    "max_star": 1.0,
+    "stars_far": 0,
+    "n": 3,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  {
+    "key": "Com",
+    "name": "后髮座",
+    "max_star": 0.0,
+    "stars_far": 0,
+    "n": 3,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "key": "Del",
+    "name": "海豚座",
+    "max_star": 0.0,
+    "stars_far": 0,
+    "n": 5,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "key": "Mic",
+    "name": "顯微鏡座",
+    "max_star": 0.0,
+    "stars_far": 0,
+    "n": 5,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+]

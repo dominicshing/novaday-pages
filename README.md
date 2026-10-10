@@ -138,6 +138,7 @@ flutter:
   - `src/css/components/badges.css` 的 `.fc` 樣式
 
 - **星座插畫完成度**：全部 88／88 個星座已使用各自的透明插畫。`src/js/ui/art/remaining-art.js` 收錄二月至九月其餘 57 座，天貓座保留獨立版本。
+- **星線對位重繪（2026-10-10）**：已重繪原本偏離比例 ≥15% 的 14 座：Sge、Cir、Tel、Lib、Com、Aps、Cam、Del、Mic、Col、Nor、Mus、Aql、CrB。以 380×300 畫框、可見圖案 alpha ≥96（5×5 中值濾波去除零星光點），計算距圖案超過 20px 的連線長度占比，這批降至 0–0.9%，所有主星距圖案不超過 20px。此為幾何篩選指標，仍需疊圖判斷造型。WebP 原檔在 `assets/webp/constellations/`；生成 PNG、提示詞、星線參考、前後量測與對照圖在 `preview/constellation-redraw/`。可在專案根目錄執行 `python3 preview/constellation-redraw/verify.py`（需 Pillow）重新驗證這 14 座。
 - **透明插畫來源**：十月星座在 `src/js/ui/art/october-art.js`，十一月新增插畫在 `src/js/ui/art/november-art.js`，十二月插畫在 `src/js/ui/art/december-art.js`，一月插畫在 `src/js/ui/art/january-art.js`，二月至九月其餘插畫在 `src/js/ui/art/remaining-art.js`；這些插畫與雙魚共用 `src/js/ui/art/constellation-image.js` 的分區揭露、微星閃爍與呼吸效果。每個星座依自己的主星位置、點亮順序及星數計算遮罩，首頁、圖鑑、完成卡片及分享圖使用同一座標框。
 - **插畫隨點亮進度成形**：未點亮時顯示淡剪影；每顆主星點亮後向外擴散，揭露對應區域。最後一顆星完成後先顯示完整收藏卡片，收進圖鑑後才切換下一座。啟用「減少動態效果」時顯示靜態插畫。`dustFig()` 與一般剪影渲染仍保留為舊版相容實作。
 - **星座圖**：用 `conProj()` 把赤經和赤緯投影到畫面座標，演算法在 `src/js/logic/sky-projection.js`；畫圖在 `src/js/ui/art/constellation-map.js`，剪影在 `src/js/data/constellation-figures.js`。
