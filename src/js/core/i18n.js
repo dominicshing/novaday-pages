@@ -10,10 +10,22 @@ const ZHS_RE=new RegExp([...Object.keys(ZHS_P).sort((a,b)=>b.length-a.length),'[
 const zhs=s=>String(s).replace(ZHS_RE,m=>ZHS_P[m]??ZHS_M.get(m)??m);
 /* 英文版缺的字串（測試用：開過的畫面不該有漏翻） */
 const I18N_MISS=new Set();
-/* tl('共 {n} 個星座',{n:88})：{名稱} 換成 v 的值；{n|entry|entries} 依 n 是不是 1 選單複數（英文用） */
+/* ICU 訊息格式（和 Flutter 的 ARB 相同）的一小部分：{名稱} 換成 v 的值；
+   {n, plural, =0{…} one{…} other{…}} 依數量選字（英文：1 用 one，其餘用 other；分支裡的 # 是數字本身） */
+function icu(r,v){let out='',i=0;
+  while(i<r.length){const c=r[i];if(c!=='{'){out+=c;i++;continue}
+    let d=0,j=i;for(;j<r.length;j++){if(r[j]==='{')d++;else if(r[j]==='}'&&!--d)break}
+    const body=r.slice(i+1,j),pl=/^\s*(\w+)\s*,\s*plural\s*,([\s\S]*)$/.exec(body);i=j+1;
+    if(!pl){out+=body in v?v[body]:'{'+body+'}';continue}
+    const k=pl[1],n=+String(v[k]).replace(/,/g,''),opts={};let m,rest=pl[2];
+    while((m=/^\s*(=\d+|zero|one|two|few|many|other)\s*\{/.exec(rest))){let e=m[0].length,dd=1;for(;e<rest.length&&dd;e++){if(rest[e]==='{')dd++;else if(rest[e]==='}')dd--}
+      opts[m[1]]=rest.slice(m[0].length,e-1);rest=rest.slice(e)}
+    const br=opts['='+n]??(n===1?opts.one:undefined)??opts.other??'';out+=icu(br.replace(/#/g,v[k]),v)}
+  return out}
+/* tl('共 {n} 個星座',{n:88})：英文查 EN（ICU 訊息），簡體自動轉換，繁體原樣 */
 function tl(s,v){let r=s;
   if(LANG==='en'){const x=EN[s];if(x!=null)r=x;else if(HAN.test(s))I18N_MISS.add(s)}else if(LANG==='zh-Hans')r=zhs(s);
-  return v?r.replace(/\{(\w+)(?:\|([^|}]*)\|([^}]*))?\}/g,(m,k,a,b)=>!(k in v)?m:a!=null?(+v[k]===1?a:b):v[k]):r}
+  return v||r.includes('{')?icu(r,v||{}):r}
 /* 分隔符號：中文用「・」，英文用「 · 」 */
 const SEP=EN_UI?' · ':'・';
 /* 同一個中文詞在不同地方要翻成不同英文時加上情境：tlc('tag','開始') 查 EN['tag|開始'] */

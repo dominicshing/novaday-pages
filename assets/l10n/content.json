@@ -1,0 +1,4196 @@
+{
+  "_note": "Translations of content data, looked up by data key (see assets/data/*.json for the rest of each record). Every string is { zh_Hant, zh_Hans, en }. achievements[*].hint_message_id points to the ICU message in app_*.arb that says how far away the badge is. English constellation names are the Latin names.",
+  "moods": [
+    {
+      "index": 0,
+      "name": {
+        "zh_Hant": "很低落",
+        "zh_Hans": "很低落",
+        "en": "Very low"
+      }
+    },
+    {
+      "index": 1,
+      "name": {
+        "zh_Hant": "有點累",
+        "zh_Hans": "有点累",
+        "en": "A bit tired"
+      }
+    },
+    {
+      "index": 2,
+      "name": {
+        "zh_Hant": "還可以",
+        "zh_Hans": "还可以",
+        "en": "Okay"
+      }
+    },
+    {
+      "index": 3,
+      "name": {
+        "zh_Hant": "不錯",
+        "zh_Hans": "不错",
+        "en": "Good"
+      }
+    },
+    {
+      "index": 4,
+      "name": {
+        "zh_Hant": "很棒",
+        "zh_Hans": "很棒",
+        "en": "Great"
+      }
+    }
+  ],
+  "ranks": [
+    {
+      "level": 1,
+      "name": {
+        "zh_Hant": "見習觀星者",
+        "zh_Hans": "见习观星者",
+        "en": "Apprentice Stargazer"
+      },
+      "description": {
+        "zh_Hant": "剛拿起望遠鏡，開始認識夜空裡的第一批星星。",
+        "zh_Hans": "刚拿起望远镜，开始认识夜空里的第一批星星。",
+        "en": "Just picked up a telescope and meeting the first stars of the night sky."
+      },
+      "livery": {
+        "zh_Hant": "月塵銀",
+        "zh_Hans": "月尘银",
+        "en": "Moondust Silver"
+      }
+    },
+    {
+      "level": 2,
+      "name": {
+        "zh_Hant": "觀星者",
+        "zh_Hans": "观星者",
+        "en": "Stargazer"
+      },
+      "description": {
+        "zh_Hant": "能在夜空中找到熟悉的星座，記錄沿途的風景。",
+        "zh_Hans": "能在夜空中找到熟悉的星座，记录沿途的风景。",
+        "en": "Can find familiar constellations and records the views along the way."
+      },
+      "livery": {
+        "zh_Hant": "晴空藍",
+        "zh_Hans": "晴空蓝",
+        "en": "Clear Sky Blue"
+      }
+    },
+    {
+      "level": 3,
+      "name": {
+        "zh_Hant": "拾星者",
+        "zh_Hans": "拾星者",
+        "en": "Star Gatherer"
+      },
+      "description": {
+        "zh_Hant": "每天撿起一顆星，慢慢裝滿自己的夜空。",
+        "zh_Hans": "每天捡起一颗星，慢慢装满自己的夜空。",
+        "en": "Picks up one star a day, slowly filling a sky of your own."
+      },
+      "livery": {
+        "zh_Hant": "晨曦藍",
+        "zh_Hans": "晨曦蓝",
+        "en": "Dawn Blue"
+      }
+    },
+    {
+      "level": 4,
+      "name": {
+        "zh_Hant": "星圖繪製者",
+        "zh_Hans": "星图绘制者",
+        "en": "Star Mapper"
+      },
+      "description": {
+        "zh_Hant": "把一天天的紀錄，連成屬於自己的星圖。",
+        "zh_Hans": "把一天天的记录，连成属于自己的星图。",
+        "en": "Connects day after day of entries into a star map of your own."
+      },
+      "livery": {
+        "zh_Hant": "極光青",
+        "zh_Hans": "极光青",
+        "en": "Aurora Teal"
+      }
+    },
+    {
+      "level": 5,
+      "name": {
+        "zh_Hant": "月相記錄者",
+        "zh_Hans": "月相记录者",
+        "en": "Moon Phase Keeper"
+      },
+      "description": {
+        "zh_Hant": "看著月亮圓了又缺，也記下自己的起起伏伏。",
+        "zh_Hans": "看着月亮圆了又缺，也记下自己的起起伏伏。",
+        "en": "Watches the moon wax and wane, and notes your own ups and downs."
+      },
+      "livery": {
+        "zh_Hant": "月光白",
+        "zh_Hans": "月光白",
+        "en": "Moonlight White"
+      }
+    },
+    {
+      "level": 6,
+      "name": {
+        "zh_Hant": "星座獵人",
+        "zh_Hans": "星座猎人",
+        "en": "Constellation Hunter"
+      },
+      "description": {
+        "zh_Hant": "循著季節追逐星座，知道每顆星在哪裡。",
+        "zh_Hans": "循着季节追逐星座，知道每颗星在哪里。",
+        "en": "Follows the constellations through the seasons and knows where every star is."
+      },
+      "livery": {
+        "zh_Hant": "星雲紫",
+        "zh_Hans": "星云紫",
+        "en": "Nebula Violet"
+      }
+    },
+    {
+      "level": 7,
+      "name": {
+        "zh_Hant": "流星追尋者",
+        "zh_Hans": "流星追寻者",
+        "en": "Meteor Chaser"
+      },
+      "description": {
+        "zh_Hant": "不錯過任何一道劃過心裡的光。",
+        "zh_Hans": "不错过任何一道划过心里的光。",
+        "en": "Never misses a flash of light across your heart."
+      },
+      "livery": {
+        "zh_Hant": "流星橙",
+        "zh_Hans": "流星橙",
+        "en": "Meteor Orange"
+      }
+    },
+    {
+      "level": 8,
+      "name": {
+        "zh_Hant": "天文學家",
+        "zh_Hans": "天文学家",
+        "en": "Astronomer"
+      },
+      "description": {
+        "zh_Hant": "累積了豐富的觀測紀錄，讀得懂星空的節奏。",
+        "zh_Hans": "累积了丰富的观测记录，读得懂星空的节奏。",
+        "en": "Has a rich record of observations and can read the rhythm of the sky."
+      },
+      "livery": {
+        "zh_Hant": "脈衝星粉",
+        "zh_Hans": "脉冲星粉",
+        "en": "Pulsar Pink"
+      }
+    },
+    {
+      "level": 9,
+      "name": {
+        "zh_Hant": "彗星追蹤者",
+        "zh_Hans": "彗星追踪者",
+        "en": "Comet Tracker"
+      },
+      "description": {
+        "zh_Hant": "耐心等待，總會遇見拖著長尾巴的訪客。",
+        "zh_Hans": "耐心等待，总会遇见拖着长尾巴的访客。",
+        "en": "Waits patiently, and always meets the visitor with the long tail."
+      },
+      "livery": {
+        "zh_Hant": "彗尾碧",
+        "zh_Hans": "彗尾碧",
+        "en": "Comet Tail Jade"
+      }
+    },
+    {
+      "level": 10,
+      "name": {
+        "zh_Hant": "星空領航員",
+        "zh_Hans": "星空领航员",
+        "en": "Sky Navigator"
+      },
+      "description": {
+        "zh_Hant": "能替別人指出方向，自己的航線也越來越清楚。",
+        "zh_Hans": "能替别人指出方向，自己的航线也越来越清楚。",
+        "en": "Can point the way for others, and your own course grows clearer."
+      },
+      "livery": {
+        "zh_Hant": "日冕橘",
+        "zh_Hans": "日冕橘",
+        "en": "Corona Amber"
+      }
+    },
+    {
+      "level": 11,
+      "name": {
+        "zh_Hant": "極光旅人",
+        "zh_Hans": "极光旅人",
+        "en": "Aurora Traveler"
+      },
+      "description": {
+        "zh_Hant": "走到很遠的地方，只為看一眼天空的舞。",
+        "zh_Hans": "走到很远的地方，只为看一眼天空的舞。",
+        "en": "Travels far just to glimpse the sky dancing."
+      },
+      "livery": {
+        "zh_Hant": "翡翠光",
+        "zh_Hans": "翡翠光",
+        "en": "Emerald Glow"
+      }
+    },
+    {
+      "level": 12,
+      "name": {
+        "zh_Hant": "星河守護者",
+        "zh_Hans": "星河守护者",
+        "en": "Star River Guardian"
+      },
+      "description": {
+        "zh_Hant": "守護著一整片屬於自己的星河。",
+        "zh_Hans": "守护着一整片属于自己的星河。",
+        "en": "Watches over a whole river of stars of your own."
+      },
+      "livery": {
+        "zh_Hant": "超新星金",
+        "zh_Hans": "超新星金",
+        "en": "Supernova Gold"
+      }
+    },
+    {
+      "level": 13,
+      "name": {
+        "zh_Hant": "雙星觀測家",
+        "zh_Hans": "双星观测家",
+        "en": "Binary Star Observer"
+      },
+      "description": {
+        "zh_Hant": "看見生活裡彼此繞行、互相照亮的人和事。",
+        "zh_Hans": "看见生活里彼此绕行、互相照亮的人和事。",
+        "en": "Sees the people and things in life that orbit and light each other up."
+      },
+      "livery": {
+        "zh_Hant": "雙子粉",
+        "zh_Hans": "双子粉",
+        "en": "Twin Pink"
+      }
+    },
+    {
+      "level": 14,
+      "name": {
+        "zh_Hant": "星雲探險家",
+        "zh_Hans": "星云探险家",
+        "en": "Nebula Explorer"
+      },
+      "description": {
+        "zh_Hant": "穿越一片片星雲，在未知的地方留下紀錄。",
+        "zh_Hans": "穿越一片片星云，在未知的地方留下记录。",
+        "en": "Crosses nebula after nebula, leaving notes in unknown places."
+      },
+      "livery": {
+        "zh_Hant": "冰晶藍",
+        "zh_Hans": "冰晶蓝",
+        "en": "Ice Crystal Blue"
+      }
+    },
+    {
+      "level": 15,
+      "name": {
+        "zh_Hant": "星團收藏家",
+        "zh_Hans": "星团收藏家",
+        "en": "Star Cluster Collector"
+      },
+      "description": {
+        "zh_Hant": "一顆顆星聚在一起，成了閃閃發亮的星團。",
+        "zh_Hans": "一颗颗星聚在一起，成了闪闪发亮的星团。",
+        "en": "Star by star, they gather into a glittering cluster."
+      },
+      "livery": {
+        "zh_Hant": "星團銀藍",
+        "zh_Hans": "星团银蓝",
+        "en": "Cluster Silver Blue"
+      }
+    },
+    {
+      "level": 16,
+      "name": {
+        "zh_Hant": "銀河建築師",
+        "zh_Hans": "银河建筑师",
+        "en": "Milky Way Architect"
+      },
+      "description": {
+        "zh_Hant": "一磚一瓦，把日常搭成屬於自己的銀河。",
+        "zh_Hans": "一砖一瓦，把日常搭成属于自己的银河。",
+        "en": "Brick by brick, builds everyday life into a galaxy of your own."
+      },
+      "livery": {
+        "zh_Hant": "星紋紫",
+        "zh_Hans": "星纹紫",
+        "en": "Starlace Purple"
+      }
+    },
+    {
+      "level": 17,
+      "name": {
+        "zh_Hant": "脈衝星聆聽者",
+        "zh_Hans": "脉冲星聆听者",
+        "en": "Pulsar Listener"
+      },
+      "description": {
+        "zh_Hant": "聽得見宇宙最規律的心跳，也聽得見自己的。",
+        "zh_Hans": "听得见宇宙最规律的心跳，也听得见自己的。",
+        "en": "Hears the steadiest heartbeat in the universe, and your own."
+      },
+      "livery": {
+        "zh_Hant": "脈動紫",
+        "zh_Hans": "脉动紫",
+        "en": "Pulse Violet"
+      }
+    },
+    {
+      "level": 18,
+      "name": {
+        "zh_Hant": "星系旅人",
+        "zh_Hans": "星系旅人",
+        "en": "Galaxy Traveler"
+      },
+      "description": {
+        "zh_Hant": "在不同的星系之間旅行，每段旅程都有回音。",
+        "zh_Hans": "在不同的星系之间旅行，每段旅程都有回音。",
+        "en": "Travels between galaxies, and every journey echoes."
+      },
+      "livery": {
+        "zh_Hant": "赤霞紅",
+        "zh_Hans": "赤霞红",
+        "en": "Crimson Glow"
+      }
+    },
+    {
+      "level": 19,
+      "name": {
+        "zh_Hant": "黑洞凝視者",
+        "zh_Hans": "黑洞凝视者",
+        "en": "Black Hole Gazer"
+      },
+      "description": {
+        "zh_Hant": "敢直視最深的黑暗，也記得光在哪裡。",
+        "zh_Hans": "敢直视最深的黑暗，也记得光在哪里。",
+        "en": "Dares to face the deepest dark, and remembers where the light is."
+      },
+      "livery": {
+        "zh_Hant": "吸積盤橙",
+        "zh_Hans": "吸积盘橙",
+        "en": "Accretion Orange"
+      }
+    },
+    {
+      "level": 20,
+      "name": {
+        "zh_Hant": "星際航行者",
+        "zh_Hans": "星际航行者",
+        "en": "Interstellar Voyager"
+      },
+      "description": {
+        "zh_Hant": "揚帆出發，航線一路延伸到星海深處。",
+        "zh_Hans": "扬帆出发，航线一路延伸到星海深处。",
+        "en": "Sets sail on a course that reaches deep into the sea of stars."
+      },
+      "livery": {
+        "zh_Hant": "航跡藍",
+        "zh_Hans": "航迹蓝",
+        "en": "Wake Blue"
+      }
+    },
+    {
+      "level": 21,
+      "name": {
+        "zh_Hant": "宇宙詩人",
+        "zh_Hans": "宇宙诗人",
+        "en": "Cosmic Poet"
+      },
+      "description": {
+        "zh_Hant": "把平凡的一天寫成詩，宇宙也為你停留。",
+        "zh_Hans": "把平凡的一天写成诗，宇宙也为你停留。",
+        "en": "Turns an ordinary day into a poem, and the universe pauses for you."
+      },
+      "livery": {
+        "zh_Hant": "極光綠",
+        "zh_Hans": "极光绿",
+        "en": "Aurora Green"
+      }
+    },
+    {
+      "level": 22,
+      "name": {
+        "zh_Hant": "星塵煉金師",
+        "zh_Hans": "星尘炼金师",
+        "en": "Stardust Alchemist"
+      },
+      "description": {
+        "zh_Hant": "把平凡的日子，煉成閃閃發亮的星塵。",
+        "zh_Hans": "把平凡的日子，炼成闪闪发亮的星尘。",
+        "en": "Turns ordinary days into glittering stardust."
+      },
+      "livery": {
+        "zh_Hant": "煉金琥珀",
+        "zh_Hans": "炼金琥珀",
+        "en": "Alchemy Amber"
+      }
+    },
+    {
+      "level": 23,
+      "name": {
+        "zh_Hant": "新星見證者",
+        "zh_Hans": "新星见证者",
+        "en": "Nova Witness"
+      },
+      "description": {
+        "zh_Hant": "見證了最耀眼的時刻，也把它寫進星空。",
+        "zh_Hans": "见证了最耀眼的时刻，也把它写进星空。",
+        "en": "Witnessed the most dazzling moment and wrote it into the sky."
+      },
+      "livery": {
+        "zh_Hant": "新星緋",
+        "zh_Hans": "新星绯",
+        "en": "Nova Scarlet"
+      }
+    },
+    {
+      "level": 24,
+      "name": {
+        "zh_Hant": "銀河漫遊者",
+        "zh_Hans": "银河漫游者",
+        "en": "Milky Way Wanderer"
+      },
+      "description": {
+        "zh_Hant": "在銀河裡隨意漫步，每一步都是風景。",
+        "zh_Hans": "在银河里随意漫步，每一步都是风景。",
+        "en": "Strolls through the Milky Way, and every step is a view."
+      },
+      "livery": {
+        "zh_Hant": "銀河薰衣草",
+        "zh_Hans": "银河薰衣草",
+        "en": "Galaxy Lavender"
+      }
+    },
+    {
+      "level": 25,
+      "name": {
+        "zh_Hant": "時空旅人",
+        "zh_Hans": "时空旅人",
+        "en": "Time Traveler"
+      },
+      "description": {
+        "zh_Hant": "翻開舊日記，就能在時間裡來回旅行。",
+        "zh_Hans": "翻开旧日记，就能在时间里来回旅行。",
+        "en": "Opens an old journal and travels back and forth in time."
+      },
+      "livery": {
+        "zh_Hant": "時空碧",
+        "zh_Hans": "时空碧",
+        "en": "Spacetime Jade"
+      }
+    },
+    {
+      "level": 26,
+      "name": {
+        "zh_Hant": "星辰守夜人",
+        "zh_Hans": "星辰守夜人",
+        "en": "Keeper of the Night Sky"
+      },
+      "description": {
+        "zh_Hant": "夜再長，也有你守著滿天星辰。",
+        "zh_Hans": "夜再长，也有你守着满天星辰。",
+        "en": "However long the night, you keep watch over the stars."
+      },
+      "livery": {
+        "zh_Hant": "夜空藍",
+        "zh_Hans": "夜空蓝",
+        "en": "Night Sky Blue"
+      }
+    },
+    {
+      "level": 27,
+      "name": {
+        "zh_Hant": "創星者",
+        "zh_Hans": "创星者",
+        "en": "Star Maker"
+      },
+      "description": {
+        "zh_Hant": "每一則紀錄，都在宇宙裡點亮一顆新的星。",
+        "zh_Hans": "每一则记录，都在宇宙里点亮一颗新的星。",
+        "en": "Every entry lights a new star in the universe."
+      },
+      "livery": {
+        "zh_Hant": "恆星金",
+        "zh_Hans": "恒星金",
+        "en": "Stellar Gold"
+      }
+    },
+    {
+      "level": 28,
+      "name": {
+        "zh_Hant": "星際傳奇",
+        "zh_Hans": "星际传奇",
+        "en": "Interstellar Legend"
+      },
+      "description": {
+        "zh_Hant": "你的日記本身，就是一段星空傳奇。",
+        "zh_Hans": "你的日记本身，就是一段星空传奇。",
+        "en": "Your journal itself is a legend of the stars."
+      },
+      "livery": {
+        "zh_Hant": "星河幻彩",
+        "zh_Hans": "星河幻彩",
+        "en": "Starstream Iridescent"
+      }
+    }
+  ],
+  "achievement_categories": {
+    "streak": {
+      "name": {
+        "zh_Hant": "連續",
+        "zh_Hans": "连续",
+        "en": "Streak"
+      },
+      "subtitle": {
+        "zh_Hant": "每天回來點亮一顆星",
+        "zh_Hans": "每天回来点亮一颗星",
+        "en": "Come back every day to light a star"
+      }
+    },
+    "write": {
+      "name": {
+        "zh_Hant": "寫作",
+        "zh_Hans": "写作",
+        "en": "Writing"
+      },
+      "subtitle": {
+        "zh_Hant": "一字一句累積你的星河",
+        "zh_Hans": "一字一句累积你的星河",
+        "en": "Build your star river word by word"
+      }
+    },
+    "explore": {
+      "name": {
+        "zh_Hant": "探索",
+        "zh_Hans": "探索",
+        "en": "Explore"
+      },
+      "subtitle": {
+        "zh_Hant": "照片、地點與今日星語",
+        "zh_Hans": "照片、地点与今日星语",
+        "en": "Photos, places and daily prompts"
+      }
+    },
+    "mood": {
+      "name": {
+        "zh_Hant": "心情",
+        "zh_Hans": "心情",
+        "en": "Mood"
+      },
+      "subtitle": {
+        "zh_Hant": "好壞都值得被記住",
+        "zh_Hans": "好坏都值得被记住",
+        "en": "Good days and bad are worth remembering"
+      }
+    },
+    "time": {
+      "name": {
+        "zh_Hant": "時光",
+        "zh_Hans": "时光",
+        "en": "Time"
+      },
+      "subtitle": {
+        "zh_Hant": "回頭看看走過的路",
+        "zh_Hans": "回头看看走过的路",
+        "en": "Look back at how far you’ve come"
+      }
+    },
+    "cons": {
+      "name": {
+        "zh_Hant": "星座",
+        "zh_Hans": "星座",
+        "en": "Constellation"
+      },
+      "subtitle": {
+        "zh_Hant": "收集夜空裡的星座",
+        "zh_Hans": "收集夜空里的星座",
+        "en": "Collect the constellations of the night sky"
+      }
+    }
+  },
+  "achievements": {
+    "s3": {
+      "name": {
+        "zh_Hant": "三日連續",
+        "zh_Hans": "三日连续",
+        "en": "Three-Day Streak"
+      },
+      "description": {
+        "zh_Hant": "連續 3 天記錄",
+        "zh_Hans": "连续 3 天记录",
+        "en": "Write 3 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "s7": {
+      "name": {
+        "zh_Hant": "七日連續",
+        "zh_Hans": "七日连续",
+        "en": "Seven-Day Streak"
+      },
+      "description": {
+        "zh_Hant": "連續 7 天記錄",
+        "zh_Hans": "连续 7 天记录",
+        "en": "Write 7 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "s14": {
+      "name": {
+        "zh_Hant": "兩週連續",
+        "zh_Hans": "两周连续",
+        "en": "Two-Week Streak"
+      },
+      "description": {
+        "zh_Hant": "連續 14 天記錄",
+        "zh_Hans": "连续 14 天记录",
+        "en": "Write 14 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "s30": {
+      "name": {
+        "zh_Hant": "月光守護",
+        "zh_Hans": "月光守护",
+        "en": "Moonlight Guardian"
+      },
+      "description": {
+        "zh_Hant": "連續 30 天記錄",
+        "zh_Hans": "连续 30 天记录",
+        "en": "Write 30 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "s60": {
+      "name": {
+        "zh_Hant": "雙月星軌",
+        "zh_Hans": "双月星轨",
+        "en": "Two-Moon Orbit"
+      },
+      "description": {
+        "zh_Hant": "連續 60 天記錄",
+        "zh_Hans": "连续 60 天记录",
+        "en": "Write 60 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "s100": {
+      "name": {
+        "zh_Hant": "百日星河",
+        "zh_Hans": "百日星河",
+        "en": "Hundred-Day Star River"
+      },
+      "description": {
+        "zh_Hant": "連續 100 天記錄",
+        "zh_Hans": "连续 100 天记录",
+        "en": "Write 100 days in a row"
+      },
+      "hint_message_id": "writeNMoreDaysIn"
+    },
+    "m20": {
+      "name": {
+        "zh_Hant": "月曆星滿",
+        "zh_Hans": "月历星满",
+        "en": "Starry Calendar"
+      },
+      "description": {
+        "zh_Hant": "同一個月寫滿 20 天",
+        "zh_Hans": "同一个月写满 20 天",
+        "en": "Write on 20 days in one month"
+      },
+      "hint_message_id": "writeOnNMoreDaysThis"
+    },
+    "mfull": {
+      "name": {
+        "zh_Hant": "滿月星圖",
+        "zh_Hans": "满月星图",
+        "en": "Full Moon Map"
+      },
+      "description": {
+        "zh_Hant": "某個月每一天都有記錄",
+        "zh_Hans": "某个月每一天都有记录",
+        "en": "Write every day of a month"
+      },
+      "hint_message_id": "writeOnNMoreDaysThis"
+    },
+    "back": {
+      "name": {
+        "zh_Hant": "重新點亮",
+        "zh_Hans": "重新点亮",
+        "en": "Relit"
+      },
+      "description": {
+        "zh_Hant": "休息 7 天以上後，再回來寫",
+        "zh_Hans": "休息 7 天以上后，再回来写",
+        "en": "Come back after a break of 7+ days"
+      },
+      "hint_message_id": "comeBackToWriteAfter"
+    },
+    "first": {
+      "name": {
+        "zh_Hant": "第一顆星",
+        "zh_Hans": "第一颗星",
+        "en": "First Star"
+      },
+      "description": {
+        "zh_Hant": "完成第一則紀錄",
+        "zh_Hans": "完成第一则记录",
+        "en": "Write your first entry"
+      },
+      "hint_message_id": "writeYourFirstEntryToUnlock"
+    },
+    "c10": {
+      "name": {
+        "zh_Hant": "星光收藏家",
+        "zh_Hans": "星光收藏家",
+        "en": "Starlight Collector"
+      },
+      "description": {
+        "zh_Hant": "累積 10 則紀錄",
+        "zh_Hans": "累积 10 则记录",
+        "en": "Write 10 entries"
+      },
+      "hint_message_id": "writeNMoreEntriesToUnlock"
+    },
+    "c30": {
+      "name": {
+        "zh_Hant": "星河收藏家",
+        "zh_Hans": "星河收藏家",
+        "en": "Star River Collector"
+      },
+      "description": {
+        "zh_Hant": "累積 30 則紀錄",
+        "zh_Hans": "累积 30 则记录",
+        "en": "Write 30 entries"
+      },
+      "hint_message_id": "writeNMoreEntriesToUnlock"
+    },
+    "c100": {
+      "name": {
+        "zh_Hant": "百星夜空",
+        "zh_Hans": "百星夜空",
+        "en": "Hundred-Star Sky"
+      },
+      "description": {
+        "zh_Hant": "累積 100 則紀錄",
+        "zh_Hans": "累积 100 则记录",
+        "en": "Write 100 entries"
+      },
+      "hint_message_id": "writeNMoreEntriesToUnlock"
+    },
+    "c365": {
+      "name": {
+        "zh_Hant": "一年份星光",
+        "zh_Hans": "一年份星光",
+        "en": "A Year of Starlight"
+      },
+      "description": {
+        "zh_Hant": "累積 365 則紀錄",
+        "zh_Hans": "累积 365 则记录",
+        "en": "Write 365 entries"
+      },
+      "hint_message_id": "writeNMoreEntriesToUnlock"
+    },
+    "words": {
+      "name": {
+        "zh_Hant": "星空作家",
+        "zh_Hans": "星空作家",
+        "en": "Sky Writer"
+      },
+      "description": {
+        "zh_Hant": "總字數 1,000",
+        "zh_Hans": "总字数 1,000",
+        "en": "1,000 characters in total"
+      },
+      "hint_message_id": "writeNMoreCharactersTo"
+    },
+    "w5k": {
+      "name": {
+        "zh_Hant": "星海作家",
+        "zh_Hans": "星海作家",
+        "en": "Star Sea Writer"
+      },
+      "description": {
+        "zh_Hant": "總字數 5,000",
+        "zh_Hans": "总字数 5,000",
+        "en": "5,000 characters in total"
+      },
+      "hint_message_id": "writeNMoreCharactersTo"
+    },
+    "w20k": {
+      "name": {
+        "zh_Hant": "星河史詩",
+        "zh_Hans": "星河史诗",
+        "en": "Star River Epic"
+      },
+      "description": {
+        "zh_Hant": "總字數 20,000",
+        "zh_Hans": "总字数 20,000",
+        "en": "20,000 characters in total"
+      },
+      "hint_message_id": "writeNMoreCharactersTo"
+    },
+    "w50k": {
+      "name": {
+        "zh_Hant": "銀河全書",
+        "zh_Hans": "银河全书",
+        "en": "Galaxy Encyclopedia"
+      },
+      "description": {
+        "zh_Hant": "總字數 50,000",
+        "zh_Hans": "总字数 50,000",
+        "en": "50,000 characters in total"
+      },
+      "hint_message_id": "writeNMoreCharactersTo"
+    },
+    "long": {
+      "name": {
+        "zh_Hant": "長篇心事",
+        "zh_Hans": "长篇心事",
+        "en": "Long Story"
+      },
+      "description": {
+        "zh_Hant": "單則紀錄寫滿 300 字",
+        "zh_Hans": "单则记录写满 300 字",
+        "en": "Write 300 characters in one entry"
+      },
+      "hint_message_id": "writeNMoreCharactersIn"
+    },
+    "long1k": {
+      "name": {
+        "zh_Hant": "千字心事",
+        "zh_Hans": "千字心事",
+        "en": "Thousand-Character Story"
+      },
+      "description": {
+        "zh_Hant": "單則紀錄寫滿 1,000 字",
+        "zh_Hans": "单则记录写满 1,000 字",
+        "en": "Write 1,000 characters in one entry"
+      },
+      "hint_message_id": "writeNMoreCharactersIn"
+    },
+    "multi": {
+      "name": {
+        "zh_Hant": "一日三記",
+        "zh_Hans": "一日三记",
+        "en": "Three in a Day"
+      },
+      "description": {
+        "zh_Hant": "同一天寫 3 則紀錄",
+        "zh_Hans": "同一天写 3 则记录",
+        "en": "Write 3 entries on the same day"
+      },
+      "hint_message_id": "writeNMoreEntriesOn"
+    },
+    "photo": {
+      "name": {
+        "zh_Hant": "星際攝影師",
+        "zh_Hans": "星际摄影师",
+        "en": "Space Photographer"
+      },
+      "description": {
+        "zh_Hant": "5 則附照片或影片",
+        "zh_Hans": "5 则附照片或视频",
+        "en": "5 entries with a photo or video"
+      },
+      "hint_message_id": "addAPhotoOrVideo"
+    },
+    "photo20": {
+      "name": {
+        "zh_Hant": "星空攝影集",
+        "zh_Hans": "星空摄影集",
+        "en": "Sky Photo Album"
+      },
+      "description": {
+        "zh_Hant": "20 則附照片",
+        "zh_Hans": "20 则附照片",
+        "en": "20 entries with photos"
+      },
+      "hint_message_id": "addPhotosToNMore"
+    },
+    "photo4": {
+      "name": {
+        "zh_Hant": "四格回憶",
+        "zh_Hans": "四格回忆",
+        "en": "Four-Frame Memory"
+      },
+      "description": {
+        "zh_Hant": "單則紀錄放滿 4 張照片",
+        "zh_Hans": "单则记录放满 4 张照片",
+        "en": "Add 4 photos to one entry"
+      },
+      "hint_message_id": "addNMorePhotosTo"
+    },
+    "loc": {
+      "name": {
+        "zh_Hant": "地點探險家",
+        "zh_Hans": "地点探险家",
+        "en": "Place Explorer"
+      },
+      "description": {
+        "zh_Hant": "5 則有地點",
+        "zh_Hans": "5 则有地点",
+        "en": "5 entries with a place"
+      },
+      "hint_message_id": "addAPlaceToN"
+    },
+    "loc10": {
+      "name": {
+        "zh_Hant": "足跡旅人",
+        "zh_Hans": "足迹旅人",
+        "en": "Footprint Traveler"
+      },
+      "description": {
+        "zh_Hant": "去過 10 個不同的地點",
+        "zh_Hans": "去过 10 个不同的地点",
+        "en": "Visit 10 different places"
+      },
+      "hint_message_id": "visitNMoreNewPlaces"
+    },
+    "tag5": {
+      "name": {
+        "zh_Hant": "標籤達人",
+        "zh_Hans": "标签达人",
+        "en": "Tag Master"
+      },
+      "description": {
+        "zh_Hant": "用過 5 種不同的標籤",
+        "zh_Hans": "用过 5 种不同的标签",
+        "en": "Use 5 different tags"
+      },
+      "hint_message_id": "useNMoreNewTags"
+    },
+    "signal": {
+      "name": {
+        "zh_Hant": "星語收藏家",
+        "zh_Hans": "星语收藏家",
+        "en": "Prompt Collector"
+      },
+      "description": {
+        "zh_Hant": "回答 3 次今日星語",
+        "zh_Hans": "回答 3 次今日星语",
+        "en": "Answer today’s prompt 3 times"
+      },
+      "hint_message_id": "answerTodaysPromptNMore"
+    },
+    "signal10": {
+      "name": {
+        "zh_Hant": "星語知音",
+        "zh_Hans": "星语知音",
+        "en": "Prompt Pal"
+      },
+      "description": {
+        "zh_Hant": "回答 10 次今日星語",
+        "zh_Hans": "回答 10 次今日星语",
+        "en": "Answer today’s prompt 10 times"
+      },
+      "hint_message_id": "answerTodaysPromptNMore"
+    },
+    "fav5": {
+      "name": {
+        "zh_Hant": "珍藏星光",
+        "zh_Hans": "珍藏星光",
+        "en": "Treasured Starlight"
+      },
+      "description": {
+        "zh_Hant": "收藏 5 則紀錄",
+        "zh_Hans": "收藏 5 则记录",
+        "en": "Favorite 5 entries"
+      },
+      "hint_message_id": "favoriteNMoreEntriesTo"
+    },
+    "night": {
+      "name": {
+        "zh_Hant": "夜貓觀星者",
+        "zh_Hans": "夜猫观星者",
+        "en": "Night Owl Stargazer"
+      },
+      "description": {
+        "zh_Hant": "3 則在晚上 10 點後寫",
+        "zh_Hans": "3 则在晚上 10 点后写",
+        "en": "3 entries written after 10 PM"
+      },
+      "hint_message_id": "writeNMoreEntriesAfter"
+    },
+    "early": {
+      "name": {
+        "zh_Hant": "晨星",
+        "zh_Hans": "晨星",
+        "en": "Morning Star"
+      },
+      "description": {
+        "zh_Hant": "3 則在早上 8 點前寫",
+        "zh_Hans": "3 则在早上 8 点前写",
+        "en": "3 entries written before 8 AM"
+      },
+      "hint_message_id": "writeNMoreEntriesBefore"
+    },
+    "season4": {
+      "name": {
+        "zh_Hant": "四季星空",
+        "zh_Hans": "四季星空",
+        "en": "Four-Season Sky"
+      },
+      "description": {
+        "zh_Hant": "春夏秋冬都寫過紀錄",
+        "zh_Hans": "春夏秋冬都写过记录",
+        "en": "Write in spring, summer, autumn and winter"
+      },
+      "hint_message_id": "writeInNMoreSeasons"
+    },
+    "all": {
+      "name": {
+        "zh_Hant": "五色星光",
+        "zh_Hans": "五色星光",
+        "en": "Five-Color Starlight"
+      },
+      "description": {
+        "zh_Hant": "用過全部 5 種心情",
+        "zh_Hans": "用过全部 5 种心情",
+        "en": "Use all 5 moods"
+      },
+      "hint_message_id": "useNMoreNewMoods"
+    },
+    "happy3": {
+      "name": {
+        "zh_Hant": "晴朗三日",
+        "zh_Hans": "晴朗三日",
+        "en": "Three Clear Days"
+      },
+      "description": {
+        "zh_Hant": "連續 3 天心情「不錯」以上",
+        "zh_Hans": "连续 3 天心情「不错」以上",
+        "en": "Feel “Good” or better 3 days in a row"
+      },
+      "hint_message_id": "nMoreGoodMoodDays"
+    },
+    "bright10": {
+      "name": {
+        "zh_Hant": "閃耀時刻",
+        "zh_Hans": "闪耀时刻",
+        "en": "Shining Moments"
+      },
+      "description": {
+        "zh_Hant": "10 則心情「很棒」",
+        "zh_Hans": "10 则心情「很棒」",
+        "en": "10 entries feeling “Great”"
+      },
+      "hint_message_id": "logGreatNMoreTimes"
+    },
+    "calm10": {
+      "name": {
+        "zh_Hant": "平常心",
+        "zh_Hans": "平常心",
+        "en": "Steady Heart"
+      },
+      "description": {
+        "zh_Hant": "10 則心情「還可以」",
+        "zh_Hans": "10 则心情「还可以」",
+        "en": "10 entries feeling “Okay”"
+      },
+      "hint_message_id": "logOkayNMoreTimes"
+    },
+    "low5": {
+      "name": {
+        "zh_Hant": "陰天也寫",
+        "zh_Hans": "阴天也写",
+        "en": "Writing Through Clouds"
+      },
+      "description": {
+        "zh_Hant": "低落或疲累時也記錄了 5 次",
+        "zh_Hans": "低落或疲累时也记录了 5 次",
+        "en": "Write 5 times while feeling low or tired"
+      },
+      "hint_message_id": "writeOnHardDaysToo"
+    },
+    "rebound": {
+      "name": {
+        "zh_Hant": "雨過天晴",
+        "zh_Hans": "雨过天晴",
+        "en": "After the Rain"
+      },
+      "description": {
+        "zh_Hant": "低落之後，3 天內心情回到「不錯」",
+        "zh_Hans": "低落之后，3 天内心情回到「不错」",
+        "en": "Bounce back to “Good” within 3 days of feeling low"
+      },
+      "hint_message_id": "unlocksWhenYourMoodBounces"
+    },
+    "rev1": {
+      "name": {
+        "zh_Hant": "重讀時光",
+        "zh_Hans": "重读时光",
+        "en": "Rereading"
+      },
+      "description": {
+        "zh_Hant": "第一次回顧舊紀錄",
+        "zh_Hans": "第一次回顾旧记录",
+        "en": "Revisit an old entry for the first time"
+      },
+      "hint_message_id": "revisitAnOldEntryTo"
+    },
+    "rev10": {
+      "name": {
+        "zh_Hant": "時光旅人",
+        "zh_Hans": "时光旅人",
+        "en": "Time Wanderer"
+      },
+      "description": {
+        "zh_Hant": "回顧 10 則舊紀錄",
+        "zh_Hans": "回顾 10 则旧记录",
+        "en": "Revisit 10 old entries"
+      },
+      "hint_message_id": "revisitNMoreEntriesTo"
+    },
+    "rev30": {
+      "name": {
+        "zh_Hant": "星光考古",
+        "zh_Hans": "星光考古",
+        "en": "Starlight Archaeology"
+      },
+      "description": {
+        "zh_Hant": "回顧 30 則舊紀錄",
+        "zh_Hans": "回顾 30 则旧记录",
+        "en": "Revisit 30 old entries"
+      },
+      "hint_message_id": "revisitNMoreEntriesTo"
+    },
+    "anniv": {
+      "name": {
+        "zh_Hant": "週年之星",
+        "zh_Hans": "周年之星",
+        "en": "Anniversary Star"
+      },
+      "description": {
+        "zh_Hant": "一年前的同一天也有紀錄",
+        "zh_Hans": "一年前的同一天也有记录",
+        "en": "Have an entry on the same day a year earlier"
+      },
+      "hint_message_id": "writeAgainOnTheSame"
+    },
+    "j100": {
+      "name": {
+        "zh_Hant": "百日旅程",
+        "zh_Hans": "百日旅程",
+        "en": "Hundred-Day Journey"
+      },
+      "description": {
+        "zh_Hant": "第一則到最新一則相隔 100 天",
+        "zh_Hans": "第一则到最新一则相隔 100 天",
+        "en": "100 days between your first and latest entry"
+      },
+      "hint_message_id": "keepWritingForNMore"
+    },
+    "j365": {
+      "name": {
+        "zh_Hant": "繞行一週",
+        "zh_Hans": "绕行一周",
+        "en": "Full Orbit"
+      },
+      "description": {
+        "zh_Hant": "第一則到最新一則相隔 365 天",
+        "zh_Hans": "第一则到最新一则相隔 365 天",
+        "en": "365 days between your first and latest entry"
+      },
+      "hint_message_id": "keepWritingForNMore"
+    },
+    "con1": {
+      "name": {
+        "zh_Hant": "第一個星座",
+        "zh_Hans": "第一个星座",
+        "en": "First Constellation"
+      },
+      "description": {
+        "zh_Hant": "完成 1 個星座",
+        "zh_Hans": "完成 1 个星座",
+        "en": "Complete 1 constellation"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "zod1": {
+      "name": {
+        "zh_Hant": "黃道之星",
+        "zh_Hans": "黄道之星",
+        "en": "Zodiac Star"
+      },
+      "description": {
+        "zh_Hant": "完成 1 個黃道十二星座",
+        "zh_Hans": "完成 1 个黄道十二星座",
+        "en": "Complete 1 zodiac constellation"
+      },
+      "hint_message_id": "completeAZodiacConstellationTo"
+    },
+    "con3": {
+      "name": {
+        "zh_Hant": "小小星圖",
+        "zh_Hans": "小小星图",
+        "en": "Little Star Map"
+      },
+      "description": {
+        "zh_Hant": "完成 3 個星座",
+        "zh_Hans": "完成 3 个星座",
+        "en": "Complete 3 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "con5": {
+      "name": {
+        "zh_Hant": "星圖繪製者",
+        "zh_Hans": "星图绘制者",
+        "en": "Star Mapper"
+      },
+      "description": {
+        "zh_Hant": "完成 5 個星座",
+        "zh_Hans": "完成 5 个星座",
+        "en": "Complete 5 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "con10": {
+      "name": {
+        "zh_Hant": "星圖大師",
+        "zh_Hans": "星图大师",
+        "en": "Star Map Master"
+      },
+      "description": {
+        "zh_Hant": "完成 10 個星座",
+        "zh_Hans": "完成 10 个星座",
+        "en": "Complete 10 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "con20": {
+      "name": {
+        "zh_Hant": "星空領航員",
+        "zh_Hans": "星空领航员",
+        "en": "Sky Navigator"
+      },
+      "description": {
+        "zh_Hant": "完成 20 個星座",
+        "zh_Hans": "完成 20 个星座",
+        "en": "Complete 20 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "con44": {
+      "name": {
+        "zh_Hant": "半片夜空",
+        "zh_Hans": "半片夜空",
+        "en": "Half the Sky"
+      },
+      "description": {
+        "zh_Hant": "完成 44 個星座",
+        "zh_Hans": "完成 44 个星座",
+        "en": "Complete 44 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    },
+    "zod12": {
+      "name": {
+        "zh_Hant": "黃道全集",
+        "zh_Hans": "黄道全集",
+        "en": "Complete Zodiac"
+      },
+      "description": {
+        "zh_Hant": "完成全部 12 個黃道星座",
+        "zh_Hans": "完成全部 12 个黄道星座",
+        "en": "Complete all 12 zodiac constellations"
+      },
+      "hint_message_id": "completeNMoreZodiacConstellations"
+    },
+    "con88": {
+      "name": {
+        "zh_Hant": "全天星圖",
+        "zh_Hans": "全天星图",
+        "en": "Whole-Sky Map"
+      },
+      "description": {
+        "zh_Hant": "完成全部 88 個星座",
+        "zh_Hans": "完成全部 88 个星座",
+        "en": "Complete all 88 constellations"
+      },
+      "hint_message_id": "completeNMoreConstellationsTo"
+    }
+  },
+  "elements": {
+    "fire": {
+      "name": {
+        "zh_Hant": "火象星座",
+        "zh_Hans": "火象星座",
+        "en": "Fire sign"
+      },
+      "monthly_tip": {
+        "zh_Hant": "火象星座本月適合把熱情放在一件事上，專注會帶來成果。",
+        "zh_Hans": "火象星座本月适合把热情放在一件事上，专注会带来成果。",
+        "en": "This month, fire signs do well to pour their passion into one thing. Focus brings results."
+      }
+    },
+    "earth": {
+      "name": {
+        "zh_Hant": "土象星座",
+        "zh_Hans": "土象星座",
+        "en": "Earth sign"
+      },
+      "monthly_tip": {
+        "zh_Hant": "土象星座本月適合穩穩累積，小小的日常習慣就是力量。",
+        "zh_Hans": "土象星座本月适合稳稳累积，小小的日常习惯就是力量。",
+        "en": "This month, earth signs do well to build steadily. Small daily habits are your strength."
+      }
+    },
+    "air": {
+      "name": {
+        "zh_Hant": "風象星座",
+        "zh_Hans": "风象星座",
+        "en": "Air sign"
+      },
+      "monthly_tip": {
+        "zh_Hant": "風象星座本月適合多交流，說出口的想法會變得更清楚。",
+        "zh_Hans": "风象星座本月适合多交流，说出口的想法会变得更清楚。",
+        "en": "This month, air signs do well to talk things through. Ideas become clearer once spoken."
+      }
+    },
+    "water": {
+      "name": {
+        "zh_Hant": "水象星座",
+        "zh_Hans": "水象星座",
+        "en": "Water sign"
+      },
+      "monthly_tip": {
+        "zh_Hant": "水象星座本月適合傾聽自己的感受，照顧好情緒就是照顧好一切。",
+        "zh_Hans": "水象星座本月适合倾听自己的感受，照顾好情绪就是照顾好一切。",
+        "en": "This month, water signs do well to listen to their feelings. Caring for your emotions takes care of everything."
+      }
+    }
+  },
+  "zodiac": {
+    "Ari": {
+      "name": {
+        "zh_Hant": "牡羊座",
+        "zh_Hans": "牡羊座",
+        "en": "Aries"
+      },
+      "element": {
+        "zh_Hant": "fire",
+        "zh_Hans": "fire",
+        "en": "fire"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "熱情",
+          "zh_Hans": "热情",
+          "en": "Passionate"
+        },
+        {
+          "zh_Hant": "勇敢",
+          "zh_Hans": "勇敢",
+          "en": "Brave"
+        },
+        {
+          "zh_Hant": "直率",
+          "zh_Hans": "直率",
+          "en": "Direct"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "行動派，想到就去做，喜歡挑戰和當第一個嘗試的人。直率坦白、充滿衝勁，只是有時候太急，忘了停下來看看身邊。",
+        "zh_Hans": "行动派，想到就去做，喜欢挑战和当第一个尝试的人。直率坦白、充满冲劲，只是有时候太急，忘了停下来看看身边。",
+        "en": "A doer who acts on ideas right away and loves a challenge and being first to try. Frank and full of drive, though sometimes in such a hurry you forget to stop and look around."
+      }
+    },
+    "Tau": {
+      "name": {
+        "zh_Hant": "金牛座",
+        "zh_Hans": "金牛座",
+        "en": "Taurus"
+      },
+      "element": {
+        "zh_Hant": "earth",
+        "zh_Hans": "earth",
+        "en": "earth"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "穩重",
+          "zh_Hans": "稳重",
+          "en": "Steady"
+        },
+        {
+          "zh_Hant": "踏實",
+          "zh_Hans": "踏实",
+          "en": "Grounded"
+        },
+        {
+          "zh_Hant": "重感受",
+          "zh_Hans": "重感受",
+          "en": "Sensual"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "穩重可靠，重視安全感和生活品質，懂得享受美好的小事。一旦決定就很有毅力，但不太喜歡突如其來的改變。",
+        "zh_Hans": "稳重可靠，重视安全感和生活品质，懂得享受美好的小事。一旦决定就很有毅力，但不太喜欢突如其来的改变。",
+        "en": "Steady and dependable, you value security and quality of life and know how to enjoy the little things. Once you decide, you persevere, but sudden change isn’t your favorite."
+      }
+    },
+    "Gem": {
+      "name": {
+        "zh_Hant": "雙子座",
+        "zh_Hans": "双子座",
+        "en": "Gemini"
+      },
+      "element": {
+        "zh_Hant": "air",
+        "zh_Hans": "air",
+        "en": "air"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "好奇",
+          "zh_Hans": "好奇",
+          "en": "Curious"
+        },
+        {
+          "zh_Hant": "機智",
+          "zh_Hans": "机智",
+          "en": "Witty"
+        },
+        {
+          "zh_Hant": "善溝通",
+          "zh_Hans": "善沟通",
+          "en": "Communicative"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "好奇心旺盛、反應快，喜歡聊天和學習新東西。興趣很廣，點子源源不絕，有時候也容易同時開太多頭。",
+        "zh_Hans": "好奇心旺盛、反应快，喜欢聊天和学习新东西。兴趣很广，点子源源不绝，有时候也容易同时开太多头。",
+        "en": "Curious and quick, you love talking and learning new things. Your interests are wide and ideas keep coming, though you can start too many things at once."
+      }
+    },
+    "Cnc": {
+      "name": {
+        "zh_Hant": "巨蟹座",
+        "zh_Hans": "巨蟹座",
+        "en": "Cancer"
+      },
+      "element": {
+        "zh_Hant": "water",
+        "zh_Hans": "water",
+        "en": "water"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "溫柔",
+          "zh_Hans": "温柔",
+          "en": "Gentle"
+        },
+        {
+          "zh_Hant": "念舊",
+          "zh_Hans": "念旧",
+          "en": "Nostalgic"
+        },
+        {
+          "zh_Hant": "會照顧人",
+          "zh_Hans": "会照顾人",
+          "en": "Caring"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "重感情又念舊，很會照顧身邊的人。情緒細膩敏感，需要一個讓自己安心的地方，才能發揮最溫暖的一面。",
+        "zh_Hans": "重感情又念旧，很会照顾身边的人。情绪细腻敏感，需要一个让自己安心的地方，才能发挥最温暖的一面。",
+        "en": "Warm-hearted and nostalgic, you take good care of the people around you. Sensitive and deeply feeling, you need a safe place to show your warmest side."
+      }
+    },
+    "Leo": {
+      "name": {
+        "zh_Hant": "獅子座",
+        "zh_Hans": "狮子座",
+        "en": "Leo"
+      },
+      "element": {
+        "zh_Hant": "fire",
+        "zh_Hans": "fire",
+        "en": "fire"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "自信",
+          "zh_Hans": "自信",
+          "en": "Confident"
+        },
+        {
+          "zh_Hant": "大方",
+          "zh_Hans": "大方",
+          "en": "Generous"
+        },
+        {
+          "zh_Hant": "講義氣",
+          "zh_Hans": "讲义气",
+          "en": "Loyal"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "自信大方、熱情慷慨，天生帶著舞台感。重視尊嚴，對朋友非常講義氣，也希望自己的努力被看見。",
+        "zh_Hans": "自信大方、热情慷慨，天生带着舞台感。重视尊严，对朋友非常讲义气，也希望自己的努力被看见。",
+        "en": "Confident, warm and generous, you’re a natural on stage. You value dignity, are fiercely loyal to friends, and want your efforts to be seen."
+      }
+    },
+    "Vir": {
+      "name": {
+        "zh_Hant": "處女座",
+        "zh_Hans": "处女座",
+        "en": "Virgo"
+      },
+      "element": {
+        "zh_Hant": "earth",
+        "zh_Hans": "earth",
+        "en": "earth"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "細心",
+          "zh_Hans": "细心",
+          "en": "Attentive"
+        },
+        {
+          "zh_Hant": "務實",
+          "zh_Hans": "务实",
+          "en": "Practical"
+        },
+        {
+          "zh_Hant": "追求完美",
+          "zh_Hans": "追求完美",
+          "en": "Perfectionist"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "細心務實，擅長整理、分析和把事情做好。對自己要求很高，偶爾需要提醒自己：不完美也沒關係。",
+        "zh_Hans": "细心务实，擅长整理、分析和把事情做好。对自己要求很高，偶尔需要提醒自己：不完美也没关系。",
+        "en": "Careful and practical, you’re good at organizing, analyzing and getting things right. You set high standards, so now and then remind yourself it’s okay not to be perfect."
+      }
+    },
+    "Lib": {
+      "name": {
+        "zh_Hant": "天秤座",
+        "zh_Hans": "天秤座",
+        "en": "Libra"
+      },
+      "element": {
+        "zh_Hant": "air",
+        "zh_Hans": "air",
+        "en": "air"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "優雅",
+          "zh_Hans": "优雅",
+          "en": "Graceful"
+        },
+        {
+          "zh_Hant": "公平",
+          "zh_Hans": "公平",
+          "en": "Fair"
+        },
+        {
+          "zh_Hant": "重和諧",
+          "zh_Hans": "重和谐",
+          "en": "Harmonious"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "優雅隨和，重視公平與和諧，很會看氣氛、照顧大家的感受。美感很好，只是遇到選擇時容易猶豫不決。",
+        "zh_Hans": "优雅随和，重视公平与和谐，很会看气氛、照顾大家的感受。美感很好，只是遇到选择时容易犹豫不决。",
+        "en": "Graceful and easygoing, you value fairness and harmony and are good at reading the room. You have a great eye, but choices can leave you torn."
+      }
+    },
+    "Sco": {
+      "name": {
+        "zh_Hant": "天蠍座",
+        "zh_Hans": "天蝎座",
+        "en": "Scorpio"
+      },
+      "element": {
+        "zh_Hant": "water",
+        "zh_Hans": "water",
+        "en": "water"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "專注",
+          "zh_Hans": "专注",
+          "en": "Focused"
+        },
+        {
+          "zh_Hant": "深刻",
+          "zh_Hans": "深刻",
+          "en": "Intense"
+        },
+        {
+          "zh_Hant": "忠誠",
+          "zh_Hans": "忠诚",
+          "en": "Devoted"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "專注又有洞察力，感情濃烈而忠誠。外表看起來冷靜，內心其實很有溫度，只對信任的人敞開。",
+        "zh_Hans": "专注又有洞察力，感情浓烈而忠诚。外表看起来冷静，内心其实很有温度，只对信任的人敞开。",
+        "en": "Focused and perceptive, your feelings run deep and loyal. Cool on the outside, warm inside, and open only with those you trust."
+      }
+    },
+    "Sgr": {
+      "name": {
+        "zh_Hant": "射手座",
+        "zh_Hans": "射手座",
+        "en": "Sagittarius"
+      },
+      "element": {
+        "zh_Hant": "fire",
+        "zh_Hans": "fire",
+        "en": "fire"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "樂觀",
+          "zh_Hans": "乐观",
+          "en": "Optimistic"
+        },
+        {
+          "zh_Hant": "自由",
+          "zh_Hans": "自由",
+          "en": "Free-spirited"
+        },
+        {
+          "zh_Hant": "愛冒險",
+          "zh_Hans": "爱冒险",
+          "en": "Adventurous"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "樂觀開朗、熱愛自由，喜歡旅行、探索和思考人生的大問題。說話直接，最怕被綁住或一成不變。",
+        "zh_Hans": "乐观开朗、热爱自由，喜欢旅行、探索和思考人生的大问题。说话直接，最怕被绑住或一成不变。",
+        "en": "Cheerful and freedom-loving, you enjoy travel, exploring and pondering life’s big questions. You speak your mind and dread being tied down or stuck in a rut."
+      }
+    },
+    "Cap": {
+      "name": {
+        "zh_Hant": "摩羯座",
+        "zh_Hans": "摩羯座",
+        "en": "Capricorn"
+      },
+      "element": {
+        "zh_Hant": "earth",
+        "zh_Hans": "earth",
+        "en": "earth"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "務實",
+          "zh_Hans": "务实",
+          "en": "Practical"
+        },
+        {
+          "zh_Hant": "有耐心",
+          "zh_Hans": "有耐心",
+          "en": "Patient"
+        },
+        {
+          "zh_Hant": "負責",
+          "zh_Hans": "负责",
+          "en": "Responsible"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "務實有耐心，目標明確，願意一步一步往上爬。責任感很強，常把壓力往自己身上扛，記得也要適時放鬆。",
+        "zh_Hans": "务实有耐心，目标明确，愿意一步一步往上爬。责任感很强，常把压力往自己身上扛，记得也要适时放松。",
+        "en": "Practical and patient with clear goals, you’re willing to climb step by step. With a strong sense of duty you often carry the pressure yourself, so remember to unwind."
+      }
+    },
+    "Aqr": {
+      "name": {
+        "zh_Hant": "水瓶座",
+        "zh_Hans": "水瓶座",
+        "en": "Aquarius"
+      },
+      "element": {
+        "zh_Hant": "air",
+        "zh_Hans": "air",
+        "en": "air"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "獨立",
+          "zh_Hans": "独立",
+          "en": "Independent"
+        },
+        {
+          "zh_Hant": "創新",
+          "zh_Hans": "创新",
+          "en": "Inventive"
+        },
+        {
+          "zh_Hant": "重友誼",
+          "zh_Hans": "重友谊",
+          "en": "Friendly"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "獨立又有創意，想法常常走在前面。重視朋友和理想，需要保有自己的空間，不喜歡隨波逐流。",
+        "zh_Hans": "独立又有创意，想法常常走在前面。重视朋友和理想，需要保有自己的空间，不喜欢随波逐流。",
+        "en": "Independent and inventive, your ideas are often ahead of their time. You value friends and ideals, need your own space, and dislike following the crowd."
+      }
+    },
+    "Psc": {
+      "name": {
+        "zh_Hant": "雙魚座",
+        "zh_Hans": "双鱼座",
+        "en": "Pisces"
+      },
+      "element": {
+        "zh_Hant": "water",
+        "zh_Hans": "water",
+        "en": "water"
+      },
+      "keywords": [
+        {
+          "zh_Hant": "溫柔",
+          "zh_Hans": "温柔",
+          "en": "Gentle"
+        },
+        {
+          "zh_Hant": "浪漫",
+          "zh_Hans": "浪漫",
+          "en": "Romantic"
+        },
+        {
+          "zh_Hant": "有同理心",
+          "zh_Hans": "有同理心",
+          "en": "Empathetic"
+        }
+      ],
+      "personality": {
+        "zh_Hant": "溫柔敏感，想像力豐富，很能體會別人的感受。容易被感動，也容易把別人的情緒帶回家，需要好好照顧自己。",
+        "zh_Hans": "温柔敏感，想像力丰富，很能体会别人的感受。容易被感动，也容易把别人的情绪带回家，需要好好照顾自己。",
+        "en": "Gentle and sensitive with a rich imagination, you feel what others feel. Easily moved, you can carry other people’s emotions home, so look after yourself."
+      }
+    }
+  },
+  "fortune": {
+    "overall": [
+      {
+        "zh_Hant": "這個月適合整理生活的節奏，把重心放回自己真正在乎的事。",
+        "zh_Hans": "这个月适合整理生活的节奏，把重心放回自己真正在乎的事。",
+        "en": "A good month to reset your rhythm and refocus on what you truly care about."
+      },
+      {
+        "zh_Hant": "本月能量充沛，是開始新計畫的好時機，先踏出第一步就好。",
+        "zh_Hans": "本月能量充沛，是开始新计划的好时机，先踏出第一步就好。",
+        "en": "Your energy is high this month, a great time to start something new. Just take the first step."
+      },
+      {
+        "zh_Hant": "這個月人際互動變多，一次好的對話可能帶來意外的收穫。",
+        "zh_Hans": "这个月人际互动变多，一次好的对话可能带来意外的收获。",
+        "en": "You’ll be seeing more people this month, and one good conversation may bring a pleasant surprise."
+      },
+      {
+        "zh_Hant": "步調可以放慢一點，本月的關鍵字是「休息」與「充電」。",
+        "zh_Hans": "步调可以放慢一点，本月的关键字是「休息」与「充电」。",
+        "en": "Slow down a little. This month’s keywords are “rest” and “recharge”."
+      },
+      {
+        "zh_Hant": "本月適合學習新東西，好奇心會帶你走到新的地方。",
+        "zh_Hans": "本月适合学习新东西，好奇心会带你走到新的地方。",
+        "en": "A good month to learn something new. Curiosity will take you somewhere new."
+      },
+      {
+        "zh_Hant": "這個月容易想太多，把想法寫下來，答案會更清楚。",
+        "zh_Hans": "这个月容易想太多，把想法写下来，答案会更清楚。",
+        "en": "It’s easy to overthink this month. Write your thoughts down and the answer gets clearer."
+      },
+      {
+        "zh_Hant": "本月的好運藏在小地方，記得留意日常裡的驚喜。",
+        "zh_Hans": "本月的好运藏在小地方，记得留意日常里的惊喜。",
+        "en": "This month’s luck hides in small places. Watch for everyday surprises."
+      },
+      {
+        "zh_Hant": "這個月適合收尾，把拖延已久的事情一件件完成。",
+        "zh_Hans": "这个月适合收尾，把拖延已久的事情一件件完成。",
+        "en": "A good month for wrapping up, finishing the things you’ve put off one by one."
+      },
+      {
+        "zh_Hant": "本月情緒起伏可能比較大，溫柔對待自己是最好的策略。",
+        "zh_Hans": "本月情绪起伏可能比较大，温柔对待自己是最好的策略。",
+        "en": "Your moods may swing more this month. Being gentle with yourself is the best strategy."
+      },
+      {
+        "zh_Hant": "這個月有機會被看見，大方展現你擅長的事吧。",
+        "zh_Hans": "这个月有机会被看见，大方展现你擅长的事吧。",
+        "en": "You have a chance to be noticed this month, so show off what you’re good at."
+      },
+      {
+        "zh_Hant": "本月適合做出取捨，放下不再需要的東西會更輕鬆。",
+        "zh_Hans": "本月适合做出取舍，放下不再需要的东西会更轻松。",
+        "en": "A good month for making choices. Letting go of what you no longer need will lighten the load."
+      },
+      {
+        "zh_Hant": "這個月適合規劃未來，替接下來的半年定下一個小目標。",
+        "zh_Hans": "这个月适合规划未来，替接下来的半年定下一个小目标。",
+        "en": "A good month to plan ahead and set a small goal for the next six months."
+      }
+    ],
+    "relationships": [
+      {
+        "zh_Hant": "主動關心身邊的人，一句問候就能拉近距離。",
+        "zh_Hans": "主动关心身边的人，一句问候就能拉近距离。",
+        "en": "Reach out to the people around you. A simple hello brings you closer."
+      },
+      {
+        "zh_Hant": "與其猜測對方的想法，不如直接好好聊一次。",
+        "zh_Hans": "与其猜测对方的想法，不如直接好好聊一次。",
+        "en": "Rather than guessing what someone thinks, have a proper talk."
+      },
+      {
+        "zh_Hant": "給彼此一點空間，關係反而會更自在。",
+        "zh_Hans": "给彼此一点空间，关系反而会更自在。",
+        "en": "Give each other some space, and things will feel easier."
+      },
+      {
+        "zh_Hant": "和老朋友聯絡看看，可能會有溫暖的重逢。",
+        "zh_Hans": "和老朋友联系看看，可能会有温暖的重逢。",
+        "en": "Get in touch with an old friend. A warm reunion may follow."
+      },
+      {
+        "zh_Hant": "本月容易遇到聊得來的新朋友。",
+        "zh_Hans": "本月容易遇到聊得来的新朋友。",
+        "en": "You’re likely to meet a new friend you click with this month."
+      },
+      {
+        "zh_Hant": "多說一句謝謝，會讓關係更穩固。",
+        "zh_Hans": "多说一句谢谢，会让关系更稳固。",
+        "en": "An extra thank-you will strengthen your relationships."
+      },
+      {
+        "zh_Hant": "適合和重要的人一起散步或吃頓飯。",
+        "zh_Hans": "适合和重要的人一起散步或吃顿饭。",
+        "en": "A good time for a walk or a meal with someone important to you."
+      },
+      {
+        "zh_Hant": "注意說話的語氣，溫和比說得對更重要。",
+        "zh_Hans": "注意说话的语气，温和比说得对更重要。",
+        "en": "Mind your tone. Being kind matters more than being right."
+      },
+      {
+        "zh_Hant": "把時間留給真正讓你放鬆的人。",
+        "zh_Hans": "把时间留给真正让你放松的人。",
+        "en": "Save your time for the people who truly help you relax."
+      }
+    ],
+    "work": [
+      {
+        "zh_Hant": "專注在最重要的一件事，效率會比平常更好。",
+        "zh_Hans": "专注在最重要的一件事，效率会比平常更好。",
+        "en": "Focus on the one thing that matters most, and you’ll get more done than usual."
+      },
+      {
+        "zh_Hant": "適合學新技能，投入的時間會慢慢有回報。",
+        "zh_Hans": "适合学新技能，投入的时间会慢慢有回报。",
+        "en": "A good time to learn a new skill. The time you put in will pay off."
+      },
+      {
+        "zh_Hant": "團隊合作運不錯，別一個人扛下所有事。",
+        "zh_Hans": "团队合作运不错，别一个人扛下所有事。",
+        "en": "Teamwork goes well. Don’t carry everything alone."
+      },
+      {
+        "zh_Hant": "適合整理檔案與待辦清單，替下個月鋪路。",
+        "zh_Hans": "适合整理文件与待办清单，替下个月铺路。",
+        "en": "A good time to tidy files and to-do lists and pave the way for next month."
+      },
+      {
+        "zh_Hant": "有新想法時先記下來，之後會派上用場。",
+        "zh_Hans": "有新想法时先记下来，之后会派上用场。",
+        "en": "Note down new ideas when they come. They’ll come in handy later."
+      },
+      {
+        "zh_Hant": "別急著下決定，多收集一點資訊再行動。",
+        "zh_Hans": "别急着下决定，多收集一点信息再行动。",
+        "en": "Don’t rush decisions. Gather a bit more information before acting."
+      },
+      {
+        "zh_Hant": "容易被瑣事打斷，試著安排一段不受打擾的時間。",
+        "zh_Hans": "容易被琐事打断，试着安排一段不受打扰的时间。",
+        "en": "Small things keep interrupting you, so try to set aside some undisturbed time."
+      },
+      {
+        "zh_Hant": "努力會被看見，保持穩定的步調就好。",
+        "zh_Hans": "努力会被看见，保持稳定的步调就好。",
+        "en": "Your effort will be noticed. Just keep a steady pace."
+      },
+      {
+        "zh_Hant": "適合挑戰稍微超出舒適圈的任務。",
+        "zh_Hans": "适合挑战稍微超出舒适圈的任务。",
+        "en": "A good time to take on something just outside your comfort zone."
+      }
+    ],
+    "self_care": [
+      {
+        "zh_Hant": "每天留十分鐘給自己，安靜地呼吸或散步。",
+        "zh_Hans": "每天留十分钟给自己，安静地呼吸或散步。",
+        "en": "Give yourself ten minutes a day to breathe quietly or take a walk."
+      },
+      {
+        "zh_Hant": "早點睡是本月最好的投資。",
+        "zh_Hans": "早点睡是本月最好的投资。",
+        "en": "Going to bed early is your best investment this month."
+      },
+      {
+        "zh_Hant": "多喝水、多伸展，身體會謝謝你。",
+        "zh_Hans": "多喝水、多伸展，身体会谢谢你。",
+        "en": "Drink more water and stretch more. Your body will thank you."
+      },
+      {
+        "zh_Hant": "少滑一點手機，把注意力還給自己。",
+        "zh_Hans": "少滑一点手机，把注意力还给自己。",
+        "en": "Scroll a little less and give your attention back to yourself."
+      },
+      {
+        "zh_Hant": "找一個能讓你放鬆的小習慣，每天做一點。",
+        "zh_Hans": "找一个能让你放松的小习惯，每天做一点。",
+        "en": "Find a small habit that relaxes you and do a little every day."
+      },
+      {
+        "zh_Hant": "到戶外曬曬太陽，心情會明亮許多。",
+        "zh_Hans": "到户外晒晒太阳，心情会明亮许多。",
+        "en": "Get outside in the sun. Your mood will brighten."
+      },
+      {
+        "zh_Hant": "允許自己偶爾什麼都不做。",
+        "zh_Hans": "允许自己偶尔什么都不做。",
+        "en": "Allow yourself to do nothing now and then."
+      },
+      {
+        "zh_Hant": "整理一下房間，也會順便整理好心情。",
+        "zh_Hans": "整理一下房间，也会顺便整理好心情。",
+        "en": "Tidy your room, and your mind will follow."
+      }
+    ],
+    "lucky_colors": [
+      {
+        "zh_Hant": "星空藍",
+        "zh_Hans": "星空蓝",
+        "en": "Starry Blue"
+      },
+      {
+        "zh_Hant": "極光綠",
+        "zh_Hans": "极光绿",
+        "en": "Aurora Green"
+      },
+      {
+        "zh_Hant": "月光銀",
+        "zh_Hans": "月光银",
+        "en": "Moonlight Silver"
+      },
+      {
+        "zh_Hant": "晨曦橘",
+        "zh_Hans": "晨曦橘",
+        "en": "Dawn Orange"
+      },
+      {
+        "zh_Hant": "薰衣草紫",
+        "zh_Hans": "薰衣草紫",
+        "en": "Lavender"
+      },
+      {
+        "zh_Hant": "珊瑚粉",
+        "zh_Hans": "珊瑚粉",
+        "en": "Coral Pink"
+      },
+      {
+        "zh_Hant": "琥珀金",
+        "zh_Hans": "琥珀金",
+        "en": "Amber Gold"
+      },
+      {
+        "zh_Hant": "霧灰",
+        "zh_Hans": "雾灰",
+        "en": "Misty Gray"
+      },
+      {
+        "zh_Hant": "海洋青",
+        "zh_Hans": "海洋青",
+        "en": "Ocean Teal"
+      },
+      {
+        "zh_Hant": "酒紅",
+        "zh_Hans": "酒红",
+        "en": "Burgundy"
+      },
+      {
+        "zh_Hant": "奶油白",
+        "zh_Hans": "奶油白",
+        "en": "Cream White"
+      },
+      {
+        "zh_Hant": "森林綠",
+        "zh_Hans": "森林绿",
+        "en": "Forest Green"
+      }
+    ],
+    "monthly_prompts": [
+      {
+        "zh_Hant": "這個月最想完成的一件小事是什麼？",
+        "zh_Hans": "这个月最想完成的一件小事是什么？",
+        "en": "What small thing do you most want to finish this month?"
+      },
+      {
+        "zh_Hant": "最近有哪一刻讓你覺得「這樣就很好」？",
+        "zh_Hans": "最近有哪一刻让你觉得「这样就很好」？",
+        "en": "When did you last think “this is just right”?"
+      },
+      {
+        "zh_Hant": "如果能對一個月前的自己說一句話，你會說什麼？",
+        "zh_Hans": "如果能对一个月前的自己说一句话，你会说什么？",
+        "en": "If you could say one thing to yourself a month ago, what would it be?"
+      },
+      {
+        "zh_Hant": "最近印象深刻的一段對話是什麼？",
+        "zh_Hans": "最近印象深刻的一段对话是什么？",
+        "en": "What conversation has stayed with you lately?"
+      },
+      {
+        "zh_Hant": "這個月你想對誰說聲謝謝？",
+        "zh_Hans": "这个月你想对谁说声谢谢？",
+        "en": "Who would you like to thank this month?"
+      },
+      {
+        "zh_Hant": "最近有什麼事讓你感到好奇？",
+        "zh_Hans": "最近有什么事让你感到好奇？",
+        "en": "What has made you curious lately?"
+      },
+      {
+        "zh_Hant": "你現在最需要的是什麼？",
+        "zh_Hans": "你现在最需要的是什么？",
+        "en": "What do you need most right now?"
+      },
+      {
+        "zh_Hant": "這個月想放下的一件事是什麼？",
+        "zh_Hans": "这个月想放下的一件事是什么？",
+        "en": "What is one thing you want to let go of this month?"
+      },
+      {
+        "zh_Hant": "最近學到的一件新事物是什麼？",
+        "zh_Hans": "最近学到的一件新事物是什么？",
+        "en": "What is something new you learned recently?"
+      },
+      {
+        "zh_Hant": "描述一個最近讓你心情變好的地方。",
+        "zh_Hans": "描述一个最近让你心情变好的地方。",
+        "en": "Describe a place that lifted your mood recently."
+      }
+    ]
+  },
+  "prompts": [
+    {
+      "zh_Hant": "今天有什麼事讓你覺得時間過得特別快？",
+      "zh_Hans": "今天有什么事让你觉得时间过得特别快？",
+      "en": "What made time fly today?"
+    },
+    {
+      "zh_Hant": "如果十年後的你讀到今天，你想讓他知道什麼？",
+      "zh_Hans": "如果十年后的你读到今天，你想让他知道什么？",
+      "en": "If you read this in ten years, what would you want your future self to know?"
+    },
+    {
+      "zh_Hant": "今天有什麼小發現？",
+      "zh_Hans": "今天有什么小发现？",
+      "en": "What small thing did you discover today?"
+    },
+    {
+      "zh_Hant": "描述一個今天看到的畫面，越具體越好。",
+      "zh_Hans": "描述一个今天看到的画面，越具体越好。",
+      "en": "Describe something you saw today, in as much detail as you can."
+    },
+    {
+      "zh_Hant": "今天最想感謝的一件事是什麼？",
+      "zh_Hans": "今天最想感谢的一件事是什么？",
+      "en": "What are you most grateful for today?"
+    },
+    {
+      "zh_Hant": "有什麼事你一直想做，卻還沒開始？",
+      "zh_Hans": "有什么事你一直想做，却还没开始？",
+      "en": "What have you been meaning to do but haven’t started yet?"
+    },
+    {
+      "zh_Hant": "今天有誰讓你印象深刻？為什麼？",
+      "zh_Hans": "今天有谁让你印象深刻？为什么？",
+      "en": "Who left an impression on you today? Why?"
+    },
+    {
+      "zh_Hant": "如果今天是一顆星，它會是什麼顏色？",
+      "zh_Hans": "如果今天是一颗星，它会是什么颜色？",
+      "en": "If today were a star, what color would it be?"
+    }
+  ],
+  "avatars": {
+    "moon": {
+      "name": {
+        "zh_Hant": "新月",
+        "zh_Hans": "新月",
+        "en": "Crescent"
+      },
+      "description": {
+        "zh_Hant": "輕輕搖晃的新月，旁邊星星閃爍",
+        "zh_Hans": "轻轻摇晃的新月，旁边星星闪烁",
+        "en": "A gently rocking crescent with twinkling stars"
+      }
+    },
+    "full": {
+      "name": {
+        "zh_Hant": "滿月",
+        "zh_Hans": "满月",
+        "en": "Full Moon"
+      },
+      "description": {
+        "zh_Hant": "月面緩緩自轉，月光一明一暗",
+        "zh_Hans": "月面缓缓自转，月光一明一暗",
+        "en": "The moon slowly turns as its light waxes and wanes"
+      }
+    },
+    "sun": {
+      "name": {
+        "zh_Hant": "恆星",
+        "zh_Hans": "恒星",
+        "en": "Star"
+      },
+      "description": {
+        "zh_Hant": "光芒慢慢旋轉，核心呼吸發光",
+        "zh_Hans": "光芒慢慢旋转，核心呼吸发光",
+        "en": "Rays slowly turn around a softly glowing core"
+      }
+    },
+    "planet": {
+      "name": {
+        "zh_Hant": "環狀行星",
+        "zh_Hans": "环状行星",
+        "en": "Ringed Planet"
+      },
+      "description": {
+        "zh_Hant": "行星漂浮，小衛星繞著轉",
+        "zh_Hans": "行星漂浮，小卫星绕着转",
+        "en": "A floating planet with a little moon in orbit"
+      }
+    },
+    "comet": {
+      "name": {
+        "zh_Hant": "彗星",
+        "zh_Hans": "彗星",
+        "en": "Comet"
+      },
+      "description": {
+        "zh_Hant": "彗尾閃動，往前飛行",
+        "zh_Hans": "彗尾闪动，往前飞行",
+        "en": "Flies forward with a shimmering tail"
+      }
+    },
+    "meteor": {
+      "name": {
+        "zh_Hant": "流星",
+        "zh_Hans": "流星",
+        "en": "Meteor"
+      },
+      "description": {
+        "zh_Hant": "一道光劃過夜空",
+        "zh_Hans": "一道光划过夜空",
+        "en": "A streak of light across the night"
+      }
+    },
+    "nova": {
+      "name": {
+        "zh_Hant": "四芒星",
+        "zh_Hans": "四芒星",
+        "en": "Four-Point Star"
+      },
+      "description": {
+        "zh_Hant": "星光一收一放，背後光芒旋轉",
+        "zh_Hans": "星光一收一放，背后光芒旋转",
+        "en": "Pulsing starlight with turning rays behind"
+      }
+    },
+    "const": {
+      "name": {
+        "zh_Hant": "星座 N",
+        "zh_Hans": "星座 N",
+        "en": "Constellation N"
+      },
+      "description": {
+        "zh_Hant": "連線一筆畫出，最後點亮新星",
+        "zh_Hans": "连线一笔画出，最后点亮新星",
+        "en": "Drawn in one stroke, ending with a new star"
+      }
+    },
+    "polaris": {
+      "name": {
+        "zh_Hant": "北極星",
+        "zh_Hans": "北极星",
+        "en": "Polaris"
+      },
+      "description": {
+        "zh_Hant": "外圈刻度旋轉，星光呼吸",
+        "zh_Hans": "外圈刻度旋转，星光呼吸",
+        "en": "A turning outer dial around breathing starlight"
+      }
+    },
+    "galaxy": {
+      "name": {
+        "zh_Hant": "螺旋星系",
+        "zh_Hans": "螺旋星系",
+        "en": "Spiral Galaxy"
+      },
+      "description": {
+        "zh_Hant": "旋臂緩緩轉動",
+        "zh_Hans": "旋臂缓缓转动",
+        "en": "Slowly turning spiral arms"
+      }
+    },
+    "nebula": {
+      "name": {
+        "zh_Hant": "星雲",
+        "zh_Hans": "星云",
+        "en": "Nebula"
+      },
+      "description": {
+        "zh_Hant": "三色雲氣慢慢流動",
+        "zh_Hans": "三色云气慢慢流动",
+        "en": "Three-colored clouds slowly drifting"
+      }
+    },
+    "scope": {
+      "name": {
+        "zh_Hant": "望遠鏡",
+        "zh_Hans": "望远镜",
+        "en": "Telescope"
+      },
+      "description": {
+        "zh_Hant": "鏡筒微微掃過天空",
+        "zh_Hans": "镜筒微微扫过天空",
+        "en": "The tube gently sweeps the sky"
+      }
+    },
+    "owl": {
+      "name": {
+        "zh_Hant": "夜梟",
+        "zh_Hans": "夜枭",
+        "en": "Night Owl"
+      },
+      "description": {
+        "zh_Hant": "歪頭、眨星星眼",
+        "zh_Hans": "歪头、眨星星眼",
+        "en": "Tilts its head and blinks starry eyes"
+      }
+    },
+    "fox": {
+      "name": {
+        "zh_Hant": "星狐",
+        "zh_Hans": "星狐",
+        "en": "Star Fox"
+      },
+      "description": {
+        "zh_Hant": "星座線畫出狐狸，眼睛閃光",
+        "zh_Hans": "星座线画出狐狸，眼睛闪光",
+        "en": "A fox drawn in constellation lines with glinting eyes"
+      }
+    },
+    "rabbit": {
+      "name": {
+        "zh_Hant": "玉兔",
+        "zh_Hans": "玉兔",
+        "en": "Moon Rabbit"
+      },
+      "description": {
+        "zh_Hant": "坐在新月上，耳朵偶爾抖一下",
+        "zh_Hans": "坐在新月上，耳朵偶尔抖一下",
+        "en": "Sits on a crescent, ears twitching now and then"
+      }
+    },
+    "whale": {
+      "name": {
+        "zh_Hant": "星鯨",
+        "zh_Hans": "星鲸",
+        "en": "Star Whale"
+      },
+      "description": {
+        "zh_Hant": "上下游動，噴出小星星",
+        "zh_Hans": "上下游动，喷出小星星",
+        "en": "Swims up and down, spouting little stars"
+      }
+    },
+    "cat": {
+      "name": {
+        "zh_Hant": "星貓",
+        "zh_Hans": "星猫",
+        "en": "Star Cat"
+      },
+      "description": {
+        "zh_Hant": "新月瞳孔，會眨眼",
+        "zh_Hans": "新月瞳孔，会眨眼",
+        "en": "Crescent pupils that blink"
+      }
+    },
+    "journal": {
+      "name": {
+        "zh_Hant": "星記本",
+        "zh_Hans": "星记本",
+        "en": "Star Journal"
+      },
+      "description": {
+        "zh_Hant": "書籤輕晃，封面星星發光",
+        "zh_Hans": "书签轻晃，封面星星发光",
+        "en": "A swaying bookmark and a glowing cover star"
+      }
+    },
+    "eclipse": {
+      "name": {
+        "zh_Hant": "日蝕",
+        "zh_Hans": "日蚀",
+        "en": "Eclipse"
+      },
+      "description": {
+        "zh_Hant": "金色日冕緩緩呼吸",
+        "zh_Hans": "金色日冕缓缓呼吸",
+        "en": "A golden corona slowly breathing"
+      }
+    },
+    "aurora": {
+      "name": {
+        "zh_Hant": "極光",
+        "zh_Hans": "极光",
+        "en": "Aurora"
+      },
+      "description": {
+        "zh_Hant": "三色光帶輕輕飄動",
+        "zh_Hans": "三色光带轻轻飘动",
+        "en": "Three ribbons of light gently drifting"
+      }
+    },
+    "ursa": {
+      "name": {
+        "zh_Hant": "小熊座",
+        "zh_Hans": "小熊座",
+        "en": "Little Dipper"
+      },
+      "description": {
+        "zh_Hant": "北極星在勺柄盡頭閃耀",
+        "zh_Hans": "北极星在勺柄尽头闪耀",
+        "en": "Polaris shines at the end of the handle"
+      }
+    },
+    "jelly": {
+      "name": {
+        "zh_Hant": "星水母",
+        "zh_Hans": "星水母",
+        "en": "Star Jellyfish"
+      },
+      "description": {
+        "zh_Hant": "在夜空裡緩緩漂浮",
+        "zh_Hans": "在夜空里缓缓漂浮",
+        "en": "Drifts slowly through the night"
+      }
+    },
+    "lamp": {
+      "name": {
+        "zh_Hant": "天燈",
+        "zh_Hans": "天灯",
+        "en": "Sky Lantern"
+      },
+      "description": {
+        "zh_Hant": "帶著願望慢慢升空",
+        "zh_Hans": "带着愿望慢慢升空",
+        "en": "Rises slowly, carrying a wish"
+      }
+    }
+  },
+  "constellations": {
+    "And": {
+      "name": {
+        "zh_Hant": "仙女座",
+        "zh_Hans": "仙女座",
+        "en": "Andromeda"
+      },
+      "fact": {
+        "zh_Hant": "衣索比亞公主安朵美達，這裡有肉眼可見的仙女座星系。",
+        "zh_Hans": "埃塞俄比亚公主安朵美达，这里有肉眼可见的仙女座星系。",
+        "en": "Princess Andromeda of Ethiopia. Home to the Andromeda Galaxy, visible to the naked eye."
+      }
+    },
+    "Ant": {
+      "name": {
+        "zh_Hant": "唧筒座",
+        "zh_Hans": "唧筒座",
+        "en": "Antlia"
+      },
+      "fact": {
+        "zh_Hant": "18 世紀由拉卡伊命名，紀念當時的抽氣機。",
+        "zh_Hans": "18 世纪由拉卡伊命名，纪念当时的抽气机。",
+        "en": "Named by Lacaille in the 18th century after the air pump of his day."
+      }
+    },
+    "Aps": {
+      "name": {
+        "zh_Hant": "天燕座",
+        "zh_Hans": "天燕座",
+        "en": "Apus"
+      },
+      "fact": {
+        "zh_Hant": "名稱意為「無足鳥」，指的是天堂鳥，位在南天極附近。",
+        "zh_Hans": "名称意为「无足鸟」，指的是天堂鸟，位在南天极附近。",
+        "en": "Its name means “footless bird”, meaning the bird of paradise. It lies near the south celestial pole."
+      }
+    },
+    "Aqr": {
+      "name": {
+        "zh_Hant": "水瓶座",
+        "zh_Hans": "水瓶座",
+        "en": "Aquarius"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，也就是星座運勢中的水瓶座，形象是倒水的少年。",
+        "zh_Hans": "黄道星座之一，也就是星座运势中的水瓶座，形象是倒水的少年。",
+        "en": "A zodiac constellation, the Aquarius of horoscopes, pictured as a youth pouring water."
+      }
+    },
+    "Aql": {
+      "name": {
+        "zh_Hant": "天鷹座",
+        "zh_Hans": "天鹰座",
+        "en": "Aquila"
+      },
+      "fact": {
+        "zh_Hant": "主星牛郎星（河鼓二），隔著銀河與織女星相望。",
+        "zh_Hans": "主星牛郎星（河鼓二），隔着银河与织女星相望。",
+        "en": "Its brightest star Altair faces Vega across the Milky Way."
+      }
+    },
+    "Ara": {
+      "name": {
+        "zh_Hant": "天壇座",
+        "zh_Hans": "天坛座",
+        "en": "Ara"
+      },
+      "fact": {
+        "zh_Hant": "希臘神話中，眾神結盟時使用的祭壇。",
+        "zh_Hans": "希腊神话中，众神结盟时使用的祭坛。",
+        "en": "In Greek myth, the altar where the gods swore their alliance."
+      }
+    },
+    "Ari": {
+      "name": {
+        "zh_Hant": "牡羊座",
+        "zh_Hans": "牡羊座",
+        "en": "Aries"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一（牡羊座），代表擁有金羊毛的公羊。",
+        "zh_Hans": "黄道星座之一（牡羊座），代表拥有金羊毛的公羊。",
+        "en": "A zodiac constellation (Aries), the ram with the Golden Fleece."
+      }
+    },
+    "Aur": {
+      "name": {
+        "zh_Hant": "御夫座",
+        "zh_Hans": "御夫座",
+        "en": "Auriga"
+      },
+      "fact": {
+        "zh_Hant": "主星五車二是全天第六亮的恆星。",
+        "zh_Hans": "主星五车二是全天第六亮的恒星。",
+        "en": "Its brightest star Capella is the sixth-brightest star in the sky."
+      }
+    },
+    "Boo": {
+      "name": {
+        "zh_Hant": "牧夫座",
+        "zh_Hans": "牧夫座",
+        "en": "Boötes"
+      },
+      "fact": {
+        "zh_Hant": "主星大角星是北半球夜空最亮的恆星。",
+        "zh_Hans": "主星大角星是北半球夜空最亮的恒星。",
+        "en": "Its brightest star Arcturus is the brightest star in the northern sky."
+      }
+    },
+    "Cae": {
+      "name": {
+        "zh_Hant": "雕具座",
+        "zh_Hans": "雕具座",
+        "en": "Caelum"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表雕刻用的鑿刀。",
+        "zh_Hans": "由拉卡伊命名，代表雕刻用的凿刀。",
+        "en": "Named by Lacaille after an engraver’s chisel."
+      }
+    },
+    "Cam": {
+      "name": {
+        "zh_Hant": "鹿豹座",
+        "zh_Hans": "鹿豹座",
+        "en": "Camelopardalis"
+      },
+      "fact": {
+        "zh_Hant": "17 世紀才加入的星座，範圍很大，但星星都很暗。",
+        "zh_Hans": "17 世纪才加入的星座，范围很大，但星星都很暗。",
+        "en": "Added in the 17th century. It is large, but its stars are all faint."
+      }
+    },
+    "Cnc": {
+      "name": {
+        "zh_Hant": "巨蟹座",
+        "zh_Hans": "巨蟹座",
+        "en": "Cancer"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，中央有著名的蜂巢星團（鬼星團）。",
+        "zh_Hans": "黄道星座之一，中央有著名的蜂巢星团（鬼星团）。",
+        "en": "A zodiac constellation with the famous Beehive Cluster at its center."
+      }
+    },
+    "CVn": {
+      "name": {
+        "zh_Hant": "獵犬座",
+        "zh_Hans": "猎犬座",
+        "en": "Canes Venatici"
+      },
+      "fact": {
+        "zh_Hant": "牧夫手中牽著的兩隻獵犬，主星叫「查理之心」。",
+        "zh_Hans": "牧夫手中牵着的两只猎犬，主星叫「查理之心」。",
+        "en": "The two hunting dogs held by the herdsman. Its brightest star is called Cor Caroli, “Charles’s Heart”."
+      }
+    },
+    "CMa": {
+      "name": {
+        "zh_Hant": "大犬座",
+        "zh_Hans": "大犬座",
+        "en": "Canis Major"
+      },
+      "fact": {
+        "zh_Hant": "主星天狼星是夜空中最亮的恆星。",
+        "zh_Hans": "主星天狼星是夜空中最亮的恒星。",
+        "en": "Its brightest star Sirius is the brightest star in the night sky."
+      }
+    },
+    "CMi": {
+      "name": {
+        "zh_Hant": "小犬座",
+        "zh_Hans": "小犬座",
+        "en": "Canis Minor"
+      },
+      "fact": {
+        "zh_Hant": "主星南河三與天狼星、參宿四組成「冬季大三角」。",
+        "zh_Hans": "主星南河三与天狼星、参宿四组成「冬季大三角」。",
+        "en": "Its brightest star Procyon forms the Winter Triangle with Sirius and Betelgeuse."
+      }
+    },
+    "Cap": {
+      "name": {
+        "zh_Hant": "摩羯座",
+        "zh_Hans": "摩羯座",
+        "en": "Capricornus"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，形象是上半身山羊、下半身魚尾。",
+        "zh_Hans": "黄道星座之一，形象是上半身山羊、下半身鱼尾。",
+        "en": "A zodiac constellation pictured as a goat with a fish’s tail."
+      }
+    },
+    "Car": {
+      "name": {
+        "zh_Hant": "船底座",
+        "zh_Hans": "船底座",
+        "en": "Carina"
+      },
+      "fact": {
+        "zh_Hant": "原屬巨大的南船座，主星老人星是全天第二亮的恆星。",
+        "zh_Hans": "原属巨大的南船座，主星老人星是全天第二亮的恒星。",
+        "en": "Once part of the giant ship Argo Navis. Its brightest star Canopus is the second-brightest in the sky."
+      }
+    },
+    "Cas": {
+      "name": {
+        "zh_Hant": "仙后座",
+        "zh_Hans": "仙后座",
+        "en": "Cassiopeia"
+      },
+      "fact": {
+        "zh_Hant": "五顆亮星排成明顯的 W 形，是尋找北極星的好幫手。",
+        "zh_Hans": "五颗亮星排成明显的 W 形，是寻找北极星的好帮手。",
+        "en": "Five bright stars form a clear W, a great guide for finding Polaris."
+      }
+    },
+    "Cen": {
+      "name": {
+        "zh_Hant": "半人馬座",
+        "zh_Hans": "半人马座",
+        "en": "Centaurus"
+      },
+      "fact": {
+        "zh_Hant": "包含離太陽最近的恆星系統「南門二」。",
+        "zh_Hans": "包含离太阳最近的恒星系统「南门二」。",
+        "en": "Contains Alpha Centauri, the star system closest to the Sun."
+      }
+    },
+    "Cep": {
+      "name": {
+        "zh_Hant": "仙王座",
+        "zh_Hans": "仙王座",
+        "en": "Cepheus"
+      },
+      "fact": {
+        "zh_Hant": "衣索比亞國王，星星排成一間小房子的形狀。",
+        "zh_Hans": "埃塞俄比亚国王，星星排成一间小房子的形状。",
+        "en": "The king of Ethiopia, whose stars form the shape of a little house."
+      }
+    },
+    "Cet": {
+      "name": {
+        "zh_Hant": "鯨魚座",
+        "zh_Hans": "鲸鱼座",
+        "en": "Cetus"
+      },
+      "fact": {
+        "zh_Hant": "有著名的變星「米拉」，亮度會週期性地大幅變化。",
+        "zh_Hans": "有著名的变星「米拉」，亮度会周期性地大幅变化。",
+        "en": "Home to the famous variable star Mira, whose brightness changes greatly over time."
+      }
+    },
+    "Cha": {
+      "name": {
+        "zh_Hant": "蝘蜓座",
+        "zh_Hans": "蝘蜓座",
+        "en": "Chamaeleon"
+      },
+      "fact": {
+        "zh_Hant": "以會變色的變色龍命名，靠近南天極。",
+        "zh_Hans": "以会变色的变色龙命名，靠近南天极。",
+        "en": "Named after the color-changing chameleon. It lies near the south celestial pole."
+      }
+    },
+    "Cir": {
+      "name": {
+        "zh_Hant": "圓規座",
+        "zh_Hans": "圆规座",
+        "en": "Circinus"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表繪圖用的圓規。",
+        "zh_Hans": "由拉卡伊命名，代表绘图用的圆规。",
+        "en": "Named by Lacaille after a drafting compass."
+      }
+    },
+    "Col": {
+      "name": {
+        "zh_Hant": "天鴿座",
+        "zh_Hans": "天鸽座",
+        "en": "Columba"
+      },
+      "fact": {
+        "zh_Hant": "代表諾亞方舟放出的鴿子。",
+        "zh_Hans": "代表诺亚方舟放出的鸽子。",
+        "en": "The dove released from Noah’s Ark."
+      }
+    },
+    "Com": {
+      "name": {
+        "zh_Hant": "后髮座",
+        "zh_Hans": "后发座",
+        "en": "Coma Berenices"
+      },
+      "fact": {
+        "zh_Hant": "紀念埃及王后貝勒尼基獻出的秀髮。",
+        "zh_Hans": "纪念埃及王后贝勒尼基献出的秀发。",
+        "en": "Honors the hair offered up by Queen Berenice of Egypt."
+      }
+    },
+    "CrA": {
+      "name": {
+        "zh_Hant": "南冕座",
+        "zh_Hans": "南冕座",
+        "en": "Corona Australis"
+      },
+      "fact": {
+        "zh_Hant": "南方的一圈小星星，形狀像一頂花冠。",
+        "zh_Hans": "南方的一圈小星星，形状像一顶花冠。",
+        "en": "A small ring of southern stars shaped like a wreath."
+      }
+    },
+    "CrB": {
+      "name": {
+        "zh_Hant": "北冕座",
+        "zh_Hans": "北冕座",
+        "en": "Corona Borealis"
+      },
+      "fact": {
+        "zh_Hant": "七顆星排成半圓形，像一頂精緻的王冠。",
+        "zh_Hans": "七颗星排成半圆形，像一顶精致的王冠。",
+        "en": "Seven stars in a semicircle, like a delicate crown."
+      }
+    },
+    "Crv": {
+      "name": {
+        "zh_Hant": "烏鴉座",
+        "zh_Hans": "乌鸦座",
+        "en": "Corvus"
+      },
+      "fact": {
+        "zh_Hant": "四顆亮星組成四邊形，像一面船帆。",
+        "zh_Hans": "四颗亮星组成四边形，像一面船帆。",
+        "en": "Four bright stars form a quadrilateral, like a ship’s sail."
+      }
+    },
+    "Crt": {
+      "name": {
+        "zh_Hant": "巨爵座",
+        "zh_Hans": "巨爵座",
+        "en": "Crater"
+      },
+      "fact": {
+        "zh_Hant": "代表阿波羅的酒杯，就在烏鴉座旁邊。",
+        "zh_Hans": "代表阿波罗的酒杯，就在乌鸦座旁边。",
+        "en": "Apollo’s cup, right next to Corvus."
+      }
+    },
+    "Cru": {
+      "name": {
+        "zh_Hant": "南十字座",
+        "zh_Hans": "南十字座",
+        "en": "Crux"
+      },
+      "fact": {
+        "zh_Hant": "全天最小的星座，出現在澳洲、紐西蘭等國的國旗上。",
+        "zh_Hans": "全天最小的星座，出现在澳洲、新西兰等国的国旗上。",
+        "en": "The smallest constellation, featured on the flags of Australia, New Zealand and others."
+      }
+    },
+    "Cyg": {
+      "name": {
+        "zh_Hant": "天鵝座",
+        "zh_Hans": "天鹅座",
+        "en": "Cygnus"
+      },
+      "fact": {
+        "zh_Hant": "主星天津四與織女星、牛郎星組成「夏季大三角」。",
+        "zh_Hans": "主星天津四与织女星、牛郎星组成「夏季大三角」。",
+        "en": "Its brightest star Deneb forms the Summer Triangle with Vega and Altair."
+      }
+    },
+    "Del": {
+      "name": {
+        "zh_Hant": "海豚座",
+        "zh_Hans": "海豚座",
+        "en": "Delphinus"
+      },
+      "fact": {
+        "zh_Hant": "小巧的菱形，像一隻躍出水面的海豚。",
+        "zh_Hans": "小巧的菱形，像一只跃出水面的海豚。",
+        "en": "A small diamond, like a dolphin leaping from the water."
+      }
+    },
+    "Dor": {
+      "name": {
+        "zh_Hant": "劍魚座",
+        "zh_Hans": "剑鱼座",
+        "en": "Dorado"
+      },
+      "fact": {
+        "zh_Hant": "這裡有大麥哲倫星系，是銀河系的衛星星系。",
+        "zh_Hans": "这里有大麦哲伦星系，是银河系的卫星星系。",
+        "en": "Home to the Large Magellanic Cloud, a satellite galaxy of the Milky Way."
+      }
+    },
+    "Dra": {
+      "name": {
+        "zh_Hant": "天龍座",
+        "zh_Hans": "天龙座",
+        "en": "Draco"
+      },
+      "fact": {
+        "zh_Hant": "蜿蜒在大熊與小熊之間；約五千年前，主星右樞曾是北極星。",
+        "zh_Hans": "蜿蜒在大熊与小熊之间；约五千年前，主星右枢曾是北极星。",
+        "en": "Winds between the Great and Little Bears. About 5,000 years ago its star Thuban was the pole star."
+      }
+    },
+    "Equ": {
+      "name": {
+        "zh_Hant": "小馬座",
+        "zh_Hans": "小马座",
+        "en": "Equuleus"
+      },
+      "fact": {
+        "zh_Hant": "全天第二小的星座，只露出一個馬頭。",
+        "zh_Hans": "全天第二小的星座，只露出一个马头。",
+        "en": "The second-smallest constellation, showing only a horse’s head."
+      }
+    },
+    "Eri": {
+      "name": {
+        "zh_Hant": "波江座",
+        "zh_Hans": "波江座",
+        "en": "Eridanus"
+      },
+      "fact": {
+        "zh_Hant": "從獵戶座腳下一路流向南天，是全天最長的星座之一。",
+        "zh_Hans": "从猎户座脚下一路流向南天，是全天最长的星座之一。",
+        "en": "Flows from Orion’s feet far into the southern sky, one of the longest constellations."
+      }
+    },
+    "For": {
+      "name": {
+        "zh_Hant": "天爐座",
+        "zh_Hans": "天炉座",
+        "en": "Fornax"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表化學實驗用的火爐。",
+        "zh_Hans": "由拉卡伊命名，代表化学实验用的火炉。",
+        "en": "Named by Lacaille after a chemist’s furnace."
+      }
+    },
+    "Gem": {
+      "name": {
+        "zh_Hant": "雙子座",
+        "zh_Hans": "双子座",
+        "en": "Gemini"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，北河二與北河三是雙胞胎兄弟的頭。",
+        "zh_Hans": "黄道星座之一，北河二与北河三是双胞胎兄弟的头。",
+        "en": "A zodiac constellation. Castor and Pollux are the heads of the twin brothers."
+      }
+    },
+    "Gru": {
+      "name": {
+        "zh_Hant": "天鶴座",
+        "zh_Hans": "天鹤座",
+        "en": "Grus"
+      },
+      "fact": {
+        "zh_Hant": "南天的鶴，主星鶴一相當明亮。",
+        "zh_Hans": "南天的鹤，主星鹤一相当明亮。",
+        "en": "The southern crane, with the bright star Alnair."
+      }
+    },
+    "Her": {
+      "name": {
+        "zh_Hant": "武仙座",
+        "zh_Hans": "武仙座",
+        "en": "Hercules"
+      },
+      "fact": {
+        "zh_Hant": "希臘英雄海克力士，這裡有北天最亮的球狀星團 M13。",
+        "zh_Hans": "希腊英雄海克力士，这里有北天最亮的球状星团 M13。",
+        "en": "The Greek hero Hercules, home to M13, the brightest globular cluster in the northern sky."
+      }
+    },
+    "Hor": {
+      "name": {
+        "zh_Hant": "時鐘座",
+        "zh_Hans": "时钟座",
+        "en": "Horologium"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表擺鐘。",
+        "zh_Hans": "由拉卡伊命名，代表摆钟。",
+        "en": "Named by Lacaille after a pendulum clock."
+      }
+    },
+    "Hya": {
+      "name": {
+        "zh_Hant": "長蛇座",
+        "zh_Hans": "长蛇座",
+        "en": "Hydra"
+      },
+      "fact": {
+        "zh_Hant": "全天面積最大的星座，蜿蜒超過四分之一個天空。",
+        "zh_Hans": "全天面积最大的星座，蜿蜒超过四分之一个天空。",
+        "en": "The largest constellation, winding across more than a quarter of the sky."
+      }
+    },
+    "Hyi": {
+      "name": {
+        "zh_Hant": "水蛇座",
+        "zh_Hans": "水蛇座",
+        "en": "Hydrus"
+      },
+      "fact": {
+        "zh_Hant": "南天的小水蛇，和面積最大的長蛇座不同。",
+        "zh_Hans": "南天的小水蛇，和面积最大的长蛇座不同。",
+        "en": "The small southern water snake, not to be confused with the giant Hydra."
+      }
+    },
+    "Ind": {
+      "name": {
+        "zh_Hant": "印第安座",
+        "zh_Hans": "印第安座",
+        "en": "Indus"
+      },
+      "fact": {
+        "zh_Hant": "代表美洲原住民，16 世紀末由荷蘭航海家命名。",
+        "zh_Hans": "代表美洲原住民，16 世纪末由荷兰航海家命名。",
+        "en": "Represents an Indigenous American. Named by Dutch navigators in the late 16th century."
+      }
+    },
+    "Lac": {
+      "name": {
+        "zh_Hant": "蝎虎座",
+        "zh_Hans": "蝎虎座",
+        "en": "Lacerta"
+      },
+      "fact": {
+        "zh_Hant": "夾在天鵝座與仙女座之間的小星座，呈鋸齒狀。",
+        "zh_Hans": "夹在天鹅座与仙女座之间的小星座，呈锯齿状。",
+        "en": "A small zigzag constellation between Cygnus and Andromeda."
+      }
+    },
+    "Leo": {
+      "name": {
+        "zh_Hant": "獅子座",
+        "zh_Hans": "狮子座",
+        "en": "Leo"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，頭部的星星排成反寫的問號，稱為「獅子的鐮刀」。",
+        "zh_Hans": "黄道星座之一，头部的星星排成反写的问号，称为「狮子的镰刀」。",
+        "en": "A zodiac constellation. The stars of its head form a backward question mark called the Sickle."
+      }
+    },
+    "LMi": {
+      "name": {
+        "zh_Hant": "小獅座",
+        "zh_Hans": "小狮座",
+        "en": "Leo Minor"
+      },
+      "fact": {
+        "zh_Hant": "17 世紀由赫維留斯新增，位在獅子座上方。",
+        "zh_Hans": "17 世纪由赫维留斯添加，位在狮子座上方。",
+        "en": "Added by Hevelius in the 17th century, just above Leo."
+      }
+    },
+    "Lep": {
+      "name": {
+        "zh_Hant": "天兔座",
+        "zh_Hans": "天兔座",
+        "en": "Lepus"
+      },
+      "fact": {
+        "zh_Hant": "躲在獵戶腳邊的野兔。",
+        "zh_Hans": "躲在猎户脚边的野兔。",
+        "en": "The hare hiding at Orion’s feet."
+      }
+    },
+    "Lib": {
+      "name": {
+        "zh_Hant": "天秤座",
+        "zh_Hans": "天秤座",
+        "en": "Libra"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，是十二星座中唯一代表「物品」的星座。",
+        "zh_Hans": "黄道星座之一，是十二星座中唯一代表「物品」的星座。",
+        "en": "A zodiac constellation, the only one of the twelve that represents an object."
+      }
+    },
+    "Lup": {
+      "name": {
+        "zh_Hant": "豺狼座",
+        "zh_Hans": "豺狼座",
+        "en": "Lupus"
+      },
+      "fact": {
+        "zh_Hant": "被半人馬抓住的野獸，古時代表一匹狼。",
+        "zh_Hans": "被半人马抓住的野兽，古时代表一匹狼。",
+        "en": "The beast held by the centaur, traditionally a wolf."
+      }
+    },
+    "Lyn": {
+      "name": {
+        "zh_Hant": "天貓座",
+        "zh_Hans": "天猫座",
+        "en": "Lynx"
+      },
+      "fact": {
+        "zh_Hant": "赫維留斯說，要有山貓般的眼力才看得見這個星座。",
+        "zh_Hans": "赫维留斯说，要有山猫般的眼力才看得见这个星座。",
+        "en": "Hevelius said you need the eyes of a lynx to see it."
+      }
+    },
+    "Lyr": {
+      "name": {
+        "zh_Hant": "天琴座",
+        "zh_Hans": "天琴座",
+        "en": "Lyra"
+      },
+      "fact": {
+        "zh_Hant": "主星織女星是夏季夜空最亮的星之一。",
+        "zh_Hans": "主星织女星是夏季夜空最亮的星之一。",
+        "en": "Its brightest star Vega is one of the brightest in the summer sky."
+      }
+    },
+    "Men": {
+      "name": {
+        "zh_Hant": "山案座",
+        "zh_Hans": "山案座",
+        "en": "Mensa"
+      },
+      "fact": {
+        "zh_Hant": "以南非的桌山命名，是唯一以地貌命名的星座。",
+        "zh_Hans": "以南非的桌山命名，是唯一以地貌命名的星座。",
+        "en": "Named after Table Mountain in South Africa, the only constellation named after a landform."
+      }
+    },
+    "Mic": {
+      "name": {
+        "zh_Hant": "顯微鏡座",
+        "zh_Hans": "显微镜座",
+        "en": "Microscopium"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表顯微鏡。",
+        "zh_Hans": "由拉卡伊命名，代表显微镜。",
+        "en": "Named by Lacaille after the microscope."
+      }
+    },
+    "Mon": {
+      "name": {
+        "zh_Hant": "麒麟座",
+        "zh_Hans": "麒麟座",
+        "en": "Monoceros"
+      },
+      "fact": {
+        "zh_Hant": "藏在冬季大三角裡，星星雖暗卻位在銀河之中。",
+        "zh_Hans": "藏在冬季大三角里，星星虽暗却位在银河之中。",
+        "en": "Hidden inside the Winter Triangle. Its stars are faint, but it sits in the Milky Way."
+      }
+    },
+    "Mus": {
+      "name": {
+        "zh_Hant": "蒼蠅座",
+        "zh_Hans": "苍蝇座",
+        "en": "Musca"
+      },
+      "fact": {
+        "zh_Hant": "南天唯一的昆蟲星座。",
+        "zh_Hans": "南天唯一的昆虫星座。",
+        "en": "The only insect constellation in the southern sky."
+      }
+    },
+    "Nor": {
+      "name": {
+        "zh_Hant": "矩尺座",
+        "zh_Hans": "矩尺座",
+        "en": "Norma"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表木匠用的直角尺。",
+        "zh_Hans": "由拉卡伊命名，代表木匠用的直角尺。",
+        "en": "Named by Lacaille after a carpenter’s square."
+      }
+    },
+    "Oct": {
+      "name": {
+        "zh_Hant": "南極座",
+        "zh_Hans": "南极座",
+        "en": "Octans"
+      },
+      "fact": {
+        "zh_Hant": "南天極所在的星座，代表航海用的八分儀。",
+        "zh_Hans": "南天极所在的星座，代表航海用的八分仪。",
+        "en": "Home of the south celestial pole, named after the navigator’s octant."
+      }
+    },
+    "Oph": {
+      "name": {
+        "zh_Hant": "蛇夫座",
+        "zh_Hans": "蛇夫座",
+        "en": "Ophiuchus"
+      },
+      "fact": {
+        "zh_Hant": "手握巨蛇的醫者，太陽每年也會經過這裡。",
+        "zh_Hans": "手握巨蛇的医者，太阳每年也会经过这里。",
+        "en": "The healer holding a great serpent. The Sun passes through it every year."
+      }
+    },
+    "Ori": {
+      "name": {
+        "zh_Hant": "獵戶座",
+        "zh_Hans": "猎户座",
+        "en": "Orion"
+      },
+      "fact": {
+        "zh_Hant": "腰帶上三顆星排成一直線，是冬季最容易認出的星座。",
+        "zh_Hans": "腰带上三颗星排成一直线，是冬季最容易认出的星座。",
+        "en": "Three stars line up in its belt, making it the easiest winter constellation to spot."
+      }
+    },
+    "Pav": {
+      "name": {
+        "zh_Hant": "孔雀座",
+        "zh_Hans": "孔雀座",
+        "en": "Pavo"
+      },
+      "fact": {
+        "zh_Hant": "南天的孔雀，主星就叫「孔雀星」。",
+        "zh_Hans": "南天的孔雀，主星就叫「孔雀星」。",
+        "en": "The southern peacock, whose brightest star is named Peacock."
+      }
+    },
+    "Peg": {
+      "name": {
+        "zh_Hant": "飛馬座",
+        "zh_Hans": "飞马座",
+        "en": "Pegasus"
+      },
+      "fact": {
+        "zh_Hant": "四顆亮星組成著名的「秋季四邊形」。",
+        "zh_Hans": "四颗亮星组成著名的「秋季四边形」。",
+        "en": "Four bright stars form the famous Great Square of Pegasus."
+      }
+    },
+    "Per": {
+      "name": {
+        "zh_Hant": "英仙座",
+        "zh_Hans": "英仙座",
+        "en": "Perseus"
+      },
+      "fact": {
+        "zh_Hant": "斬殺梅杜莎的英雄，每年八月的英仙座流星雨就從這裡出發。",
+        "zh_Hans": "斩杀梅杜莎的英雄，每年八月的英仙座流星雨就从这里出发。",
+        "en": "The hero who slew Medusa. The Perseid meteor shower radiates from here every August."
+      }
+    },
+    "Phe": {
+      "name": {
+        "zh_Hant": "鳳凰座",
+        "zh_Hans": "凤凰座",
+        "en": "Phoenix"
+      },
+      "fact": {
+        "zh_Hant": "從灰燼中重生的神鳥。",
+        "zh_Hans": "从灰烬中重生的神鸟。",
+        "en": "The mythical bird reborn from its ashes."
+      }
+    },
+    "Pic": {
+      "name": {
+        "zh_Hant": "繪架座",
+        "zh_Hans": "绘架座",
+        "en": "Pictor"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表畫家的畫架。",
+        "zh_Hans": "由拉卡伊命名，代表画家的画架。",
+        "en": "Named by Lacaille after a painter’s easel."
+      }
+    },
+    "Psc": {
+      "name": {
+        "zh_Hant": "雙魚座",
+        "zh_Hans": "双鱼座",
+        "en": "Pisces"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，兩條魚用緞帶綁在一起。",
+        "zh_Hans": "黄道星座之一，两条鱼用缎带绑在一起。",
+        "en": "A zodiac constellation: two fish tied together with a ribbon."
+      }
+    },
+    "PsA": {
+      "name": {
+        "zh_Hant": "南魚座",
+        "zh_Hans": "南鱼座",
+        "en": "Piscis Austrinus"
+      },
+      "fact": {
+        "zh_Hant": "主星北落師門是秋季南方天空唯一的亮星。",
+        "zh_Hans": "主星北落师门是秋季南方天空唯一的亮星。",
+        "en": "Its brightest star Fomalhaut is the only bright star in the southern autumn sky."
+      }
+    },
+    "Pup": {
+      "name": {
+        "zh_Hant": "船尾座",
+        "zh_Hans": "船尾座",
+        "en": "Puppis"
+      },
+      "fact": {
+        "zh_Hant": "原屬南船座的船尾部分。",
+        "zh_Hans": "原属南船座的船尾部分。",
+        "en": "Once the stern of the ship Argo Navis."
+      }
+    },
+    "Pyx": {
+      "name": {
+        "zh_Hant": "羅盤座",
+        "zh_Hans": "罗盘座",
+        "en": "Pyxis"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表航海用的羅盤。",
+        "zh_Hans": "由拉卡伊命名，代表航海用的罗盘。",
+        "en": "Named by Lacaille after the mariner’s compass."
+      }
+    },
+    "Ret": {
+      "name": {
+        "zh_Hant": "網罟座",
+        "zh_Hans": "网罟座",
+        "en": "Reticulum"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，紀念望遠鏡目鏡中的十字網線。",
+        "zh_Hans": "由拉卡伊命名，纪念望远镜目镜中的十字网线。",
+        "en": "Named by Lacaille after the crosshairs in a telescope eyepiece."
+      }
+    },
+    "Sge": {
+      "name": {
+        "zh_Hant": "天箭座",
+        "zh_Hans": "天箭座",
+        "en": "Sagitta"
+      },
+      "fact": {
+        "zh_Hant": "全天第三小的星座，像一支飛過天鵝翅膀下方的箭。",
+        "zh_Hans": "全天第三小的星座，像一支飞过天鹅翅膀下方的箭。",
+        "en": "The third-smallest constellation, like an arrow flying under the swan’s wing."
+      }
+    },
+    "Sgr": {
+      "name": {
+        "zh_Hant": "射手座",
+        "zh_Hans": "射手座",
+        "en": "Sagittarius"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一（射手座），亮星組成「南斗六星」與茶壺形狀，銀河中心就在這個方向。",
+        "zh_Hans": "黄道星座之一（射手座），亮星组成「南斗六星」与茶壶形状，银河中心就在这个方向。",
+        "en": "A zodiac constellation (Sagittarius). Its bright stars form a teapot, and the center of the Milky Way lies in this direction."
+      }
+    },
+    "Sco": {
+      "name": {
+        "zh_Hant": "天蠍座",
+        "zh_Hans": "天蝎座",
+        "en": "Scorpius"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，主星心宿二是一顆紅超巨星。",
+        "zh_Hans": "黄道星座之一，主星心宿二是一颗红超巨星。",
+        "en": "A zodiac constellation. Its brightest star Antares is a red supergiant."
+      }
+    },
+    "Scl": {
+      "name": {
+        "zh_Hant": "玉夫座",
+        "zh_Hans": "玉夫座",
+        "en": "Sculptor"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表雕塑家的工作室，銀河南極就位在這裡。",
+        "zh_Hans": "由拉卡伊命名，代表雕塑家的工作室，银河南极就位在这里。",
+        "en": "Named by Lacaille after a sculptor’s studio. The south galactic pole lies here."
+      }
+    },
+    "Sct": {
+      "name": {
+        "zh_Hant": "盾牌座",
+        "zh_Hans": "盾牌座",
+        "en": "Scutum"
+      },
+      "fact": {
+        "zh_Hant": "紀念波蘭國王揚三世的盾牌。",
+        "zh_Hans": "纪念波兰国王扬三世的盾牌。",
+        "en": "Honors the shield of King John III Sobieski of Poland."
+      }
+    },
+    "Ser": {
+      "name": {
+        "zh_Hant": "巨蛇座",
+        "zh_Hans": "巨蛇座",
+        "en": "Serpens"
+      },
+      "fact": {
+        "zh_Hant": "唯一被分成兩塊的星座：一邊是蛇頭，一邊是蛇尾。",
+        "zh_Hans": "唯一被分成两块的星座：一边是蛇头，一边是蛇尾。",
+        "en": "The only constellation split in two: the serpent’s head on one side and its tail on the other."
+      }
+    },
+    "Sex": {
+      "name": {
+        "zh_Hant": "六分儀座",
+        "zh_Hans": "六分仪座",
+        "en": "Sextans"
+      },
+      "fact": {
+        "zh_Hant": "由赫維留斯命名，紀念測量星星位置的六分儀。",
+        "zh_Hans": "由赫维留斯命名，纪念测量星星位置的六分仪。",
+        "en": "Named by Hevelius after the sextant he used to measure star positions."
+      }
+    },
+    "Tau": {
+      "name": {
+        "zh_Hant": "金牛座",
+        "zh_Hans": "金牛座",
+        "en": "Taurus"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一，擁有昴宿星團（七姊妹）與畢宿星團。",
+        "zh_Hans": "黄道星座之一，拥有昴宿星团（七姊妹）与毕宿星团。",
+        "en": "A zodiac constellation with the Pleiades (Seven Sisters) and the Hyades."
+      }
+    },
+    "Tel": {
+      "name": {
+        "zh_Hant": "望遠鏡座",
+        "zh_Hans": "望远镜座",
+        "en": "Telescopium"
+      },
+      "fact": {
+        "zh_Hant": "由拉卡伊命名，代表望遠鏡。",
+        "zh_Hans": "由拉卡伊命名，代表望远镜。",
+        "en": "Named by Lacaille after the telescope."
+      }
+    },
+    "Tri": {
+      "name": {
+        "zh_Hant": "三角座",
+        "zh_Hans": "三角座",
+        "en": "Triangulum"
+      },
+      "fact": {
+        "zh_Hant": "三顆星組成細長的三角形，附近有三角座星系。",
+        "zh_Hans": "三颗星组成细长的三角形，附近有三角座星系。",
+        "en": "Three stars form a narrow triangle near the Triangulum Galaxy."
+      }
+    },
+    "TrA": {
+      "name": {
+        "zh_Hant": "南三角座",
+        "zh_Hans": "南三角座",
+        "en": "Triangulum Australe"
+      },
+      "fact": {
+        "zh_Hant": "比北方的三角座更亮，也更容易辨認。",
+        "zh_Hans": "比北方的三角座更亮，也更容易辨认。",
+        "en": "Brighter and easier to spot than the northern Triangulum."
+      }
+    },
+    "Tuc": {
+      "name": {
+        "zh_Hant": "杜鵑座",
+        "zh_Hans": "杜鹃座",
+        "en": "Tucana"
+      },
+      "fact": {
+        "zh_Hant": "南天的巨嘴鳥，這裡有小麥哲倫星系。",
+        "zh_Hans": "南天的巨嘴鸟，这里有小麦哲伦星系。",
+        "en": "The southern toucan, home to the Small Magellanic Cloud."
+      }
+    },
+    "UMa": {
+      "name": {
+        "zh_Hant": "大熊座",
+        "zh_Hans": "大熊座",
+        "en": "Ursa Major"
+      },
+      "fact": {
+        "zh_Hant": "包含著名的北斗七星，可以用來找到北極星。",
+        "zh_Hans": "包含著名的北斗七星，可以用来找到北极星。",
+        "en": "Contains the famous Big Dipper, which points the way to Polaris."
+      }
+    },
+    "UMi": {
+      "name": {
+        "zh_Hant": "小熊座",
+        "zh_Hans": "小熊座",
+        "en": "Ursa Minor"
+      },
+      "fact": {
+        "zh_Hant": "尾巴末端的那顆星就是北極星。",
+        "zh_Hans": "尾巴末端的那颗星就是北极星。",
+        "en": "The star at the tip of its tail is Polaris."
+      }
+    },
+    "Vel": {
+      "name": {
+        "zh_Hant": "船帆座",
+        "zh_Hans": "船帆座",
+        "en": "Vela"
+      },
+      "fact": {
+        "zh_Hant": "原屬南船座的船帆部分。",
+        "zh_Hans": "原属南船座的船帆部分。",
+        "en": "Once the sails of the ship Argo Navis."
+      }
+    },
+    "Vir": {
+      "name": {
+        "zh_Hant": "處女座",
+        "zh_Hans": "处女座",
+        "en": "Virgo"
+      },
+      "fact": {
+        "zh_Hant": "黃道星座之一（處女座），是全天第二大的星座。",
+        "zh_Hans": "黄道星座之一（处女座），是全天第二大的星座。",
+        "en": "A zodiac constellation (Virgo), the second-largest in the sky."
+      }
+    },
+    "Vol": {
+      "name": {
+        "zh_Hant": "飛魚座",
+        "zh_Hans": "飞鱼座",
+        "en": "Volans"
+      },
+      "fact": {
+        "zh_Hant": "南天的飛魚，會躍出水面滑翔。",
+        "zh_Hans": "南天的飞鱼，会跃出水面滑翔。",
+        "en": "The southern flying fish that leaps from the water and glides."
+      }
+    },
+    "Vul": {
+      "name": {
+        "zh_Hant": "狐狸座",
+        "zh_Hans": "狐狸座",
+        "en": "Vulpecula"
+      },
+      "fact": {
+        "zh_Hant": "這裡有著名的啞鈴星雲。",
+        "zh_Hans": "这里有著名的哑铃星云。",
+        "en": "Home to the famous Dumbbell Nebula."
+      }
+    }
+  },
+  "regions": [
+    {
+      "name": {
+        "zh_Hant": "東亞",
+        "zh_Hans": "东亚",
+        "en": "East Asia"
+      },
+      "cities": [
+        {
+          "key": "台北",
+          "name": {
+            "zh_Hant": "台北",
+            "zh_Hans": "台北",
+            "en": "Taipei"
+          },
+          "lat": 25,
+          "lon": 121.5
+        },
+        {
+          "key": "台中",
+          "name": {
+            "zh_Hant": "台中",
+            "zh_Hans": "台中",
+            "en": "Taichung"
+          },
+          "lat": 24.1,
+          "lon": 120.7
+        },
+        {
+          "key": "高雄",
+          "name": {
+            "zh_Hant": "高雄",
+            "zh_Hans": "高雄",
+            "en": "Kaohsiung"
+          },
+          "lat": 22.6,
+          "lon": 120.3
+        },
+        {
+          "key": "香港",
+          "name": {
+            "zh_Hant": "香港",
+            "zh_Hans": "香港",
+            "en": "Hong Kong"
+          },
+          "lat": 22.3,
+          "lon": 114.2
+        },
+        {
+          "key": "澳門",
+          "name": {
+            "zh_Hant": "澳門",
+            "zh_Hans": "澳门",
+            "en": "Macau"
+          },
+          "lat": 22.2,
+          "lon": 113.5
+        },
+        {
+          "key": "廣州",
+          "name": {
+            "zh_Hant": "廣州",
+            "zh_Hans": "广州",
+            "en": "Guangzhou"
+          },
+          "lat": 23.1,
+          "lon": 113.3
+        },
+        {
+          "key": "上海",
+          "name": {
+            "zh_Hant": "上海",
+            "zh_Hans": "上海",
+            "en": "Shanghai"
+          },
+          "lat": 31.2,
+          "lon": 121.5
+        },
+        {
+          "key": "北京",
+          "name": {
+            "zh_Hant": "北京",
+            "zh_Hans": "北京",
+            "en": "Beijing"
+          },
+          "lat": 39.9,
+          "lon": 116.4
+        },
+        {
+          "key": "東京",
+          "name": {
+            "zh_Hant": "東京",
+            "zh_Hans": "东京",
+            "en": "Tokyo"
+          },
+          "lat": 35.7,
+          "lon": 139.7
+        },
+        {
+          "key": "首爾",
+          "name": {
+            "zh_Hant": "首爾",
+            "zh_Hans": "首尔",
+            "en": "Seoul"
+          },
+          "lat": 37.6,
+          "lon": 127
+        }
+      ]
+    },
+    {
+      "name": {
+        "zh_Hant": "東南亞",
+        "zh_Hans": "东南亚",
+        "en": "Southeast Asia"
+      },
+      "cities": [
+        {
+          "key": "新加坡",
+          "name": {
+            "zh_Hant": "新加坡",
+            "zh_Hans": "新加坡",
+            "en": "Singapore"
+          },
+          "lat": 1.3,
+          "lon": 103.8
+        },
+        {
+          "key": "吉隆坡",
+          "name": {
+            "zh_Hant": "吉隆坡",
+            "zh_Hans": "吉隆坡",
+            "en": "Kuala Lumpur"
+          },
+          "lat": 3.1,
+          "lon": 101.7
+        },
+        {
+          "key": "曼谷",
+          "name": {
+            "zh_Hant": "曼谷",
+            "zh_Hans": "曼谷",
+            "en": "Bangkok"
+          },
+          "lat": 13.8,
+          "lon": 100.5
+        }
+      ]
+    },
+    {
+      "name": {
+        "zh_Hant": "歐美",
+        "zh_Hans": "欧美",
+        "en": "Europe & Americas"
+      },
+      "cities": [
+        {
+          "key": "倫敦",
+          "name": {
+            "zh_Hant": "倫敦",
+            "zh_Hans": "伦敦",
+            "en": "London"
+          },
+          "lat": 51.5,
+          "lon": -0.1
+        },
+        {
+          "key": "巴黎",
+          "name": {
+            "zh_Hant": "巴黎",
+            "zh_Hans": "巴黎",
+            "en": "Paris"
+          },
+          "lat": 48.9,
+          "lon": 2.35
+        },
+        {
+          "key": "雷克雅維克",
+          "name": {
+            "zh_Hant": "雷克雅維克",
+            "zh_Hans": "雷克雅维克",
+            "en": "Reykjavík"
+          },
+          "lat": 64.1,
+          "lon": -21.9
+        },
+        {
+          "key": "紐約",
+          "name": {
+            "zh_Hant": "紐約",
+            "zh_Hans": "纽约",
+            "en": "New York"
+          },
+          "lat": 40.7,
+          "lon": -74
+        },
+        {
+          "key": "洛杉磯",
+          "name": {
+            "zh_Hant": "洛杉磯",
+            "zh_Hans": "洛杉矶",
+            "en": "Los Angeles"
+          },
+          "lat": 34.1,
+          "lon": -118.2
+        },
+        {
+          "key": "溫哥華",
+          "name": {
+            "zh_Hant": "溫哥華",
+            "zh_Hans": "温哥华",
+            "en": "Vancouver"
+          },
+          "lat": 49.3,
+          "lon": -123.1
+        },
+        {
+          "key": "多倫多",
+          "name": {
+            "zh_Hant": "多倫多",
+            "zh_Hans": "多伦多",
+            "en": "Toronto"
+          },
+          "lat": 43.7,
+          "lon": -79.4
+        }
+      ]
+    },
+    {
+      "name": {
+        "zh_Hant": "南半球",
+        "zh_Hans": "南半球",
+        "en": "Southern Hemisphere"
+      },
+      "cities": [
+        {
+          "key": "雪梨",
+          "name": {
+            "zh_Hant": "雪梨",
+            "zh_Hans": "雪梨",
+            "en": "Sydney"
+          },
+          "lat": -33.9,
+          "lon": 151.2
+        },
+        {
+          "key": "墨爾本",
+          "name": {
+            "zh_Hant": "墨爾本",
+            "zh_Hans": "墨尔本",
+            "en": "Melbourne"
+          },
+          "lat": -37.8,
+          "lon": 145
+        },
+        {
+          "key": "奧克蘭",
+          "name": {
+            "zh_Hant": "奧克蘭",
+            "zh_Hans": "奥克兰",
+            "en": "Auckland"
+          },
+          "lat": -36.8,
+          "lon": 174.8
+        },
+        {
+          "key": "開普敦",
+          "name": {
+            "zh_Hant": "開普敦",
+            "zh_Hans": "开普敦",
+            "en": "Cape Town"
+          },
+          "lat": -33.9,
+          "lon": 18.4
+        },
+        {
+          "key": "聖保羅",
+          "name": {
+            "zh_Hant": "聖保羅",
+            "zh_Hans": "圣保罗",
+            "en": "São Paulo"
+          },
+          "lat": -23.6,
+          "lon": -46.6
+        },
+        {
+          "key": "布宜諾斯艾利斯",
+          "name": {
+            "zh_Hant": "布宜諾斯艾利斯",
+            "zh_Hans": "布宜诺斯艾利斯",
+            "en": "Buenos Aires"
+          },
+          "lat": -34.6,
+          "lon": -58.4
+        }
+      ]
+    }
+  ],
+  "meteor_showers": [
+    {
+      "month": 1,
+      "day": 4,
+      "name": {
+        "zh_Hant": "象限儀座流星雨",
+        "zh_Hans": "象限仪座流星雨",
+        "en": "Quadrantids"
+      }
+    },
+    {
+      "month": 4,
+      "day": 22,
+      "name": {
+        "zh_Hant": "天琴座流星雨",
+        "zh_Hans": "天琴座流星雨",
+        "en": "Lyrids"
+      }
+    },
+    {
+      "month": 5,
+      "day": 6,
+      "name": {
+        "zh_Hant": "水瓶座η流星雨",
+        "zh_Hans": "水瓶座η流星雨",
+        "en": "Eta Aquariids"
+      }
+    },
+    {
+      "month": 7,
+      "day": 30,
+      "name": {
+        "zh_Hant": "水瓶座δ流星雨",
+        "zh_Hans": "水瓶座δ流星雨",
+        "en": "Delta Aquariids"
+      }
+    },
+    {
+      "month": 8,
+      "day": 12,
+      "name": {
+        "zh_Hant": "英仙座流星雨",
+        "zh_Hans": "英仙座流星雨",
+        "en": "Perseids"
+      }
+    },
+    {
+      "month": 10,
+      "day": 8,
+      "name": {
+        "zh_Hant": "天龍座流星雨",
+        "zh_Hans": "天龙座流星雨",
+        "en": "Draconids"
+      }
+    },
+    {
+      "month": 10,
+      "day": 21,
+      "name": {
+        "zh_Hant": "獵戶座流星雨",
+        "zh_Hans": "猎户座流星雨",
+        "en": "Orionids"
+      }
+    },
+    {
+      "month": 11,
+      "day": 17,
+      "name": {
+        "zh_Hant": "獅子座流星雨",
+        "zh_Hans": "狮子座流星雨",
+        "en": "Leonids"
+      }
+    },
+    {
+      "month": 12,
+      "day": 14,
+      "name": {
+        "zh_Hant": "雙子座流星雨",
+        "zh_Hans": "双子座流星雨",
+        "en": "Geminids"
+      }
+    },
+    {
+      "month": 12,
+      "day": 22,
+      "name": {
+        "zh_Hant": "小熊座流星雨",
+        "zh_Hans": "小熊座流星雨",
+        "en": "Ursids"
+      }
+    }
+  ],
+  "sample_entries": {
+    "s1": {
+      "title": {
+        "zh_Hant": "第一次啟動日誌",
+        "zh_Hans": "第一次启动日志",
+        "en": "First launch log"
+      },
+      "body": {
+        "zh_Hant": "決定開始每天記錄一點東西。不求寫很多，只要讓未來的自己知道今天發生了什麼。早上泡了一壺花茶，配一塊小點心和一盤莓果，慢慢吃完才出門。",
+        "zh_Hans": "决定开始每天记录一点东西。不求写很多，只要让未来的自己知道今天发生了什么。早上泡了一壶花茶，配一块小点心和一盘莓果，慢慢吃完才出门。",
+        "en": "I’ve decided to write a little every day. Not a lot, just enough that future me knows what happened today. This morning I made a pot of flower tea with a small pastry and a bowl of berries, and took my time before heading out."
+      },
+      "tags": [
+        {
+          "zh_Hant": "開始",
+          "zh_Hans": "开始",
+          "en": "beginnings"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "家",
+        "zh_Hans": "家",
+        "en": "Home"
+      }
+    },
+    "s2": {
+      "title": {
+        "zh_Hant": "巷口新開的咖啡店",
+        "zh_Hans": "巷口新开的咖啡店",
+        "en": "The new café on the corner"
+      },
+      "body": {
+        "zh_Hant": "巷口新開了一家咖啡店，點了一杯卡布奇諾。店員拉花的時候忍不住拍了下來，奶泡很綿，味道也很好。",
+        "zh_Hans": "巷口新开了一家咖啡店，点了一杯卡布奇诺。店员拉花的时候忍不住拍了下来，奶泡很绵，味道也很好。",
+        "en": "A new café opened on the corner, so I ordered a cappuccino. I couldn’t help filming the latte art. The foam was silky and it tasted great."
+      },
+      "tags": [
+        {
+          "zh_Hant": "咖啡",
+          "zh_Hans": "咖啡",
+          "en": "coffee"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "巷口咖啡店",
+        "zh_Hans": "巷口咖啡店",
+        "en": "Corner café"
+      }
+    },
+    "s3": {
+      "title": {
+        "zh_Hant": "窗邊的小貓",
+        "zh_Hans": "窗边的小猫",
+        "en": "Kitten by the window"
+      },
+      "body": {
+        "zh_Hant": "午後的陽光照進來，牠一直趴在窗邊看外面的鳥，耳朵動來動去，偶爾回頭看我一眼。",
+        "zh_Hans": "午后的阳光照进来，牠一直趴在窗边看外面的鸟，耳朵动来动去，偶尔回头看我一眼。",
+        "en": "The afternoon sun came in and she lay by the window watching the birds, ears twitching, glancing back at me now and then."
+      },
+      "tags": [
+        {
+          "zh_Hant": "貓",
+          "zh_Hans": "猫",
+          "en": "cat"
+        },
+        {
+          "zh_Hant": "家",
+          "zh_Hans": "家",
+          "en": "home"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "家",
+        "zh_Hans": "家",
+        "en": "Home"
+      }
+    },
+    "s4": {
+      "title": {
+        "zh_Hant": "臨時起意去海邊",
+        "zh_Hans": "临时起意去海边",
+        "en": "A spur-of-the-moment trip to the sea"
+      },
+      "body": {
+        "zh_Hant": "臨時起意跑去海邊，沙灘上幾乎沒有人。浪一層一層打上來，待到太陽快下山才離開。",
+        "zh_Hans": "临时起意跑去海边，沙滩上几乎没有人。浪一层一层打上来，待到太阳快下山才离开。",
+        "en": "On a whim I went to the beach, and it was almost empty. The waves rolled in one after another, and I stayed until the sun was nearly down."
+      },
+      "tags": [
+        {
+          "zh_Hant": "旅行",
+          "zh_Hans": "旅行",
+          "en": "travel"
+        },
+        {
+          "zh_Hant": "海邊",
+          "zh_Hans": "海边",
+          "en": "beach"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "淡水・沙崙海灘",
+        "zh_Hans": "淡水・沙仑海滩",
+        "en": "Shalun Beach, Tamsui"
+      }
+    },
+    "s5": {
+      "title": {
+        "zh_Hant": "公園野餐",
+        "zh_Hans": "公园野餐",
+        "en": "Picnic in the park"
+      },
+      "body": {
+        "zh_Hant": "和朋友約在公園野餐，每個人帶一道菜。鋪上藍白格子野餐墊，水果和麵包擺滿一整桌，聊到太陽都斜了。",
+        "zh_Hans": "和朋友约在公园野餐，每个人带一道菜。铺上蓝白格子野餐垫，水果和面包摆满一整桌，聊到太阳都斜了。",
+        "en": "A picnic in the park with friends, everyone bringing a dish. We spread out a blue-and-white checked blanket covered in fruit and bread and talked until the sun was low."
+      },
+      "tags": [
+        {
+          "zh_Hant": "野餐",
+          "zh_Hans": "野餐",
+          "en": "picnic"
+        },
+        {
+          "zh_Hant": "朋友",
+          "zh_Hans": "朋友",
+          "en": "friends"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "大安森林公園",
+        "zh_Hans": "大安森林公园",
+        "en": "Daan Forest Park"
+      }
+    },
+    "s6": {
+      "title": {
+        "zh_Hant": "睡到自然醒的星期天",
+        "zh_Hans": "睡到自然醒的星期天",
+        "en": "A Sunday of sleeping in"
+      },
+      "body": {
+        "zh_Hant": "什麼都沒安排，睡到快中午才起床。泡了一杯咖啡窩在床上看詩集，貓在旁邊睡得好熟。偶爾這樣慢下來也很好。",
+        "zh_Hans": "什么都没安排，睡到快中午才起床。泡了一杯咖啡窝在床上看诗集，猫在旁边睡得好熟。偶尔这样慢下来也很好。",
+        "en": "Nothing planned, so I slept until almost noon. I made coffee and curled up in bed with a book of poems while the cat slept soundly beside me. It’s nice to slow down like this sometimes."
+      },
+      "tags": [
+        {
+          "zh_Hant": "休息",
+          "zh_Hans": "休息",
+          "en": "rest"
+        },
+        {
+          "zh_Hant": "閱讀",
+          "zh_Hans": "阅读",
+          "en": "reading"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "家",
+        "zh_Hans": "家",
+        "en": "Home"
+      }
+    },
+    "s7": {
+      "title": {
+        "zh_Hant": "週末的手沖咖啡",
+        "zh_Hans": "周末的手冲咖啡",
+        "en": "Weekend pour-over"
+      },
+      "body": {
+        "zh_Hant": "終於學會用手沖壺慢慢繞圈注水，看著咖啡粉一點一點膨脹起來，整個早上都很安靜。",
+        "zh_Hans": "终于学会用手冲壶慢慢绕圈注水，看着咖啡粉一点一点膨胀起来，整个早上都很安静。",
+        "en": "I finally learned to pour slowly in circles with the kettle, watching the grounds bloom bit by bit. The whole morning was quiet."
+      },
+      "tags": [
+        {
+          "zh_Hant": "咖啡",
+          "zh_Hans": "咖啡",
+          "en": "coffee"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "家",
+        "zh_Hans": "家",
+        "en": "Home"
+      }
+    },
+    "s8": {
+      "title": {
+        "zh_Hant": "去看櫻花",
+        "zh_Hans": "去看樱花",
+        "en": "Cherry blossom viewing"
+      },
+      "body": {
+        "zh_Hant": "櫻花開了，趁平日人少去走走。風一吹花瓣就飄下來，抬頭是整片粉紅色的天空。",
+        "zh_Hans": "樱花开了，趁平日人少去走走。风一吹花瓣就飘下来，抬头是整片粉红色的天空。",
+        "en": "The cherry blossoms are out, so I went on a quiet weekday. Every breeze sent petals drifting down, and above me was a sky full of pink."
+      },
+      "tags": [
+        {
+          "zh_Hant": "賞花",
+          "zh_Hans": "赏花",
+          "en": "flowers"
+        },
+        {
+          "zh_Hant": "散步",
+          "zh_Hans": "散步",
+          "en": "walks"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "陽明山",
+        "zh_Hans": "阳明山",
+        "en": "Yangmingshan"
+      }
+    },
+    "s9": {
+      "title": {
+        "zh_Hant": "小貓鑽進草帽",
+        "zh_Hans": "小猫钻进草帽",
+        "en": "Kitten in a straw hat"
+      },
+      "body": {
+        "zh_Hant": "剛買的草帽放在沙發上，一轉頭就被牠佔走了。窩在裡面東張西望，完全不打算出來。",
+        "zh_Hans": "刚买的草帽放在沙发上，一转头就被牠占走了。窝在里面东张西望，完全不打算出来。",
+        "en": "I left my new straw hat on the sofa and the moment I looked away she claimed it. She’s curled up inside looking around with no plans to come out."
+      },
+      "tags": [
+        {
+          "zh_Hant": "貓",
+          "zh_Hans": "猫",
+          "en": "cat"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "家",
+        "zh_Hans": "家",
+        "en": "Home"
+      }
+    },
+    "s10": {
+      "title": {
+        "zh_Hant": "海邊吊床上看書",
+        "zh_Hans": "海边吊床上看书",
+        "en": "Reading in a beach hammock"
+      },
+      "body": {
+        "zh_Hant": "躺在海邊的吊床上看了一下午的書。海風很舒服，看幾頁就抬頭看看海，書反而沒看多少。",
+        "zh_Hans": "躺在海边的吊床上看了一下午的书。海风很舒服，看几页就抬头看看海，书反而没看多少。",
+        "en": "I spent the afternoon reading in a hammock by the sea. The breeze was lovely and I kept looking up at the water every few pages, so I didn’t read much after all."
+      },
+      "tags": [
+        {
+          "zh_Hant": "旅行",
+          "zh_Hans": "旅行",
+          "en": "travel"
+        },
+        {
+          "zh_Hant": "閱讀",
+          "zh_Hans": "阅读",
+          "en": "reading"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "綠島",
+        "zh_Hans": "绿岛",
+        "en": "Green Island"
+      }
+    },
+    "s11": {
+      "title": {
+        "zh_Hant": "金色的夕陽",
+        "zh_Hans": "金色的夕阳",
+        "en": "Golden sunset"
+      },
+      "body": {
+        "zh_Hant": "旅行的第一天，傍晚坐在沙灘上看夕陽，整片海都被染成金色。什麼都不想，就這樣看到天黑。",
+        "zh_Hans": "旅行的第一天，傍晚坐在沙滩上看夕阳，整片海都被染成金色。什么都不想，就这样看到天黑。",
+        "en": "First day of the trip. In the evening I sat on the sand watching the sunset turn the whole sea gold, thinking of nothing until it got dark."
+      },
+      "tags": [
+        {
+          "zh_Hant": "旅行",
+          "zh_Hans": "旅行",
+          "en": "travel"
+        },
+        {
+          "zh_Hant": "夕陽",
+          "zh_Hans": "夕阳",
+          "en": "sunsets"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "綠島",
+        "zh_Hans": "绿岛",
+        "en": "Green Island"
+      }
+    },
+    "s12": {
+      "title": {
+        "zh_Hant": "清晨的熱氣球",
+        "zh_Hans": "清晨的热气球",
+        "en": "Hot-air balloons at dawn"
+      },
+      "body": {
+        "zh_Hant": "一大早起床去看熱氣球。太陽剛出來，熱氣球慢慢升空，倒影映在湖面上，像在作夢一樣。",
+        "zh_Hans": "一大早起床去看热气球。太阳刚出来，热气球慢慢升空，倒影映在湖面上，像在作梦一样。",
+        "en": "Up early to see the hot-air balloons. The sun had just risen as they slowly lifted off, their reflections on the lake like a dream."
+      },
+      "tags": [
+        {
+          "zh_Hant": "旅行",
+          "zh_Hans": "旅行",
+          "en": "travel"
+        }
+      ],
+      "loc": {
+        "zh_Hant": "台東・鹿野",
+        "zh_Hans": "台东・鹿野",
+        "en": "Luye, Taitung"
+      }
+    }
+  }
+}

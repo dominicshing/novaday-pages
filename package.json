@@ -5,7 +5,8 @@
   "scripts": {
     "build": "python3 tools/build_single_html.py",
     "test": "node tests/run.mjs",
-    "export-assets": "node tools/export_assets.mjs"
+    "export-assets": "node tools/export_assets.mjs",
+    "export-l10n": "node tools/export_l10n.mjs"
   },
   "devDependencies": {
     "playwright": "^1.56.0"

@@ -29,7 +29,7 @@ src/
     ├── features/       獨立功能：backup/（匯出、還原、清除）、reports/（月報、年度回顧）、分享圖卡、密碼鎖、開發者工具
     └── app/            render（重繪所有畫面）、init、boot（啟動）
 tests/                  自動測試（npm test）
-tools/                  打包單檔版（build_single_html.py）、匯出 Flutter 素材（export_assets.mjs）
+tools/                  打包單檔版（build_single_html.py）、匯出 Flutter 素材（export_assets.mjs）與語言檔（export_l10n.mjs）、簡體轉換表（gen_zh_hans.py）
 docs/                   本文件、備份格式規格
 dist/                   單檔版（打包產生，不要手動修改）
 ```
@@ -135,6 +135,7 @@ npm test backup  # 只跑檔名含 backup 的測試
 | `backup.test.mjs` | 照片搬進 IndexedDB、完整備份 .zip 來回還原 |
 | `dev-tools.test.mjs`、`dist.test.mjs` | 開發者工具、單檔版 |
 | `i18n.test.mjs` | 介面語言：英文字典涵蓋程式裡的 `tl()` 字串、英文介面看不到中文、簡體介面沒有繁體字、設定頁與引導頁切換語言 |
+| `l10n.test.mjs` | 給 Flutter 的語言檔（`assets/l10n/`）沒有過期：每個英文字典的鍵都在 ARB 或 `content.json`、內容和網頁版相同、訊息 ID 合法不重複、佔位符都有宣告 |
 | `i18n-crawl.test.mjs` | 英文與簡體介面各實際操作一輪（引導、寫紀錄、刪除復原、篩選、設定、密碼鎖、開發者工具），記錄所有顯示過的文字，不能有漏翻的中文或繁體字 |
 
 ## 10. 共用小工具（`src/js/core/utils.js`）
@@ -155,7 +156,7 @@ npm test backup  # 只跑檔名含 backup 的測試
 | `i18n-en.js` | 英文字典：鍵是程式裡的繁體原文，值是英文 |
 | `i18n.js` | `tl()`、`tlc()`、`tlz()`、`zhs()`，啟動時換掉 `index.html` 的固定文字，語言選單 |
 
-- **程式裡的介面文字一律寫繁體，顯示前經過 `tl()`**：`tl('共 {n} 則',{n})`。`{名稱}` 換成傳入的值；英文的單複數寫成 `{n|entry|entries}`（只寫在英文字典裡）。
+- **程式裡的介面文字一律寫繁體，顯示前經過 `tl()`**：`tl('共 {n} 則',{n})`。`{名稱}` 換成傳入的值；英文字典用 ICU 訊息格式（和 Flutter 的 ARB 相同），單複數寫成 `{n, plural, one{entry} other{entries}}`（只寫在英文字典裡，中文不需要）。
   - 繁體：原樣顯示。簡體：自動轉換，不需要另外翻譯。英文：查 `EN`，沒有收錄就沿用繁體（`tests/i18n.test.mjs` 會擋下）。
   - 同一個中文詞在不同地方要翻成不同英文時，用 `tlc('情境','詞')`，字典寫 `'情境|詞'`（例如月相的「新月」和頭像的「新月」）。
   - 只在中文介面出現的字（例如「星期」「上午」）用 `tlz()`：只轉簡體，不查英文字典。
@@ -172,4 +173,39 @@ npm test backup  # 只跑檔名含 backup 的測試
 2. 在 `i18n-en.js` 加上英文翻譯。
 3. 有新的字或詞時執行 `python3 tools/gen_zh_hans.py`（需要 `pip install opencc`）更新簡體轉換表；轉換結果不對時，在腳本的 `ZHS_EXTRA`（補充）或 `ZHS_DROP`（排除）調整。
 4. `npm test i18n` 檢查：程式裡的 `tl()` 字串都有英文、英文介面看不到中文、簡體介面沒有繁體字（`i18n-crawl` 會實際操作一輪，比較慢）。
+5. 執行 `npm run export-l10n` 更新給 Flutter 的語言檔（`npm test l10n` 會檢查有沒有過期）。
+
+### 給 Flutter 的語言檔（`assets/l10n/`）
+
+網頁版的字典是唯一來源；`npm run export-l10n`（`tools/export_l10n.mjs`）用無頭瀏覽器以三種語言各執行一次 App，產生 Flutter 可以直接使用的檔案：
+
+| 檔案 | 內容 |
+|---|---|
+| `app_zh.arb` | 範本與後備語言（繁體）。每則訊息附 `@說明`：繁體原文、情境、佔位符型別（用在 plural 的是 `num`，其餘 `String`）、用在網頁版哪些檔案（`x-used-in`）、含有 HTML 標籤時的提醒（`x-markup`） |
+| `app_zh_Hant.arb`、`app_zh_Hans.arb`、`app_en.arb` | 三種語言的介面文字。簡體是網頁版 `zhs()` 的轉換結果，和網頁版顯示的完全相同 |
+| `content.json` | 內容資料的翻譯：心情、階級、徽章、元素、黃道星座、運勢文字庫、題目、頭像、88 星座、城市、流星雨、範例紀錄。依資料的鍵查，每段文字都是 `{ zh_Hant, zh_Hans, en }`；徽章的 `hint_message_id` 指到 ARB 裡「還差多少」的訊息 |
+| `message_ids.json` | 繁體原文（含 `情境\|`）→ 訊息 ID。**ID 一旦產生就固定**，之後改了英文也不會變；要改 ID 時直接改這個檔案再重新匯出 |
+| `l10n.yaml` | `flutter gen-l10n` 的設定範例，複製到 Flutter 專案根目錄 |
+
+- **介面文字 vs 內容資料**：英文字典的鍵只出現在資料檔（`src/js/data/`、頭像、`REGIONS`、`METEORS`）時放進 `content.json`；其餘放進 ARB。Flutter 的介面用 ARB 的 getter，資料用 `content.json` 依鍵查（ARB 的 getter 是固定的，不能用資料的鍵動態查）。
+- **訊息 ID**：由英文產生的 camelCase 名稱（例如 `{n} entries` → `nEntries`），英文相同時加上數字（`nEntries2`）。
+- **為了讓移植順利，網頁版寫文字時**：
+  - 句子整句交給 `tl()`，不要把翻譯好的片段拼起來（不同語言的語序不同）；需要插入的值用 `{名稱}`。
+  - 數量一律用 `{n, plural, …}`，不要用 `n===1?…:…`。
+  - 日期、時間用 `utils.js` 的函式（Flutter 改用 `intl` 的 `DateFormat`，見下表），不要把日期格式寫進字典。
+  - 資料的鍵保持繁體、不翻譯（例如城市名、元素），顯示時才翻譯。
+
+Flutter 端的對照：
+
+| 網頁版 | Flutter |
+|---|---|
+| `tl('共 {n} 則',{n})` | `AppLocalizations.of(context).nEntries2(n)`（ID 查 `message_ids.json`） |
+| `tlc('tag','開始')` | `AppLocalizations.of(context).tagBeginnings` |
+| 資料的 `tl(CON[k].n)` | `content['constellations'][k]['name'][locale]` |
+| `fmtMD(d)` | `DateFormat.MMMd(locale).format(d)`（英文 `Oct 3`、中文 `10月3日`） |
+| `fmtYM(y,m)` | `DateFormat.yMMMM(locale)` |
+| `fmtTime(t)` | `DateFormat.jm(locale)`，24 小時制用 `DateFormat.Hm()` |
+| `wdLong(i)`、`wdShort(i)` | `DateFormat.EEEE(locale)`、`DateFormat.E(locale)` |
+| `SEP` | 中文 `・`，英文 ` · `（可以放進 ARB 或寫成常數） |
+| `prof.lang` | `zh-Hant`、`zh-Hans`、`en` 對應 `Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')` 等；備份格式相同，兩邊可以共用設定值 |
 

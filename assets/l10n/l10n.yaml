@@ -1,0 +1,9 @@
+# flutter gen-l10n 的設定：複製到 Flutter 專案根目錄（和 pubspec.yaml 同一層）
+# ARB 由網頁版的 npm run export-l10n 產生，請不要在 Flutter 專案裡直接改，改網頁版後重新匯出再複製過來
+arb-dir: assets/l10n
+template-arb-file: app_zh.arb          # 範本與後備語言：繁體中文（含說明與佔位符型別）
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false                 # AppLocalizations.of(context).xxx，不需要 !
+preferred-supported-locales: [zh_Hant] # 預設繁體中文
+untranslated-messages-file: build/l10n_untranslated.txt

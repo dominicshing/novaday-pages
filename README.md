@@ -50,6 +50,7 @@
 | `svg/brand/novaday_logo.svg` | App Logo |
 | `png/**` | 備用的點陣版本（1x、`2.0x/`、`3.0x/`）。每一張 PNG 都有對應的 SVG，一般用 SVG 就好；星座圖和介面圖示只有 SVG |
 | `data/*.json` | 所有內容資料，詳見下節 |
+| `l10n/` | 介面語言：`app_*.arb`（`flutter gen-l10n` 用）、`content.json`（內容資料的翻譯）、`l10n.yaml`，詳見下方「介面語言」 |
 | `design/design_tokens.json` | 色彩、字型、圓角、漸層 |
 | `design/animations_keyframes.css` | CSS 動畫 keyframes，可以照著轉成 Flutter 動畫 |
 | `screenshots/` | 各主要畫面截圖，尺寸 390×844 @2x |
@@ -81,6 +82,8 @@
 ```
 npm run export-assets
 ```
+
+介面語言另外用 `npm run export-l10n` 重新產生 `l10n/`（改了介面文字或英文翻譯之後）。
 
 它會用無頭瀏覽器執行網頁版，然後：
 - 重新產生 `data/*.json`（全部）
@@ -125,6 +128,52 @@ flutter:
   - 輔色 ion `#6FE3D6`
   - 強調 flare `#FFB45C`
   - 金星 `#FFE7A3`
+
+### 介面語言（`l10n/`）
+
+由 `npm run export-l10n` 從網頁版的字典產生（說明見 [docs/architecture.md](docs/architecture.md) 第 11 節）。繁體中文是預設與後備語言。
+
+1. 把 `assets/l10n/l10n.yaml` 複製到 Flutter 專案根目錄，`pubspec.yaml` 加上：
+
+```yaml
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+flutter:
+  generate: true
+  assets:
+    - assets/l10n/content.json
+```
+
+2. `flutter gen-l10n`（或 `flutter run` 時自動產生），在 `MaterialApp` 設定：
+
+```dart
+MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+  // 只有 zh_CN、zh_SG 這類沒有標明字體的系統語言時，依地區選簡體或繁體；其餘預設繁體
+  localeResolutionCallback: (l, supported) {
+    if (l?.languageCode == 'en') return const Locale('en');
+    final hans = l?.scriptCode == 'Hans' || (l?.scriptCode == null && ['CN', 'SG'].contains(l?.countryCode));
+    return Locale.fromSubtags(languageCode: 'zh', scriptCode: hans ? 'Hans' : 'Hant');
+  },
+);
+```
+
+3. 介面文字：`AppLocalizations.of(context).nEntries(3)`。訊息 ID 對應的繁體原文在 `app_zh.arb` 的說明和 `message_ids.json`。
+4. 內容資料：讀 `content.json`，用資料的鍵和語言查：
+
+```dart
+final content = jsonDecode(await rootBundle.loadString('assets/l10n/content.json'));
+String loc(Map m, Locale l) => m[l.languageCode == 'en' ? 'en' : 'zh_${l.scriptCode ?? 'Hant'}'] as String;
+loc(content['constellations']['Ori']['name'], locale);   // 獵戶座／猎户座／Orion
+```
+
+- 有 28 則訊息含有 `<b>`、`<br>` 等 HTML 標籤（`app_zh.arb` 標了 `x-markup`），在 Flutter 要用 `RichText`／`TextSpan` 顯示，或改用 `flutter_html`。
+- 日期與時間用 `intl` 的 `DateFormat`，對照表見 architecture.md 第 11 節。
+- 不要直接改 Flutter 專案裡的 ARB：改網頁版的字典後重新匯出，兩邊才會一致。
 
 ### 注意事項
 
