@@ -20,7 +20,7 @@
 .dv-seg4{grid-template-columns:repeat(4,1fr);margin:6px 0 12px}
 .dv-seg button{min-height:36px;border:0;border-radius:9px;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .dv-seg button[aria-pressed="true"]{color:var(--text);background:linear-gradient(135deg,rgba(138,124,255,.4),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset}
-.dvf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dvf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
 .dvf{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 6px 10px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;cursor:pointer}
 .dvf svg{width:100%;height:auto;display:block;pointer-events:none}
 .dvf b{font-size:14px}

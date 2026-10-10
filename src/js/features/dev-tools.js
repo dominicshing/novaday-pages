@@ -132,16 +132,12 @@ function devFpsApply(){cancelAnimationFrame(devFpsRaf);let el=$('dvFpsBox');if(!
   const f=now=>{n++;worst=Math.max(worst,now-last);last=now;if(now-t0>=500){const fps=Math.round(n*1000/(now-t0));el.textContent=`${fps} FPS・最慢 ${Math.round(worst)} ms`;el.classList.toggle('bad',fps<45);n=0;t0=now;worst=0}devFpsRaf=requestAnimationFrame(f)};
   devFpsRaf=requestAnimationFrame(f)}
 $('swDvFps').onclick=()=>{prof.devFps=!prof.devFps;saveProf();devFpsApply();devRender();toast(prof.devFps?'已在左上角顯示 FPS':'已關閉 FPS 顯示')};
-/* 星座剪影總覽：88 個星座一次檢查，可篩選星塵／一般剪影／無剪影，點一下開啟詳情 */
-let devFigF='all';
-function devFigs(){const ks=Object.keys(CON),W=160,H=120,kind=k=>CFX[k]?(CFX[k].dust?'dust':'fig'):'none',LB={dust:'星塵',fig:'一般剪影',none:'無剪影'};
-  const list=ks.filter(k=>devFigF==='all'||kind(k)===devFigF);
-  $('dvFigSum').textContent=`共 ${ks.length} 個星座・剪影 ${ks.filter(k=>CFX[k]).length}・星塵 ${ks.filter(k=>kind(k)==='dust').length}${prof.noFig?'・目前已關閉「顯示星座剪影」':''}`;
-  $('dvFigF').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===devFigF));
-  $('dvFigGrid').innerHTML=list.map(k=>`<button type="button" class="dvf" data-k="${k}"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${conSVG(k,W,H,12,0,null,{sc:.7,figP:1})}</svg><b>${CON[k].n}</b><small>${LB[kind(k)]}</small></button>`).join('');
+/* 星座剪影總覽：88 個星座一次檢查，點一下開啟詳情；只有缺剪影的星座才標出來 */
+function devFigs(){const ks=Object.keys(CON),W=160,H=120,miss=ks.filter(k=>!CFX[k]).length;
+  $('dvFigSum').textContent=`共 ${ks.length} 個星座・點一下開啟詳情${miss?`・${miss} 個沒有剪影`:''}${prof.noFig?'・目前已關閉「顯示星座剪影」':''}`;
+  $('dvFigGrid').innerHTML=ks.map(k=>`<button type="button" class="dvf" data-k="${k}"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${conSVG(k,W,H,12,0,null,{sc:.7,figP:1})}</svg><b>${CON[k].n}</b>${CFX[k]?'':'<small>無剪影</small>'}</button>`).join('');
   $('dvFigGrid').querySelectorAll('.dvf').forEach(b=>b.onclick=()=>openCon(b.dataset.k))}
 $('liDvFigs').onclick=()=>{devFigs();$('devFigSheet').querySelector('.sb').scrollTop=0;openSheet('devFigSheet')};
-$('dvFigF').querySelectorAll('button').forEach(b=>b.onclick=()=>{devFigF=b.dataset.f;devFigs()});
 /* 元件總覽：常用的圖示與元件集中在一頁比對 */
 function devUi(){const sec=(t,h,cls='')=>`<h3 class="set-h">${t}</h3><div class="dvu panel ${cls}">${h}</div>`,cell=(a,b)=>`<div class="dvu-c">${a}<small>${b}</small></div>`;
   const cats=ACH_CAT.map(c=>[c,ACH.find(a=>(CR_CAT[a.id]||'write')===c[0])]).filter(x=>x[1]);

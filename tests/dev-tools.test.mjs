@@ -48,6 +48,7 @@ export default async ({ ok, open, run }) => {
   ok(await p.evaluate(() => document.getAnimations().every(a => a.playbackRate === .25)), '動畫慢速 0.25 倍');
   await run(p, "document.getElementById('liDvFigs').click()"); await p.waitForTimeout(800);
   ok(await p.evaluate(() => document.querySelectorAll('#dvFigGrid .dvf').length === 88), '星座剪影總覽 88 個');
+  ok(await p.evaluate(() => !document.querySelector('#devFigSheet .dv-seg') && !document.querySelector('#dvFigGrid .dvf small')), '星座剪影總覽沒有篩選與多餘標籤');
   await run(p, "closeSheet('devFigSheet')"); await p.waitForTimeout(300);
 
   // 重設開發者工具：關閉所有模擬、移除測試紀錄，保留日記
