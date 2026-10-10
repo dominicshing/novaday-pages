@@ -1,14 +1,8 @@
 /* 擷取目前可見的 App 畫面；在本機產生 PNG，預覽後儲存或分享。 */
 let screenshotBusy=false,screenshotBlob=null,screenshotUrl=null,screenshotName='';
 const SCREENSHOT_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l1.5-2h5L16 5h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg>';
-function screenshotButton(){const b=document.createElement('button');b.type='button';b.className='icon-btn screenshot-trigger';b.setAttribute('aria-label','擷取畫面');b.title='擷取畫面';b.dataset.screenshotIgnore='';b.innerHTML=SCREENSHOT_ICON;b.onclick=captureScreenshot;return b}
-/* 與現有搜尋／設定／頭像共用頁首操作區，不遮擋內容。 */
-for(const selector of ['.home-top','#logTop .hr-act','#atTop .log-hrow','#s-me > .top']){
-  const host=document.querySelector(selector);let actions=host;
-  if(!host.classList.contains('hr-act')){actions=document.createElement('div');actions.className='screenshot-actions';host.appendChild(actions);actions.appendChild(actions.previousElementSibling)}
-  actions.prepend(screenshotButton());
-}
-const screenshotCompact=document.createElement('div');screenshotCompact.className='screenshot-actions';$('compactBar').appendChild(screenshotCompact);screenshotCompact.append(screenshotButton(),$('cbAv'));
+$('screenshotCapture').innerHTML=SCREENSHOT_ICON+'<span>擷取畫面</span>';
+$('screenshotCapture').onclick=captureScreenshot;
 
 async function captureScreenshot(){
   if(screenshotBusy||!$('lock').hidden||!$('onb').hidden)return;
@@ -38,7 +32,7 @@ async function captureScreenshot(){
       filter:node=>{
         if(!(node instanceof Element))return true;
         if(node.parentElement?.matches('.at-card > svg'))return false;
-        if(node.matches('[data-screenshot-ignore]:not(.screenshot-trigger),.hw,.toast,.dv-pill,.ptr,.ptr-fill')||outsideBlocks.has(node.parentElement))return false;
+        if(node.matches('[data-screenshot-ignore],.hw,.toast,.dv-pill,.ptr,.ptr-fill')||outsideBlocks.has(node.parentElement))return false;
         if(node.matches('.screen:not(.active),.layer:not(.open),.overlay:not(.show),[hidden]'))return false;
         return true;
       },
@@ -46,7 +40,6 @@ async function captureScreenshot(){
         node.style.animation='none';node.style.transition='none';
         /* SVG foreignObject 中的背景模糊會把鄰近文字一起模糊，改保留原本底色。 */
         node.style.backdropFilter='none';node.style.webkitBackdropFilter='none';
-        if(node.matches('.screenshot-trigger'))node.style.visibility='hidden';
         if(node.matches('.at-card')){node.style.contentVisibility='visible';const svg=node.querySelector(':scope > svg'),art=cardArt.get(node.dataset.k);if(svg&&art)svg.innerHTML=art}
       }},
       onCloneNode:clone=>{

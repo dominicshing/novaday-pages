@@ -5,9 +5,9 @@ export default async ({ok,open})=>{
   await p.evaluate(()=>{devFillCons(88);go('atlas');atTab='all';renderAtlas();$('s-atlas').scrollTop=700});
   await p.waitForTimeout(400);
   const scroll=await p.evaluate(()=>$('s-atlas').scrollTop);
-  const marker=await p.evaluate(()=>{const el=document.createElement('div');el.id='capture-test-marker';el.style.cssText='position:absolute;left:20px;top:1000px;width:8px;height:8px;background:rgb(11,211,99);z-index:10';$('s-atlas').appendChild(el);const r=el.getBoundingClientRect();return {x:r.x+4,y:r.y+4}});
-  await capture('#atTop .screenshot-trigger');
-  ok(await p.evaluate(()=>{const img=$('screenshotPreview').firstElementChild;return img.naturalWidth===780&&img.naturalHeight===1688&&screenshotBlob.type==='image/png'}),'截圖是目前手機畫面的 2 倍解析度 PNG');
+  const marker=await p.evaluate(()=>{const el=document.createElement('div');el.id='capture-test-marker';el.style.cssText='position:absolute;left:20px;top:1000px;width:8px;height:8px;background:rgb(11,211,99);z-index:10';$('s-atlas').appendChild(el);const r=el.getBoundingClientRect(),d=$('device').getBoundingClientRect();return {x:(r.x+4-d.x)*$('device').offsetWidth/d.width,y:(r.y+4-d.y)*$('device').offsetHeight/d.height}});
+  await capture('#screenshotCapture');
+  ok(await p.evaluate(()=>{const img=$('screenshotPreview').firstElementChild;return img.naturalWidth===$('device').offsetWidth*2&&img.naturalHeight===$('device').offsetHeight*2&&screenshotBlob.type==='image/png'}),'截圖是目前手機畫面的 2 倍解析度 PNG');
   ok(await p.evaluate(()=>$('s-atlas').scrollTop)===scroll,'擷取後保留捲動位置');
   ok(await p.evaluate(({x,y})=>{const img=$('screenshotPreview').firstElementChild,cv=document.createElement('canvas');cv.width=img.naturalWidth;cv.height=img.naturalHeight;const ctx=cv.getContext('2d');ctx.drawImage(img,0,0);const rgba=ctx.getImageData(x*2,y*2,1,1).data;return rgba[0]===11&&rgba[1]===211&&rgba[2]===99},marker),'PNG 裡的內容位置符合捲動後的可見畫面');
   await p.evaluate(()=>$('capture-test-marker').remove());
@@ -24,15 +24,15 @@ export default async ({ok,open})=>{
   ok(fallback.suggestedFilename()===download.suggestedFilename(),'不支援系統分享時改為下載同一張截圖');
 
   await p.evaluate(()=>{closeSheet('screenshotSheet');window.__captureOriginal=modernScreenshot.domToBlob;modernScreenshot.domToBlob=async()=>{throw new Error('test failure')}});
-  await p.waitForTimeout(400);await p.click('#atTop .screenshot-trigger');await p.waitForFunction(()=>!screenshotBusy);
+  await p.waitForTimeout(400);await p.click('#screenshotCapture');await p.waitForFunction(()=>!screenshotBusy);
   ok(await p.evaluate(()=>$('screenshotStatus').textContent.includes('失敗')&&![...document.querySelectorAll('.screenshot-trigger')].some(b=>b.disabled)),'失敗會顯示提示並恢復截圖按鈕');
   await p.evaluate(()=>{modernScreenshot.domToBlob=window.__captureOriginal});
   for(const tab of ['home','log','me']){
     await p.evaluate(tab=>go(tab),tab);await p.waitForTimeout(400);
-    await capture(`#s-${tab} .screenshot-trigger`);
+    await capture('#screenshotCapture');
     ok(await p.evaluate(()=>screenshotBlob.size>1000),`${tab} 分頁可產生截圖`);
     await p.keyboard.press('Escape');await p.waitForTimeout(400);
-    ok(await p.evaluate(tab=>!$('screenshotSheet').classList.contains('open')&&document.activeElement===document.querySelector(`#s-${tab} .screenshot-trigger`),tab),'Esc 關閉預覽並回到截圖按鈕');
+    ok(await p.evaluate(()=>!$('screenshotSheet').classList.contains('open')&&document.activeElement===document.querySelector('#screenshotCapture')),'Esc 關閉預覽並回到截圖按鈕');
   }
   await p.evaluate(()=>{window.__captureCalls=0;modernScreenshot.domToBlob=async()=>{window.__captureCalls++;await new Promise(r=>setTimeout(r,100));return screenshotBlob}});
   await p.evaluate(()=>Promise.all([captureScreenshot(),captureScreenshot()]));

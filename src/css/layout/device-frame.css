@@ -1,4 +1,5 @@
 /* 電腦預覽的 iPhone 外框與系統狀態列（只在寬螢幕顯示），以及減少動態效果時的覆寫 */
+body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
 .device{position:relative;height:100%}
 .hw,.sys-status,.sys-island{display:none}
 
