@@ -5,8 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const HAN = /[㐀-鿿]/;
-/* 開發者工具只轉簡體、不翻英文；字典與轉換表本身、圖像資料不檢查 */
-const SKIP = /(-art|-figure)\.js$|sample-media|constellation-figures|vendor\/|dev-tools|dev-star-preview|i18n-(en|zhs)\.js/;
+/* 字典與轉換表本身、圖像資料不檢查 */
+const SKIP = /(-art|-figure)\.js$|sample-media|constellation-figures|vendor\/|i18n-(en|zhs)\.js/;
 
 /* tl( 的第一個參數（括號平衡）：三元運算的兩個字串都要收進來 */
 function firstArg(src, i) {
@@ -36,7 +36,7 @@ export default async ({ ok, open, ROOT }) => {
 
   const seed = lang => ({ 'orbitlog.profile.v1': { onboarded: 1, lang, birthday: '2000-03-25', region: { name: '台北', lat: 25, lon: 121.5 } } });
   /* 看得到的中文：文字節點與無障礙標籤；開發者工具、刻意用原文的語言選項不算 */
-  const visibleHan = p => p.evaluate(() => { const H = /[㐀-鿿]/, S = new Set(), skip = 'script,style,.layer[id^="dev"],#devSecH,#devSec,[translate="no"]';
+  const visibleHan = p => p.evaluate(() => { const H = /[㐀-鿿]/, S = new Set(), skip = 'script,style,[translate="no"]';
     const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let x;
     while ((x = w.nextNode())) { const t = x.nodeValue.trim(), e = x.parentElement; if (t && H.test(t) && !e.closest(skip) && e.checkVisibility()) S.add(t) }
     document.querySelectorAll('[aria-label],[title],[placeholder],[alt]').forEach(e => { if (e.closest(skip) || !e.checkVisibility()) return;
@@ -75,10 +75,10 @@ export default async ({ ok, open, ROOT }) => {
   ok(await p.evaluate(() => document.documentElement.lang === 'zh-Hans' && document.querySelector('.tb[data-s=log]').textContent.includes('日记') && $('setLang').value === 'zh-Hans'), '簡體介面：<html lang="zh-Hans">，分頁列是簡體');
   bad = await visit(p, () => p.evaluate(() => { const T = new Set([...ZHS_C]), S = new Set();
     const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let x;
-    while ((x = w.nextNode())) { const t = x.nodeValue, e = x.parentElement; if (e.closest('script,style,.layer[id^="dev"],#devSecH,#devSec,[translate="no"]') || !e.checkVisibility()) continue; if ([...t].some(c => T.has(c))) S.add(t.trim()) }
+    while ((x = w.nextNode())) { const t = x.nodeValue, e = x.parentElement; if (e.closest('script,style,[translate="no"]') || !e.checkVisibility()) continue; if ([...t].some(c => T.has(c))) S.add(t.trim()) }
     return [...S] }));
   ok(!bad.length, `簡體介面沒有繁體字 ${bad.slice(0, 8).join('；')}`);
-  ok(await p.evaluate(() => zhs('開啟影片設定') === '打开视频设置' && zhs('星座連線') === '星座连线' && zhs('個人資料') === '个人资料'), '簡體介面：慣用詞轉換（影片→视频），星座連線、個人資料不誤轉');
+  ok(await p.evaluate(() => zhs('打開影片設定') === '打开视频设置' && zhs('星座連線') === '星座连线' && zhs('個人資料') === '个人资料' && zhs('已清除錯誤紀錄') === '已清除错误记录' && zhs('守護著') === '守护着' && zhs('著名') === '著名' && zhs('暱稱') === '昵称' && zhs('我的檔案') === '我的主页' && zhs('已開啟每日提醒') === '已开启每日提醒'), '簡體介面：慣用詞轉換（影片→视频、看著→看着、暱稱→昵称），星座連線、個人資料、清除錯誤不誤轉');
   ok(!p.errors.length, '簡體介面沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
 

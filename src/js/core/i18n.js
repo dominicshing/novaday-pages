@@ -22,15 +22,15 @@ const tlc=(c,s,v)=>tl(EN_UI&&EN[c+'|'+s]!=null?c+'|'+s:s,v);
 const tlz=s=>LANG==='zh-Hans'?zhs(s):s;
 /* 資料裡的顯示文字（星座小知識、徽章說明…）：英文有翻譯就用，否則照原文；簡體一律轉換 */
 const tlD=s=>s==null?s:tl(s);
-/* 換掉 index.html 的固定文字與無障礙標籤；開發者工具（id 以 dev 開頭的面板）只轉簡體，不翻英文 */
+/* 換掉 index.html 的固定文字與無障礙標籤 */
 const I18N_ATTR=['aria-label','placeholder','title','aria-roledescription','alt'];
 function i18nDOM(root=document.body){if(LANG==='zh-Hant')return;
   const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
   while((n=w.nextNode())){const s=n.nodeValue,k=s.trim();if(!k||!HAN.test(k))continue;
     const p=n.parentNode;if(p.closest('script,style,[translate="no"]'))continue;
-    const c=p.closest('[data-tc]'),r=EN_UI&&p.closest('.layer[id^="dev"]')?k:c?tlc(c.dataset.tc,k):tl(k);if(r!==k)n.nodeValue=s.replace(k,()=>r)}
-  root.querySelectorAll(I18N_ATTR.map(a=>`[${a}]`).join(',')).forEach(el=>{if(el.closest('[translate="no"]'))return;const dev=EN_UI&&el.closest('.layer[id^="dev"]');
-    for(const a of I18N_ATTR){const v=el.getAttribute(a);if(v&&HAN.test(v)&&!dev)el.setAttribute(a,tl(v))}})}
+    const c=p.closest('[data-tc]'),r=c?tlc(c.dataset.tc,k):tl(k);if(r!==k)n.nodeValue=s.replace(k,()=>r)}
+  root.querySelectorAll(I18N_ATTR.map(a=>`[${a}]`).join(',')).forEach(el=>{if(el.closest('[translate="no"]'))return;
+    for(const a of I18N_ATTR){const v=el.getAttribute(a);if(v&&HAN.test(v))el.setAttribute(a,tl(v))}})}
 /* 換語言：存進個人資料後重新載入，讓所有文字與資料重新套用（只在使用者操作時呼叫，此時 prof 已經載入） */
 function setLang(l){if(l===LANG||!LANGS.some(x=>x[0]===l))return;prof.lang=l;saveProf();location.reload()}
 /* 語言選擇：引導頁用三格按鈕，設定頁用下拉選單；選項一律用各自的語言顯示 */

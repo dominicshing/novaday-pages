@@ -25,9 +25,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'src', 'js', 'core', 'i18n-zhs.js')
 SKIP = ('i18n-zhs.js', 'i18n-en.js', 'modern-screenshot.js', 'sample-media.js', 'remaining-art.js', '-art.js', '-figure.js', 'constellation-figures.js')
 # OpenCC 沒有處理、但 App 裡希望用大陸慣用說法的詞
-ZHS_EXTRA = {'預設': '默认', '紀錄': '记录', '帳號': '账号', '登入': '登录', '介面': '界面', '訊息': '消息', '解鎖': '解锁'}
+ZHS_EXTRA = {'預設': '默认', '紀錄': '记录', '帳號': '账号', '登入': '登录', '介面': '界面', '訊息': '消息', '解鎖': '解锁',
+             '著': '着', '著名': '著名', '顯著': '显著', '著作': '著作',       # 「看著」→「看着」，但「著名」不變
+             '暱': '昵', '我的檔案': '我的主页', '字級': '字号', '晉階': '晋级',
+             '清除錯誤': '清除错误'}                                            # 避免「除錯」跨詞誤轉成「清调试误」
 # OpenCC 詞庫裡、放在這個 App 的句子中會斷錯或意思不對的詞（「曲線上升」的「線上」不是「在線」；「個人資料」不是「數據」；星座「連線」不是「連接」）
-ZHS_DROP = {'線上', '資料', '核心', '連線', '複製', '互動'}
+ZHS_DROP = {'線上', '資料', '核心', '連線', '複製', '互動', '開啟'}   # 開關的「開啟」用「开启」，不是「打开」
 
 PKG = os.path.dirname(opencc.__file__)
 BIN, SHARE = os.path.join(PKG, 'clib', 'bin', 'opencc_dict'), os.path.join(PKG, 'clib', 'share', 'opencc')
