@@ -1,0 +1,33 @@
+[
+  {
+    "key": "Mus",
+    "name": "蒼蠅座",
+    "max_star": 11.3,
+    "stars_far": 0,
+    "n": 6,
+    "line_far": 0.3,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      5.4,
+      11.3
+    ]
+  },
+  {
+    "key": "Pyx",
+    "name": "羅盤座",
+    "max_star": 2.8,
+    "stars_far": 0,
+    "n": 3,
+    "line_far": 0.0,
+    "line_40": 0.0,
+    "star_dist": [
+      0.0,
+      0.0,
+      2.8
+    ]
+  }
+]
