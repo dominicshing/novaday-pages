@@ -8,8 +8,8 @@ function moonInfo(k){const d=parse(k);d.setHours(21);const a=moonAgeTrue(d),ill=
   /* 名稱、亮度百分比、月曆標記用同一個依據（真實滿月／新月發生的日期），不會出現「盈凸月・100%」的矛盾 */
   const isNew=ev==='n',isFull=ev==='f',pct=isFull?100:isNew?0:Math.min(99,Math.max(1,Math.round(ill*100)));
   const sh=n=>{const x=parse(k);x.setDate(x.getDate()+n);const y=ymd(x);return lunarEvents(+y.slice(0,4))[y]},nx=sh(1),pv=sh(-1);
-  const hint=isFull||isNew?'':nx==='f'?'明天滿月':nx==='n'?'明天新月':pv==='f'?'昨天滿月':pv==='n'?'昨天新月':'';
-  return{a,ill,pct,hint,name:isFull?'滿月':isNew?'新月':name,isNew,isFull}}
+  const hint=tl(isFull||isNew?'':nx==='f'?'明天滿月':nx==='n'?'明天新月':pv==='f'?'昨天滿月':pv==='n'?'昨天新月':'');
+  return{a,ill,pct,hint,name:tlc('moon',isFull?'滿月':isNew?'新月':name),isNew,isFull}}
 /* 新月／滿月的精確時刻（Meeus《天文算法》第 49 章，誤差約數分鐘），換算成裝置所在時區的日期 */
 const LUN={};
 function lunarEvents(Y){if(LUN[Y])return LUN[Y];const out={},R=Math.PI/180,s=x=>Math.sin(x*R);
@@ -32,9 +32,9 @@ const SHOW_METEORS=false;
 /* 資料：流星雨極大期（每年日期大致固定，實際可能相差一兩天） */
 const METEORS=[[1,4,'象限儀座流星雨'],[4,22,'天琴座流星雨'],[5,6,'水瓶座η流星雨'],[7,30,'水瓶座δ流星雨'],[8,12,'英仙座流星雨'],[10,8,'天龍座流星雨'],[10,21,'獵戶座流星雨'],[11,17,'獅子座流星雨'],[12,14,'雙子座流星雨'],[12,22,'小熊座流星雨']];
 function dayEvents(k){const[,m,d]=k.split('-').map(Number),ev=[],mi=moonInfo(k);
-  const z=ZODIAC.findIndex(z=>z.d[0]===m&&z.d[1]===d);if(z>=0)ev.push({t:'z',g:zg(z),s:`今天起是${ZODIAC[z].n}（${zRange(z)}）`,short:zg(z)});
-  if(SHOW_METEORS)METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:`${n}極大期（約）`,short:'☄'})});
-  if(mi.isFull)ev.push({t:'f',g:'',s:'滿月',short:''});if(mi.isNew)ev.push({t:'n',g:'',s:'新月，適合觀星',short:''});
+  const z=ZODIAC.findIndex(z=>z.d[0]===m&&z.d[1]===d);if(z>=0)ev.push({t:'z',g:zg(z),s:tl('今天起是{z}（{r}）',{z:ZODIAC[z].n,r:zRange(z)}),short:zg(z)});
+  if(SHOW_METEORS)METEORS.forEach(([a,b,n])=>{if(a===m&&b===d)ev.push({t:'m',g:'☄',s:tl('{n}極大期（約）',{n:tl(n)}),short:'☄'})});
+  if(mi.isFull)ev.push({t:'f',g:'',s:tlc('moon','滿月'),short:''});if(mi.isNew)ev.push({t:'n',g:'',s:tl('新月，適合觀星'),short:''});
   return{ev,mi}}
 const calStar=(c,big,i)=>`<svg class="cs${big?' big':''}" viewBox="-10 -10 20 20" aria-hidden="true"><g class="mst mst${i??2}" style="animation-delay:${(-(MSTN++%9)*.43).toFixed(2)}s"><path d="${sp4(0,0,9)}" fill="${c}"/><circle r="2.2" fill="#fff"/></g></svg>`;
 let calAnimDir='';
@@ -45,21 +45,21 @@ function renderCal(){const Y=calMonth.getFullYear(),M=calMonth.getMonth(),first=
   const monthEs=days.flatMap(d=>by[mk(d)]),cnt=[0,0,0,0,0];monthEs.forEach(e=>cnt[e.mood??2]++);const top=monthEs.length?cnt.lastIndexOf(Math.max(...cnt)):-1;
   let best=0,run=0;for(let d=1;d<=dim;d++){if(by[mk(d)]){run++;best=Math.max(best,run)}else run=0}
   const isNow=Y===new Date().getFullYear()&&M===new Date().getMonth();$('calToday').hidden=logView!=='cal'||(isNow&&selDate===today);
-  let g=`<div class="cal-head"><button class="icon-btn" id="prevM" aria-label="上個月"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-    <div class="cal-title"><strong>${Y} 年 ${M+1} 月</strong><small>${isNow?'這個月':'左右滑動切換月份'}</small></div>
-    <button class="icon-btn" id="nextM" aria-label="下個月"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
-    <div class="cal-sum"><div><b>${days.length}<i> / ${dim}</i></b><small>本月寫了幾天</small></div><div><b>${best}<i> 天</i></b><small>本月最長連續</small></div>
-      <div><b class="cs-mood">${top<0?'—':moon(top)+'<span>'+MOODS[top].n+'</span>'}</b><small>本月最常的心情</small></div></div>
-    ${days.length?`<button type="button" class="cal-rp" id="calRp">查看 ${M+1} 月星空報告 ›</button>`:''}
-    <div class="cal panel ${calAnimDir}" id="calGrid" role="grid" aria-label="${Y} 年 ${M+1} 月">`;
+  let g=`<div class="cal-head"><button class="icon-btn" id="prevM" aria-label="${tl('上個月')}"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div class="cal-title"><strong>${fmtYM(Y,M+1)}</strong><small>${tl(isNow?'這個月':'左右滑動切換月份')}</small></div>
+    <button class="icon-btn" id="nextM" aria-label="${tl('下個月')}"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    <div class="cal-sum"><div><b>${days.length}<i> / ${dim}</i></b><small>${tl('本月寫了幾天')}</small></div><div><b>${best}<i> ${EN_UI?(best===1?'day':'days'):tlz('天')}</i></b><small>${tl('本月最長連續')}</small></div>
+      <div><b class="cs-mood">${top<0?'—':moon(top)+'<span>'+MOODS[top].n+'</span>'}</b><small>${tl('本月最常的心情')}</small></div></div>
+    ${days.length?`<button type="button" class="cal-rp" id="calRp">${tl('查看 {m}星空報告 ›',{m:fmtM(M+1)})}</button>`:''}
+    <div class="cal panel ${calAnimDir}" id="calGrid" role="grid" aria-label="${fmtYM(Y,M+1)}">`;
   WD.forEach((w,i)=>g+=`<div class="dow${i===0||i===6?' we':''}">${w}</div>`);for(let i=0;i<first;i++)g+='<button class="cell" disabled></button>';
   for(let d=1;d<=dim;d++){const k=mk(d),es=by[k],avg=es?Math.round(es.reduce((s,e)=>s+(e.mood??2),0)/es.length):0,{ev,mi}=dayEvents(k),fut=k>today;
     const mark=ev.map(x=>x.t==='f'?moonSVG(.5):x.t==='n'?moonSVG(0):x.short).join('');
-    const lab=`${M+1} 月 ${d} 日${es?`，${es.length} 則紀錄，心情${MOODS[avg].n}`:''}${ev.length?'，'+ev.map(x=>x.s).join('、'):''}`;
+    const lab=`${EN_UI?fmtMD(new Date(Y,M,d)):`${M+1} 月 ${d} 日`}${es?tl('，{n} 則紀錄，心情{m}',{n:es.length,m:MOODS[avg].n}):''}${ev.length?tl('，')+ev.map(x=>x.s).join(tl('、')):''}`;
     g+=`<button class="cell${es?' has':''}${k===today?' today':''}${fut?' future':''}" data-d="${k}" aria-pressed="${k===selDate}" aria-label="${lab}" style="--dot:var(${MOODS[avg].c})">
       ${mark?`<span class="ev">${mark}</span>`:''}${es&&es.length>1?`<span class="cnt">×${es.length}</span>`:''}<span class="n">${d}</span>${es?calStar(`var(${MOODS[avg].c})`,es.length>1,avg):''}</button>`}
   g+=`<svg class="cal-lines" id="calLines" aria-hidden="true"></svg></div>
-    <div class="cal-legend"><span>${calStar('#8E94C4')}有紀錄・顏色是心情</span><span>${moonSVG(.5)}滿月</span><span>${moonSVG(0)}新月</span>${SHOW_METEORS?'<span>☄ 流星雨</span>':''}<span>${zg(6)} 新星座開始</span></div>`;
+    <div class="cal-legend"><span>${calStar('#8E94C4')}${tl('有紀錄・顏色是心情')}</span><span>${moonSVG(.5)}${tlc('moon','滿月')}</span><span>${moonSVG(0)}${tlc('moon','新月')}</span>${SHOW_METEORS?`<span>☄ ${tl('流星雨')}</span>`:''}<span>${zg(6)} ${tl('新星座開始')}</span></div>`;
   $('calView').innerHTML=g;calAnimDir='';if($('calRp'))$('calRp').onclick=()=>openReport(Y,M);
   /* 把本月連續的紀錄日連成星座線（相隔 3 天以內） */
   calDays=days;requestAnimationFrame(drawCalLines);
@@ -82,13 +82,13 @@ function drawCalLines(){const grid=$('calGrid'),svg=$('calLines');if(!grid||!gri
   svg.innerHTML=l}
 addEventListener('resize',()=>{if(cur==='log'&&logView==='cal')drawCalLines()});
 function renderCalDay(){const k=selDate,today=ymd(new Date()),fut=k>today,{ev,mi}=dayEvents(k),list=sorted().filter(e=>e.date===k);
-  const diff=Math.round((parse(k)-parse(today))/864e5),rel=diff===0?'今天':diff===-1?'昨天':diff===1?'明天':diff<0?`${-diff} 天前`:`${diff} 天後`;
-  let g=`<div class="dp"><div class="dp-h"><div><strong>${esc(fmtDay(k))}</strong><small>${rel}${list.length?`・${list.length} 則紀錄`:''}</small></div>
-    <div class="dp-moon"><span><b>${mi.name}${mi.hint?`・${mi.hint}`:''}</b>月面亮 ${mi.pct}%</span>${moonSVG(mi.a)}</div></div>`;
+  const diff=Math.round((parse(k)-parse(today))/864e5),rel=diff===0?tl('今天'):diff===-1?tl('昨天'):diff===1?tl('明天'):diff<0?tl('{n} 天前',{n:-diff}):tl('{n} 天後',{n:diff});
+  let g=`<div class="dp"><div class="dp-h"><div><strong>${esc(fmtDay(k))}</strong><small>${rel}${list.length?SEP+tl('{n} 則紀錄',{n:list.length}):''}</small></div>
+    <div class="dp-moon"><span><b>${mi.name}${mi.hint?SEP+mi.hint:''}</b>${tl('月面亮 {p}%',{p:mi.pct})}</span>${moonSVG(mi.a)}</div></div>`;
   if(ev.length)g+=`<div class="dp-ev">${ev.map(x=>`<span>${x.t==='f'?moonSVG(.5):x.t==='n'?moonSVG(0):x.g} ${x.s}</span>`).join('')}</div>`;
   if(list.length)g+=`<div class="dp-list">${list.map(entryCard).join('')}</div>`;
-  else if(fut)g+=`<div class="dp-empty es">${emptyState('這天還沒到',ev.length?'記得那天抬頭看看夜空 ✦':'')}</div>`;
-  else g+=`<div class="dp-empty es">${emptyState(diff===0?'今天還沒有紀錄':'這天沒有紀錄',diff===0?'點亮今天的星星吧。':'想補寫一則嗎？',`<button type="button" class="btn primary" id="calWrite">${diff===0?'寫下今天':'補寫這天的紀錄'}</button>`)}</div>`;
+  else if(fut)g+=`<div class="dp-empty es">${emptyState(tl('這天還沒到'),ev.length?tl('記得那天抬頭看看夜空 ✦'):'')}</div>`;
+  else g+=`<div class="dp-empty es">${emptyState(tl(diff===0?'今天還沒有紀錄':'這天沒有紀錄'),tl(diff===0?'點亮今天的星星吧。':'想補寫一則嗎？'),`<button type="button" class="btn primary" id="calWrite">${tl(diff===0?'寫下今天':'補寫這天的紀錄')}</button>`)}</div>`;
   $('calDay').innerHTML=g+'</div>';bindCards($('calDay'));
   if($('calWrite'))$('calWrite').onclick=()=>openEditor(null,false,k)}
 $('calToday').onclick=()=>{calMonth=new Date();calMonth.setDate(1);selDate=ymd(new Date());renderCal()};

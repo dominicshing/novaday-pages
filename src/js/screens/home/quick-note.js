@@ -4,7 +4,7 @@ let qnMood=null;
 function renderQuick(){const b=$('quickNote');if(!b)return;const td=ymd(new Date()),wrote=entries.some(e=>e.date===td&&!isSample(e));b.hidden=wrote;if(wrote)return;
   $('qnMoods').innerHTML=MOODS.map((m,i)=>`<button type="button" data-i="${i}" aria-pressed="${qnMood===i}" aria-label="${m.n}" title="${m.n}">${moon(i)}</button>`).join('');
   $('qnMoods').querySelectorAll('[data-i]').forEach(x=>x.onclick=()=>{qnMood=+x.dataset.i;renderQuick();$('qnMoodT').textContent=MOODS[qnMood].n;qnSync()});
-  $('qnMoodT').textContent=qnMood==null?'今天過得怎麼樣？':MOODS[qnMood].n;qnSync()}
+  $('qnMoodT').textContent=qnMood==null?tl('今天過得怎麼樣？'):MOODS[qnMood].n;qnSync()}
 function qnSync(){$('qnGo').disabled=!$('qnText').value.trim()}
 $('qnText').addEventListener('input',qnSync);
 /* 送出時立刻取出文字並清空欄位，連點兩下也只會送出一次 */

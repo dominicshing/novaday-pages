@@ -23,7 +23,7 @@ function burst(x,y,m,tag=''){const P=m==null?{n:22,d:[45,125],sd:.9,st:0,ring:0}
     s.style.animationDuration=P.sd+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),P.sd*1000+60)}}
 function floatXP(t){const g=$('gal').getBoundingClientRect(),f=document.createElement('div');f.className='floatxp';f.textContent=t;
   f.style.left=(g.left+g.width/2)+'px';f.style.top=(g.top+g.height/2-70)+'px';document.body.appendChild(f);setTimeout(()=>f.remove(),1450)}
-function showLevel(lv){return new Promise(res=>{$('lvUpNum').textContent='Lv.'+lv;const nr=rankIdx(lv),promo=rankIdx(lv-1)!==nr;$('lvUpBadge').innerHTML=rankBadge(nr);$('lvUpRank').textContent=(promo?'晉升為「':'目前階級：「')+rankOf(lv)+'」';$('lvUpTitle').textContent=promo?'階級晉升':'等級提升';
+function showLevel(lv){return new Promise(res=>{$('lvUpNum').textContent='Lv.'+lv;const nr=rankIdx(lv),promo=rankIdx(lv-1)!==nr;$('lvUpBadge').innerHTML=rankBadge(nr);$('lvUpRank').textContent=tl(promo?'晉升為「{r}」':'目前階級：「{r}」',{r:rankOf(lv)});$('lvUpTitle').textContent=tl(promo?'階級晉升':'等級提升');
   const o=$('lvUp');o.classList.add('show');const r=$('app').getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2-50;
   if(!reduce){burst(cx,cy);setTimeout(()=>burst(cx,cy),300)}$('lvUpOk').focus();$('lvUpOk').onclick=()=>{o.classList.remove('show');res()}})}
 let snT;

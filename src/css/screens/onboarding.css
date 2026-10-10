@@ -230,3 +230,6 @@
 @media (max-height:620px){
   .ob-con{width:min(220px,100%)}
 }
+/* 引導頁第一頁的語言選擇 */
+#obLang{width:100%;max-width:300px;margin:18px auto 0}
+.ob-body.in #obLang{animation:obIn .5s cubic-bezier(.2,.7,.2,1) 1.66s both}

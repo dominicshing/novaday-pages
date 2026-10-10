@@ -31,9 +31,9 @@ function cleanProf(p){if(!p||typeof p!=='object')return null;const r={};
   return Object.keys(r).length?r:null}
 const sig=e=>[e.date,e.time,e.title,e.body].join('\u0001');
 /* 讀取 zip：找到 novaday-backup.json，照片讀成暫時網址，影片留到匯入時再寫入 */
-async function imLoadZip(f){let z;try{z=await zipOpen(f)}catch(_){return{err:'無法讀取這個檔案，請選擇 Novaday 的完整備份（.zip），或重新下載一次備份。'}}
+async function imLoadZip(f){let z;try{z=await zipOpen(f)}catch(_){return{err:tl('無法讀取這個檔案，請選擇 Novaday 的完整備份（.zip），或重新下載一次備份。')}}
   let o;try{const b=await z.get('novaday-backup.json');o=b&&JSON.parse(await b.text())}catch(_){o=null}
-  if(!o||o.app!=='Novaday'||o.kind!=='backup'||!Array.isArray(o.entries))return{err:'這個 zip 不是 Novaday 的完整備份，請確認選對檔案。'};
+  if(!o||o.app!=='Novaday'||o.kind!=='backup'||!Array.isArray(o.entries))return{err:tl('這個 zip 不是 Novaday 的完整備份，請確認選對檔案。')};
   const types={};(Array.isArray(o.files)?o.files:[]).forEach(x=>{if(x&&typeof x.path==='string'&&typeof x.type==='string')types[x.path]=x.type});
   const img=async p=>{if(typeof p!=='string'||!BK_PATH.test(p)||!p.startsWith('photos/'))return null;
     try{const t=types[p]||BK_MIME[p.split('.').pop().toLowerCase()]||'image/jpeg',b=await z.get(p,t);if(!b||!b.size||b.size>20e6)return null;
@@ -57,46 +57,46 @@ async function imLoadZip(f){let z;try{z=await zipOpen(f)}catch(_){return{err:'�
 const imNote=(t,c='var(--flare)')=>`<small style="display:block;margin-top:6px;color:${c}">${t}</small>`;
 function renderImport(){const d=imData,pv=$('imPrev');
   $('imProfRow').hidden=!(d&&!d.err&&d.profile);
-  if(!d){pv.hidden=true;$('imGo').disabled=true;$('imGo').textContent='匯入';return}
+  if(!d){pv.hidden=true;$('imGo').disabled=true;$('imGo').textContent=tl('匯入');return}
   pv.hidden=false;pv.classList.toggle('bad',!!d.err);
-  if(d.err){pv.textContent=d.err;$('imGo').disabled=true;$('imGo').textContent='匯入';return}
-  const ds=d.fresh.map(e=>e.date).sort(),span=ds.length?(ds[0]===ds[ds.length-1]?fmtDay(ds[0]).split('・')[0]:`${ds[0].replace(/-/g,'/')} – ${ds[ds.length-1].replace(/-/g,'/')}`):'',
+  if(d.err){pv.textContent=d.err;$('imGo').disabled=true;$('imGo').textContent=tl('匯入');return}
+  const ds=d.fresh.map(e=>e.date).sort(),span=ds.length?(ds[0]===ds[ds.length-1]?fmtMDY(parse(ds[0])):`${ds[0].replace(/-/g,'/')} – ${ds[ds.length-1].replace(/-/g,'/')}`):'',
     np=d.fresh.reduce((t,e)=>t+photoCount(e),0);
-  pv.innerHTML=`${d.fresh.length?`找到 <b>${d.fresh.length}</b> 則可以匯入的紀錄`:'這份備份裡的紀錄都已經在這台裝置上了'}${span?`<br><small style="color:var(--muted)">${span}</small>`:''}
-    <div class="ip-n"><span><b>${d.fresh.length}</b>新紀錄</span><span><b>${d.dup.length}</b>已存在</span>${d.bad?`<span><b>${d.bad}</b>無法讀取</span>`:''}</div>
-    ${np||d.media.length?imNote(`含 ${np?`${np} 張照片`:''}${np&&d.media.length?'、':''}${d.media.length?`${d.media.length} 部影片`:''}，會一起還原`,'var(--teal,#6FE3D6)'):''}
-    ${d.lost?imNote(`有 ${d.lost} 則紀錄的照片不在這份備份裡，匯入後會缺少照片。`):''}
-    ${d.vmiss?imNote(`有 ${d.vmiss} 部影片的檔案不在這份備份裡，也不在這台裝置上，匯入後只會顯示封面。`):''}
-    ${d.newer?imNote('這份備份來自較新版本的 Novaday，部分內容可能無法還原。'):''}`;
+  pv.innerHTML=`${d.fresh.length?tl('找到 <b>{n}</b> 則可以匯入的紀錄',{n:d.fresh.length}):tl('這份備份裡的紀錄都已經在這台裝置上了')}${span?`<br><small style="color:var(--muted)">${span}</small>`:''}
+    <div class="ip-n"><span><b>${d.fresh.length}</b>${tl('新紀錄')}</span><span><b>${d.dup.length}</b>${tl('已存在')}</span>${d.bad?`<span><b>${d.bad}</b>${tl('無法讀取')}</span>`:''}</div>
+    ${np||d.media.length?imNote(tl('含 {s}，會一起還原',{s:[np?tl('{n} 張照片',{n:np}):'',d.media.length?tl('{n} 部影片',{n:d.media.length}):''].filter(Boolean).join(tl('、'))}),'var(--teal,#6FE3D6)'):''}
+    ${d.lost?imNote(tl('有 {n} 則紀錄的照片不在這份備份裡，匯入後會缺少照片。',{n:d.lost})):''}
+    ${d.vmiss?imNote(tl('有 {n} 部影片的檔案不在這份備份裡，也不在這台裝置上，匯入後只會顯示封面。',{n:d.vmiss})):''}
+    ${d.newer?imNote(tl('這份備份來自較新版本的 Novaday，部分內容可能無法還原。')):''}`;
   const canP=d.profile&&$('imProf').checked;
   $('imGo').disabled=!d.fresh.length&&!canP;
-  $('imGo').textContent=d.fresh.length?`匯入 ${d.fresh.length} 則紀錄`:canP?'還原個人資料':'沒有新的紀錄'}
-function openImport(){imFreeBlobs();imData=null;$('imFile').value='';$('imFileN').textContent='Novaday 完整備份（.zip）';
+  $('imGo').textContent=d.fresh.length?tl('匯入 {n} 則紀錄',{n:d.fresh.length}):tl(canP?'還原個人資料':'沒有新的紀錄')}
+function openImport(){imFreeBlobs();imData=null;$('imFile').value='';$('imFileN').textContent=tl('Novaday 完整備份（.zip）');
   $('imProf').checked=entries.every(isSample);renderImport();openSheet('importSheet')}
 $('liImport').onclick=openImport;
 $('exToIm').onclick=()=>{closeSheet('exporter');openImport()};
 $('imProf').addEventListener('change',renderImport);
 $('imFile').addEventListener('change',async()=>{const f=$('imFile').files[0];if(!f)return;imFreeBlobs();imData=null;renderImport();
-  $('imFileN').textContent='正在讀取：'+f.name;imData=await imLoadZip(f);$('imFileN').textContent='已選擇：'+f.name;renderImport()});
+  $('imFileN').textContent=tl('正在讀取：{f}',{f:f.name});imData=await imLoadZip(f);$('imFileN').textContent=tl('已選擇：{f}',{f:f.name});renderImport()});
 let imBusy=false;
 $('imGo').onclick=async()=>{const d=imData;if(!d||d.err||imBusy)return;imBusy=true;$('imGo').disabled=true;
   try{const before=entries.slice(),pBefore=JSON.stringify(prof),rBefore=JSON.stringify(reviews),doP=d.profile&&$('imProf').checked;
     /* 照片寫進 IndexedDB（確定匯入才寫），全部成功才更新紀錄 */
     const keep=u=>u&&imBlobs.has(u)?phFromBlob(imBlobs.get(u)):u;
     const add=d.fresh.map(e=>{const x={...e};if(x.photo)x.photo=keep(x.photo);if(x.photoMore)x.photoMore=x.photoMore.map(keep);if(x.video&&x.video.poster)x.video={...x.video,poster:keep(x.video.poster)};return x});
-    if(!(await phFlush())){toast('照片無法儲存，可能是裝置空間不足，匯入已取消',3600);return}
+    if(!(await phFlush())){toast(tl('照片無法儲存，可能是裝置空間不足，匯入已取消'),3600);return}
     const real=add.filter(e=>!isSample(e)).length;let dropped=0;
     if(real&&entries.length&&entries.every(isSample)){dropped=entries.length;entries=[]}
     entries=entries.concat(add);
     if(doP){Object.assign(prof,d.profile);if(d.reviews&&!Object.keys(reviews.ids||{}).length){Object.assign(reviews,d.reviews);saveReviews()}}
-    if(!save()){entries=before;Object.assign(prof,JSON.parse(pBefore));Object.assign(reviews,JSON.parse(rBefore));toast('無法儲存，匯入已取消',3000);return}
+    if(!save()){entries=before;Object.assign(prof,JSON.parse(pBefore));Object.assign(reviews,JSON.parse(rBefore));toast(tl('無法儲存，匯入已取消'),3000);return}
     const early=entries.map(e=>e.date).sort()[0];if(early&&(!prof.since||early<prof.since))prof.since=early;
     saveProf();closeSheet('importSheet');render();if(typeof renderMe==='function')renderMe();
-    const msg=`已匯入 ${add.length} 則紀錄${doP?'，並還原個人資料':''}${dropped?'（範例紀錄已移除）':''}`;
+    const msg=tl('已匯入 {n} 則紀錄',{n:add.length})+(doP?tl('，並還原個人資料'):'')+(dropped?tl('（範例紀錄已移除）'):'');
     if(d.media.length)await imRestoreVideos(d,msg);else toast(msg,3200);imFreeBlobs();imData=null}
   finally{imBusy=false;$('imGo').disabled=false}};
 /* 把 zip 裡的影片放回 IndexedDB（這台裝置已經有的就跳過，重複的紀錄也會補回影片） */
 async function imRestoreVideos(d,msg){const have=new Set(await mediaKeys()),todo=d.media.filter(m=>!have.has(m.id));let ok=0,bad=0;
-  for(let i=0;i<todo.length;i++){toast(`${msg}・正在還原影片（${i+1} / ${todo.length}）`,60000);
+  for(let i=0;i<todo.length;i++){toast(msg+SEP+tl('正在還原影片（{i} / {n}）',{i:i+1,n:todo.length}),60000);
     try{const b=await d.z.get(todo[i].file,todo[i].type);if(b&&b.size){await mediaPut(todo[i].id,b.type?b:new Blob([b],{type:todo[i].type}));ok++}else bad++}catch(_){bad++}}
-  toast(`${msg}${ok?`，還原 ${ok} 部影片`:''}${bad?`・${bad} 部影片無法還原`:''}`,3600);if(typeof renderLog==='function')renderLog()}
+  toast(msg+(ok?tl('，還原 {n} 部影片',{n:ok}):'')+(bad?SEP+tl('{n} 部影片無法還原',{n:bad}):''),3600);if(typeof renderLog==='function')renderLog()}

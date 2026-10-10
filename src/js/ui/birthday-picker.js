@@ -13,21 +13,21 @@ function whBind(col,pick){let t=0,raf=0;
   col.addEventListener('click',e=>{const it=e.target.closest('.wh-it');if(it)col.scrollTo({top:(+it.dataset.v-1)*WH,behavior:reduce?'auto':'smooth'})});
   col.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();col.scrollBy({top:e.key==='ArrowDown'?WH:-WH,behavior:reduce?'auto':'smooth'})}})}
 const bqDim=m=>new Date(2000,m,0).getDate();
-function bqDays(){whBuild($('bqWD'),Array.from({length:bqDim(bq.m)},(_,k)=>`${k+1} 日`),bq.d)}
+function bqDays(){whBuild($('bqWD'),Array.from({length:bqDim(bq.m)},(_,k)=>EN_UI?String(k+1):`${k+1} 日`),bq.d)}
 whBind($('bqWM'),v=>{v=Math.max(1,Math.min(12,v));if(v===bq.m)return;bq.m=v;whMark($('bqWM'),v);const n=bqDim(v);if(bq.d>n)bq.d=n;bqDays();bqRender();buzz(4)});
 whBind($('bqWD'),v=>{v=Math.max(1,Math.min(bqDim(bq.m),v));if(v===bq.d)return;bq.d=v;whMark($('bqWD'),v);bqRender();buzz(4)});
 function openBdQuick(){const b=prof.birthday?prof.birthday.split('-').map(Number):null,n=new Date();bq={m:b?b[1]:n.getMonth()+1,d:b?b[2]:n.getDate()};bqLast=-2;
-  openSheet('bdQuick');whBuild($('bqWM'),Array.from({length:12},(_,k)=>`${k+1} 月`),bq.m);bqDays();bqRender();
+  openSheet('bdQuick');whBuild($('bqWM'),Array.from({length:12},(_,k)=>fmtM(k+1)),bq.m);bqDays();bqRender();
   requestAnimationFrame(()=>{$('bqWM').scrollTop=(bq.m-1)*WH;$('bqWD').scrollTop=(bq.d-1)*WH;whPaint($('bqWM'));whPaint($('bqWD'))})}
 let bqLast=-2;
 function bqRender(){const zi=bq.m&&bq.d?signIdx(`2000-${pad(bq.m)}-${pad(bq.d)}`):-1,pv=$('bqPrev');$('bqGo').disabled=$('bqOk').disabled=zi<0;
-  $('bqWheel').setAttribute('aria-label',`${bq.m} 月 ${bq.d} 日`);if(zi===bqLast)return;bqLast=zi;
-  if(zi<0){pv.className='bq-prev';pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${STAR4}</span></span><span>選好月份和日期後，這裡會顯示你的星座</span>`}
+  $('bqWheel').setAttribute('aria-label',EN_UI?fmtMD(new Date(2000,bq.m-1,bq.d)):`${bq.m} 月 ${bq.d} 日`);if(zi===bqLast)return;bqLast=zi;
+  if(zi<0){pv.className='bq-prev';pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${STAR4}</span></span><span>${tl('選好月份和日期後，這裡會顯示你的星座')}</span>`}
   else{const Z=ZODIAC[zi];pv.className='bq-prev on';pv.style.setProperty('--elc',ELC[Z.el]);
-    pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${zg(zi)}</span></span><span><b>${Z.n}</b><small>${zRange(zi)}・${Z.el}星座</small><span class="kw">${Z.kw.map(w=>`<span class="chip">${w}</span>`).join('')}</span></span>`}}
+    pv.innerHTML=`<span class="zo">${zRing()}<span class="zg" aria-hidden="true">${zg(zi)}</span></span><span><b>${Z.n}</b><small>${zRange(zi)}${SEP}${elName(Z.el)}</small><span class="kw">${Z.kw.map(w=>`<span class="chip">${w}</span>`).join('')}</span></span>`}}
 /* 確認：儲存後關閉；查看我的運勢：儲存後接著打開運勢 */
 function bqSave(){if(!bq.m||!bq.d)return false;const had=signIdx(prof.birthday)>=0;prof.birthday=`2000-${pad(bq.m)}-${pad(bq.d)}`;saveProf();
   closeSheet('bdQuick');renderFortuneCard();renderMe();const zi=signIdx(prof.birthday);
-  if(!had)toast(`已設定星座：${ZODIAC[zi].n}`);return true}
+  if(!had)toast(tl('已設定星座：{z}',{z:ZODIAC[zi].n}));return true}
 $('bqOk').onclick=()=>bqSave();
 $('bqGo').onclick=()=>{if(bqSave())setTimeout(()=>openFortune(),reduce?0:260)};

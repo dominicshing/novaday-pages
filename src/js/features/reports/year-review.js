@@ -1,5 +1,5 @@
 /* 年度回顧 */
-function rpModeSeg(m){return `<div class="exseg rp-mode" role="radiogroup" aria-label="報告範圍"><button type="button" role="radio" data-rm="m" aria-checked="${m==='m'}">月報</button><button type="button" role="radio" data-rm="y" aria-checked="${m==='y'}">年度回顧</button></div>`}
+function rpModeSeg(m){return `<div class="exseg rp-mode" role="radiogroup" aria-label="${tl('報告範圍')}"><button type="button" role="radio" data-rm="m" aria-checked="${m==='m'}">${tl('月報')}</button><button type="button" role="radio" data-rm="y" aria-checked="${m==='y'}">${tl('年度回顧')}</button></div>`}
 function bindRpMode(Y,M){$('mBody').querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{if(b.getAttribute('aria-checked')==='true')return;
   if(b.dataset.rm==='y')openYearReport(Y);else{const n=new Date();openReport(Y,Y===n.getFullYear()?n.getMonth():(M??11))}})}
 function yearStats(Y){const list=ascEntries().filter(e=>e.date.startsWith(Y+'-')&&!isSample(e)),days=new Set(list.map(e=>e.date));
@@ -16,24 +16,24 @@ function yearStats(Y){const list=ascEntries().filter(e=>e.date.startsWith(Y+'-')
   return{Y,isNow,list,days:days.size,span,cnt,best,months,tags:top(tc).slice(0,5),locs:top(lc).slice(0,3),done,longest,happiest,first:list[0],bestM,
     words:list.reduce((t,e)=>t+chars(e),0),photos:list.reduce((t,e)=>t+photoCount(e),0)}}
 function openYearReport(Y){const R=yearStats(Y),n=R.list.length,now=new Date(),first=ascEntries().find(e=>!isSample(e)),minY=first?+first.date.slice(0,4):now.getFullYear();
-  $('mTitle').textContent=`${Y} 年度星空回顧`;
-  let g=rpModeSeg('y')+`<div class="rp-nav"><button type="button" id="ryPrev" aria-label="前一年"${Y>minY?'':' disabled'}>‹</button><span>${Y} 年${R.isNow?'・進行中':''}</span><button type="button" id="ryNext" aria-label="下一年"${Y<now.getFullYear()?'':' disabled'}>›</button></div>`;
-  if(!n)g+=`<div class="es">${emptyState('這一年沒有紀錄','寫下幾則之後，這裡會整理出你的年度回顧。')}</div>`;
+  $('mTitle').textContent=tl('{y} 年度星空回顧',{y:Y});
+  let g=rpModeSeg('y')+`<div class="rp-nav"><button type="button" id="ryPrev" aria-label="${tl('前一年')}"${Y>minY?'':' disabled'}>‹</button><span>${EN_UI?Y:Y+' 年'}${R.isNow?SEP+tl('進行中'):''}</span><button type="button" id="ryNext" aria-label="${tl('下一年')}"${Y<now.getFullYear()?'':' disabled'}>›</button></div>`;
+  if(!n)g+=`<div class="es">${emptyState(tl('這一年沒有紀錄'),tl('寫下幾則之後，這裡會整理出你的年度回顧。'))}</div>`;
   else{const topM=R.cnt.lastIndexOf(Math.max(...R.cnt)),bar=R.cnt.map((c,i)=>c?`<i style="flex:${c};--c:var(${MOODS[i].c})"></i>`:'').join('');
     const C=2*Math.PI*26,f=R.days/R.span;
-    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>天有寫日記${R.isNow?`（今年已過 ${R.span} 天）`:''}</small></div><div class="rp-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${pctDone(f)}%</span></div></div>
-      <div class="rp-grid"><div><b>${n}</b><small>則紀錄</small></div><div><b>${R.words>=10000?(R.words/10000).toFixed(1)+'萬':R.words.toLocaleString()}</b><small>字</small></div><div><b>${R.best}</b><small>天最長連續</small></div><div><b>${R.done.length}</b><small>個星座</small></div></div>
-      <div class="rp-sec"><h4>每個月的星光</h4><div class="ry-months" role="list">${R.months.map(x=>`<button type="button" role="listitem" class="ry-m${x.future?' fut':''}" data-m="${x.m}"${x.future?' disabled':''} aria-label="${x.m+1} 月：${x.days} 天、${x.n} 則"><span class="ry-col"><i style="height:${x.days?Math.max(8,x.days/x.dim*100):0}%;--c:${x.avg==null?'transparent':MOOD_HEX[Math.round(x.avg)]}"></i></span><small>${x.m+1}</small></button>`).join('')}</div>
-        ${R.bestM?`<p class="ry-note">寫得最勤的是 <b>${R.bestM.m+1} 月</b>，${R.bestM.days} 天都有紀錄。點一下長條可以看那個月的月報。</p>`:''}</div>
-      <div class="rp-sec"><h4>這一年的心情</h4><div class="rp-bar">${bar}</div><p>最常是 ${moon(topM)}<b>${MOODS[topM].n}</b>，共 ${R.cnt[topM]} 則（${Math.round(R.cnt[topM]/n*100)}%）</p></div>
-      ${R.done.length?`<div class="rp-sec"><h4>點亮的星座</h4><div class="rp-cons">${R.done.slice(0,6).map(k=>`<button type="button" data-k="${k}"><svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,10,CON[k].s.length,conEntries(k),{sc:.6})}</svg><b>${CON[k].n}</b></button>`).join('')}</div>${R.done.length>6?`<p>還有 ${R.done.length-6} 個星座，可以到圖鑑查看。</p>`:''}</div>`:''}
-      ${R.tags.length?`<div class="rp-sec"><h4>最常出現的標籤</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
-      ${R.locs.length?`<div class="rp-sec"><h4>最常去的地方</h4><div class="rp-tags">${R.locs.map(([t,c])=>`<span class="chip tag">${IC_PIN}${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
-      <div class="rp-sec"><h4>值得回顧</h4>
-        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>這一年的第一則</small><b>${esc(R.first.title||untitled(R.first))}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
-        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>寫得最多的一天・${chars(R.longest)} 字</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
-        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>心情最好的一天・${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
-      ${R.photos?`<p class="rp-foot">這一年拍了 ${R.photos} 張照片</p>`:''}`}
+    g+=`<div class="rp-hero"><div class="rp-big"><b>${R.days}</b><small>${tl('天有寫日記')}${R.isNow?tl('（今年已過 {n} 天）',{n:R.span}):''}</small></div><div class="rp-ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="rr-b"/><circle cx="32" cy="32" r="26" class="rr-f" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><span>${pctDone(f)}%</span></div></div>
+      <div class="rp-grid"><div><b>${n}</b><small>${tl('則紀錄')}</small></div><div><b>${R.words>=10000&&!EN_UI?(R.words/10000).toFixed(1)+tlz('萬'):R.words.toLocaleString()}</b><small>${tl('字')}</small></div><div><b>${R.best}</b><small>${tl('天最長連續')}</small></div><div><b>${R.done.length}</b><small>${tl('個星座')}</small></div></div>
+      <div class="rp-sec"><h4>${tl('每個月的星光')}</h4><div class="ry-months" role="list">${R.months.map(x=>`<button type="button" role="listitem" class="ry-m${x.future?' fut':''}" data-m="${x.m}"${x.future?' disabled':''} aria-label="${tl('{m}：{d} 天、{n} 則',{m:fmtM(x.m+1),d:x.days,n:x.n})}"><span class="ry-col"><i style="height:${x.days?Math.max(8,x.days/x.dim*100):0}%;--c:${x.avg==null?'transparent':MOOD_HEX[Math.round(x.avg)]}"></i></span><small>${EN_UI?MON_EN[x.m].slice(0,1):x.m+1}</small></button>`).join('')}</div>
+        ${R.bestM?`<p class="ry-note">${tl('寫得最勤的是 <b>{m}</b>，{d} 天都有紀錄。點一下長條可以看那個月的月報。',{m:fmtM(R.bestM.m+1),d:R.bestM.days})}</p>`:''}</div>
+      <div class="rp-sec"><h4>${tl('這一年的心情')}</h4><div class="rp-bar">${bar}</div><p>${tl('最常是 {m}，共 {n} 則（{p}%）',{m:`${moon(topM)}<b>${MOODS[topM].n}</b>`,n:R.cnt[topM],p:Math.round(R.cnt[topM]/n*100)})}</p></div>
+      ${R.done.length?`<div class="rp-sec"><h4>${tl('點亮的星座')}</h4><div class="rp-cons">${R.done.slice(0,6).map(k=>`<button type="button" data-k="${k}"><svg viewBox="0 0 110 86" aria-hidden="true">${conSVG(k,110,86,10,CON[k].s.length,conEntries(k),{sc:.6})}</svg><b>${CON[k].n}</b></button>`).join('')}</div>${R.done.length>6?`<p>${tl('還有 {n} 個星座，可以到圖鑑查看。',{n:R.done.length-6})}</p>`:''}</div>`:''}
+      ${R.tags.length?`<div class="rp-sec"><h4>${tl('最常出現的標籤')}</h4><div class="rp-tags">${R.tags.map(([t,c],i)=>`<span class="chip tag${i?'':' top'}">#${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
+      ${R.locs.length?`<div class="rp-sec"><h4>${tl('最常去的地方')}</h4><div class="rp-tags">${R.locs.map(([t,c])=>`<span class="chip tag">${IC_PIN}${esc(t)}<em>${c}</em></span>`).join('')}</div></div>`:''}
+      <div class="rp-sec"><h4>${tl('值得回顧')}</h4>
+        ${R.first?`<button type="button" class="rp-e" data-id="${esc(R.first.id)}"><small>${tl('這一年的第一則')}</small><b>${esc(R.first.title||untitled(R.first))}</b><span>${esc(fmtDay(R.first.date))}</span></button>`:''}
+        ${R.longest&&R.longest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.longest.id)}"><small>${tl('寫得最多的一天')}${SEP}${tl('{n} 字',{n:chars(R.longest)})}</small><b>${esc(R.longest.title||untitled(R.longest))}</b><span>${esc(fmtDay(R.longest.date))}</span></button>`:''}
+        ${R.happiest&&R.happiest!==R.longest&&R.happiest!==R.first?`<button type="button" class="rp-e" data-id="${esc(R.happiest.id)}"><small>${tl('心情最好的一天')}${SEP}${MOODS[R.happiest.mood].n}</small><b>${esc(R.happiest.title||untitled(R.happiest))}</b><span>${esc(fmtDay(R.happiest.date))}</span></button>`:''}</div>
+      ${R.photos?`<p class="rp-foot">${tl('這一年拍了 {n} 張照片',{n:R.photos})}</p>`:''}`}
   $('mBody').innerHTML=g;$('mBody').scrollTop=0;
   if(Y>minY)$('ryPrev').onclick=()=>openYearReport(Y-1);if(Y<now.getFullYear())$('ryNext').onclick=()=>openYearReport(Y+1);
   $('mBody').querySelectorAll('.ry-m[data-m]:not(:disabled)').forEach(b=>b.onclick=()=>openReport(Y,+b.dataset.m));

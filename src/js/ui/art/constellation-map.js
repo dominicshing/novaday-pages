@@ -16,7 +16,7 @@ function conSVG(k,W,H,pad,lit,es,opt={}){const c=CON[k],P=conProj(k,W,H,pad),ord
       :`<line class="cl-dash" x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}"/>`}});
   c.s.forEach(([,,mag],si)=>{const[x,y]=P[si],base=Math.max(1.6,Math.min(4.6,3.9-mag*.55))*(opt.sc||1);
     if(on.has(si)){const e=byStar[si],col=e?`var(${MOODS[e.mood??2].c})`:LC;
-      g+=`<g class="cstar${e&&e.id===fresh?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}：${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
+      g+=`<g class="cstar${e&&e.id===fresh?' fresh':''}${opt.anim?' cd-star':''}"${e&&!opt.anim?` data-id="${esc(e.id)}" role="button" tabindex="0" aria-label="${esc(fmtDay(e.date))}${tl('：')}${esc(e.title||untitled(e))}"`:''}${opt.anim?` style="animation-delay:${(ord.indexOf(si)*.08).toFixed(2)}s"`:''}>
         <circle r="14" cx="${x}" cy="${y}" fill="transparent"/><circle class="halo" cx="${x}" cy="${y}" r="${(base*3).toFixed(1)}" fill="${col}" opacity=".2" style="--d:-${(si*.73%3.2).toFixed(2)}s"/>
         ${e&&e.id===fresh?`<circle class="ring" cx="${x}" cy="${y}" r="${base*1.6}" fill="none" stroke="${col}" stroke-width="1.5"/>`:''}
         <g class="st" style="--d:-${(si*.73%3.2).toFixed(2)}s"><path class="core" d="${spk(x,y,base*2.6)}" fill="${col}"/><path d="${spk(x,y,base*1.15)}" fill="#fff"/></g></g>`}
@@ -28,20 +28,20 @@ function reviewCon(st){const d=new Date(),day=Math.floor(Date.UTC(d.getFullYear(
 let finishingCon=null;
 function renderGalaxy(){const st=finishingCon?.state||consState(entries),svg=$('gal');$('conCount').textContent=st.done.length;
   if(!st.cur){const k=reviewCon(st),c=CON[k],n=c.s.length,es=conEntries(k),last=es[es.length-1];
-    $('skyK').textContent='全部完成';$('conName').textContent=c.n;$('conLatin').textContent=`${c.la}・今天回顧的星座`;
-    svg.innerHTML=conSVG(k,380,300,46,n,es,{bg:70,sc:1.25});svg.setAttribute('aria-label',`${c.n}，${n} 顆星都已點亮`);
+    $('skyK').textContent=tl('全部完成');$('conName').textContent=c.n;$('conLatin').textContent=[conLa(c),tl('今天回顧的星座')].filter(Boolean).join(SEP);
+    svg.innerHTML=conSVG(k,380,300,46,n,es,{bg:70,sc:1.25});svg.setAttribute('aria-label',tl('{c}，{n} 顆星都已點亮',{c:c.n,n}));
     $('skyDots').innerHTML=conOrd(k).map((_,j)=>`<i class="on" style="--c:var(${MOODS[(es[j]||{}).mood??2].c})"></i>`).join('');
-    $('gcap').innerHTML=`<span>全天 88 個星座都已點亮・這是你在${last?fmtMDY(parse(last.date)):''}完成的${c.n}</span>`;
+    $('gcap').innerHTML=`<span>${last?tl('全天 88 個星座都已點亮・這是你在{d}完成的{c}',{d:fmtMDY(parse(last.date)),c:c.n}):tl('全天 88 個星座都已點亮・這是你完成的{c}',{c:c.n})}</span>`;
     bindGalStars(svg);return}
-  $('skyK').textContent=finishingCon?.arrived?'已完成':'正在點亮';
+  $('skyK').textContent=tl(finishingCon?.arrived?'已完成':'正在點亮');
   const c=CON[st.cur],n=c.s.length,es=ascEntries().slice(st.off,st.off+st.lit);
-  $('conName').textContent=c.n;$('conLatin').textContent=c.la+(c.z?'・黃道十二星座':'');
+  $('conName').textContent=c.n;$('conLatin').textContent=[conLa(c),c.z?tl('黃道十二星座'):''].filter(Boolean).join(SEP);
   const visualLit=finishingCon?.visualLit??st.lit,figP=visualLit/n,figFrom=svg.dataset.figureKey===st.cur?Number(svg.dataset.figureProgress):figP;
   svg.innerHTML=conSVG(st.cur,380,300,46,st.lit,es,{bg:70,next:true,sc:1.25,figP,figFrom});
   svg.dataset.figureKey=st.cur;svg.dataset.figureProgress=figP;
-  svg.setAttribute('aria-label',`${c.n}，已點亮 ${visualLit} / ${n} 顆星`);
+  svg.setAttribute('aria-label',tl('{c}，已點亮 {lit} / {n} 顆星',{c:c.n,lit:visualLit,n}));
   const ord=conOrd(st.cur);$('skyDots').innerHTML=ord.map((_,j)=>j<visualLit?`<i class="on" style="--c:var(${MOODS[es[j].mood??2].c})"></i>`:j===visualLit?'<i class="nx"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2"/></svg></i>':'<i></i>').join('');
-  $('gcap').innerHTML=`<span>${finishingCon?(finishingCon.arrived?`已點亮全部 ${n} 顆星・${c.n}完成了`:'正在點亮最後一顆星…'):st.lit?`已點亮 ${st.lit} / ${n} 顆星・再寫 ${n-st.lit} 則就能完成${c.n}`:`寫下一則紀錄，點亮${c.n}的第一顆星`}</span>`;
+  $('gcap').innerHTML=`<span>${finishingCon?(finishingCon.arrived?tl('已點亮全部 {n} 顆星・{c}完成了',{n,c:c.n}):tl('正在點亮最後一顆星…')):st.lit?tl('已點亮 {lit} / {n} 顆星・再寫 {r} 則就能完成{c}',{lit:st.lit,n,r:n-st.lit,c:c.n}):tl('寫下一則紀錄，點亮{c}的第一顆星',{c:c.n})}</span>`;
   bindGalStars(svg)}
 function bindGalStars(svg){svg.querySelectorAll('.cstar[data-id]').forEach(el=>{el.onclick=ev=>{ev.stopPropagation();openDetail(el.dataset.id)};
     el.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();openDetail(el.dataset.id)}}})}

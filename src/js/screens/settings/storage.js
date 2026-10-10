@@ -12,15 +12,15 @@ async function storeUse(){let text=0;try{for(let i=0;i<localStorage.length;i++){
 let stBusy=false,stAgain=false;
 async function renderStoreRow(){if(!SHOW_STORE)return;if(stBusy){stAgain=true;return}stBusy=true;try{await renderStoreRow0()}finally{stBusy=false;if(stAgain){stAgain=false;renderStoreRow()}}}
 async function renderStoreRow0(){const v=$('stVal');if(!v)return;const u=await storeUse();v.textContent=fmtB(u.total);v.classList.toggle('warn',u.pct>=90);
-  $('stSub').textContent=u.pct>=90?'裝置空間快滿了，建議下載備份並移除部分影片':`照片 ${u.pn} 張・影片 ${u.vn} 部`}
+  $('stSub').textContent=u.pct>=90?tl('裝置空間快滿了，建議下載備份並移除部分影片'):tl('照片 {p} 張・影片 {v} 部',{p:u.pn,v:u.vn})}
 async function renderStore(){const u=await storeUse(),T=Math.max(1,u.total),w=x=>(x/T*100).toFixed(2)+'%';
-  $('stBody').innerHTML=`<p class="ex-note">紀錄、照片和影片都存在這台裝置的瀏覽器裡。照片和影片沒有固定上限，可用空間由瀏覽器依裝置剩餘空間決定。</p>
-    <div class="st-hero"><b>${fmtB(u.total)}</b><span>${u.quota?`這個網站還可以使用約 ${fmtB(u.free)}`:'已使用'}</span></div>
-    <div class="st-bar" role="img" aria-label="照片 ${fmtB(u.photo)}、影片 ${fmtB(u.video)}、文字與設定 ${fmtB(u.text)}"><i class="p" style="width:${w(u.photo)}"></i><i style="width:${w(u.video)};background:#FFB45C"></i><i class="t" style="width:${w(u.text)}"></i></div>
-    <div class="st-leg"><div><i style="background:#A99EFF"></i><span>照片（${u.pn} 張）</span><b>${fmtB(u.photo)}</b></div><div><i style="background:#FFB45C"></i><span>影片（${u.vn} 部）</span><b>${fmtB(u.video)}</b></div><div><i style="background:#6FE3D6"></i><span>文字紀錄與設定（${entries.length} 則）</span><b>${fmtB(u.text)}</b></div></div>
-    ${u.pct>=90?`<div class="st-tip">裝置空間快用完了，新的照片和影片可能無法儲存。建議先下載完整備份，再移除不需要的影片。</div>`
-      :`<div class="st-tip ok">${u.kept?'已設為長期保存：瀏覽器不會因為空間不足而自動清掉這些資料。':'瀏覽器在裝置空間不足時，可能會清掉網站資料。記得定期下載完整備份。'}</div>`}
-    <div class="st-act"><button type="button" class="btn" id="stBackup">下載完整備份</button></div>`;
+  $('stBody').innerHTML=`<p class="ex-note">${tl('紀錄、照片和影片都存在這台裝置的瀏覽器裡。照片和影片沒有固定上限，可用空間由瀏覽器依裝置剩餘空間決定。')}</p>
+    <div class="st-hero"><b>${fmtB(u.total)}</b><span>${u.quota?tl('這個網站還可以使用約 {n}',{n:fmtB(u.free)}):tl('已使用')}</span></div>
+    <div class="st-bar" role="img" aria-label="${tl('照片 {p}、影片 {v}、文字與設定 {t}',{p:fmtB(u.photo),v:fmtB(u.video),t:fmtB(u.text)})}"><i class="p" style="width:${w(u.photo)}"></i><i style="width:${w(u.video)};background:#FFB45C"></i><i class="t" style="width:${w(u.text)}"></i></div>
+    <div class="st-leg"><div><i style="background:#A99EFF"></i><span>${tl('照片（{n} 張）',{n:u.pn})}</span><b>${fmtB(u.photo)}</b></div><div><i style="background:#FFB45C"></i><span>${tl('影片（{n} 部）',{n:u.vn})}</span><b>${fmtB(u.video)}</b></div><div><i style="background:#6FE3D6"></i><span>${tl('文字紀錄與設定（{n} 則）',{n:entries.length})}</span><b>${fmtB(u.text)}</b></div></div>
+    ${u.pct>=90?`<div class="st-tip">${tl('裝置空間快用完了，新的照片和影片可能無法儲存。建議先下載完整備份，再移除不需要的影片。')}</div>`
+      :`<div class="st-tip ok">${tl(u.kept?'已設為長期保存：瀏覽器不會因為空間不足而自動清掉這些資料。':'瀏覽器在裝置空間不足時，可能會清掉網站資料。記得定期下載完整備份。')}</div>`}
+    <div class="st-act"><button type="button" class="btn" id="stBackup">${tl('下載完整備份')}</button></div>`;
   $('stBackup').onclick=()=>{closeSheet('storeSheet');fmt='full';refreshEx();openSheet('exporter')}}
 $('liStore').onclick=async()=>{await renderStore();openSheet('storeSheet')};
 /* 請瀏覽器長期保存資料（不保證同意；Safari 加到主畫面後通常會同意） */

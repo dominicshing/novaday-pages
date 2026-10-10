@@ -6,30 +6,30 @@ const CAM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A1.5 1
 function popPrev(){const v=$('mePrevAv');v.classList.remove('pop');void v.offsetWidth;v.classList.add('pop')}
 function pickAvatar(a){if(a!=='photo')lastEmoji=a;pickAv=a;renderAvs();popPrev();meUpdate()}
 function renderAvs(){const has=!!pickPh,on=pickAv==='photo';
-  const up=`<button type="button" class="av av-up2${has?' has':''}" role="radio" aria-checked="${on}" aria-label="${has?(on?'我的照片（使用中），點一下查看選項':'使用我的照片'):'上傳照片當頭像'}" id="avPhTile">${has?`<img class="av-img" src="${pickPh}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span></button>`;
-  $('avs').innerHTML=up+AVATARS.map(a=>`<button type="button" class="av" role="radio" aria-checked="${a===pickAv}" aria-label="頭像：${AVK[a].n}" data-a="${a}">${avSVG(a)}</button>`).join('');
+  const up=`<button type="button" class="av av-up2${has?' has':''}" role="radio" aria-checked="${on}" aria-label="${tl(has?(on?'我的照片（使用中），點一下查看選項':'使用我的照片'):'上傳照片當頭像')}" id="avPhTile">${has?`<img class="av-img" src="${pickPh}" alt="">`:''}<span class="avp-ic" aria-hidden="true">${CAM_SVG}</span></button>`;
+  $('avs').innerHTML=up+AVATARS.map(a=>`<button type="button" class="av" role="radio" aria-checked="${a===pickAv}" aria-label="${tl('頭像：{a}',{a:AVK[a].n})}" data-a="${a}">${avSVG(a)}</button>`).join('');
   $('avs').querySelectorAll('.av[data-a]').forEach(b=>b.onclick=()=>pickAvatar(b.dataset.a));
   $('avPhTile').onclick=()=>!has?openAvSrc():on?openAvOpt():pickAvatar('photo');
-  $('avNow').textContent=on?'目前：我的照片':`目前：${AVK[pickAv].n}`;
-  $('meAvBtn').setAttribute('aria-label',has?'照片頭像選項':'上傳照片當頭像')}
+  $('avNow').textContent=on?tl('目前：我的照片'):tl('目前：{a}',{a:AVK[pickAv].n});
+  $('meAvBtn').setAttribute('aria-label',tl(has?'照片頭像選項':'上傳照片當頭像'))}
 function openAvOpt(){$('aoAv').innerHTML=`<img class="av-img" src="${pickPh}" alt="">`;$('aoUse').hidden=pickAv==='photo';openSheet('avOpt')}
 function openAvSrc(){avTarget=null;openSheet('avSrc')}
 $('meAvBtn').onclick=()=>pickPh?openAvOpt():openAvSrc();
 $('aoUse').onclick=()=>{closeSheet('avOpt');pickAvatar('photo')};
 $('aoNew').onclick=()=>{closeSheet('avOpt');openAvSrc()};
-$('aoRm').onclick=()=>{closeSheet('avOpt');pickPh=null;if(pickAv==='photo')pickAv=lastEmoji;renderAvs();popPrev();meUpdate();toast('已移除照片，按「儲存」後生效')};
+$('aoRm').onclick=()=>{closeSheet('avOpt');pickPh=null;if(pickAv==='photo')pickAv=lastEmoji;renderAvs();popPrev();meUpdate();toast(tl('已移除照片，按「儲存」後生效'))};
 $('asrCam').onclick=()=>{closeSheet('avSrc');$('avFileCam').click()};
 $('asrGal').onclick=()=>{closeSheet('avSrc');$('avFile').click()};
 const crop={img:null,w:0,h:0,z:1,tx:0,ty:0,pts:new Map(),pinch:null};
 function handleAvFile(f){if(!f)return;
-  if(!/^image\//.test(f.type)&&!/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name)){toast('請選擇圖片檔');return}
-  if(f.size>25*1024*1024){toast('圖片太大了，請選 25 MB 以內的照片',2800);return}
+  if(!/^image\//.test(f.type)&&!/\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name)){toast(tl('請選擇圖片檔'));return}
+  if(f.size>25*1024*1024){toast(tl('圖片太大了，請選 25 MB 以內的照片'),2800);return}
   /* 上一次選的照片（例如裁切時按了取消）先釋放，避免大圖一直佔著記憶體 */
   if(crop.url){URL.revokeObjectURL(crop.url);crop.url=null}
   const url=URL.createObjectURL(f),img=new Image();crop.url=url;
   img.onload=()=>{crop.img=img;crop.w=img.naturalWidth;crop.h=img.naturalHeight;crop.z=1;crop.tx=crop.ty=0;
     const ci=$('cropImg');ci.src=url;$('cropZoom').value=1;openSheet('cropSheet');requestAnimationFrame(()=>{cropApply();$('cropOk').focus({preventScroll:true})})};
-  img.onerror=()=>{URL.revokeObjectURL(url);toast('無法讀取這張圖片，請改用 JPG 或 PNG',3000)};img.src=url}
+  img.onerror=()=>{URL.revokeObjectURL(url);toast(tl('無法讀取這張圖片，請改用 JPG 或 PNG'),3000)};img.src=url}
 $('avFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';handleAvFile(f)});
 $('avFileCam').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];e.target.value='';handleAvFile(f)});
 function cropGeo(){const S=$('cropStage').clientWidth||300,D=S*.86,base=D/Math.min(crop.w,crop.h),sc=base*crop.z;return{S,D,sc}}

@@ -52,6 +52,9 @@
   "js": [
     "src/js/core/dev-clock.js",
     "src/js/core/config.js",
+    "src/js/core/i18n-zhs.js",
+    "src/js/core/i18n-en.js",
+    "src/js/core/i18n.js",
     "src/js/core/utils.js",
     "src/js/data/moods-ranks.js",
     "src/js/data/sample-media.js",

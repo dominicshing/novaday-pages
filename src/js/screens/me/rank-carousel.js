@@ -1,8 +1,8 @@
 /* 「我的」頁：階級輪播 */
 const RK={cur:0,idx:-1,placed:false,rank:-1,key:'',drag:null,raf:0};
 function rkRew(i,st,using){const R=RINFO[i],s=i+1;
-  const act=st==='lock'?`<span class="st" aria-label="未解鎖，Lv.${s} 解鎖">未解鎖</span>`:using===i?`<span class="st using">✓ 使用中</span>`:`<button type="button" class="rk-apply" data-liv="${i}" aria-label="套用星線顏色「${R.lv.n}」">套用</button>`;
-  return `${miniShip(i)}<span class="t"><b>${R.lv.n}</b><small>星線顏色</small></span>${act}`}
+  const act=st==='lock'?`<span class="st" aria-label="${tl('未解鎖，Lv.{s} 解鎖',{s})}">${tl('未解鎖')}</span>`:using===i?`<span class="st using">${tl('✓ 使用中')}</span>`:`<button type="button" class="rk-apply" data-liv="${i}" aria-label="${tl('套用星線顏色「{c}」',{c:R.lv.n})}">${tl('套用')}</button>`;
+  return `${miniShip(i)}<span class="t"><b>${R.lv.n}</b><small>${tl('星線顏色')}</small></span>${act}`}
 /* 觀星者卡片本身就是輪播：目前階級那一頁是個人檔案，左右滑動看其他階 */
 /* 階級卡片背景：閃爍星點、星雲飄移、偶爾劃過的流星 */
 function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" style="--x:${(r()*50-10).toFixed(0)}%;--y:${(r()*20-12).toFixed(0)}%"></span>`;
@@ -11,8 +11,8 @@ function rkSky(seed){const r=seedRng('rksky'+seed);let h=`<span class="rk-neb" s
   return `<div class="rk-sky" aria-hidden="true">${h}</div>`}
 /* 每張卡片的進度列：只有它會隨經驗值改變 */
 function rkProg(i,st,xp){const a0=xpAt(i+1);
-  return st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>✓ 已通過這一階</span><span>${a0.toLocaleString()} XP 達成</span></div>`
-    :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>需要累積 <b>${a0.toLocaleString()}</b> XP</span><span>還差 ${(a0-xp).toLocaleString()}</span></div>`}
+  return st==='done'?`<div class="rk-bar"><i style="width:100%"></i></div><div class="rk-pt"><span>${tl('✓ 已通過這一階')}</span><span>${tl('{n} XP 達成',{n:a0.toLocaleString()})}</span></div>`
+    :`<div class="rk-bar"><i style="width:${Math.min(100,xp/a0*100).toFixed(1)}%"></i></div><div class="rk-pt"><span>${tl('需要累積 <b>{n}</b> XP',{n:a0.toLocaleString()})}</span><span>${tl('還差 {n}',{n:(a0-xp).toLocaleString()})}</span></div>`}
 /* 28 張卡片（徽章、星空背景）很重：階級或星線顏色沒變時，只更新進度列，不整排重建 */
 function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),ps=$('pSlide'),using=shipLiv(),key=ri+'|'+using;
   if(RK.key===key&&t.querySelector('.rk-card')){t.querySelectorAll('.rk-card.is-lock').forEach(el=>{el.querySelector('.rk-prog').innerHTML=rkProg(+el.dataset.i,'lock',xp)});return}
@@ -20,17 +20,17 @@ function renderRanks(xp,lv){const t=$('rkTrack'),ri=rankIdx(lv),ps=$('pSlide'),u
   if(RK.rank!==-1&&RK.rank!==ri)RK.placed=false;RK.rank=ri;RK.cur=ri;let g='';
   RANKS.forEach((name,i)=>{if(i===ri){g+='<i id="pSlot"></i>';return}
     const R=RINFO[i],s=i+1,top=i===RANKS.length-1,st=i<ri?'done':'lock';
-    g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="階級" aria-label="第 ${i+1} / ${RANKS.length} 階：${name}，${st==='done'?'已達成':'未解鎖'}">${rkSky(i)}
-      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>已達成':'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>未解鎖'}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
+    g+=`<article class="rk-card is-${st}" data-i="${i}" style="--rc:${R.c};--ra:${hexA(R.c,.22)};--rb:${hexA(R.c,.38)}" role="group" aria-roledescription="${tl('階級')}" aria-label="${tl('第 {i} / {n} 階：{r}',{i:i+1,n:RANKS.length,r:name})}${tl('，')}${tl(st==='done'?'已達成':'未解鎖')}">${rkSky(i)}
+      <div class="rk-top"><span class="rk-state">${st==='done'?'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 8"/></svg>'+tl('已達成'):'<svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.5"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>'+tl('未解鎖')}</span><span class="rk-lv">${top?`Lv.${s}+`:`Lv.${s}`}</span></div>
       <div class="rk-badge">${rankBadge(i)}</div><h3>${name}</h3><p class="rk-desc">${R.d}</p>
       <div class="rk-prog">${rkProg(i,st,xp)}</div>
       <div class="rk-rew">${rkRew(i,st,using)}</div></article>`});
   if(ps.parentNode)ps.remove();t.innerHTML=g;$('pSlot').replaceWith(ps);
-  if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',`第 ${ri+1} / ${RANKS.length} 階：${RANKS[ri]}，目前階級，我的檔案`);
+  if(!ps.querySelector('.rk-sky'))ps.insertAdjacentHTML('afterbegin',rkSky('me'));ps.dataset.i=ri;ps.setAttribute('aria-label',tl('第 {i} / {n} 階：{r}',{i:ri+1,n:RANKS.length,r:RANKS[ri]})+tl('，目前階級，我的檔案'));
   $('pRew').innerHTML=rkRew(ri,'cur',using);ps.style.setProperty('--rc',RINFO[ri].c);
   $('pLvRange').textContent=ri===RANKS.length-1?`Lv.${ri+1}+`:`Lv.${ri+1}`;
   t.scrollLeft=sl;
-  $('rkDots').innerHTML='<div class="rk-dots-in">'+RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?'（目前）':''}" aria-selected="false"><i></i></button>`).join('')+'</div>';
+  $('rkDots').innerHTML='<div class="rk-dots-in">'+RANKS.map((n,i)=>`<button type="button" class="rk-dot${i<=ri?' reached':''}${i===ri?' cur':''}" role="tab" data-i="${i}" aria-label="${n}${i===ri?tl('（目前）'):''}" aria-selected="false"><i></i></button>`).join('')+'</div>';
   $('rkDots').querySelectorAll('.rk-dot').forEach(d=>d.onclick=()=>rkGo(+d.dataset.i,true));
   RK.idx=-1;rkUpdate()}
 const rkCards=()=>[...$('rkTrack').querySelectorAll('.rk-card')];
@@ -48,7 +48,7 @@ function rkUpdate(){const i=rkNearest();if(i===RK.idx)return;RK.idx=i;
   $('rkPrev').disabled=i===0;$('rkNext').disabled=i===RANKS.length-1;$('rkBack').hidden=i===RK.cur;$('rkHint').hidden=i!==RK.cur}
 function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,false)}
 (()=>{const t=$('rkTrack');let seen=false;
-  t.addEventListener('scroll',()=>{if(!RK.raf)RK.raf=requestAnimationFrame(()=>{RK.raf=0;rkUpdate();if(RK.placed&&!seen&&RK.idx!==RK.cur){seen=true;$('rkHint').textContent='左右滑動查看每一階'}})},{passive:true});
+  t.addEventListener('scroll',()=>{if(!RK.raf)RK.raf=requestAnimationFrame(()=>{RK.raf=0;rkUpdate();if(RK.placed&&!seen&&RK.idx!==RK.cur){seen=true;$('rkHint').textContent=tl('左右滑動查看每一階')}})},{passive:true});
   $('rkPrev').onclick=()=>rkGo(RK.idx-1,true);$('rkNext').onclick=()=>rkGo(RK.idx+1,true);$('rkBack').onclick=()=>rkGo(RK.cur,true);
   $('pRankChip').onclick=e=>{e.stopPropagation();rkGo(Math.min(RANKS.length-1,RK.cur+1),true)};
   t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();rkGo(RK.idx+1,true)}else if(e.key==='ArrowLeft'){e.preventDefault();rkGo(RK.idx-1,true)}});
@@ -62,5 +62,5 @@ function rkSync(){if(cur!=='me'||RK.placed)return;RK.placed=true;rkGo(RK.cur,fal
     t.addEventListener('click',ev=>{ev.stopPropagation();ev.preventDefault()},{capture:true,once:true})};
   t.addEventListener('pointerup',end);t.addEventListener('pointercancel',end);
   t.addEventListener('click',e=>{const b=e.target.closest('.rk-apply');if(!b)return;const i=+b.dataset.liv;
-    prof.livery=i===RK.cur?null:i;saveProf();renderMe();renderGalaxy();toast(`已套用星線顏色「${RINFO[i].lv.n}」`)});
+    prof.livery=i===RK.cur?null:i;saveProf();renderMe();renderGalaxy();toast(tl('已套用星線顏色「{c}」',{c:RINFO[i].lv.n}))});
   addEventListener('resize',()=>{if(cur==='me')rkGo(RK.idx<0?RK.cur:RK.idx,false)})})();

@@ -1,13 +1,13 @@
 /* 擷取目前可見的 App 畫面；在本機產生 PNG，預覽後儲存或分享。 */
 let screenshotBusy=false,screenshotBlob=null,screenshotUrl=null,screenshotName='';
 const SCREENSHOT_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l1.5-2h5L16 5h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg>';
-$('screenshotCapture').innerHTML=SCREENSHOT_ICON+'<span>擷取畫面</span>';
+$('screenshotCapture').innerHTML=SCREENSHOT_ICON+`<span>${tl('擷取畫面')}</span>`;
 $('screenshotCapture').onclick=captureScreenshot;
 
 async function captureScreenshot(){
   if(screenshotBusy||!$('lock').hidden||!$('onb').hidden)return;
   const returnFocus=document.activeElement;
-  screenshotBusy=true;$('screenshotStatus').textContent='正在擷取畫面…';toast('正在擷取畫面…');
+  screenshotBusy=true;$('screenshotStatus').textContent=tl('正在擷取畫面…');toast(tl('正在擷取畫面…'));
   const buttons=[...document.querySelectorAll('.screenshot-trigger')];buttons.forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true')});
   try{
     await document.fonts.ready;
@@ -57,21 +57,21 @@ async function captureScreenshot(){
     if(screenshotUrl)URL.revokeObjectURL(screenshotUrl);
     screenshotBlob=blob;screenshotUrl=URL.createObjectURL(blob);
     const now=new Date();screenshotName=`Novaday-${cur}-${ymd(now)}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}.png`;
-    const img=new Image();img.alt='目前 App 畫面的截圖';img.src=screenshotUrl;$('screenshotPreview').replaceChildren(img);
+    const img=new Image();img.alt=tl('目前 App 畫面的截圖');img.src=screenshotUrl;$('screenshotPreview').replaceChildren(img);
     openSheet('screenshotSheet');$('screenshotSheet')._last=returnFocus;$('screenshotSheet')._lastKey=null;
-    $('screenshotStatus').textContent='截圖已產生，可以儲存或分享';
-  }catch(e){$('screenshotStatus').textContent='截圖失敗，請再試一次';toast('截圖失敗，請再試一次',3000)}
+    $('screenshotStatus').textContent=tl('截圖已產生，可以儲存或分享');
+  }catch(e){$('screenshotStatus').textContent=tl('截圖失敗，請再試一次');toast(tl('截圖失敗，請再試一次'),3000)}
   finally{screenshotBusy=false;buttons.forEach(b=>{b.disabled=false;b.removeAttribute('aria-busy')})}
 }
 $('screenshotSave').onclick=async()=>{
   if(!screenshotBlob)return;
-  try{if(await saveFile(screenshotName,screenshotBlob,'image/png'))toast('已儲存截圖')}
-  catch(e){toast('無法下載，請長按圖片儲存',3000)}
+  try{if(await saveFile(screenshotName,screenshotBlob,'image/png'))toast(tl('已儲存截圖'))}
+  catch(e){toast(tl('無法下載，請長按圖片儲存'),3000)}
 };
 $('screenshotShare').onclick=async()=>{
   if(!screenshotBlob)return;
   const file=new File([screenshotBlob],screenshotName,{type:'image/png'});
-  try{if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'Novaday 畫面截圖'});return}}
+  try{if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:tl('Novaday 畫面截圖')});return}}
   catch(e){if(e?.name==='AbortError')return}
   $('screenshotSave').click();
 };

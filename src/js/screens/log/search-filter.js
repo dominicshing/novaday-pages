@@ -21,13 +21,13 @@ function renderFilters(){const tc={};entries.forEach(e=>(e.tags||[]).forEach(t=>
   const mSel=[...fl.moods].sort(),cSel=[fl.fav&&'已收藏',fl.photo&&'有照片／影片',fl.loc&&'有地點',fl.prompt&&'回答星語'].filter(Boolean);
   const grp=(k,ic,lab,val)=>`<button type="button" class="fgrp${val?' on':''}${fOpen===k?' open':''}" data-g="${k}" aria-expanded="${fOpen===k}">${ic}<span>${lab}</span>${val?`<b class="fg-n" aria-label="${val}">${val}</b>`:''}<svg class="fg-car" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></button>`;
   const mVal=mSel.length||'',cVal=cSel.length||'';
-  $('filters').innerHTML=grp('mood',moon(mSel.length===1?mSel[0]:3),'心情',mVal)+grp('content',IC_CAM,'內容',cVal)+(tags.length||fl.tag?grp('tag',IC_TAG,'標籤',fl.tag?1:''):'')
-    +(flActive()?'<button type="button" class="fgrp clr" data-g="clear" aria-label="清除全部篩選">✕</button>':'');
+  $('filters').innerHTML=grp('mood',moon(mSel.length===1?mSel[0]:3),tl('心情'),mVal)+grp('content',IC_CAM,tl('內容'),cVal)+(tags.length||fl.tag?grp('tag',IC_TAG,tl('標籤'),fl.tag?1:''):'')
+    +(flActive()?`<button type="button" class="fgrp clr" data-g="clear" aria-label="${tl('清除全部篩選')}">✕</button>`:'');
   let pn='';
-  if(fOpen==='mood')pn=`<div class="fp-h">心情<small>可複選</small></div><div class="fp-opts">${MOODS.map((m,i)=>`<button type="button" class="fchip" data-f="m${i}" aria-pressed="${fl.moods.has(i)}">${moon(i)}${m.n}</button>`).join('')}</div>`;
-  else if(fOpen==='content')pn=`<div class="fp-h">內容<small>可複選</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片／影片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${n}</button>`).join('')}</div>`;
-  else if(fOpen==='tag')pn=`<div class="fp-h">標籤<small>選一個</small>${tags.length?'<button type="button" class="fp-mng" id="fpMng">管理 ›</button>':''}</div><div class="fp-opts">${tags.map(t=>`<button type="button" class="fchip" data-f="t" data-t="${esc(t)}" aria-pressed="${fl.tag===t}">#${esc(t)}<em>${tc[t]}</em></button>`).join('')||'<span class="fp-none">還沒有使用過標籤</span>'}</div>`;
-  $('fPanel').innerHTML=pn?pn+`<div class="fp-foot"><button type="button" class="txt-btn" id="fpReset">清除這組</button><button type="button" class="btn primary" id="fpDone">完成</button></div>`:'';$('fPanel').hidden=!pn;
+  if(fOpen==='mood')pn=`<div class="fp-h">${tl('心情')}<small>${tl('可複選')}</small></div><div class="fp-opts">${MOODS.map((m,i)=>`<button type="button" class="fchip" data-f="m${i}" aria-pressed="${fl.moods.has(i)}">${moon(i)}${m.n}</button>`).join('')}</div>`;
+  else if(fOpen==='content')pn=`<div class="fp-h">${tl('內容')}<small>${tl('可複選')}</small></div><div class="fp-opts">${[['fav',IC_BM,'已收藏'],['photo',IC_CAM,'有照片／影片'],['loc',IC_PIN,'有地點'],['prompt',IC_SIG,'回答了今日星語']].map(([k,ic,n])=>`<button type="button" class="fchip" data-f="${k}" aria-pressed="${fl[k]}">${ic}${tl(n)}</button>`).join('')}</div>`;
+  else if(fOpen==='tag')pn=`<div class="fp-h">${tl('標籤')}<small>${tl('選一個')}</small>${tags.length?`<button type="button" class="fp-mng" id="fpMng">${tl('管理 ›')}</button>`:''}</div><div class="fp-opts">${tags.map(t=>`<button type="button" class="fchip" data-f="t" data-t="${esc(t)}" aria-pressed="${fl.tag===t}">#${esc(t)}<em>${tc[t]}</em></button>`).join('')||`<span class="fp-none">${tl('還沒有使用過標籤')}</span>`}</div>`;
+  $('fPanel').innerHTML=pn?pn+`<div class="fp-foot"><button type="button" class="txt-btn" id="fpReset">${tl('清除這組')}</button><button type="button" class="btn primary" id="fpDone">${tl('完成')}</button></div>`:'';$('fPanel').hidden=!pn;
   $('filters').querySelectorAll('.fgrp').forEach(b=>b.onclick=()=>{const g=b.dataset.g;if(g==='clear'){fClear();fOpen=null}else fOpen=fOpen===g?null:g;renderLog()});
   $('fPanel').querySelectorAll('.fchip').forEach(b=>b.onclick=()=>{const f=b.dataset.f;
     if(f[0]==='m'&&f.length===2){const i=+f[1];fl.moods.has(i)?fl.moods.delete(i):fl.moods.add(i)}
@@ -37,7 +37,7 @@ function renderFilters(){const tc={};entries.forEach(e=>(e.tags||[]).forEach(t=>
 const LG_STEP=40,LG={key:null,lim:LG_STEP,list:[],n:0};
 let lgIO=null;
 function logChunk(a,b){let h='';for(let i=a;i<b;i++){const e=LG.list[i],mk=e.date.slice(0,7);
-    if(mk!==LG.lm){LG.lm=mk;h+=`<div class="month-head"><b>${+mk.slice(0,4)} 年 ${+mk.slice(5)} 月</b><span>${LG.mc[mk]} 則</span></div>`}
+    if(mk!==LG.lm){LG.lm=mk;h+=`<div class="month-head"><b>${fmtYM(+mk.slice(0,4),+mk.slice(5))}</b><span>${tl('{n} 則',{n:LG.mc[mk]})}</span></div>`}
     if(e.date!==LG.last){LG.last=e.date;h+=`<div class="day-head"><strong>${esc(fmtDay(e.date))}</strong></div>`}h+=LG.cmp?entryRow(e):entryCard(e)}return h}
 function logMore(){const m=$('lgMore');if(!m)return;const a=LG.n,b=Math.min(LG.list.length,a+LG_STEP);if(b<=a)return;
   const tmp=document.createElement('template');tmp.innerHTML=logChunk(a,b);bindCards(tmp.content);m.before(tmp.content);LG.n=b;LG.lim=Math.max(LG.lim,b);
@@ -46,8 +46,8 @@ function watchLogMore(){if(lgIO)lgIO.disconnect();const m=$('lgMore');if(!m)retu
   if(!('IntersectionObserver' in window)){m.hidden=false;m.onclick=logMore;return}
   lgIO=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting))logMore()},{root:$('s-log'),rootMargin:'0px 0px 900px 0px'});lgIO.observe(m)}
 function renderLog(){renderFilters();const list=sorted().filter(passFilter);let h='';
-  if(q||flActive())h+=`<div class="q-count" role="status">找到 <b>${list.length}</b> 則${q?`符合「${esc(q)}」的紀錄`:''}</div>`;
-  if(!list.length)h+=entries.length?`<div class="es">${emptyState('找不到符合的紀錄',flActive()?'換個篩選條件試試看。':'試試其他關鍵字。',flActive()?'<button class="btn" id="clrF">清除篩選</button>':'')}</div>`:`<div class="es">${emptyState('還沒有任何紀錄','寫下第一則，點亮第一顆星。','<button class="btn primary" id="emptyNew">寫第一則紀錄</button>')}</div>`;
+  if(q||flActive())h+=`<div class="q-count" role="status">${q?tl('找到 <b>{n}</b> 則符合「{q}」的紀錄',{n:list.length,q:esc(q)}):tl('找到 <b>{n}</b> 則',{n:list.length})}</div>`;
+  if(!list.length)h+=entries.length?`<div class="es">${emptyState(tl('找不到符合的紀錄'),tl(flActive()?'換個篩選條件試試看。':'試試其他關鍵字。'),flActive()?`<button class="btn" id="clrF">${tl('清除篩選')}</button>`:'')}</div>`:`<div class="es">${emptyState(tl('還沒有任何紀錄'),tl('寫下第一則，點亮第一顆星。'),`<button class="btn primary" id="emptyNew">${tl('寫第一則紀錄')}</button>`)}</div>`;
   /* 月份分段＋日期標題固定在頂部；精簡模式每則一行 */
   const cmp=!!prof.logCompact,mc={};list.forEach(e=>{const k=e.date.slice(0,7);mc[k]=(mc[k]||0)+1});
   /* R16：分批渲染。先畫前 40 則，捲到底再接著畫，紀錄很多時切換分頁和搜尋都不會卡住 */

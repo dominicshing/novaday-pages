@@ -21,18 +21,18 @@ function renderEdStar(){const T=edTarget(),box=$('edStar');box.hidden=!T;if(!T)r
     else if(on.has(si))g+=`<path d="${spk(x,y,3.6)}" fill="${col[si]||'var(--nebula)'}"/>`;
     else g+=`<path d="${spk(x,y,2.4)}" fill="rgba(232,233,255,.5)"/>`});
   $('edStarSvg').innerHTML=g;
-  $('edStarK').textContent=editing?'這則紀錄是':'這則紀錄將點亮';
-  $('edStarN').textContent=!editing&&T.t+1===n?`${c.n}的最後一顆星 ✦`:`${c.n}・第 ${T.t+1} / ${n} 顆星`;
-  $('edStarS').textContent=!editing&&T.t+1===n?'點亮後就完成整個星座！':'此刻的心情會決定這顆星的顏色';
+  $('edStarK').textContent=tl(editing?'這則紀錄是':'這則紀錄將點亮');
+  $('edStarN').textContent=!editing&&T.t+1===n?tl('{c}的最後一顆星 ✦',{c:c.n}):`${c.n}${SEP}${tl('第 {i} / {n} 顆星',{i:T.t+1,n})}`;
+  $('edStarS').textContent=tl(!editing&&T.t+1===n?'點亮後就完成整個星座！':'此刻的心情會決定這顆星的顏色');
   box.setAttribute('aria-label',$('edStarK').textContent+$('edStarN').textContent);box.setAttribute('role','note');paintEdStar()}
 function paintEdStar(){const c=`var(${MOODS[curMood].c})`,sb=$('saveBtn');$('edStar').style.setProperty('--c',c);sb.style.setProperty('--mc',c);sb.dataset.m=curMood}
 /* 換心情時，「點亮」按鈕上的星星彈一下（顏色與閃爍方式見 editor.css 的 [data-m]） */
 function lbHit(){const g=$('saveBtn').querySelector('.lbg');if(!g||reduce)return;g.classList.remove('hit');void g.getBoundingClientRect();g.classList.add('hit')}
 function fitBody(){const f=$('fBody');f.style.height='auto';f.style.height=Math.max(132,f.scrollHeight+2)+'px'}
 function updWC(){const n=($('fTitle').value+$('fBody').value).replace(/\s/g,'').length,p=curPhotos.length;
-  $('wc').textContent=n+' 字'+(p?`・${p} 張照片`:curVideo?'・1 部影片':'')}
+  $('wc').textContent=tl('{n} 字',{n})+(p?SEP+tl('{n} 張照片',{n:p}):curVideo?SEP+tl('1 部影片'):'')}
 function renderPrompt(){$('promptNote').hidden=!curPrompt;const today=curPrompt===promptToday();
-  $('pnK').textContent=curPrompt?(today?'💫 今日星語':'✦ 書寫提示'):'';$('pnT').textContent=curPrompt||'';
+  $('pnK').textContent=curPrompt?(today?'💫 '+tl('今日星語'):'✦ '+tl('書寫提示')):'';$('pnT').textContent=curPrompt||'';
   $('sigChip').hidden=!!curPrompt;$('sigChip').title=promptToday()}
 function renderMoods(){$('moods').innerHTML=MOODS.map((m,i)=>`<button type="button" class="mood" style="--c:var(${m.c})" data-i="${i}" aria-pressed="${i===curMood}" aria-label="${m.n}">${moon(i)}${m.n}</button>`).join('');
   $('moods').querySelectorAll('.mood').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,same=i===curMood;curMood=i;renderMoods();onEdit();
@@ -46,17 +46,17 @@ function setVideo(v,quiet){curVideo=v&&v.id?v:null;renderMedia();if(!quiet)onEdi
 /* 影像區：沒有影像時顯示「加入照片／加入影片」；照片最多 10 張，或 1 部影片，兩者擇一 */
 function renderMedia(){const b=$('fPhotos'),n=curPhotos.length;if(!b)return;
   $('mdEmpty').hidden=!!(n||curVideo);b.hidden=!n;$('fVideo').hidden=!curVideo;
-  b.innerHTML=curPhotos.map((u,i)=>`<div class="ph-t${i?'':' cover'}"><button type="button" class="ph-img" data-i="${i}" aria-label="${i?`把第 ${i+1} 張設為封面`:'封面照片'}"><img src="${u}" alt=""></button>${i?'':'<span class="ph-cv">封面</span>'}<button type="button" class="ph-x" data-x="${i}" aria-label="移除第 ${i+1} 張照片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>`).join('')
-    +(n&&n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>再加一張</span><small>${n} / ${PH_MAX}</small></button>`:'');
-  $('phHint').textContent=curVideo?'每則紀錄可放 1 部影片，或最多 10 張照片'
-    :n>1?`點一下照片可以設為封面・${n} / ${PH_MAX} 張`:n?`最多 ${PH_MAX} 張照片・想放影片請先移除照片`:'可以只放照片或影片，不寫文字也能點亮';
+  b.innerHTML=curPhotos.map((u,i)=>`<div class="ph-t${i?'':' cover'}"><button type="button" class="ph-img" data-i="${i}" aria-label="${i?tl('把第 {n} 張設為封面',{n:i+1}):tl('封面照片')}"><img src="${u}" alt=""></button>${i?'':`<span class="ph-cv">${tl('封面')}</span>`}<button type="button" class="ph-x" data-x="${i}" aria-label="${tl('移除第 {n} 張照片',{n:i+1})}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div>`).join('')
+    +(n&&n<PH_MAX?`<button type="button" class="ph-add" id="phAdd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>${tl('再加一張')}</span><small>${n} / ${PH_MAX}</small></button>`:'');
+  $('phHint').textContent=curVideo?tl('每則紀錄可放 1 部影片，或最多 10 張照片')
+    :n>1?tl('點一下照片可以設為封面・{n} / {m} 張',{n,m:PH_MAX}):n?tl('最多 {m} 張照片・想放影片請先移除照片',{m:PH_MAX}):tl('可以只放照片或影片，不寫文字也能點亮');
   b.querySelectorAll('.ph-x').forEach(x=>x.onclick=()=>{const a=curPhotos.slice();a.splice(+x.dataset.x,1);setPhotos(a)});
-  b.querySelectorAll('.ph-img').forEach(x=>x.onclick=()=>{const i=+x.dataset.i;if(!i)return;const a=curPhotos.slice();const [m]=a.splice(i,1);a.unshift(m);setPhotos(a);toast('已設為封面',1400)});
+  b.querySelectorAll('.ph-img').forEach(x=>x.onclick=()=>{const i=+x.dataset.i;if(!i)return;const a=curPhotos.slice();const [m]=a.splice(i,1);a.unshift(m);setPhotos(a);toast(tl('已設為封面'),1400)});
   if($('phAdd'))$('phAdd').onclick=()=>$('fPhoto').click();
   renderVidPrev()}
 function renderVidPrev(){const box=$('fVideo'),v=curVideo;if(vidUrl){URL.revokeObjectURL(vidUrl);vidUrl=null}
   if(!v){box.innerHTML='';return}
-  box.innerHTML=`<video class="md-v" playsinline controls preload="metadata"${v.poster?` poster="${v.poster}"`:''}></video><span class="md-dur">${fmtDur(v.dur)}</span><button type="button" class="ph-x" id="vidX" aria-label="移除影片"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>`;
+  box.innerHTML=`<video class="md-v" playsinline controls preload="metadata"${v.poster?` poster="${v.poster}"`:''}></video><span class="md-dur">${fmtDur(v.dur)}</span><button type="button" class="ph-x" id="vidX" aria-label="${tl('移除影片')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>`;
   $('vidX').onclick=()=>setVideo(null);
   const id=v.id;mediaGet(id).then(bl=>{if(!bl||!curVideo||curVideo.id!==id)return;vidUrl=URL.createObjectURL(bl);const el=box.querySelector('video');if(el)el.src=vidUrl})}
 const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).concat([{id,date:$('fDate').value||ymd(new Date()),time:$('fTime').value,photo:curPhoto,video:curVideo,loc:$('fLoc').value.trim(),prompt:curPrompt}]);
@@ -64,10 +64,10 @@ const updXP=()=>{const id=editing||'__draft',tmp=entries.filter(x=>x.id!==id).co
   /* 新紀錄顯示「實際淨增加」的 XP（同一天第二則起只有 +5） */
   const firstToday=!entries.some(x=>x.date===tmp[tmp.length-1].date&&x.id!==id);
   $('xpPrev').textContent=`+${gain} XP${firstToday&&v.bonus?' 🔥':''}`;
-  $('xpPrev').title=firstToday?`當天第一則 +${XP.first}${v.bonus?`，連續加成 +${v.bonus}`:''}`:`當天已經寫過，這則 +${XP.extra} 起`};
+  $('xpPrev').title=firstToday?tl('當天第一則 +{n}',{n:XP.first})+(v.bonus?tl('，連續加成 +{n}',{n:v.bonus}):''):tl('當天已經寫過，這則 +{n} 起',{n:XP.extra})};
 /* 日期時間膠囊：左半「昨天・10/2（五）」、右半「21:30」，點哪半就打開手機的日期或時間選擇器 */
-function updWhen(){const td=ymd(new Date()),d=$('fDate').value||td,t=$('fTime').value,x=parse(d),n=Math.round((parse(td)-x)/864e5),r=n===0?'今天':n===1?'昨天':n===2?'前天':'';
-  $('whenDT').textContent=`${r?r+'・':''}${fmtMDY(x)}（${WD[x.getDay()]}）`;$('whenTT').textContent=t?fmtTime(t):'--:--'}
+function updWhen(){const td=ymd(new Date()),d=$('fDate').value||td,t=$('fTime').value,x=parse(d),n=Math.round((parse(td)-x)/864e5),r=n===0?tl('今天'):n===1?tl('昨天'):n===2?tl('前天'):'';
+  $('whenDT').textContent=`${r?r+SEP:''}${EN_UI?`${WDS_EN[x.getDay()]}, ${fmtMDY(x)}`:`${fmtMDY(x)}（${WD[x.getDay()]}）`}`;$('whenTT').textContent=t?fmtTime(t):'--:--'}
 function syncTools(){const has={xLoc:!!$('fLoc').value.trim(),xTags:!!$('fTags').value.trim(),xDate:$('fDate').value!==ymd(new Date())};
   document.querySelectorAll('.tool').forEach(b=>{b.setAttribute('aria-pressed',!$(b.dataset.x).hidden);b.classList.toggle('has',!!has[b.dataset.x])})}
 const snap=()=>JSON.stringify([$('fTitle').value,$('fBody').value,curMood,$('fDate').value,$('fTime').value,$('fTags').value,$('fLoc').value,curPhotos.map(u=>u.length+u.slice(-16)).join(),curVideo&&curVideo.id,curPrompt]);
@@ -85,24 +85,24 @@ try{const s=localStorage.getItem(SKEY);if(s!=null){localStorage.setItem(DKEY,s);
 function writeDraft(){clearTimeout(dTimer);if(!$('editor').classList.contains('open'))return;
   if(snap()===baseSnap||!edHas()){clearDraft();$('draftState').textContent='';return}
   const d={editing,title:$('fTitle').value,body:$('fBody').value,mood:curMood,date:$('fDate').value,time:$('fTime').value,tags:$('fTags').value,loc:$('fLoc').value,photos:curPhotos.map(phRef).filter(Boolean),video:curVideo,prompt:curPrompt};
-  try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已自動儲存'}
-  catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent='草稿已儲存（不含照片）'}catch(e2){$('draftState').textContent='草稿無法儲存'}}}
+  try{localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent=tl('草稿已自動儲存')}
+  catch(e){try{d.photos=[];localStorage.setItem(DKEY,JSON.stringify(d));$('draftState').textContent=tl('草稿已儲存（不含照片）')}catch(e2){$('draftState').textContent=tl('草稿無法儲存')}}}
 function edHas(){return !!($('fTitle').value.trim()||$('fBody').value.trim()||curPhoto||curVideo)}
 function updEdUI(){const sb=$('saveBtn'),was=sb.classList.contains('off'),now=!edHas();sb.classList.toggle('off',now);sb.setAttribute('aria-disabled',now);
   if(was&&!now&&!reduce){sb.classList.remove('pop');void sb.offsetWidth;sb.classList.add('pop')}
   updWC();fitBody();$('sparks').hidden=!!$('fBody').value.trim()||!!editing}
-function onEdit(){updXP();syncTools();updWhen();updEdUI();$('draftState').textContent='編輯中…';clearTimeout(dTimer);dTimer=setTimeout(writeDraft,500)}
+function onEdit(){updXP();syncTools();updWhen();updEdUI();$('draftState').textContent=tl('編輯中…');clearTimeout(dTimer);dTimer=setTimeout(writeDraft,500)}
 function renderDraftBar(){const d=readDraft();if(d&&!draftHas(d))clearDraft();const ok=draftHas(d)&&(!d.editing||entries.some(e=>e.id===d.editing));
-  $('draftBar').hidden=!ok;if(ok)$('draftTxt').textContent=d.editing?'📝 有一則尚未儲存的修改':'📝 有一則未完成的草稿'}
+  $('draftBar').hidden=!ok;if(ok)$('draftTxt').textContent=tl(d.editing?'📝 有一則尚未儲存的修改':'📝 有一則未完成的草稿')}
 $('draftBar').addEventListener('click',()=>{const d=readDraft();
-  if(!draftHas(d)){clearDraft();renderDraftBar();toast('找不到草稿內容，已為你開啟新紀錄');openEditor();return}
+  if(!draftHas(d)){clearDraft();renderDraftBar();toast(tl('找不到草稿內容，已為你開啟新紀錄'));openEditor();return}
   const ok=!d.editing||entries.some(e=>e.id===d.editing);
   if(!ok){d.editing=null;try{localStorage.setItem(DKEY,JSON.stringify(d))}catch(e){}}
   openEditor(ok?d.editing:null)});
 /* 不能寫未來的日記：日期最晚是今天；今天的話，時間最晚是現在。quiet＝開啟編輯器時默默修正，不跳提示 */
 function noFuture(quiet){const n=new Date(),td=ymd(n),now=pad(n.getHours())+':'+pad(n.getMinutes()),fd=$('fDate'),ft=$('fTime');let msg='';
-  fd.max=td;if(fd.value&&fd.value>td){fd.value=td;msg='不能寫未來的日記，已改成今天'}
-  ft.max=fd.value===td?now:'';if(fd.value===td&&ft.value&&ft.value>now){ft.value=now;msg=msg||'時間不能晚於現在，已改成現在'}
+  fd.max=td;if(fd.value&&fd.value>td){fd.value=td;msg=tl('不能寫未來的日記，已改成今天')}
+  ft.max=fd.value===td?now:'';if(fd.value===td&&ft.value&&ft.value>now){ft.value=now;msg=msg||tl('時間不能晚於現在，已改成現在')}
   if(msg){if(!quiet)toast(msg,2600);updWhen();return false}return true}
 function openEditor(id,usePrompt,presetDate){if(finishingCon)return;setTimeout(renderSug,0);const e=id?entries.find(x=>x.id===id):null;editing=e?e.id:null;const n=new Date();
   curPrompt=e?(e.prompt||null):(typeof usePrompt==='string'?usePrompt:usePrompt?promptToday():null);
@@ -119,21 +119,21 @@ function openEditor(id,usePrompt,presetDate){if(finishingCon)return;setTimeout(r
     if(!usePrompt)curPrompt=d.prompt||curPrompt;restored=true}
   noFuture(true);
   $('xLoc').hidden=!$('fLoc').value;$('xTags').hidden=!$('fTags').value;
-  $('edTitle').textContent=e?'編輯紀錄':'新增紀錄';$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
+  $('edTitle').textContent=tl(e?'編輯紀錄':'新增紀錄');$('saveBtn').innerHTML=(e?'':'<svg class="lbi" viewBox="0 0 24 24" aria-hidden="true"><circle class="lbs" cx="12" cy="12" r="11.5"/><g class="lbg"><g class="lbm"><path d="M12 4Q13.45 10.55 20 12Q13.45 13.45 12 20Q10.55 13.45 4 12Q10.55 10.55 12 4Z"/></g></g></svg>')+tl(e?'儲存':'點亮');$('saveBtn').classList.remove('pop');
   renderPrompt();
-  $('draftState').textContent=restored?'已還原草稿':'';
+  $('draftState').textContent=restored?tl('已還原草稿'):'';
   renderMoods();updXP();syncTools();updWhen();updEdUI();renderEdStar();
   $('form').querySelector('.sb').scrollTop=0;openSheet('editor');requestAnimationFrame(fitBody);
-  if(restored)toast('已還原上次未完成的草稿');
+  if(restored)toast(tl('已還原上次未完成的草稿'));
   if(!e)setTimeout(()=>$('fBody').focus({preventScroll:true}),reduce?0:340)}
 async function tryCloseEditor(){if(edStash!=null){
     /* 另有收起來的草稿：這則不能再存成草稿（只有一個位置），只能繼續寫或捨棄 */
-    if(snap()!==baseSnap&&edHas()){const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？',`你還有另一則未完成的草稿，所以這次的${editing?'修改':'內容'}不會存成草稿。`,[{k:'keep',t:'繼續寫',cls:'primary'},{k:'discard',t:editing?'放棄修改':'捨棄這則',cls:'danger'}]);if(k!=='discard')return}
+    if(snap()!==baseSnap&&edHas()){const k=await ask(tl(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？'),tl(editing?'你還有另一則未完成的草稿，所以這次的修改不會存成草稿。':'你還有另一則未完成的草稿，所以這次的內容不會存成草稿。'),[{k:'keep',t:tl('繼續寫'),cls:'primary'},{k:'discard',t:tl(editing?'放棄修改':'捨棄這則'),cls:'danger'}]);if(k!=='discard')return}
     clearDraft();closeSheet('editor');stashRestore();return}
   writeDraft();if(snap()===baseSnap||!edHas()){closeSheet('editor');renderDraftBar();return}
-  const k=await ask(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？','目前的內容已存成草稿，下次打開會自動還原。',
-    [{k:'keep',t:'繼續寫',cls:'primary'},{k:'later',t:'保留草稿，稍後再寫'},{k:'discard',t:editing?'放棄修改':'捨棄內容',cls:'danger'}]);
-  if(k==='later'){closeSheet('editor');renderDraftBar();toast('草稿已保留，首頁可以繼續寫')}
+  const k=await ask(tl(editing?'要離開編輯嗎？':'要離開這則紀錄嗎？'),tl('目前的內容已存成草稿，下次打開會自動還原。'),
+    [{k:'keep',t:tl('繼續寫'),cls:'primary'},{k:'later',t:tl('保留草稿，稍後再寫')},{k:'discard',t:tl(editing?'放棄修改':'捨棄內容'),cls:'danger'}]);
+  if(k==='later'){closeSheet('editor');renderDraftBar();toast(tl('草稿已保留，首頁可以繼續寫'))}
   else if(k==='discard'){clearDraft();closeSheet('editor');renderDraftBar()}
   else $('fBody').focus({preventScroll:true})}
 ['fTitle','fBody','fLoc','fTags','fDate','fTime'].forEach(id=>$(id).addEventListener('input',onEdit));
@@ -146,10 +146,10 @@ async function tryCloseEditor(){if(edStash!=null){
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('invalid',ev=>{ev.preventDefault();noFuture();updWhen()}));
 /* 桌面瀏覽器點欄位不一定會開選擇器，主動打開 */
 ['fDate','fTime'].forEach(id=>$(id).addEventListener('click',e=>{try{e.currentTarget.showPicker()}catch(_){}}));
-document.querySelectorAll('.spark-chip').forEach(b=>b.onclick=()=>{const t=b.textContent;const f=$('fBody');f.value=t+(/[：:]$/.test(t)?'':'');f.focus();f.setSelectionRange(f.value.length,f.value.length);onEdit()});
-$('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const f=$('fBody');f.focus({preventScroll:true});toast('💫 回答今日星語，多得 +10 XP')};
+document.querySelectorAll('.spark-chip').forEach(b=>b.onclick=()=>{const t=b.textContent;const f=$('fBody');f.value=t+(EN_UI?' ':'');f.focus();f.setSelectionRange(f.value.length,f.value.length);onEdit()});
+$('sigChip').onclick=()=>{curPrompt=promptToday();renderPrompt();onEdit();const f=$('fBody');f.focus({preventScroll:true});toast(tl('💫 回答今日星語，多得 +10 XP'))};
 $('pnX').onclick=()=>{curPrompt=null;renderPrompt();onEdit();$('fBody').focus({preventScroll:true})};
-$('xpPrev').onclick=()=>toast($('xpPrev').title||'寫完按「點亮」就會獲得經驗值',3000);
+$('xpPrev').onclick=()=>toast($('xpPrev').title||tl('寫完按「點亮」就會獲得經驗值'),3000);
 document.querySelectorAll('.tool').forEach(b=>b.onclick=()=>{const s=$(b.dataset.x);
   s.hidden=!s.hidden;syncTools();
   if(!s.hidden){scrollToEl(s,'nearest');const inp=s.querySelector('input:not([type=file])');if(inp)inp.focus({preventScroll:true})}});
@@ -172,7 +172,7 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   if(!noFuture()){updWhen();return}
   const data={date:$('fDate').value||ymd(new Date()),time:$('fTime').value,title:$('fTitle').value.trim(),body:$('fBody').value.trim(),mood:curMood,
     tags:$('fTags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),loc:$('fLoc').value.trim(),photo:curPhotos[0]||null,photoMore:curPhotos.length>1?curPhotos.slice(1):undefined,video:curVideo||undefined,prompt:curPrompt};
-  if(!data.title&&!data.body&&!data.photo&&!data.video){toast('寫一點內容，或加入照片、影片再點亮');$('fBody').focus();return}
+  if(!data.title&&!data.body&&!data.photo&&!data.video){toast(tl('寫一點內容，或加入照片、影片再點亮'));$('fBody').focus();return}
   const before=entries.slice(),conBefore=consState(before),cB=conBefore.done.length,stB=streakOf(before).n,lvB=levelInfo(totalXP(before)).lv,achB=unlocked(before),xpB=totalXP(before);let id=editing;const wasEdit=!!editing;
   /* 編輯中的紀錄如果已經不在了（例如在另一個分頁被刪掉），把這次的內容當成一則紀錄存回去，不讓修改消失 */
   if(editing&&entries.some(x=>x.id===editing)){const i=entries.findIndex(x=>x.id===editing);entries[i]={...entries[i],...data,sample:0,edited:1}}
@@ -196,10 +196,10 @@ $('form').addEventListener('submit',async ev=>{ev.preventDefault();clearTimeout(
   }finally{if(completed){finishingCon=null;$('newBtn').disabled=false;$('gal').classList.remove('arriving','completing');render()}}
   const lvA=levelInfo(totalXP(entries)).lv,newAch=ACH.filter(a=>a.t(entries)&&!achB.includes(a.id));
   if(lvA>lvB){await sleep(reduce?0:900);await showLevel(lvA)}
-  if(!wasEdit&&before.length&&stB===0&&streakOf(entries).n>0){toast('✨ 重新點亮！新的星光從今天開始',2600);await sleep(2700)}
+  if(!wasEdit&&before.length&&stB===0&&streakOf(entries).n>0){toast(tl('✨ 重新點亮！新的星光從今天開始'),2600);await sleep(2700)}
   for(const a of newAch.slice(0,2)){await showAch(a)}
-  if(newAch.length>2){prof.achNew=[...new Set([...(prof.achNew||[]),...newAch.map(a=>a.id)])];saveProf();renderAchDot();toast(`還解鎖了 ${newAch.length-2} 個徽章，到「我的」看看`,3200)}
-  if(wasEdit&&!newAch.length)toast(gained>0?`已儲存，額外獲得 ${gained} XP`:'已儲存變更')});
+  if(newAch.length>2){prof.achNew=[...new Set([...(prof.achNew||[]),...newAch.map(a=>a.id)])];saveProf();renderAchDot();toast(tl('還解鎖了 {n} 個徽章，到「我的」看看',{n:newAch.length-2}),3200)}
+  if(wasEdit&&!newAch.length)toast(gained>0?tl('已儲存，額外獲得 {n} XP',{n:gained}):tl('已儲存變更'))});
 /* 照片縮到長邊 1600px 存成 JPEG。直接從檔案解碼（createImageBitmap 會套用 EXIF 方向），不先轉成 base64 字串，大照片快很多；
    不支援的瀏覽器改用 Image 讀暫時網址 */
 async function loadPhoto(f){const draw=(src,w,h)=>{const s=Math.min(1,1600/Math.max(w,h)),c=document.createElement('canvas');
@@ -209,15 +209,15 @@ async function loadPhoto(f){const draw=(src,w,h)=>{const s=Math.min(1,1600/Math.
     img.onload=()=>{try{res(draw(img,img.naturalWidth,img.naturalHeight))}catch(e){res(null)}URL.revokeObjectURL(u)};
     img.onerror=()=>{URL.revokeObjectURL(u);res(null)};img.src=u})}
 $('fPhoto').onchange=async ev=>{const fs=[...ev.target.files];ev.target.value='';if(!fs.length)return;
-  if(curVideo){toast('每則紀錄只能放 1 部影片或照片，請先移除影片');return}
-  const room=PH_MAX-curPhotos.length,use=fs.slice(0,Math.max(0,room));if(!use.length){toast(`每則紀錄最多 ${PH_MAX} 張照片`);return}
+  if(curVideo){toast(tl('每則紀錄只能放 1 部影片或照片，請先移除影片'));return}
+  const room=PH_MAX-curPhotos.length,use=fs.slice(0,Math.max(0,room));if(!use.length){toast(tl('每則紀錄最多 {n} 張照片',{n:PH_MAX}));return}
   /* 讀取中顯示進度（手機上 10 張大照片可能要好幾秒） */
   const btn=$('mdPhotoBtn'),sm=btn.querySelector('small');btn.classList.add('busy');btn.setAttribute('aria-busy','true');
   const out=[];let bad=0;
-  try{for(const [i,f] of use.entries()){sm.textContent=use.length>1?`讀取中 ${i+1}/${use.length}…`:'讀取中…';const u=await loadPhoto(f);if(u)out.push(u);else bad++}}
-  finally{btn.classList.remove('busy');btn.removeAttribute('aria-busy');sm.textContent=`最多 ${PH_MAX} 張`}
+  try{for(const [i,f] of use.entries()){sm.textContent=use.length>1?tl('讀取中 {i}/{n}…',{i:i+1,n:use.length}):tl('讀取中…');const u=await loadPhoto(f);if(u)out.push(u);else bad++}}
+  finally{btn.classList.remove('busy');btn.removeAttribute('aria-busy');sm.textContent=tl('最多 {n} 張',{n:PH_MAX})}
   setPhotos(curPhotos.concat(out));
-  if(fs.length>room)toast(`每則最多 ${PH_MAX} 張，已加入前 ${use.length} 張`,2600);else if(bad)toast('有照片無法讀取，請換一張試試',2600)};
+  if(fs.length>room)toast(tl('每則最多 {n} 張，已加入前 {m} 張',{n:PH_MAX,m:use.length}),2600);else if(bad)toast(tl('有照片無法讀取，請換一張試試'),2600)};
 /* 讀影片長度並擷取一張封面（解不開的格式就沒有封面，但仍可儲存） */
 function probeVideo(f){return new Promise(res=>{const u=URL.createObjectURL(f),v=document.createElement('video');let done=false;
   const end=r=>{if(done)return;done=true;clearTimeout(t);URL.revokeObjectURL(u);res(r)},t=setTimeout(()=>end({dur:v.duration||0,poster:null}),8000);
@@ -227,22 +227,22 @@ function probeVideo(f){return new Promise(res=>{const u=URL.createObjectURL(f),v
     c.getContext('2d').drawImage(v,0,0,c.width,c.height);end({dur:v.duration,poster:c.width>1?c.toDataURL('image/jpeg',.72):null})}catch(e){end({dur:v.duration||0,poster:null})}};
   v.onerror=()=>end({dur:0,poster:null});v.src=u})}
 $('fVideoIn').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;
-  if(curPhotos.length){toast('每則紀錄只能放照片或 1 部影片，請先移除照片');return}
-  if(!/^video\//.test(f.type)){toast('這個檔案不是影片，請換一個試試');return}
-  if(f.size>VID_MAX){toast(`影片太大了（${Math.round(f.size/1048576)} MB），請選 100 MB 以內的影片`,3000);return}
-  $('mdVideoBtn').classList.add('busy');$('mdVideoBtn').querySelector('small').textContent='讀取中…';
+  if(curPhotos.length){toast(tl('每則紀錄只能放照片或 1 部影片，請先移除照片'));return}
+  if(!/^video\//.test(f.type)){toast(tl('這個檔案不是影片，請換一個試試'));return}
+  if(f.size>VID_MAX){toast(tl('影片太大了（{n} MB），請選 100 MB 以內的影片',{n:Math.round(f.size/1048576)}),3000);return}
+  $('mdVideoBtn').classList.add('busy');$('mdVideoBtn').querySelector('small').textContent=tl('讀取中…');
   try{const p=await probeVideo(f),id='v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);await mediaPut(id,f);
-    setVideo({id,poster:p.poster,dur:Math.round(p.dur||0),type:f.type,size:f.size});if(!p.poster)toast('已加入影片（這個格式無法顯示預覽畫面）',2800)}
-  catch(e){toast('影片無法儲存，可能是裝置空間不足',3000)}
-  finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent='1 部・100 MB 內'}};
+    setVideo({id,poster:p.poster,dur:Math.round(p.dur||0),type:f.type,size:f.size});if(!p.poster)toast(tl('已加入影片（這個格式無法顯示預覽畫面）'),2800)}
+  catch(e){toast(tl('影片無法儲存，可能是裝置空間不足'),3000)}
+  finally{$('mdVideoBtn').classList.remove('busy');$('mdVideoBtn').querySelector('small').textContent=tl('1 部・100 MB 內')}};
 $('mdPhotoBtn').onclick=()=>{if(!$('mdPhotoBtn').classList.contains('busy'))$('fPhoto').click()};
 $('mdVideoBtn').onclick=()=>{if(!$('mdVideoBtn').classList.contains('busy'))$('fVideoIn').click()};
 /* 定位結果轉成看得懂的地點：30 公里內有已知城市就寫「台北附近」，否則座標只留到小數兩位（約 1 公里），
    避免精確座標出現在日記和分享圖卡上；使用者仍可自己改 */
 function geoName(la,lo){let best=null,bd=1e9;const R=6371,rad=Math.PI/180;
   REGIONS.forEach(([,l])=>l.forEach(([n,a,b])=>{if(b==null)return;const dLa=(a-la)*rad,dLo=(b-lo)*rad,h=Math.sin(dLa/2)**2+Math.cos(la*rad)*Math.cos(a*rad)*Math.sin(dLo/2)**2,d=2*R*Math.asin(Math.sqrt(h));if(d<bd){bd=d;best=n}}));
-  return best&&bd<=30?`${best}附近`:`${la.toFixed(2)}, ${lo.toFixed(2)}`}
-$('geo').onclick=()=>{if(!navigator.geolocation){toast('這個裝置不支援定位，請手動輸入地點');return}$('geo').lastChild.textContent='定位中…';
-  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=geoName(p.coords.latitude,p.coords.longitude);$('geo').lastChild.textContent='定位';onEdit()},
-  ()=>{$('geo').lastChild.textContent='定位';toast('無法取得位置，請手動輸入地點')},{timeout:8000})};
+  return best&&bd<=30?tl('{c}附近',{c:tl(best)}):`${la.toFixed(2)}, ${lo.toFixed(2)}`}
+$('geo').onclick=()=>{if(!navigator.geolocation){toast(tl('這個裝置不支援定位，請手動輸入地點'));return}$('geo').lastChild.textContent=tl('定位中…');
+  navigator.geolocation.getCurrentPosition(p=>{$('fLoc').value=geoName(p.coords.latitude,p.coords.longitude);$('geo').lastChild.textContent=tl('定位');onEdit()},
+  ()=>{$('geo').lastChild.textContent=tl('定位');toast(tl('無法取得位置，請手動輸入地點'))},{timeout:8000})};
 $('newBtn').onclick=()=>openEditor();

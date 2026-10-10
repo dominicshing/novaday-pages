@@ -7,6 +7,8 @@ body{overscroll-behavior:none}
 body{margin:0;height:100%;color:var(--text);background:var(--bg);overflow:hidden;
   font-family:"Chakra Petch","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
   font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+/* 簡體介面優先用簡體字型（字形依大陸標準）；<html lang> 由 i18n.js 設定 */
+html:lang(zh-Hans) body{font-family:"Chakra Petch","PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
 button,input,textarea{font:inherit;color:inherit}
 button{cursor:pointer;touch-action:manipulation}
 :focus-visible{outline:2px solid var(--ion);outline-offset:2px}

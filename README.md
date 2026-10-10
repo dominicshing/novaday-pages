@@ -25,6 +25,7 @@
 
 - **執行**：在這個資料夾執行 `python3 -m http.server 8000`，再打開 http://localhost:8000（也可以直接用瀏覽器打開 `index.html`）。
 - **單檔版**：改完原始碼後執行 `npm run build`，重新產生 `dist/novaday.html`。
+- **介面語言**：繁體中文（預設）、简体中文、English，在「設定 → 顯示 → 語言」或引導頁第一頁切換。程式裡的介面文字一律寫繁體，簡體由 OpenCC 產生的轉換表自動轉換，英文翻譯在 `src/js/core/i18n-en.js`。做法見 [docs/architecture.md](docs/architecture.md) 第 11 節。
 - **畫面截圖**：手機外框上方的「擷取畫面」按鈕可擷取目前可見畫面，保留捲動位置，預覽後儲存 PNG 或使用系統分享。圖片在瀏覽器內產生，截圖按鈕與提示訊息不會出現在圖片中。
 - **截圖依賴**：內附 `modern-screenshot` 4.7.0（MIT），原始授權位於 `src/js/vendor/modern-screenshot.LICENSE`；網頁版與單檔版都不需從 CDN 載入截圖程式。
 - **測試**：`npm install` 後執行 `npm test`。完整星座插畫驗收可執行 `ART_REQUIRE_COMPLETE=1 npm test constellation-library`，檢查全部 88 座的透明圖像、星數、分區揭露、跨尺寸對位、分享與匯出素材，以及完成收藏與單檔版流程。

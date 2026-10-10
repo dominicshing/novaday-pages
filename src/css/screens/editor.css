@@ -2,7 +2,7 @@
 .draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
 .draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
 /* 「點亮」按鈕：深紫星雲色膠囊、上緣一道亮光、金色四芒星；還不能送出時（.off）只剩淡外框 */
-.launch-btn{justify-self:end;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 15px 0 8px;border-radius:999px;border:0;
+.launch-btn{justify-self:end;display:inline-flex;white-space:nowrap;align-items:center;gap:6px;min-height:36px;padding:0 15px 0 8px;border-radius:999px;border:0;
   font-weight:700;font-size:15px;letter-spacing:.06em;color:#fff;text-shadow:0 1px 2px rgba(30,16,110,.45);
   background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0) 55%),linear-gradient(135deg,#A396FF,#7262F2 58%,#5848D8);
   box-shadow:inset 0 0 0 1px rgba(214,209,255,.38),0 6px 18px -8px rgba(138,124,255,1),0 0 16px -6px rgba(138,124,255,.75);

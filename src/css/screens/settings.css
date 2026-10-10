@@ -27,3 +27,7 @@
 /* 時間格式：小螢幕時標題和範例不斷行，切換按鈕收窄 */
 #liClock .li-l>span{white-space:nowrap}
 @media (max-width:360px){.li-seg button{padding:0 7px}}
+/* 語言：設定頁的下拉選單（選項用各自的語言顯示），引導頁的三格按鈕 */
+.li-sel{flex:none;max-width:52%;min-height:40px;padding:6px 30px 6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA0CF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 8px center/16px;color:var(--text);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
+.lang-seg{margin-top:18px}
+.lang-seg button{font-size:13px}

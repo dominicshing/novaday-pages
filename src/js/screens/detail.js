@@ -19,7 +19,7 @@ async function detailGo(dir){const {prev,next}=detailNeighbors(),t=dir>0?next:pr
 async function grantReview(e){if(!oldEntries().some(x=>x.id===e.id))return;const td=ymd(new Date()),first=!reviews.ids[e.id];
   if(!first&&reviews.last===td)return;
   const xpB=totalXP(entries),lvB=levelInfo(xpB).lv,achB=unlocked(entries);reviews.last=td;if(first)reviews.ids[e.id]=td;saveReviews();render();
-  toast(first?`📖 回顧舊紀錄 +${XP.review} XP`:'📖 今日回顧任務完成');
+  toast(first?tl('📖 回顧舊紀錄 +{n} XP',{n:XP.review}):tl('📖 今日回顧任務完成'));
   const lvA=levelInfo(totalXP(entries)).lv;if(lvA>lvB){await sleep(900);await showLevel(lvA)}
   for(const a of ACH.filter(a=>a.t(entries)&&!achB.includes(a.id)).slice(0,2)){await sleep(reduce?0:700);await showAch(a)}}
 let detailId=null,dvUrl=null;
@@ -33,25 +33,25 @@ function starMini(S,W,H){const c=CON[S.k],P=conProj(S.k,W,H,10),ord=conOrd(S.k),
   return g}
 function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId=id;const m=MOODS[e.mood??2];setTimeout(()=>grantReview(e),450);
   const S=entryStar(e),A=ascEntries(),i=A.findIndex(x=>x.id===id),prev=A[i-1],next=A[i+1];
-  const diff=Math.round((parse(ymd(new Date()))-parse(e.date))/864e5),rel=diff===0?'今天':diff===1?'昨天':diff>1?`${diff} 天前`:'';
+  const diff=Math.round((parse(ymd(new Date()))-parse(e.date))/864e5),rel=diff===0?tl('今天'):diff===1?tl('昨天'):diff>1?tl('{n} 天前',{n:diff}):'';
   const wc=[...(e.body||'').replace(/\s/g,'')].length;
   $('dBody').innerHTML=`<div class="dv${prev||next?'':' solo'}" style="--c:var(${m.c})">
-    ${S?`<button type="button" class="dv-star" id="dStar" aria-label="這則紀錄點亮了${CON[S.k].n}的第 ${S.j+1} 顆星，查看星座"><svg viewBox="0 0 120 76" aria-hidden="true">${starMini(S,120,76)}</svg>
-      <span class="dv-st"><small>這則紀錄點亮了</small><b>${CON[S.k].n}・第 ${S.j+1} / ${S.n} 顆星</b><span>${S.es.length>=S.n?'✓ 星座已完成':`已點亮 ${S.es.length} / ${S.n}`}・查看星座 ›</span></span></button>`:''}
-    ${hasVideo(e)?`<div class="dv-vid"><video id="dVid" playsinline controls preload="metadata"${e.video.poster?` poster="${e.video.poster}"`:''}></video><p class="dv-vmiss" id="dVmiss" hidden>這部影片的檔案不在這台裝置上</p></div>`:''}
-    ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="放大檢視照片"><img class="detail-img" src="${P[0]}" alt="紀錄照片"></button>`;
-      return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="放大檢視第 ${i+1} 張照片"><img src="${u}" alt="紀錄照片 ${i+1}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
+    ${S?`<button type="button" class="dv-star" id="dStar" aria-label="${tl('這則紀錄點亮了{c}的第 {n} 顆星，查看星座',{c:CON[S.k].n,n:S.j+1})}"><svg viewBox="0 0 120 76" aria-hidden="true">${starMini(S,120,76)}</svg>
+      <span class="dv-st"><small>${tl('這則紀錄點亮了')}</small><b>${CON[S.k].n}${SEP}${tl('第 {i} / {n} 顆星',{i:S.j+1,n:S.n})}</b><span>${S.es.length>=S.n?tl('✓ 星座已完成'):tl('已點亮 {i} / {n}',{i:S.es.length,n:S.n})}${SEP}${tl('查看星座 ›')}</span></span></button>`:''}
+    ${hasVideo(e)?`<div class="dv-vid"><video id="dVid" playsinline controls preload="metadata"${e.video.poster?` poster="${e.video.poster}"`:''}></video><p class="dv-vmiss" id="dVmiss" hidden>${tl('這部影片的檔案不在這台裝置上')}</p></div>`:''}
+    ${(()=>{const P=entryPhotos(e);if(!P.length)return '';if(P.length===1)return `<button type="button" class="dv-ph1" data-pi="0" aria-label="${tl('放大檢視照片')}"><img class="detail-img" src="${P[0]}" alt="${tl('紀錄照片')}"></button>`;
+      return `<div class="dv-gal-w"><div class="dv-gal" id="dGal">${P.map((u,i)=>`<button type="button" data-pi="${i}" aria-label="${tl('放大檢視第 {n} 張照片',{n:i+1})}"><img src="${u}" alt="${tl('紀錄照片 {n}',{n:i+1})}"></button>`).join('')}</div><span class="dv-gn" id="dGn">1 / ${P.length}</span><div class="dv-dots" aria-hidden="true">${P.map((_,i)=>`<i${i?'':' class="on"'}></i>`).join('')}</div></div>`})()}
     ${e.title?`<h3>${esc(e.title)}</h3>`:''}
     <div class="dv-when"><span>${esc(fmtDayY(e.date))}${e.time?` ${esc(fmtTime(e.time))}`:''}</span>${rel?`<span class="dv-rel">${rel}</span>`:''}</div>
-    ${(H=>H?`<div class="dv-tz" title="${esc(e.tz)}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5s1.2-6.1 3.8-8.5z"/></svg>寫的時候在${esc(H.name)}・${H.rel}</div>`:'')(tzHint(e))}
-    <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${e.fav?'已收藏':'收藏'}</span></button></div>
-    ${e.prompt?`<div class="dv-q"><small>💫 今日星語</small>${esc(e.prompt)}</div>`:''}
+    ${(H=>H?`<div class="dv-tz" title="${esc(e.tz)}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5s1.2-6.1 3.8-8.5z"/></svg>${tl('寫的時候在{z}',{z:esc(H.name)})}${SEP}${H.rel}</div>`:'')(tzHint(e))}
+    <div class="dv-mood"><span class="dv-mc">${moon(e.mood??2)} ${m.n}</span>${e.loc?`<span class="dv-i">${IC_PIN}${esc(e.loc)}</span>`:''}<button type="button" class="dv-fav" id="dFav" aria-pressed="${!!e.fav}">${IC_BM}<span>${tl(e.fav?'已收藏':'收藏')}</span></button></div>
+    ${e.prompt?`<div class="dv-q"><small>💫 ${tl('今日星語')}</small>${esc(e.prompt)}</div>`:''}
     <div class="body">${esc(e.body)}</div>
     ${(e.tags||[]).length?`<div class="dv-tags">${e.tags.map(t=>`<button type="button" class="chip tag" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>`:''}
-    <div class="dv-foot"><span>${wc} 字</span>${e.photo?`<span>${photoCount(e)>1?photoCount(e)+' 張照片':'含照片'}</span>`:''}${hasVideo(e)?`<span>影片 ${fmtDur(e.video.dur)}</span>`:''}</div>
-    ${prev||next?`<div class="dv-nav">${prev?`<button type="button" data-id="${esc(prev.id)}" class="p"><small>‹ 較早</small><b>${esc(prev.title||fmtDay(prev.date))}</b></button>`:'<span></span>'}${next?`<button type="button" data-id="${esc(next.id)}" class="n"><small>較新 ›</small><b>${esc(next.title||fmtDay(next.date))}</b></button>`:'<span></span>'}</div>`:''}
-    <button type="button" class="dv-share" id="dShare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6"/></svg>分享成圖卡</button>
-    <button type="button" class="dv-del" id="dDel">刪除這則紀錄</button></div>`;
+    <div class="dv-foot"><span>${tl('{n} 字',{n:wc})}</span>${e.photo?`<span>${photoCount(e)>1?tl('{n} 張照片',{n:photoCount(e)}):tl('含照片')}</span>`:''}${hasVideo(e)?`<span>${tl('影片 {d}',{d:fmtDur(e.video.dur)})}</span>`:''}</div>
+    ${prev||next?`<div class="dv-nav">${prev?`<button type="button" data-id="${esc(prev.id)}" class="p"><small>${tl('‹ 較早')}</small><b>${esc(prev.title||fmtDay(prev.date))}</b></button>`:'<span></span>'}${next?`<button type="button" data-id="${esc(next.id)}" class="n"><small>${tl('較新 ›')}</small><b>${esc(next.title||fmtDay(next.date))}</b></button>`:'<span></span>'}</div>`:''}
+    <button type="button" class="dv-share" id="dShare"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14.5v-11M7.5 8L12 3.5 16.5 8M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6"/></svg>${tl('分享成圖卡')}</button>
+    <button type="button" class="dv-del" id="dDel">${tl('刪除這則紀錄')}</button></div>`;
   $('dShare').onclick=()=>openEntryShare(e.id);
   if(dvUrl){URL.revokeObjectURL(dvUrl);dvUrl=null}
   if(hasVideo(e)){const vid=e.video.id;mediaGet(vid).then(bl=>{const el=$('dVid');if(!el||detailId!==e.id)return;if(!bl){$('dVmiss').hidden=false;el.removeAttribute('controls');return}dvUrl=URL.createObjectURL(bl);el.src=dvUrl})}
@@ -59,13 +59,13 @@ function openDetail(id){const e=entries.find(x=>x.id===id);if(!e)return;detailId
   if($('dGal')){const gl=$('dGal'),n=photoCount(e);gl.addEventListener('scroll',()=>{const i=Math.round(gl.scrollLeft/gl.clientWidth);$('dGn').textContent=`${i+1} / ${n}`;
     gl.parentElement.querySelectorAll('.dv-dots i').forEach((d,j)=>d.classList.toggle('on',j===i))},{passive:true})}
   $('dFav').onclick=()=>{const x=entries.find(y=>y.id===e.id);if(!x)return;if(x.fav)delete x.fav;else x.fav=1;save();
-    const b=$('dFav');b.setAttribute('aria-pressed',String(!!x.fav));b.querySelector('span').textContent=x.fav?'已收藏':'收藏';if(x.fav)buzz(8);if(x.fav&&!reduce){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
-    renderLog();renderCalDay&&logView==='cal'&&renderCalDay();toast(x.fav?'已加入收藏，可在日記篩選「已收藏」找到':'已取消收藏',2200)};
+    const b=$('dFav');b.setAttribute('aria-pressed',String(!!x.fav));b.querySelector('span').textContent=tl(x.fav?'已收藏':'收藏');if(x.fav)buzz(8);if(x.fav&&!reduce){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+    renderLog();renderCalDay&&logView==='cal'&&renderCalDay();toast(tl(x.fav?'已加入收藏，可在日記篩選「已收藏」找到':'已取消收藏'),2200)};
   if($('dStar'))$('dStar').onclick=()=>openCon(S.k);
   $('dBody').querySelectorAll('.dv-nav button').forEach(b=>b.onclick=()=>{openDetail(b.dataset.id);$('dBody').scrollTop=0});
   $('dBody').querySelectorAll('.dv-tags [data-tag]').forEach(b=>b.onclick=()=>{fClear();fl.tag=b.dataset.tag;closeSheet('detail');go('log');renderLog()});
   $('dDel').onclick=()=>{const idx=entries.findIndex(x=>x.id===detailId);if(idx<0)return;const del=entries[idx],d=readDraft(),dr=d&&d.editing===del.id?d:null;
     if(dr)clearDraft();entries.splice(idx,1);save();closeSheet('detail');render();
-    snack('已刪除紀錄','復原',()=>{entries.splice(Math.min(idx,entries.length),0,del);save();if(dr){try{localStorage.setItem(DKEY,JSON.stringify(dr))}catch(_){}}render();toast('已復原紀錄')})};
+    snack(tl('已刪除紀錄'),tl('復原'),()=>{entries.splice(Math.min(idx,entries.length),0,del);save();if(dr){try{localStorage.setItem(DKEY,JSON.stringify(dr))}catch(_){}}render();toast(tl('已復原紀錄'))})};
   if(!$('detail').classList.contains('open'))openSheet('detail');else sheetTop('detail')}
 $('dEdit').onclick=()=>{closeSheet('detail');setTimeout(()=>openEditor(detailId),reduce?0:180)};

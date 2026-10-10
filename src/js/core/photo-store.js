@@ -3,7 +3,7 @@
    localStorage 裡的紀錄只記 "idb:<鍵>"；記憶體裡的紀錄用 object URL（剛選的新照片暫時是 data URL），其他程式照常當成圖片網址使用 */
 const PH_REF='idb:',phURL=new Map(),phKey=new Map(),phPend=new Set();
 /* 寫入 IndexedDB；phFlush() 等全部寫完，回傳是否都成功 */
-function phPut(k,b){const p=mediaPut(k,b).then(()=>true,()=>{toast('照片無法儲存，可能是裝置空間不足',3000);return false});phPend.add(p);p.then(()=>phPend.delete(p));return p}
+function phPut(k,b){const p=mediaPut(k,b).then(()=>true,()=>{toast(tl('照片無法儲存，可能是裝置空間不足'),3000);return false});phPend.add(p);p.then(()=>phPend.delete(p));return p}
 const phFlush=async()=>(await Promise.all([...phPend])).every(Boolean);
 const phNewKey=()=>'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 function dataURLBlob(u){const m=/^data:([^;,]+);base64,(.*)$/.exec(u||'');if(!m)return null;const b=atob(m[2]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return new Blob([a],{type:m[1]})}

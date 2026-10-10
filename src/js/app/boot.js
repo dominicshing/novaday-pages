@@ -6,7 +6,7 @@
 if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
 /* 瀏覽器封鎖網站資料（例如關閉了 Cookie 與網站資料）：寫下的紀錄關掉頁面就會消失，先清楚告訴使用者 */
 {let ok=true;try{localStorage.setItem('novaday.probe','1');localStorage.removeItem('novaday.probe')}catch(e){ok=false}
-  if(!ok)setTimeout(()=>toast('這個瀏覽器封鎖了網站資料，寫下的紀錄關閉頁面後會消失。請允許網站資料，或改用一般瀏覽模式',8000),1200)}
+  if(!ok)setTimeout(()=>toast(tl('這個瀏覽器封鎖了網站資料，寫下的紀錄關閉頁面後會消失。請允許網站資料，或改用一般瀏覽模式'),8000),1200)}
 setTimeout(()=>mediaGC().catch(()=>{}),4000)})();
 /* 同時開著兩個分頁：另一個分頁存檔時（storage 事件只會在「其他」分頁觸發），這裡立刻讀回最新的紀錄、個人資料與回顧紀錄，
    避免之後用這裡的舊資料存檔，蓋掉另一個分頁剛寫的紀錄 */

@@ -2,20 +2,20 @@
 let fmt='full';
 /* 匯出與備份：目前只提供完整備份，純文字匯出隱藏；改成 true 即可恢復格式切換 */
 const SHOW_TEXT_EXPORT=false;
-{const sm=document.querySelector('#openExport small');if(sm&&!SHOW_TEXT_EXPORT)sm.textContent='下載完整備份（紀錄、照片、影片）'}
+{const sm=document.querySelector('#openExport small');if(sm&&!SHOW_TEXT_EXPORT)sm.textContent=tl('下載完整備份（紀錄、照片、影片）')}
 const BK_PROF=['avatar','photoAv','name','ship','motto','since','birthday','region','livery','conOrder','nextPick'];
 function backupObj(){const P={};BK_PROF.forEach(k=>{if(prof[k]!=null)P[k]=prof[k]});return{at:new Date().toISOString(),profile:P,reviews,entries:sorted()}}
-const EX_HINT={full:'下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。',
-  text:'方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。'};
+const EX_HINT={full:tl('下載一個 <b>.zip</b>，包含所有紀錄、照片、影片、個人資料和星座進度，可以用「從備份還原」完整還原，也能在 Novaday App 還原。'),
+  text:tl('方便閱讀，或貼到其他筆記 App。這個格式<b>無法</b>用來還原。')};
 /* 純文字匯出：日期加上年份（跨年的紀錄才分得清楚），沒有時間、沒有內文的紀錄不留多餘的空白或 undefined */
-function exportText(){return sorted().map(e=>`【${e.date.slice(0,4)} 年 ${fmtDay(e.date)}${e.time?' '+fmtTime(e.time):''}】\n${e.title||untitled(e)}\n心情：✦ ${MOODS[e.mood??2].n}${e.loc?'｜地點：'+e.loc:''}${(e.tags||[]).length?'｜標籤：'+e.tags.join('、'):''}${e.prompt?'\n提示：'+e.prompt:''}${photoCount(e)?`\n（${photoCount(e)} 張照片）`:''}${hasVideo(e)?'\n（1 部影片）':''}${(e.body||'').trim()?'\n\n'+e.body:''}`).join('\n\n———\n\n')||'目前沒有紀錄。'}
+function exportText(){return sorted().map(e=>`【${EN_UI?`${fmtDay(e.date)}, ${e.date.slice(0,4)}`:`${e.date.slice(0,4)} 年 ${fmtDay(e.date)}`}${e.time?' '+fmtTime(e.time):''}】\n${e.title||untitled(e)}\n${tl('心情：')}✦ ${MOODS[e.mood??2].n}${e.loc?tl('｜地點：')+e.loc:''}${(e.tags||[]).length?tl('｜標籤：')+e.tags.join(tl('、')):''}${e.prompt?'\n'+tl('提示：')+e.prompt:''}${photoCount(e)?`\n（${tl('{n} 張照片',{n:photoCount(e)})}）`:''}${hasVideo(e)?`\n（${tl('1 部影片')}）`:''}${(e.body||'').trim()?'\n\n'+e.body:''}`).join('\n\n———\n\n')||tl('目前沒有紀錄。')}
 function refreshEx(){if(!SHOW_TEXT_EXPORT)fmt='full';$('exporter').querySelector('.exseg').hidden=!SHOW_TEXT_EXPORT;const full=fmt==='full';document.querySelectorAll('#exporter .exseg button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.f===fmt)));
   $('exOut').hidden=$('copyEx').hidden=full;if(!full)$('exOut').value=exportText();$('dlEx').classList.toggle('primary',full);
   const ph=entries.reduce((t,e)=>t+photoCount(e),0),vd=entries.filter(hasVideo).length;
-  $('exHint').innerHTML=EX_HINT[fmt]+(full?`<span class="ex-sum"><span><b>${entries.length}</b>則紀錄</span><span><b>${ph}</b>張照片</span><span><b>${vd}</b>部影片</span></span>`:'')}
+  $('exHint').innerHTML=EX_HINT[fmt]+(full?`<span class="ex-sum"><span>${tl('<b>{n}</b>則紀錄',{n:entries.length})}</span><span>${tl('<b>{n}</b>張照片',{n:ph})}</span><span>${tl('<b>{n}</b>部影片',{n:vd})}</span></span>`:'')}
 $('openExport').onclick=()=>{refreshEx();openSheet('exporter')};
 document.querySelectorAll('#exporter .exseg button').forEach(b=>b.onclick=()=>{fmt=b.dataset.f;refreshEx()});
-$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText());toast('已複製內容')}catch(e){$('exOut').select();toast('已選取內容，請手動複製')}};
+$('copyEx').onclick=async()=>{try{await navigator.clipboard.writeText(exportText());toast(tl('已複製內容'))}catch(e){$('exOut').select();toast(tl('已選取內容，請手動複製'))}};
 const VID_EXT={'video/mp4':'mp4','video/quicktime':'mov','video/webm':'webm','video/x-m4v':'m4v','video/3gpp':'3gp'},IMG_EXT={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'};
 /* 完整備份（格式見 docs/backup-format.md）：zip 裡放 novaday-backup.json，照片、影片都是獨立檔案，JSON 只記路徑 */
 async function backupZip(onStep){const o=backupObj(),files=[],man=[],vids=new Map(),safe=s=>String(s).replace(/[^\w-]/g,'').slice(0,40)||'x';let nPh=0,miss=0;
@@ -35,9 +35,9 @@ async function backupZip(onStep){const o=backupObj(),files=[],man=[],vids=new Ma
   return{blob:await zipBuild(files,onStep),n:[...vids.values()].filter(Boolean).length,ph:nPh,miss}}
 let dlBusy=false;
 $('dlEx').onclick=async()=>{if(dlBusy)return;const d=ymd(new Date());dlBusy=true;$('dlEx').disabled=true;
-  try{if(fmt==='full'){const big=entries.some(hasVideo);toast(big?'正在打包照片和影片…':'正在打包備份…',60000);
-      const z=await backupZip((i,n)=>{if(big&&n>3)toast(`正在打包照片和影片…（${i} / ${n}）`,60000)});
-      if(await saveFile(`Novaday-backup-${d}.zip`,z.blob))toast(`已下載完整備份（${entries.length} 則紀錄${z.ph?`、${z.ph} 張照片`:''}${z.n?`、${z.n} 部影片`:''}）${z.miss?`・${z.miss} 部影片的檔案已不在這台裝置上`:''}`,3600)}
-    else if(await saveFile(`Novaday-entries-${d}.txt`,exportText(),'text/plain;charset=utf-8'))toast('已下載檔案')}
-  catch(e){toast(e&&e.message==='too-big'?'影片太多，備份超過 4 GB，請先移除部分影片':'無法下載，請再試一次',3600)}
+  try{if(fmt==='full'){const big=entries.some(hasVideo);toast(tl(big?'正在打包照片和影片…':'正在打包備份…'),60000);
+      const z=await backupZip((i,n)=>{if(big&&n>3)toast(tl('正在打包照片和影片…（{i} / {n}）',{i,n}),60000)});
+      if(await saveFile(`Novaday-backup-${d}.zip`,z.blob))toast(tl('已下載完整備份（{s}）',{s:[tl('{n} 則紀錄',{n:entries.length}),z.ph?tl('{n} 張照片',{n:z.ph}):'',z.n?tl('{n} 部影片',{n:z.n}):''].filter(Boolean).join(tl('、'))})+(z.miss?SEP+tl('{n} 部影片的檔案已不在這台裝置上',{n:z.miss}):''),3600)}
+    else if(await saveFile(`Novaday-entries-${d}.txt`,exportText(),'text/plain;charset=utf-8'))toast(tl('已下載檔案'))}
+  catch(e){toast(tl(e&&e.message==='too-big'?'影片太多，備份超過 4 GB，請先移除部分影片':'無法下載，請再試一次'),3600)}
   finally{dlBusy=false;$('dlEx').disabled=false}};

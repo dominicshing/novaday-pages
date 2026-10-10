@@ -12,8 +12,8 @@ function renderQSug(){const box=$('qSug'),inp=$('q');$('qClr').hidden=!inp.value
   if(!rec.length&&!tags.length&&!locs.length){box.hidden=true;return}
   const chip=(v,ic,lab)=>`<button type="button" data-q="${esc(v)}">${ic}<span>${esc(lab||v)}</span></button>`;
   const IC_REC='<svg class="mi-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
-  box.innerHTML=(rec.length?`<div class="qs-h"><span>最近搜尋</span><button type="button" id="qsClr">清除</button></div><div class="qs-l">${rec.map(v=>chip(v,IC_REC)).join('')}</div>`:'')
-    +(tags.length||locs.length?`<div class="qs-h"><span>常用標籤與地點</span></div><div class="qs-l">${tags.map(t=>chip(t,IC_TAG)).join('')}${locs.map(l=>chip(l,IC_PIN)).join('')}</div>`:'');
+  box.innerHTML=(rec.length?`<div class="qs-h"><span>${tl('最近搜尋')}</span><button type="button" id="qsClr">${tl('清除')}</button></div><div class="qs-l">${rec.map(v=>chip(v,IC_REC)).join('')}</div>`:'')
+    +(tags.length||locs.length?`<div class="qs-h"><span>${tl('常用標籤與地點')}</span></div><div class="qs-l">${tags.map(t=>chip(t,IC_TAG)).join('')}${locs.map(l=>chip(l,IC_PIN)).join('')}</div>`:'');
   box.hidden=false;
   box.querySelectorAll('[data-q]').forEach(b=>{b.onpointerdown=ev=>ev.preventDefault();b.onclick=()=>{inp.value=b.dataset.q;q=b.dataset.q;pushRecent(q);renderLog();renderQSug();inp.blur()}});
   if($('qsClr')){$('qsClr').onpointerdown=ev=>ev.preventDefault();$('qsClr').onclick=()=>{prof.recentQ=[];saveProf();renderQSug()}}}
