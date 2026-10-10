@@ -776,6 +776,21 @@
     <div class="ob-foot"><button type="button" class="btn primary ob-next" id="obNext">開始</button><button type="button" class="ob-alt" id="obAlt" hidden></button></div>
   </div>
 
+  <!-- 畫面截圖 -->
+  <div class="layer" id="screenshotSheet" aria-hidden="true" data-screenshot-ignore>
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="screenshotTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="screenshotTitle">畫面截圖</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <div class="screenshot-preview" id="screenshotPreview"></div>
+        <p class="sh-hint">長按圖片也可以直接儲存</p>
+        <div class="row sh-btns"><button type="button" class="btn" id="screenshotSave">儲存圖片</button><button type="button" class="btn primary" id="screenshotShare">分享</button></div>
+      </div>
+    </div>
+  </div>
+  <span class="sr" id="screenshotStatus" role="status" data-screenshot-ignore></span>
+
   <!-- 分享圖卡 -->
   <div class="layer" id="shareSheet" aria-hidden="true">
     <div class="bd" data-close></div>
@@ -900,6 +915,8 @@
 <script src="src/js/screens/home/app-bar.js"></script>
 <script src="src/js/screens/log/collapse.js"></script>
 <script src="src/js/core/download.js"></script>
+<script src="src/js/vendor/modern-screenshot.js"></script>
+<script src="src/js/features/screenshot.js"></script>
 <script src="src/js/features/backup/restore.js"></script>
 <script src="src/js/ui/scroll.js"></script>
 <script src="src/js/ui/device-preview.js"></script>
