@@ -1,6 +1,6 @@
 /* 星座圖鑑與星座詳情的切換 */
 function atlasCard(k,st,sub2){const c=CON[k],done=st.done.includes(k),isCur=k===st.cur,lit=done?c.s.length:isCur?st.lit:0;
-  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>`${fmtMDY(d)}完成`)(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
+  const es0=done?conEntries(k):null,sub=done?`${es0&&es0.length?(d=>d.getFullYear()===new Date().getFullYear()?`${fmtMD(d)}完成`:fmtMDYs(d))(parse(es0[es0.length-1].date)):c.s.length+' 顆星'}`:isCur?`點亮中 ${st.lit}/${c.s.length}`:(sub2||`${conSeason(k).s||conSeason(k).m+' 月'}・${c.s.length} 顆星`);
   const badge=done?'':isCur?'<i class="at-bd now" aria-hidden="true"></i>':prof.nextPick===k?'<i class="at-tag nx">下一個</i>':'';
   const status=done?`<small class="at-completion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg><span>${sub}</span></small>`:`<small>${sub}</small>`;
   const mine=signIdx(prof.birthday),mineTag=mine>=0&&ZODIAC[mine].k===k?'<i class="at-tag me">你的星座</i>':'';
