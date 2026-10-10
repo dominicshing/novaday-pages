@@ -31,3 +31,20 @@
 .li-sel{flex:none;max-width:52%;min-height:40px;padding:6px 30px 6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA0CF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 8px center/16px;color:var(--text);font:inherit;font-size:15px;-webkit-appearance:none;appearance:none}
 .lang-seg{margin-top:18px}
 .lang-seg button{font-size:13px}
+/* 評分 */
+.rt-q{margin:4px 0 0;text-align:center;font-size:16px;font-weight:600}
+.rt-stars{display:flex;justify-content:center;gap:6px;margin:14px 0 4px}
+.rt-stars button{width:50px;height:50px;padding:5px;border:0;border-radius:12px;background:none;color:rgba(232,233,255,.22);transition:transform .15s,color .15s}
+.rt-stars button svg{width:100%;height:100%;fill:currentColor;stroke:currentColor;stroke-width:1;stroke-linejoin:round}
+.rt-stars button.on{color:#FFC744;filter:drop-shadow(0 0 8px rgba(255,199,68,.55))}
+.rt-stars button:active{transform:scale(.9)}
+.rt-lbl{margin:0;text-align:center;color:var(--muted);font-size:13px;min-height:20px}
+.rt-next{margin-top:16px;text-align:center}
+.rt-go{width:100%;margin-top:12px}
+.calm .rt-stars button{transition:none}
+/* 意見回饋 */
+.fb-msg{margin-top:12px;min-height:140px}
+.fb-opt{margin-top:12px}
+.fb-peek{margin:8px 2px 0;font-size:12.5px;color:var(--muted)}
+.fb-peek summary{min-height:32px;display:flex;align-items:center;cursor:pointer;color:var(--ion)}
+.fb-peek pre{margin:6px 0 0;padding:10px 12px;max-height:160px;overflow:auto;border-radius:10px;background:var(--field);border:1px solid var(--line);white-space:pre-wrap;word-break:break-word;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}

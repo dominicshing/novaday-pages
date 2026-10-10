@@ -49,7 +49,7 @@ export default async ({ ok, open, ROOT }) => {
     await ev("document.querySelector('#logTop [data-v=list]').click()");
     for (const [c, l] of [["openSheet('settingsSheet')", '設定'], ['openEditor()', '編輯器'], ['openDetail(entries[0].id)', '紀錄詳情'], ["openCon('Ori')", '星座詳情'],
       ['openFortune()', '運勢'], ['openReport(2026,9)', '月報'], ['openYearReport(new Date().getFullYear())', '年度回顧'], ["openAch('s7')", '徽章'], ['openRegion()', '地區'],
-      ["refreshEx();openSheet('exporter')", '匯出'], ['openImport()', '還原'], ['openTags()', '標籤'], ["openSheet('aboutSheet')", '版本資訊'], ["openWipe('all')", '初始化'], ['openBdQuick()', '生日']]) {
+      ["refreshEx();openSheet('exporter')", '匯出'], ['openImport()', '還原'], ['openTags()', '標籤'], ["openSheet('aboutSheet')", '版本資訊'], ["openWipe('all')", '初始化'], ['openBdQuick()', '生日'], ['openRate()', '評分'], ["openFeedback('bug')", '意見回饋']]) {
       await ev(c); await sl(600); await add(l); await ev("document.querySelectorAll('.layer.open').forEach(x=>closeSheet(x.id))"); await sl(300) }
     await ev('openOnb(true)'); for (let i = 0; i < 4; i++) { await sl(500); await add('引導 ' + (i + 1)); await ev("document.getElementById('obNext').click()") }
     await ev('obFinish(false)'); await sl(400);

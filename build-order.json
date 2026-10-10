@@ -125,6 +125,7 @@
     "src/js/screens/me/avatar-picker.js",
     "src/js/screens/me/profile-editor.js",
     "src/js/screens/settings/settings.js",
+    "src/js/screens/settings/feedback.js",
     "src/js/screens/home/app-bar.js",
     "src/js/screens/log/collapse.js",
     "src/js/core/download.js",

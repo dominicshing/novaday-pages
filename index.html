@@ -585,6 +585,8 @@
       </div>
       <h3 class="set-h" style="--c:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg>關於</h3>
       <div class="list panel">
+        <button class="li" id="liRate"><span class="li-l"><i class="li-ic" style="--ic:#FFC744"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg></i><span>為 Novaday 評分<small>喜歡的話，給我們幾顆星</small></span></span><span class="li-v" id="rateVal"></span><span class="chev" aria-hidden="true">›</span></button>
+        <button class="li" id="liFeedback"><span class="li-l"><i class="li-ic" style="--ic:#6FE3D6"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h15v10h-8l-4.5 4v-4h-2.5z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></svg></i><span>意見回饋與問題回報<small>告訴我們哪裡可以更好，或回報遇到的問題</small></span></span><span class="chev" aria-hidden="true">›</span></button>
         <button class="li" id="liAbout"><span class="li-l"><i class="li-ic" style="--ic:#B9AEFF"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.5"/></svg></i><span>版本資訊<small>版本號碼與 App 資訊</small></span></span><span class="li-v">v2.0</span><span class="chev" aria-hidden="true">›</span></button>
       </div>
       <h3 class="set-h" id="devSecH" style="--c:#9AA3C7" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5L4 12l4.5 4.5M15.5 7.5L20 12l-4.5 4.5"/></svg>開發者選項</h3>
@@ -623,6 +625,44 @@
       <div class="lk-dots" id="lkDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
     <div class="lk-pad" id="lkPad" role="group" aria-label="數字鍵盤"></div>
     <div class="lk-foot"><button type="button" class="lk-link" id="lkCancel" hidden>取消</button><button type="button" class="lk-link" id="lkForgot">忘記密碼？</button></div>
+  </div>
+
+  <!-- 評分 -->
+  <div class="layer" id="rateSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="rtTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="rtTitle">為 Novaday 評分</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <p class="rt-q">你喜歡用 Novaday 寫日記嗎？</p>
+        <div class="rt-stars" id="rtStars" role="radiogroup" aria-label="評分"></div>
+        <p class="rt-lbl" id="rtLbl" aria-live="polite">點一下星星評分</p>
+        <div class="rt-next" id="rtNext" hidden>
+          <p class="ex-note" id="rtMsg"></p>
+          <button type="button" class="btn primary rt-go" id="rtGo"></button>
+          <button type="button" class="ex-to-im" id="rtMore">還有想說的話？寫下意見 ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 意見回饋與問題回報 -->
+  <div class="layer" id="feedbackSheet" aria-hidden="true">
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="fbTitle">意見回饋</h2><button type="button" class="txt-btn r" data-close>取消</button></div>
+      <div class="sb">
+        <div class="exseg" id="fbType" role="radiogroup" aria-label="回饋類型"><button type="button" role="radio" data-t="bug">問題回報</button><button type="button" role="radio" data-t="idea">功能建議</button><button type="button" role="radio" data-t="other">其他</button></div>
+        <textarea class="field fb-msg" id="fbMsg" maxlength="2000" aria-label="回饋內容"></textarea>
+        <div class="list panel fb-opt">
+          <div class="li"><span class="li-l"><span>附上裝置資訊<small>版本、語言、瀏覽器、螢幕大小與最近的錯誤；不含日記內容</small></span></span><button class="sw" role="switch" id="swFbDiag" aria-checked="true" aria-label="附上裝置資訊"></button></div>
+        </div>
+        <div class="row ex-act"><button type="button" class="btn" id="fbCopy"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg>複製內容</button><button type="button" class="btn primary" id="fbSend"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5l-17 7 6.5 2.5 2.5 6.5z"/><path d="M10 13l4-4"/></svg>寄出</button></div>
+        <p class="ex-hint" id="fbVia"></p>
+        <details class="fb-peek" id="fbPeek"><summary>查看會附上的內容</summary><pre id="fbDiag"></pre></details>
+      </div>
+    </div>
   </div>
 
   <!-- 版本資訊 -->
@@ -918,6 +958,7 @@
 <script src="src/js/screens/me/avatar-picker.js?v=i18n-2"></script>
 <script src="src/js/screens/me/profile-editor.js?v=i18n-2"></script>
 <script src="src/js/screens/settings/settings.js?v=i18n-2"></script>
+<script src="src/js/screens/settings/feedback.js?v=i18n-2"></script>
 <script src="src/js/screens/home/app-bar.js?v=i18n-2"></script>
 <script src="src/js/screens/log/collapse.js?v=i18n-2"></script>
 <script src="src/js/core/download.js?v=i18n-2"></script>

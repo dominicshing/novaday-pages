@@ -24,7 +24,8 @@ if(prof.avatar!=='photo'&&!AVK[prof.avatar])prof.avatar='moon';
   if(prof.nextPick!=null&&!(typeof prof.nextPick==='string'&&CON[prof.nextPick]))delete prof.nextPick;
   if(prof.achNew!=null&&!Array.isArray(prof.achNew))prof.achNew=[];
   if(typeof prof.remindTime!=='string'||!/^([01]\d|2[0-3]):[0-5]\d$/.test(prof.remindTime))prof.remindTime='21:00';
-  if(prof.devXP!=null&&!Number.isFinite(prof.devXP))prof.devXP=0}
+  if(prof.devXP!=null&&!Number.isFinite(prof.devXP))prof.devXP=0;
+  if(prof.rating!=null&&!(Number.isInteger(prof.rating)&&prof.rating>=1&&prof.rating<=5))delete prof.rating}
 /* 沒改過的預設暱稱、座右銘跟著介面語言換（存的可能是任一種語言的預設值） */
 {const P={name:'星旅人',ship:'晨星',motto:'每天記下一點，累積成一整片星空。'};for(const k in P)if([P[k],zhs(P[k]),EN[P[k]]].includes(prof[k]))prof[k]=tl(P[k])}
 /* 頭像顯示：emoji 或自訂照片（avatar==='photo' 時讀 photoAv） */

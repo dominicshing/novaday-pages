@@ -134,6 +134,7 @@ npm test backup  # 只跑檔名含 backup 的測試
 | `format.test.mjs` | 純文字匯出、跨年日期、「#標籤」搜尋、那年今日的月份推算 |
 | `backup.test.mjs` | 照片搬進 IndexedDB、完整備份 .zip 來回還原 |
 | `dev-tools.test.mjs`、`dist.test.mjs` | 開發者工具、單檔版 |
+| `feedback.test.mjs` | 設定的評分與意見回饋：星數存進個人資料、高分分享／低分寫意見、空白不寄出、GitHub 與郵件連結帶入標題與內容、可以不附裝置資訊 |
 | `i18n.test.mjs` | 介面語言：英文字典涵蓋程式裡的 `tl()` 字串、英文介面看不到中文、簡體介面沒有繁體字、設定頁與引導頁切換語言 |
 | `l10n.test.mjs` | 給 Flutter 的語言檔（`assets/l10n/`）沒有過期：每個英文字典的鍵都在 ARB 或 `content.json`、內容和網頁版相同、訊息 ID 合法不重複、佔位符都有宣告 |
 | `i18n-crawl.test.mjs` | 英文與簡體介面各實際操作一輪（引導、寫紀錄、刪除復原、篩選、設定、密碼鎖、開發者工具），記錄所有顯示過的文字，不能有漏翻的中文或繁體字 |
@@ -209,3 +210,11 @@ Flutter 端的對照：
 | `SEP` | 中文 `・`，英文 ` · `（可以放進 ARB 或寫成常數） |
 | `prof.lang` | `zh-Hant`、`zh-Hans`、`en` 對應 `Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')` 等；備份格式相同，兩邊可以共用設定值 |
 
+## 12. 評分與意見回饋（`src/js/screens/settings/feedback.js`）
+
+設定 →「關於」有「為 Novaday 評分」與「意見回饋與問題回報」。網頁版沒有伺服器，所以：
+
+- **意見回饋**：類型（問題回報、功能建議、其他）＋內容，可選擇附上裝置資訊（版本、語言、瀏覽器、螢幕、是否加到主畫面、紀錄數量、評分、最近 5 筆錯誤紀錄；**不含日記內容**）。
+  - `config.js` 的 `FEEDBACK.email` 有填時用郵件 App 寄出（`mailto:`）；沒填時打開 GitHub 的回報頁面（`FEEDBACK.issues`），標題與內文都已帶入。也可以「複製內容」用其他方式傳。
+- **評分**：1–5 顆星存在 `prof.rating`（只在這台裝置，不在備份裡），會附在回饋的裝置資訊。4–5 顆星引導到商店評分（`FEEDBACK.store`，上架後再填），沒填時改成分享給朋友；1–3 顆星請使用者寫下意見。
+- **Flutter**：評分改用 `in_app_review`（系統的評分視窗，4–5 顆星時呼叫 `requestReview()`），寄信與開網頁用 `url_launcher`，裝置資訊用 `package_info_plus`、`device_info_plus`。
