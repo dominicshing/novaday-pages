@@ -5,6 +5,6 @@ const FRAME_MQ='(min-width:600px) and (min-height:600px)',isFrame=()=>matchMedia
 /* 版本號碼（意見回饋附上的裝置資訊用） */
 const APP_VER='2.0';
 /* 意見回饋與評分
-   email：有填就用郵件 App 寄出；沒填就打開 GitHub 的回報頁面（issues）
-   store：上架後填入 App Store／Google Play 的評分網址；給 4–5 顆星時會引導到商店，沒填時改成分享給朋友 */
-const FEEDBACK={email:'',issues:'https://github.com/dominicshing/novaday-pages/issues/new',store:''};
+   email：意見回饋與問題回報用郵件 App 寄到這裡；清空時改成打開 GitHub 的回報頁面（issues）
+   store：上架後填入 App Store／Google Play 的頁面網址；評分視窗的「撰寫評論」會打開它，沒填時改成打開意見回饋 */
+const FEEDBACK={email:'tommyleegarden@gmail.com',issues:'https://github.com/dominicshing/novaday-pages/issues/new',store:''};
