@@ -43,6 +43,7 @@ $('dvYearGo').onclick=()=>{const r=dvYM();if(r)openYearReport(r.y)};
 $('dvZodGo').onclick=()=>openFortune(+$('dvZod').value);
 $('dvOnbGo').onclick=()=>openOnb(true);
 $('dvLockGo').onclick=()=>openLock('preview');
+$('dvRateIos').onclick=()=>openReview('ios');$('dvRatePlay').onclick=()=>openReview('play');
 /* 測試資料：產生 N 天的隨機紀錄（dev:1 標記，可一鍵清除） */
 const DV_T=['早晨的咖啡','和朋友吃晚餐','加班到很晚','下雨天','傍晚散步','讀完一本書','看了一場電影','整理房間','去運動','想念家人','新的想法','平靜的一天','週末出遊','學到新東西'].map(tl);
 const DV_B=['今天過得很平淡，但心情不錯。','天氣很好，出門走了一圈，路邊的花都開了。','工作有點累，回家洗了熱水澡就好多了。','和老朋友聊了很久，想起很多以前的事。','試了一家新餐廳，甜點特別好吃，下次還要再來。','晚上抬頭看星星，光害有點重，但還是看到幾顆亮星。','有點煩躁，不過寫下來之後好像輕鬆了一些。','早點睡吧，明天又是新的一天。'].map(tl);
