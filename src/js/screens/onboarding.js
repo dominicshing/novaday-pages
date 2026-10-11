@@ -40,7 +40,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(i===0){B.innerHTML=`<div class="ob-hero"><span class="ob-orbit" aria-hidden="true"><i></i></span>${OB_LOGO}</div><h2 id="obT">${tl('歡迎來到 <span class="ob-brand">Novaday</span>')}</h2><p class="ob-lead">${tl('每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。')}</p>
       <ul class="ob-pts"><li class="ob-mood"><b class="ob-mc">${[4,3,2,1,0].map(i=>moon(i)).join('')}</b>${tl('用 5 顆表情星星記錄心情')}</li>
         <li style="--c:#6FE3D6"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17l5-7 4 4 5-8"/><circle cx="5" cy="17" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="14" cy="14" r="1.6"/><circle cx="19" cy="6" r="1.6"/></svg></b>${tl('全天 88 個星座等你收集')}</li>
-        <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>${tl('紀錄只存在這台裝置上')}</li></ul>${langSeg('obLang')}`;$('obNext').textContent=tl('開始');bindLangSeg('obLang')}
+        <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>${tl('紀錄只存在這台裝置上')}</li></ul>${langSeg('obLang')}`;$('obNext').textContent=tl('開始');obLangBind()}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
     B.innerHTML=`<h2 id="obT">${tl('你是誰？')}</h2><p class="ob-lead">${tl('選一個頭像，取一個在星空裡的名字。')}</p>
       <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av,ob.ph)}</span>
@@ -91,7 +91,16 @@ function obFinish(write){avTarget=null;
   if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
   if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
   saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
-function openOnb(pv){ob={pv:!!pv,i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!==tl('星旅人')?prof.name:'',m:0,d:0,reg:prof.region||null,zi:-1};ob.rg=Math.max(0,REGIONS.findIndex(([,l])=>ob.reg&&l.some(([n])=>n===ob.reg.name)));$('onb').hidden=false;obRender();obSkyStart()}
+/* 引導頁換語言需要重新載入：先把目前的步驟與已填內容存在 sessionStorage，載入後回到引導頁同一步（開發者工具的預覽也一樣） */
+const OB_RESUME='novaday.obResume';
+function obLangBind(){$('obLang').querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.dataset.l===LANG)return;
+  const st={...ob};delete st.shown;
+  try{sessionStorage.setItem(OB_RESUME,JSON.stringify(st))}catch(e){try{delete st.ph;if(st.av==='photo')st.av=prof.avatar;sessionStorage.setItem(OB_RESUME,JSON.stringify(st))}catch(_){}}   /* 照片太大存不下時，其他內容照樣保留 */
+  setLang(b.dataset.l)})}
+function obResume(){let r=null;try{r=JSON.parse(sessionStorage.getItem(OB_RESUME)||'null');sessionStorage.removeItem(OB_RESUME)}catch(e){}
+  return r&&typeof r==='object'&&Number.isInteger(r.i)&&r.i>=0&&r.i<=3?r:null}
+function openOnb(pv,resume){ob={pv:!!pv,i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!==tl('星旅人')?prof.name:'',m:0,d:0,reg:prof.region||null,zi:-1};ob.rg=Math.max(0,REGIONS.findIndex(([,l])=>ob.reg&&l.some(([n])=>n===ob.reg.name)));
+  if(resume){Object.assign(ob,resume,{pv:!!pv});delete ob.shown}$('onb').hidden=false;obRender();obSkyStart()}
 $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
 $('obAlt').onclick=()=>obFinish(false);
 $('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};

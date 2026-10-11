@@ -106,4 +106,16 @@ export default async ({ ok, open, ROOT }) => {
   ok(await p.evaluate(() => LANG === 'en' && !$('onb').hidden && $('obNext').textContent === 'Start'), '引導頁選 English 後重新載入，仍停在引導頁');
   ok(!p.errors.length, '切換語言沒有程式錯誤 ' + p.errors.join('; '));
   await p.context().close();
+
+  // 開發者工具的引導預覽：換語言重新載入後回到預覽，不會跳到首頁，已填的暱稱保留
+  p = await open({ seed: { 'orbitlog.profile.v1': { onboarded: 1 }, 'orbitlog.seeded.v1': '1' } });
+  await p.evaluate(() => { openOnb(true); ob.name = '小星' }); await p.waitForTimeout(300);
+  await Promise.all([p.waitForNavigation(), p.click('#obLang [data-l=en]')]); await p.waitForTimeout(1200);
+  ok(await p.evaluate(() => LANG === 'en' && !$('onb').hidden && ob.pv && ob.i === 0 && ob.name === '小星' && $('obNext').textContent === 'Start'), '引導預覽換語言後仍停在引導頁，保留已填內容');
+  await p.click('#obNext'); await p.waitForTimeout(300);
+  ok(await p.evaluate(() => ob.i === 1 && $('obName').value === '小星' && !sessionStorage.getItem('novaday.obResume')), '換語言後可以繼續下一步');
+  await p.reload(); await p.waitForTimeout(900);
+  ok(await p.evaluate(() => $('onb').hidden), '一般重新整理不會再自動打開預覽');
+  ok(!p.errors.length, '引導預覽換語言沒有程式錯誤 ' + p.errors.join('; '));
+  await p.context().close();
 };

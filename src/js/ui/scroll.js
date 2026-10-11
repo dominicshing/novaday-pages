@@ -8,7 +8,7 @@ function iosScroll(sc){const host=sc.parentElement,bar=document.createElement('d
     const len=Math.max(36,H*H/S),p=Math.min(1,Math.max(0,sc.scrollTop/(S-H))),top=sc.offsetTop+4+(H-len-8)*p;
     bar.style.height=len+'px';bar.style.transform=`translateY(${top}px)`;bar.style.opacity=1;clearTimeout(t);t=setTimeout(()=>bar.style.opacity=0,900)};
   sc.addEventListener('scroll',upd,{passive:true})}
-document.querySelectorAll('.screen,.sb').forEach(iosScroll);
+document.querySelectorAll('.screen,.sb,.ob-body').forEach(iosScroll);
 /* 分頁往下捲動時，標題列切換成不透明底（.top.stuck） */
 document.querySelectorAll('.screen').forEach(sc=>{const t=sc.querySelector(':scope>.top');if(!t)return;
   sc.addEventListener('scroll',()=>t.classList.toggle('stuck',sc.scrollTop>4),{passive:true})});

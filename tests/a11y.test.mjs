@@ -38,9 +38,9 @@ export default async ({ ok, open }) => {
   ok(await pb.evaluate(() => document.getElementById('ask').classList.contains('open') && document.getElementById('editor').classList.contains('open')), '編輯器有內容時按返回會先詢問');
   await pb.context().close();
 
-  // 引導頁：後面的 App 不能被 Tab 移到；收起的復原列按鈕也不在 Tab 順序裡
+  // 引導頁：後面的 App 不能被 Tab 移到；收起的復原列按鈕也不在 Tab 順序裡（手機外框外的截圖按鈕是預覽工具，引導頁也能用）
   const po = await open({ seed: { 'orbitlog.profile.v1': {} } }); await po.waitForTimeout(600);
-  const outs = []; for (let i = 0; i < 8; i++) { await po.keyboard.press('Tab'); outs.push(await po.evaluate(() => { const a = document.activeElement; return a === document.body || document.getElementById('onb').contains(a) ? '' : a.id || a.className })) }
+  const outs = []; for (let i = 0; i < 8; i++) { await po.keyboard.press('Tab'); outs.push(await po.evaluate(() => { const a = document.activeElement; return a === document.body || document.getElementById('onb').contains(a) || a.closest('.preview-tools') ? '' : a.id || a.className })) }
   ok(outs.every(x => !x), '引導頁顯示時 Tab 不會跑到後面的 App ' + outs.filter(Boolean).join(','));
   await po.context().close();
 

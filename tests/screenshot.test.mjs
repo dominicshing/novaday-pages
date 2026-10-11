@@ -37,6 +37,12 @@ export default async ({ok,open})=>{
   await p.evaluate(()=>{window.__captureCalls=0;modernScreenshot.domToBlob=async()=>{window.__captureCalls++;await new Promise(r=>setTimeout(r,100));return screenshotBlob}});
   await p.evaluate(()=>Promise.all([captureScreenshot(),captureScreenshot()]));
   ok(await p.evaluate(()=>window.__captureCalls===1),'連續點擊只擷取一次');
+  await p.evaluate(()=>{modernScreenshot.domToBlob=window.__captureOriginal;closeSheet('screenshotSheet');openOnb(true);ob.i=2;obRender()});await p.waitForTimeout(500);
+  ok(await p.evaluate(()=>!document.querySelector('.preview-tools').inert),'引導頁顯示時截圖按鈕可以使用');
+  await capture('#screenshotCapture');
+  ok(await p.evaluate(()=>screenshotBlob.size>1000&&$('screenshotSheet').classList.contains('open')&&+getComputedStyle($('screenshotSheet')).zIndex>+getComputedStyle($('onb')).zIndex),'引導頁可以截圖，預覽面板疊在引導頁上面');
+  await p.keyboard.press('Escape');await p.waitForTimeout(400);
+  ok(await p.evaluate(()=>{const b=$('obBody'),cs=getComputedStyle(b);return cs.scrollbarWidth==='none'&&b.offsetWidth===b.clientWidth}),'引導頁捲動區不顯示原生捲軸');
   ok(!p.errors.length,'截圖操作沒有程式錯誤 '+p.errors.join('; '));
   await p.context().close();
 };

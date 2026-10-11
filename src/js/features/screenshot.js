@@ -3,12 +3,12 @@ let screenshotBusy=false,screenshotBlob=null,screenshotUrl=null,screenshotName='
 const SCREENSHOT_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l1.5-2h5L16 5h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg>';
 $('screenshotCapture').innerHTML=SCREENSHOT_ICON+`<span>${tl('擷取畫面')}</span>`;
 $('screenshotCapture').onclick=captureScreenshot;
-/* 引導頁或密碼鎖顯示時（這時也不能截圖），截圖按鈕設為 inert：Tab 不會跑到這裡，螢幕報讀也不會讀到 */
-{const tools=document.querySelector('.preview-tools'),sync=()=>{tools.inert=!$('onb').hidden||!$('lock').hidden};
-  const mo=new MutationObserver(sync);['onb','lock'].forEach(id=>mo.observe($(id),{attributes:true,attributeFilter:['hidden']}));sync()}
+/* 密碼鎖顯示時（這時不能截圖），截圖按鈕設為 inert：Tab 不會跑到這裡，螢幕報讀也不會讀到。引導頁可以截圖 */
+{const tools=document.querySelector('.preview-tools'),sync=()=>{tools.inert=!$('lock').hidden};
+  new MutationObserver(sync).observe($('lock'),{attributes:true,attributeFilter:['hidden']});sync()}
 
 async function captureScreenshot(){
-  if(screenshotBusy||!$('lock').hidden||!$('onb').hidden)return;
+  if(screenshotBusy||!$('lock').hidden)return;
   const returnFocus=document.activeElement;
   screenshotBusy=true;$('screenshotStatus').textContent=tl('正在擷取畫面…');toast(tl('正在擷取畫面…'));
   const buttons=[...document.querySelectorAll('.screenshot-trigger')];buttons.forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true')});

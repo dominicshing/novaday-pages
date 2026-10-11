@@ -469,8 +469,8 @@ html{overflow:hidden}
   .sheet{transition-duration:.01s}
 }
 /* 隱藏捲軸、iOS 風格捲動指示條 */
-.screen,.sb{scrollbar-width:none;-ms-overflow-style:none}
-.screen::-webkit-scrollbar,.sb::-webkit-scrollbar{display:none}
+.screen,.sb,.ob-body{scrollbar-width:none;-ms-overflow-style:none}
+.screen::-webkit-scrollbar,.sb::-webkit-scrollbar,.ob-body::-webkit-scrollbar{display:none}
 .ios-bar{position:absolute;top:0;right:3px;width:3px;border-radius:2px;background:rgba(255,255,255,.5);opacity:0;z-index:6;pointer-events:none;
   transition:opacity .35s ease;will-change:transform}
 /* 可復原的提示列（snackbar） */
@@ -7894,12 +7894,12 @@ let screenshotBusy=false,screenshotBlob=null,screenshotUrl=null,screenshotName='
 const SCREENSHOT_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l1.5-2h5L16 5h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg>';
 $('screenshotCapture').innerHTML=SCREENSHOT_ICON+`<span>${tl('擷取畫面')}</span>`;
 $('screenshotCapture').onclick=captureScreenshot;
-/* 引導頁或密碼鎖顯示時（這時也不能截圖），截圖按鈕設為 inert：Tab 不會跑到這裡，螢幕報讀也不會讀到 */
-{const tools=document.querySelector('.preview-tools'),sync=()=>{tools.inert=!$('onb').hidden||!$('lock').hidden};
-  const mo=new MutationObserver(sync);['onb','lock'].forEach(id=>mo.observe($(id),{attributes:true,attributeFilter:['hidden']}));sync()}
+/* 密碼鎖顯示時（這時不能截圖），截圖按鈕設為 inert：Tab 不會跑到這裡，螢幕報讀也不會讀到。引導頁可以截圖 */
+{const tools=document.querySelector('.preview-tools'),sync=()=>{tools.inert=!$('lock').hidden};
+  new MutationObserver(sync).observe($('lock'),{attributes:true,attributeFilter:['hidden']});sync()}
 
 async function captureScreenshot(){
-  if(screenshotBusy||!$('lock').hidden||!$('onb').hidden)return;
+  if(screenshotBusy||!$('lock').hidden)return;
   const returnFocus=document.activeElement;
   screenshotBusy=true;$('screenshotStatus').textContent=tl('正在擷取畫面…');toast(tl('正在擷取畫面…'));
   const buttons=[...document.querySelectorAll('.screenshot-trigger')];buttons.forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true')});
@@ -8081,7 +8081,7 @@ function iosScroll(sc){const host=sc.parentElement,bar=document.createElement('d
     const len=Math.max(36,H*H/S),p=Math.min(1,Math.max(0,sc.scrollTop/(S-H))),top=sc.offsetTop+4+(H-len-8)*p;
     bar.style.height=len+'px';bar.style.transform=`translateY(${top}px)`;bar.style.opacity=1;clearTimeout(t);t=setTimeout(()=>bar.style.opacity=0,900)};
   sc.addEventListener('scroll',upd,{passive:true})}
-document.querySelectorAll('.screen,.sb').forEach(iosScroll);
+document.querySelectorAll('.screen,.sb,.ob-body').forEach(iosScroll);
 /* 分頁往下捲動時，標題列切換成不透明底（.top.stuck） */
 document.querySelectorAll('.screen').forEach(sc=>{const t=sc.querySelector(':scope>.top');if(!t)return;
   sc.addEventListener('scroll',()=>t.classList.toggle('stuck',sc.scrollTop>4),{passive:true})});
@@ -8162,7 +8162,7 @@ function obRender(){const i=ob.i,B=$('obBody');$('obDots').querySelectorAll('i')
   if(i===0){B.innerHTML=`<div class="ob-hero"><span class="ob-orbit" aria-hidden="true"><i></i></span>${OB_LOGO}</div><h2 id="obT">${tl('歡迎來到 <span class="ob-brand">Novaday</span>')}</h2><p class="ob-lead">${tl('每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。')}</p>
       <ul class="ob-pts"><li class="ob-mood"><b class="ob-mc">${[4,3,2,1,0].map(i=>moon(i)).join('')}</b>${tl('用 5 顆表情星星記錄心情')}</li>
         <li style="--c:#6FE3D6"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17l5-7 4 4 5-8"/><circle cx="5" cy="17" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="14" cy="14" r="1.6"/><circle cx="19" cy="6" r="1.6"/></svg></b>${tl('全天 88 個星座等你收集')}</li>
-        <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>${tl('紀錄只存在這台裝置上')}</li></ul>${langSeg('obLang')}`;$('obNext').textContent=tl('開始');bindLangSeg('obLang')}
+        <li style="--c:#FFB45C"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></b>${tl('紀錄只存在這台裝置上')}</li></ul>${langSeg('obLang')}`;$('obNext').textContent=tl('開始');obLangBind()}
   else if(i===1){if(!ob.av)ob.av=prof.avatar;
     B.innerHTML=`<h2 id="obT">${tl('你是誰？')}</h2><p class="ob-lead">${tl('選一個頭像，取一個在星空裡的名字。')}</p>
       <div class="ob-me"><span class="me-av ob-me-av" id="obAvPrev">${avHTML(ob.av,ob.ph)}</span>
@@ -8213,7 +8213,16 @@ function obFinish(write){avTarget=null;
   if(ob.m&&ob.d)prof.birthday=`2000-${pad(ob.m)}-${pad(ob.d)}`;if(ob.reg)prof.region=ob.reg;prof.onboarded=1;
   if($('obKeep')&&!$('obKeep').checked){entries=entries.filter(e=>!isSample(e));save()}
   saveProf();$('onb').classList.add('out');setTimeout(()=>{$('onb').hidden=true;$('onb').classList.remove('out')},reduce?0:380);render();if(write)setTimeout(()=>openEditor(),reduce?0:420)}
-function openOnb(pv){ob={pv:!!pv,i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!==tl('星旅人')?prof.name:'',m:0,d:0,reg:prof.region||null,zi:-1};ob.rg=Math.max(0,REGIONS.findIndex(([,l])=>ob.reg&&l.some(([n])=>n===ob.reg.name)));$('onb').hidden=false;obRender();obSkyStart()}
+/* 引導頁換語言需要重新載入：先把目前的步驟與已填內容存在 sessionStorage，載入後回到引導頁同一步（開發者工具的預覽也一樣） */
+const OB_RESUME='novaday.obResume';
+function obLangBind(){$('obLang').querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{if(b.dataset.l===LANG)return;
+  const st={...ob};delete st.shown;
+  try{sessionStorage.setItem(OB_RESUME,JSON.stringify(st))}catch(e){try{delete st.ph;if(st.av==='photo')st.av=prof.avatar;sessionStorage.setItem(OB_RESUME,JSON.stringify(st))}catch(_){}}   /* 照片太大存不下時，其他內容照樣保留 */
+  setLang(b.dataset.l)})}
+function obResume(){let r=null;try{r=JSON.parse(sessionStorage.getItem(OB_RESUME)||'null');sessionStorage.removeItem(OB_RESUME)}catch(e){}
+  return r&&typeof r==='object'&&Number.isInteger(r.i)&&r.i>=0&&r.i<=3?r:null}
+function openOnb(pv,resume){ob={pv:!!pv,i:0,av:prof.avatar,ph:prof.photoAv||null,name:prof.name&&prof.name!==tl('星旅人')?prof.name:'',m:0,d:0,reg:prof.region||null,zi:-1};ob.rg=Math.max(0,REGIONS.findIndex(([,l])=>ob.reg&&l.some(([n])=>n===ob.reg.name)));
+  if(resume){Object.assign(ob,resume,{pv:!!pv});delete ob.shown}$('onb').hidden=false;obRender();obSkyStart()}
 $('obNext').onclick=()=>{if(ob.i<3){ob.i++;obRender();$('obBody').scrollTop=0}else obFinish(true)};
 $('obAlt').onclick=()=>obFinish(false);
 $('obBack').onclick=()=>{if(ob.i){ob.i--;obRender()}};
@@ -8500,7 +8509,7 @@ devPill();
 /* 照片存在 IndexedDB：先讀回來再畫面；舊資料的照片順便搬過去（全部寫入成功才改存檔） */
 {let dr=[];try{const d=JSON.parse(localStorage.getItem(DKEY)||'null');dr=(d&&Array.isArray(d.photos)?d.photos:[]).filter(r=>typeof r==='string'&&r.startsWith(PH_REF)).map(r=>r.slice(PH_REF.length))}catch(e){}
   try{if(await phHydrate(entries,dr)&&await phFlush())save()}catch(e){}}
-if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();if(obNeeded())openOnb();if(prof.pin)openLock('unlock');
+if(!prof.since){prof.since=ymd(new Date());saveProf()}$('app').classList.toggle('calm',!!prof.calm);$('device').classList.toggle('calm',!!prof.calm);applyRed();render();syncLockUI();{const r=obResume();if(r)openOnb(r.pv,r);else if(obNeeded())openOnb()}if(prof.pin)openLock('unlock');
 /* 瀏覽器封鎖網站資料（例如關閉了 Cookie 與網站資料）：寫下的紀錄關掉頁面就會消失，先清楚告訴使用者 */
 {let ok=true;try{localStorage.setItem('novaday.probe','1');localStorage.removeItem('novaday.probe')}catch(e){ok=false}
   if(!ok)setTimeout(()=>toast(tl('這個瀏覽器封鎖了網站資料，寫下的紀錄關閉頁面後會消失。請允許網站資料，或改用一般瀏覽模式'),8000),1200)}
