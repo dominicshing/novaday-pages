@@ -95,7 +95,7 @@ npm run export-assets
 
 ### Flutter 使用方式
 
-移植成 iOS／Android App 的完整規劃（套件、資料庫、路由、時程，以 pet_diary 的 Flutter 規格為基準）見 [docs/flutter-migration-plan.md](docs/flutter-migration-plan.md)。
+移植成 iOS／Android App 與 Flutter Web 版的完整規劃（套件、資料庫、路由、時程，以 pet_diary 的 Flutter 規格為基準）見 [docs/flutter-migration-plan.md](docs/flutter-migration-plan.md)。
 
 把 `assets/` 整個資料夾複製到 Flutter 專案根目錄，`pubspec.yaml`：
 

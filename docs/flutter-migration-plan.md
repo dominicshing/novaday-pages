@@ -1,8 +1,8 @@
-# Novaday Flutter App 規劃書（iOS／Android）
+# Novaday Flutter App 規劃書（iOS／Android／Web）
 
-把 Novaday 網頁版移植成 Flutter 手機 App。技術規格以同一位作者的 [pet_diary](https://github.com/dominicshing/pet_diary)（已上架的 Flutter App）為基準：套件、資料夾結構、資料庫、狀態管理、路由、平台設定都沿用，只在 Novaday 需要時增減。
+把 Novaday 網頁版移植成 Flutter App，第一版同時輸出 iOS、Android 與 Web。技術規格以同一位作者的 [pet_diary](https://github.com/dominicshing/pet_diary)（已上架的 Flutter App）為基準：套件、資料夾結構、資料庫、狀態管理、路由、平台設定都沿用，只在 Novaday 需要時增減。
 
-- 撰寫日期：2026-10-11
+- 撰寫日期：2026-10-11；同日依開工前決定更新（第 15 節）
 - 網頁版基準：`main` 的 b47086a（網頁版 2.0，88／88 星座插畫完成、三種介面語言）
 - 相關文件：[architecture.md](architecture.md)（網頁版架構）、[backup-format.md](backup-format.md)（備份格式 v1）、[README](../README.md)（Flutter 素材說明）
 
@@ -12,10 +12,10 @@
 
 ### 1.1 目標
 
-1. iOS 與 Android 各一個原生 App，功能和網頁版相同，畫面和動畫盡量一致。
+1. 同一份 Flutter 程式輸出 iOS、Android 原生 App 與 Flutter Web 版，功能和網頁版相同，畫面和動畫盡量一致。版面以手機直式為主；Web 在電腦上以手機寬度置中顯示（和現在網頁版的手機外框相同概念）。
 2. **資料互通**：網頁版和 App 用同一份備份格式（v1），可以互相還原。
 3. **規則結果完全相同**：XP、等級、連續天數、徽章、星座點亮順序、星空投影、每月運勢，在兩邊用同一份資料算出相同的結果。
-4. 網頁版繼續當**唯一的資料來源**：資料檔、語言檔、圖像由網頁版匯出（`npm run export-assets`、`npm run export-l10n`），App 不直接修改。
+4. 現有的 JS 網頁版在 1.0 期間繼續上線，並繼續當**唯一的資料來源**：資料檔、語言檔、圖像由網頁版匯出（`npm run export-assets`、`npm run export-l10n`），App 不直接修改。
 5. 沿用 pet_diary 的做法：沒有帳號、沒有伺服器，資料只存在裝置上。
 
 ### 1.2 第一版（1.0）範圍
@@ -23,8 +23,11 @@
 | 納入 | 不納入（之後再評估） |
 |---|---|
 | 網頁版目前顯示的所有功能（第 3 節） | 雲端同步、帳號 |
-| 每日提醒改成真的系統通知（網頁版只能存設定） | iPad／平板專用版面（先以手機直式為主，平板放大顯示） |
-| 密碼鎖，另外可選 Face ID／指紋 | Apple Watch、桌面小工具（Widget） |
+| Flutter Web 版（第 11.3 節，少數平台功能不提供） | 用 Flutter Web 取代現有的 JS 網頁版（1.0 之後再決定，第 15.2 節） |
+| 每日提醒改成真的系統通知（網頁版只能存設定；Web 不提供） | iPad／平板專用版面（先以手機直式為主，平板放大顯示） |
+| 密碼鎖＋Face ID／指紋解鎖（Web 只有密碼） | Apple Watch、桌面小工具（Widget） |
+| 編輯器直接拍照、錄影（網頁版只能選檔案） | HEVC 影片轉成 H.264（決定不做，第 15.1 節） |
+| 開發者工具（正式版保留，連點版本號碼 7 次開啟） | |
 | 商店評分改用系統評分視窗 | 網頁版暫時隱藏的功能：流星雨、紅光模式、儲存空間列、純文字匯出（程式移植，但開關維持關閉） |
 | 備份 .zip 匯出、還原（和網頁版互通） | 網頁版的「手機外框」與「擷取畫面」按鈕（App 用系統截圖即可） |
 
@@ -41,9 +44,10 @@
 | Flutter | stable channel（`.metadata` revision `05db9689…`） | 同一個 stable 版本開始；版本記在 README，升級時兩個 App 一起升 |
 | Dart SDK | `>=3.5.0 <4.0.0` | 相同 |
 | iOS 最低版本 | 15.0，只支援 iPhone（`TARGETED_DEVICE_FAMILY = 1`） | 相同 |
+| Web | 有 `web/` 資料夾但沒有正式發布 | **正式發布**：Chrome、Safari、Edge、Firefox 最近兩個大版本，手機與電腦瀏覽器（第 11.3 節） |
 | Android | `minSdk 24`、`targetSdk` 用 Flutter 預設、Java 11、開啟 core library desugaring（`desugar_jdk_libs 2.1.4`） | 相同（desugaring 是 `flutter_local_notifications` 需要的） |
 | Gradle | Kotlin DSL（`build.gradle.kts`） | 相同 |
-| Bundle ID | `com.creativesky.petDiary`／`com.creativesky.pet_diary` | 建議 `com.creativesky.novaday`（兩平台相同，**待確認**，見第 15 節） |
+| Bundle ID | `com.creativesky.petDiary`／`com.creativesky.pet_diary` | **`com.creativesky.novaday`**（iOS bundle ID 與 Android applicationId／namespace 相同，已確定） |
 | Lint | `flutter_lints ^6.0.0`，`analysis_options.yaml` 用預設規則 | 相同 |
 
 ### 2.2 架構分層（`lib/`）
@@ -143,11 +147,11 @@ Novaday 多一層 `lib/domain/`，放從網頁版 `src/js/logic/` 移植過來�
 | 用途 | 套件 | Novaday 用在哪裡 |
 |---|---|---|
 | 狀態管理 | `flutter_riverpod ^2.6.1` | 全部 |
-| 資料庫 | `drift ^2.30.1`、`drift_flutter ^0.2.8`、`sqlite3_flutter_libs ^0.5.41`；dev：`drift_dev`、`build_runner 2.7.1` | 紀錄、個人資料、設定、草稿 |
-| 檔案位置 | `path_provider ^2.1.5`、`path ^1.9.1` | 照片影片、備份暫存 |
+| 資料庫 | `drift ^2.30.1`、`drift_flutter ^0.2.8`、`sqlite3_flutter_libs ^0.5.41`；dev：`drift_dev`、`build_runner 2.7.1` | 紀錄、個人資料、設定、草稿；Web 用 drift 的 WebAssembly 版 SQLite（第 11.3 節） |
+| 檔案位置 | `path_provider ^2.1.5`、`path ^1.9.1` | 照片影片、備份暫存（只用在 iOS／Android） |
 | 備份 | `archive ^4.0.7` | 讀寫 .zip（stored 與 deflate） |
 | 雜湊 | `crypto ^3.0.7` | 密碼鎖 SHA-256，和網頁版的 `pinHash()` 相同（`'novaday:' + pin`） |
-| 選照片影片 | `image_picker ^1.2.1` | 編輯器、照片頭像 |
+| 選照片影片、拍照、錄影 | `image_picker ^1.2.1` | 編輯器：相簿選取＋`ImageSource.camera` 直接拍照、錄影；照片頭像。用系統相機介面即可，不需要 pet_diary 自訂拍攝畫面用的 `camera` 套件 |
 | 選備份檔 | `file_selector ^1.1.0` | 還原（`backup-format.md` 建議 `file_picker`，改用 pet_diary 已驗證過的 `file_selector`） |
 | 影片 | `video_player ^2.10.1`、`video_thumbnail ^0.5.6` | 播放、產生封面 |
 | 權限 | `permission_handler ^12.0.1` | 通知、定位 |
@@ -171,14 +175,15 @@ Novaday 多一層 `lib/domain/`，放從網頁版 `src/js/logic/` 移植過來�
 | 寄信、開網頁 | `url_launcher` | 意見回饋 `mailto:`、商店頁面 |
 | 裝置資訊 | `device_info_plus` | 意見回饋附上的裝置資訊 |
 | 照片轉檔 | `flutter_image_compress` | HEIC 轉 JPEG、長邊 1600 px、品質 82（和網頁版相同，見 backup-format.md 第 10 節） |
-| 生物辨識（選用） | `local_auth` | 密碼鎖可以用 Face ID／指紋解鎖，4 位數密碼仍是主要方式 |
+| 生物辨識 | `local_auth` | 密碼鎖可以用 Face ID／Touch ID／指紋解鎖；4 位數密碼仍是必要的後備方式（第 11.4 節） |
+| Web 平台 | `web`（`package:web` + `dart:js_interop`） | Flutter Web 的照片影片儲存（IndexedDB）、照片縮圖、影片封面、讀取舊版網頁的資料（第 6.5、11.3 節） |
 | 頭像裁切 | 自行實作（`InteractiveViewer` + 圓形遮罩 + `RepaintBoundary` 輸出） | 網頁版的裁切面板很單純，不需要額外套件 |
 
 ### 4.3 pet_diary 有、Novaday 不用
 
-`camera`、`record`、`audioplayers`、`photo_manager`、`ffmpeg_kit_flutter_new_min`、`carousel_slider`（改用 `PageView`）、`table_calendar`（星曆有月相與星座標記，自己畫）、`flutter_lucide`、`font_awesome_flutter`、`cached_network_image`、`shimmer`、`pdf`、`lottie`、`fluttertoast`（改用 `SnackBar`，要支援「復原」按鈕）、`geocoding`、`uuid`（紀錄 ID 照備份規格的字元規則產生）、`visibility_detector`。
+`camera`（拍照錄影改用 `image_picker` 的系統相機）、`record`、`audioplayers`、`photo_manager`、`ffmpeg_kit_flutter_new_min`（不轉檔，見下方）、`carousel_slider`（改用 `PageView`）、`table_calendar`（星曆有月相與星座標記，自己畫）、`flutter_lucide`、`font_awesome_flutter`、`cached_network_image`、`shimmer`、`pdf`、`lottie`、`fluttertoast`（改用 `SnackBar`，要支援「復原」按鈕）、`geocoding`、`uuid`（紀錄 ID 照備份規格的字元規則產生）、`visibility_detector`。
 
-> `ffmpeg_kit` 先不加。iPhone 錄的 HEVC `.mov` 在網頁版部分瀏覽器不能播，第一版在匯出時提示使用者；如果測試發現常見，再評估用 ffmpeg 轉成 H.264（App 會大約多 15–30 MB）。
+> **決定不轉檔**：iPhone 錄的 HEVC `.mov` 原樣保存與備份。部分瀏覽器（JS 網頁版與 Flutter Web 都一樣）不能播 HEVC，這時顯示封面並提示「這個瀏覽器無法播放這部影片」；匯出備份時如果含 HEVC 影片，在預覽說明裡提醒一次。之後真的常遇到，再評估 `ffmpeg_kit`（App 會大約多 15–30 MB）。
 
 完整的 `pubspec.yaml` 草案在附錄 A。
 
@@ -188,7 +193,9 @@ Novaday 多一層 `lib/domain/`，放從網頁版 `src/js/logic/` 移植過來�
 
 ### 5.1 放在哪裡
 
-建議**另開一個 repo**（`dominicshing/novaday_app`），和 pet_diary 一樣是獨立的 Flutter 專案；這個 repo 繼續放網頁版與素材。App repo 用 `tool/sync_web_assets.sh` 從這裡複製 `assets/`（指定 commit），每次同步都是一個獨立的 commit，方便追蹤素材版本。（待確認，見第 15 節。）
+**另開一個 repo `dominicshing/novaday_app`**（已確定），和 pet_diary 一樣是獨立的 Flutter 專案；這個 repo 繼續放 JS 網頁版與素材。App repo 用 `tool/sync_web_assets.sh` 從這裡複製 `assets/`（指定 commit），每次同步都是一個獨立的 commit，方便追蹤素材版本。
+
+Flutter Web 版由 App repo 的 GitHub Actions 建置，發布到 App repo 的 GitHub Pages：`https://dominicshing.github.io/novaday_app/`（`flutter build web --release --base-href /novaday_app/`）。和現有網頁版 `https://dominicshing.github.io/novaday-pages/` 是**同一個來源（origin）**，所以 Flutter Web 可以直接讀到舊版網頁存的資料（第 6.5 節）。
 
 ### 5.2 `lib/` 對照網頁版
 
@@ -206,11 +213,16 @@ lib/
 │   ├── router/app_router.dart、route_names.dart
 │   ├── localization/app_language.dart、content_localizations.dart（content.json 查詢）
 │   ├── layout/adaptive_layout.dart         ← 直接沿用 pet_diary
+│   ├── platform/                           平台差異：用 conditional import 分成 *_io.dart（iOS／Android）與 *_web.dart
+│   │   ├── capabilities.dart               supportsReminders、supportsBiometrics、supportsInAppReview…（UI 依此顯示或隱藏）
+│   │   ├── media_store.dart、media_store_io.dart、media_store_web.dart
+│   │   ├── image_codec_io.dart、image_codec_web.dart          照片縮圖與轉 JPEG
+│   │   └── legacy_web_import_web.dart                         讀取舊版網頁的資料（只有 Web）
 │   ├── services/
-│   │   ├── media_storage_service.dart      ← core/photo-store.js、media-store.js、mediaGC()
+│   │   ├── media_storage_service.dart      ← core/photo-store.js、media-store.js、mediaGC()（透過 MediaStore，不直接碰檔案系統）
 │   │   ├── backup_service.dart             ← features/backup/export.js、restore.js、core/zip.js
 │   │   ├── reminder_service.dart           ← 每日提醒（新）
-│   │   ├── pin_lock_service.dart           ← features/pin-lock.js
+│   │   ├── pin_lock_service.dart           ← features/pin-lock.js；加上 local_auth 生物辨識
 │   │   ├── location_service.dart           ← screens/settings/region.js、編輯器的定位
 │   │   ├── share_card_service.dart         ← features/share-card.js
 │   │   ├── feedback_service.dart           ← screens/settings/feedback.js
@@ -250,9 +262,9 @@ lib/
 
 | 資料表 | 欄位 | 對應網頁版 | 進備份 |
 |---|---|---|---|
-| `Entries` | `id` TEXT PK、`date` TEXT（`YYYY-MM-DD` 當地日期）、`time` TEXT、`tz`、`title`、`body`、`mood` INT、`tags` JSON、`loc`、`prompt`、`fav`、`edited`、`sample`、`photos` JSON（相對路徑，第一張是封面）、`videoId`、`videoDur`、`videoType`、`videoFile`、`videoPoster`、`createdAt`、`updatedAt` | `orbitlog.entries.v1` | ✅ |
+| `Entries` | `id` TEXT PK、`date` TEXT（`YYYY-MM-DD` 當地日期）、`time` TEXT、`tz`、`title`、`body`、`mood` INT、`tags` JSON、`loc`、`prompt`、`fav`、`edited`、`sample`、`dev`（開發者工具產生的測試紀錄，可一鍵清除）、`photos` JSON（相對路徑，第一張是封面）、`videoId`、`videoDur`、`videoType`、`videoFile`、`videoPoster`、`createdAt`、`updatedAt` | `orbitlog.entries.v1` | ✅ |
 | `Profile`（單列） | `avatar`、`photoAv`、`name`、`ship`、`motto`、`since`、`birthday`、`regionName`、`regionLat`、`regionLon`、`livery`、`conOrder` JSON、`nextPick`、`lang` | `orbitlog.profile.v1` 中屬於個人資料的欄位 | ✅ |
-| `DeviceSettings`（單列） | `remind`、`remindTime`、`timeFormat`（12／24）、`calm`（減少動態效果）、`red`、`listMode`、`pinHash`、`biometric` | `orbitlog.profile.v1` 中屬於裝置的欄位 | ❌（backup-format.md 第 8 節） |
+| `DeviceSettings`（單列） | `remind`、`remindTime`、`timeFormat`（12／24）、`calm`（減少動態效果）、`red`、`listMode`、`pinHash`、`biometric`、`devXP`（開發者工具快轉的 XP） | `orbitlog.profile.v1` 中屬於裝置的欄位 | ❌（backup-format.md 第 8 節） |
 | `Reviews` | `entryId` PK、`firstDate` | `orbitlog.reviews.v1.ids` | ✅ |
 | `Drafts` | `slot`（`main`／`stash`）PK、`json`、`updatedAt` | `orbitlog.draft.v1`、`draft.stash.v1` | ❌ |
 | `AppMeta`（鍵值） | `key` PK、`value` | `reviews.last`、`seeded`、新徽章紅點、報告已讀、運勢延後、最近題目、最近搜尋、開發者工具設定 | 只有 `reviews.last` |
@@ -275,14 +287,17 @@ lib/
 - 新增影片：`image_picker.pickVideo` → 複製到 `videos/` → `video_thumbnail` 產生封面 → 讀長度。影片長度上限沿用網頁版設定。
 - 啟動時做一次 `mediaGC()`：刪掉沒有被任何紀錄、草稿或頭像用到的檔案。
 - 寫檔與寫資料庫的順序：先寫檔、再寫資料庫；失敗時刪掉剛寫的檔。
+- **直接拍照、錄影**：`image_picker` 的 `ImageSource.camera`。拍的照片和選的照片走同一條處理流程（轉 JPEG、縮到 1600 px）；錄影長度用 `maxDuration` 限制在網頁版的影片上限內。拍完只存進 App，不自動存到系統相簿。
+- **Web**：`MediaStore` 的 Web 實作把照片、影片以 Blob 存在 IndexedDB（和現在網頁版的 `novaday.media` 相同做法），用相對路徑當鍵；顯示時建立 object URL 給 `Image.network`、`VideoPlayerController.networkUrl`。照片縮圖與轉 JPEG 用瀏覽器的 `createImageBitmap` + canvas（照搬網頁版 `loadPhoto()` 的做法），影片封面用 `<video>` 擷取第一格；`flutter_image_compress`、`video_thumbnail` 只用在 iOS／Android。
 
 ### 6.3 備份互通
 
-照 [backup-format.md](backup-format.md) v1 實作，`platform` 寫 `"ios"` 或 `"android"`。
+照 [backup-format.md](backup-format.md) v1 實作，`platform` 寫 `"ios"`、`"android"`；Flutter Web 寫 `"web"`（和 JS 網頁版相同，規格只把它當參考）。
 
 - **匯出**：在暫存資料夾用 `ZipFileEncoder` 以 stored 方式寫入 → `share_plus` 讓使用者存到「檔案」、iCloud Drive、Google 雲端硬碟 → 分享完刪除暫存檔。
 - **還原**：`file_selector` 選 .zip → `InputFileStream` + `ZipDecoder` 串流讀取（大影片不整個讀進記憶體）→ 依第 7 節的合併規則產生預覽 → 使用者確認 → 在單一 transaction 寫入；失敗就回復。
 - **中斷保護**：還原時先把檔案寫到 `media/.restore/`，並在 `AppMeta` 記下進行中；啟動時 `recoverInterruptedRestore()` 決定完成或清掉（pet_diary 的做法）。
+- **Web 的匯出與還原**：瀏覽器不能串流寫檔，zip 在記憶體裡組好後用 Blob 下載（手機瀏覽器支援時改用系統分享）；還原用 `file_selector` 讀進記憶體。大小限制與提示照 JS 網頁版現有的做法。
 - **驗收**：用網頁版匯出一份含照片頭像、多張照片、影片、收藏、地區經度、`tz` 的備份，在 App 還原逐項比對；再從 App 匯出、網頁版還原比對一次。這兩份測試檔放進 App 的 `test/fixtures/`。
 
 ### 6.4 啟動流程
@@ -297,13 +312,27 @@ lib/
 6. `ReminderService` 依設定重新排程通知。
 7. `mediaGC()` 在背景執行。
 8. 移除啟動畫面 → `runApp(ProviderScope(child: NovadayApp()))`。
-9. 第一個畫面：沒有完成引導 → 引導頁；有密碼鎖 → 鎖定畫面；之後才是首頁。
+9. 第一個畫面：沒有完成引導 → 引導頁；有密碼鎖 → 鎖定畫面（有開生物辨識時自動請求）；之後才是首頁。
+
+Web 的差異：沒有原生啟動畫面（`web/index.html` 用同樣底色 `#070A1C` 與 Logo 當載入畫面）；第 3、6 步略過；第 4 步開啟 drift 的 Web 資料庫；第一次開啟時多一步「偵測舊版網頁的資料」（第 6.5 節）。
+
+### 6.5 從 JS 網頁版搬到 Flutter Web
+
+因為兩個網址是同一個來源，Flutter Web 第一次開啟時可以直接讀到舊版網頁的 localStorage（`orbitlog.*`）與 IndexedDB（`novaday.media`）：
+
+1. 偵測到舊版資料、而 Flutter Web 還沒有紀錄時，顯示「搬移舊版網頁的日記」。
+2. 在記憶體裡把舊版資料組成和備份 v1 相同的結構（紀錄、個人資料、回顧紀錄、照片影片），再交給**同一套還原流程**（合併規則、預覽、全部成功才寫入）。不另寫一套轉換規則。
+3. 搬移只讀不刪：舊版網頁的資料原封不動，使用者兩邊都還能用。
+4. 裝置設定（提醒、時間格式、減少動態效果、密碼鎖）照備份規格不搬；密碼鎖要在 Flutter Web 重新設定。
+5. 測試：用 JS 網頁版的測試資料（400 則、照片、影片、照片頭像）在同一個本機來源跑一次搬移，比對結果。
 
 ---
 
 ## 7. 路由與導覽
 
 ### 7.1 分頁
+
+Web 用 go_router 預設的 hash 網址（`/#/home`），GitHub Pages 不需要額外設定 404 轉址。
 
 `StatefulShellRoute.indexedStack`，四個分頁各一個 navigator，中間的「點亮」按鈕不是分頁，而是 push 編輯器：
 
@@ -454,7 +483,7 @@ App 端的 `test/domain/*_parity_test.dart` 讀這些檔案逐項比對（浮點
 | 過夜後的跨日更新 | `AppLifecycleState.resumed` 時檢查日期 + 午夜的 `Timer` | 更新 `todayProvider`，所有「今天」相關的畫面跟著重算 |
 | 每日提醒（只有設定，不會真的通知） | `flutter_local_notifications` 每天定時通知 | 開啟時才請求通知權限；被拒絕時開關維持關閉並說明如何到系統設定開啟。點通知打開編輯器（pet_diary `DiaryReminderService` 的指令串流做法） |
 | `navigator.geolocation`（只取城市附近） | `geolocator`，`LocationAccuracy.low` | 只要粗略位置：Android 只宣告 `ACCESS_COARSE_LOCATION`；取得後找 `regions.json` 最近的城市，不存精確座標 |
-| 密碼鎖（4 位數、SHA-256、背景超過 1 分鐘重新上鎖、背景時遮住畫面） | 相同規則 + 可選生物辨識 | `AppLifecycleState.inactive` 時蓋上遮罩（App 切換器不會看到日記）；上鎖時後方畫面不可操作。忘記密碼的流程照網頁版 |
+| 密碼鎖（4 位數、SHA-256、背景超過 1 分鐘重新上鎖、背景時遮住畫面） | 相同規則 + Face ID／指紋（第 11.4 節） | `AppLifecycleState.inactive` 時蓋上遮罩（App 切換器不會看到日記）；上鎖時後方畫面不可操作。忘記密碼的流程照網頁版 |
 | `navigator.share`、`canShare` | `share_plus` | 分享圖卡、匯出備份 |
 | `navigator.clipboard` | `Clipboard.setData` | 意見回饋「複製內容」 |
 | `navigator.vibrate` | `HapticFeedback` | 點亮、慶祝 |
@@ -463,26 +492,66 @@ App 端的 `test/domain/*_parity_test.dart` 讀這些檔案逐項比對（浮點
 | 下拉重新整理 | `RefreshIndicator`（換成星空風格的指示器） | |
 | 鍵盤快捷鍵、焦點框 | 不需要 | 保留 `Semantics` 標籤給 VoiceOver／TalkBack |
 | 手機外框預覽、擷取畫面 | 不移植 | 商店截圖用 integration test 產生 |
-| 開發者工具的螢幕尺寸、觸控範圍、FPS | 用 Flutter 內建（`showPerformanceOverlay`、`debugPaintSizeEnabled`） | 開發者工具保留：動畫預覽、88 星座逐顆點亮、測試資料、快轉、模擬日期、極端緯度、資料檢視器、錯誤紀錄 |
+| 開發者工具 | **正式版保留**，在「設定 → 關於」連點版本號碼 7 次開啟（第 11.5 節） | 動畫預覽、88 星座逐顆點亮、測試資料、快轉、模擬日期、極端緯度、剪影總覽、資料檢視器、錯誤紀錄；螢幕尺寸、觸控範圍、FPS 改用 Flutter 內建的 `showPerformanceOverlay` 等 |
 
 ### 11.1 iOS 設定
 
 - `Info.plist` 權限說明（只放真的會用到的）：
   - `NSPhotoLibraryUsageDescription`：選擇日記照片與影片（`image_picker` 在 iOS 14+ 用 PHPicker，通常不需要完整相簿權限）
-  - `NSCameraUsageDescription`、`NSMicrophoneUsageDescription`：只有在提供「拍照／錄影」時才加
+  - `NSCameraUsageDescription`：在日記裡直接拍照、錄影
+  - `NSMicrophoneUsageDescription`：錄影時一起錄下聲音
   - `NSLocationWhenInUseUsageDescription`：「填入你附近的城市」
-  - `NSFaceIDUsageDescription`：有做生物辨識時才加
+  - `NSFaceIDUsageDescription`：用 Face ID 解鎖 Novaday
   - `NSPhotoLibraryAddUsageDescription`：儲存分享圖卡到相簿
 - `PrivacyInfo.xcprivacy`：宣告 UserDefaults（`shared_preferences`）、檔案時間戳記、磁碟空間等 Required Reason API；不追蹤、不收集資料。
 - 直式、只支援 iPhone，`UIRequiresFullScreen`。
 
 ### 11.2 Android 設定
 
-- 權限：`POST_NOTIFICATIONS`、`RECEIVE_BOOT_COMPLETED`（重開機後恢復提醒）、`ACCESS_COARSE_LOCATION`、`USE_BIOMETRIC`（選用）。
+- 權限：`POST_NOTIFICATIONS`、`RECEIVE_BOOT_COMPLETED`（重開機後恢復提醒）、`ACCESS_COARSE_LOCATION`、`USE_BIOMETRIC`。
+- **不宣告 `CAMERA`、`RECORD_AUDIO`**：`image_picker` 的拍照錄影是交給系統相機 App；如果在 manifest 宣告了 `CAMERA`，反而必須先取得權限才能呼叫系統相機。
+- `local_auth` 需要 `MainActivity` 改繼承 `FlutterFragmentActivity`。
 - **不需要** `READ_MEDIA_IMAGES`／`READ_MEDIA_VIDEO`：`image_picker` 在 Android 13+ 使用系統照片挑選器（Google Play 也要求只選照片的 App 改用挑選器）。這點和 pet_diary 不同（pet_diary 有瀏覽整個相簿的功能）。
 - 提醒用一般的每日排程（`AndroidScheduleMode.inexactAllowWhileIdle`），不需要 `SCHEDULE_EXACT_ALARM`。
 - 返回鍵：Android 14 的預測返回手勢（`enableOnBackInvokedCallback`）配合 `PopScope`。
 - Release 簽章設定 `key.properties`（pet_diary 目前 release 仍用 debug 簽章，Novaday 第一版就設定正式簽章）。
+
+### 11.3 Web（Flutter Web）
+
+| 功能 | Flutter Web 的做法 |
+|---|---|
+| 資料庫 | drift 的 Web 版（`driftDatabase(web: DriftWebOptions(sqlite3Wasm: …, driftWorker: …))`），`sqlite3.wasm` 與 `drift_worker.js` 放在 `web/`。GitHub Pages 不能設定 COOP／COEP 標頭，drift 會選用 IndexedDB 儲存模式；M1 要實測 400 則紀錄的讀寫速度 |
+| 照片影片 | IndexedDB（第 6.2 節） |
+| 拍照、錄影 | `image_picker` 在手機瀏覽器會打開相機（`<input capture>`），電腦瀏覽器是選檔案 |
+| 每日提醒 | **不提供**（瀏覽器沒有可靠的定時本機通知）；設定列隱藏 |
+| 生物辨識 | **不提供**，只有 4 位數密碼；背景時遮住畫面用 `AppLifecycleListener`（對應瀏覽器的 visibilitychange） |
+| 商店評分 | 隱藏「為 Novaday 評分」，只保留意見回饋 |
+| 定位 | `geolocator` 的 Web 版（瀏覽器的 geolocation） |
+| 分享 | `share_plus`：支援 Web Share 的瀏覽器用系統分享，其他改成下載 |
+| 震動回饋 | 沒有效果，不需要特別處理 |
+| 字型 | Chakra Petch 放進 App；中文不放進 Web 版（Noto Sans TC 每個字重約 7 MB），由 Flutter Web 的字型後備機制只下載用到的字（和現在網頁版從 Google Fonts 載入字型的情況相同） |
+| 渲染 | 先用 CanvasKit；M6 評估 `--wasm`（skwasm）的速度與相容性 |
+| 首次載入 | Flutter 引擎約 2 MB＋App；星座插畫只在需要時下載。M6 目標：4G 手機 5 秒內看到首頁 |
+| 版面 | 寬螢幕時以手機寬度（最寬 480 px）置中，背景延伸到整個視窗；用 pet_diary 的 `AdaptiveContentFrame` |
+| 離線 | Flutter Web 預設的 manifest 讓使用者能加到主畫面；離線快取在 M6 評估 |
+
+所有平台差異都集中在 `lib/core/platform/`，畫面只看 `capabilities.dart` 的旗標，不在畫面裡寫 `kIsWeb` 判斷。
+
+### 11.4 密碼鎖與生物辨識
+
+- 先設定 4 位數密碼，才能打開「使用 Face ID／指紋解鎖」；關掉密碼鎖時生物辨識一起關閉。
+- 開 App 或從背景回來需要解鎖時，自動請求生物辨識；失敗、取消或系統停用生物辨識時，回到輸入密碼。
+- 「忘記密碼？」流程和網頁版相同；生物辨識不能用來重設密碼。
+- 裝置沒有設定生物辨識時，設定列顯示原因並停用開關。
+- `biometric` 存在 `DeviceSettings`，不進備份（和密碼相同）。
+
+### 11.5 開發者工具（正式版保留）
+
+- 和網頁版相同：在「設定 → 關於」連點版本號碼 7 次開啟，再連點 7 次關閉（pet_diary 的 `DeveloperModeNotifier`）。
+- 測試紀錄帶 `dev` 標記，可以一鍵清除；快轉的 XP 存在 `devXP`，可以重設。
+- 開啟模擬日期時，畫面頂端一直顯示「模擬日期」提示，避免使用者忘記而寫錯日期。
+- 不連網、不收集資料；錯誤紀錄只存在裝置上，意見回饋時由使用者決定要不要附上。
+- 送審時在 App Review 備註說明有這個工具、怎麼開啟、用途是什麼，避免被當成隱藏功能（App Review Guidelines 2.3.1）。
 
 ---
 
@@ -497,28 +566,31 @@ App 端的 `test/domain/*_parity_test.dart` 讀這些檔案逐項比對（浮點
 | Golden | 星座插畫 88 座 × 3 種進度、水晶徽章、階級徽章、分享圖卡 | `matchesGoldenFile` |
 | Integration | 網頁版 `journey*.test.mjs` 的流程：寫、編輯、搜尋、刪除與復原、照片、草稿、快記、補寫、標籤合併、月曆、密碼鎖、清除與重設、三種語言 | `integration_test`，iOS 模擬器與 Android 模擬器 |
 | 商店截圖 | 各語言、6.7 吋與 6.1 吋 iPhone、Android 手機 | `integration_test/app_store_screenshots_test.dart` |
-| 實機 | iPhone（iOS 15 最舊版本、最新版本）、Android（API 24、最新），每個里程碑結束時手動走一輪 | 檢查清單 |
+| Web 平台實作 | `MediaStore`、照片縮圖、影片封面、舊版資料搬移的 Web 實作 | `flutter test --platform chrome` |
+| Web 流程 | 和 Integration 相同的主要流程 | `flutter drive -d web-server`（pet_diary 已有 `test_driver/integration_test.dart`） |
+| 實機 | iPhone（iOS 15 最舊版本、最新版本）、Android（API 24、最新），每個里程碑結束時手動走一輪；拍照錄影、Face ID／指紋只能在實機測 | 檢查清單 |
+| 瀏覽器 | iOS Safari、Android Chrome、電腦的 Chrome、Safari、Edge、Firefox | 檢查清單 |
 
-CI：GitHub Actions 跑 `flutter analyze`、`flutter test`、`dart run build_runner build --delete-conflicting-outputs` 後檢查沒有未提交的產生檔；integration test 在合併到 main 前手動或排程執行。
+CI：GitHub Actions 跑 `flutter analyze`、`flutter test`、`flutter test --platform chrome`、`flutter build web`、`dart run build_runner build --delete-conflicting-outputs` 後檢查沒有未提交的產生檔；integration test 在合併到 main 前手動或排程執行。main 更新時自動把 Web 版發布到 GitHub Pages。
 
 ---
 
 ## 13. 里程碑與時程
 
-以一位全職開發者估算，約 **15 週**。每個里程碑結束時可以在 TestFlight／Google Play 內部測試安裝。
+以一位全職開發者估算，約 **17 週**（加上 Web 版比只做手機多約 2 週）。每個里程碑結束時可以在 TestFlight／Google Play 內部測試安裝，Web 版發布到 GitHub Pages 的測試網址。
 
 | 里程碑 | 週數 | 內容 | 完成條件 |
 |---|---|---|---|
-| **M0 專案骨架** | 1 | 建 repo、`flutter create`、照 pet_diary 設定 iOS 15／minSdk 24／Java 11、套件、lint、CI、素材同步腳本、字型、主題、空白的四個分頁與中央按鈕、啟動畫面與圖示 | 兩平台都能安裝並切換分頁 |
-| **M1 資料層與備份** | 2 | Drift 資料表、repositories、providers、媒體儲存與 GC、範例紀錄、備份匯出與還原 | 網頁版備份可以在 App 完整還原，反之亦然 |
+| **M0 專案骨架** | 1 | 建 `novaday_app` repo、`flutter create --org com.creativesky --platforms ios,android,web novaday`、照 pet_diary 設定 iOS 15／minSdk 24／Java 11、套件、lint、CI、Web 自動發布、素材同步腳本、字型、主題、`core/platform/` 骨架、空白的四個分頁與中央按鈕、啟動畫面與圖示 | iOS、Android 能安裝，Web 網址能開，都能切換分頁 |
+| **M1 資料層與備份** | 3 | Drift 資料表、repositories、providers、媒體儲存與 GC（iOS／Android 檔案、Web IndexedDB）、範例紀錄、備份匯出與還原、舊版網頁資料搬移 | 網頁版備份可以在三個平台完整還原，反之亦然；Flutter Web 能搬移舊版網頁的資料 |
 | **M2 規則移植** | 2 | `domain/` 全部規則、`export_fixtures.mjs`、對照測試 | 所有 fixtures 比對通過 |
-| **M3 寫與讀** | 3 | 編輯器（照片、影片、標籤、心情、題目、地點、草稿）、紀錄詳情、看圖器、日記列表、搜尋篩選、星曆 | 網頁版 journey 測試的寫、讀、搜尋流程在 App 通過 |
+| **M3 寫與讀** | 3 | 編輯器（相簿選取、直接拍照錄影、標籤、心情、題目、地點、草稿）、紀錄詳情、看圖器、日記列表、搜尋篩選、星曆 | 網頁版 journey 測試的寫、讀、搜尋流程在 App 通過 |
 | **M4 星空與成就** | 3 | 首頁全部卡片、背景星空、星座插畫 painter、圖鑑、今晚觀星、我的頁（階級、徽章、圖表、足跡）、慶祝畫面 | 88 座 golden 比對通過；首頁 60 fps |
-| **M5 其餘功能** | 2 | 設定全部、密碼鎖、每日提醒、分享圖卡、月報、年度回顧、引導頁、評分、意見回饋、清除與重設、開發者工具 | 所有網頁版功能都有對應 |
-| **M6 品質** | 1 | 三種語言巡檢、VoiceOver／TalkBack、字級、小螢幕、效能、記憶體（400 則＋大量照片）、錯誤紀錄 | 檢查清單全部通過 |
-| **M7 上架** | 1 | 商店截圖、說明文字（三種語言）、隱私權政策與支援頁（pet_diary 的 `docs/privacy.md`、`docs/index.md` 格式）、App Privacy／Data safety 問卷、送審 | 兩個商店審核通過 |
+| **M5 其餘功能** | 2 | 設定全部、密碼鎖＋Face ID／指紋、每日提醒、分享圖卡、月報、年度回顧、引導頁、評分、意見回饋、清除與重設、開發者工具 | 所有網頁版功能都有對應 |
+| **M6 品質** | 2 | 三種語言巡檢、VoiceOver／TalkBack、字級、小螢幕、效能、記憶體（400 則＋大量照片）、錯誤紀錄；Web 的瀏覽器相容性、首次載入速度、渲染模式 | 檢查清單全部通過 |
+| **M7 上架** | 1 | 商店截圖、說明文字（三種語言）、隱私權政策與支援頁（pet_diary 的 `docs/privacy.md`、`docs/index.md` 格式）、App Privacy／Data safety 問卷、App Review 備註（開發者工具）、送審；Web 版正式網址 | 兩個商店審核通過；Web 版正式上線 |
 
-M3 與 M4 可以兩人並行（一人做資料流程畫面，一人做星座圖與動畫），整體可縮短到約 11 週。
+M3 與 M4 可以兩人並行（一人做資料流程畫面，一人做星座圖與動畫），整體可縮短到約 12 週。
 
 ---
 
@@ -530,24 +602,40 @@ M3 與 M4 可以兩人並行（一人做資料流程畫面，一人做星座圖�
 | 規則移植有細微差異 | 搬家後等級、徽章、星座不同，使用者會覺得資料壞了 | 8.3 的對照測試是 M2 的完成條件，之後每次同步素材都重跑 |
 | 星座揭露效果在 Flutter 的效能 | 低階 Android 卡頓 | 揭露遮罩只在進度改變時重畫並快取成 `ui.Image`；呼吸效果只改透明度 |
 | 網頁版持續更新 | App 落後 | 網頁版仍是唯一來源；素材同步腳本 + l10n 過期測試 + fixtures 對照測試在 App CI 擋下 |
-| HEIC 照片、HEVC 影片 | 網頁版看不到從 App 匯出的照片或影片 | 照片一律轉 JPEG；影片在匯出時偵測 HEVC 並提示（之後視情況加轉檔） |
+| HEIC 照片、HEVC 影片 | 網頁版看不到從 App 匯出的照片或影片 | 照片一律轉 JPEG；影片決定不轉檔：播放失敗時顯示封面與提示，匯出時提醒一次 |
+| Flutter Web 的資料庫與照片影片都在瀏覽器裡 | 瀏覽器清除網站資料、Safari 長期未使用時清掉儲存空間，日記就不見了 | 和 JS 網頁版相同的風險：設定裡提醒定期備份；啟動時呼叫 `navigator.storage.persist()` 要求持久儲存 |
+| Flutter Web 首次載入較慢、捲動不如原生順 | 第一次開啟要等 | M6 量測；星座插畫延後載入；評估 skwasm |
+| 開發者工具留在正式版 | App Review 可能當成隱藏功能 | 第 11.5 節：送審備註說明、不連網、測試資料可清除 |
 | 通知權限被拒絕、iOS 背景限制 | 提醒不出現 | 開啟時才請求，被拒絕時清楚說明；每次啟動重新排程 |
 | 商店審核：沒有帳號的日記 App 被認為功能太少 | 被退件 | 送審說明強調星座收集、觀星指引、報告等功能；附上示範影片 |
 
 ---
 
-## 15. 待確認事項
+## 15. 決定紀錄與待確認事項
 
-開始 M0 之前需要你決定：
+### 15.1 已決定（2026-10-11）
 
-1. **Repo**：另開 `novaday_app` repo（建議），還是放在這個 repo 的 `app/` 資料夾？
-2. **Bundle ID 與開發者帳號**：沿用 pet_diary 的 `com.creativesky` 前綴（建議 `com.creativesky.novaday`），用同一個 Apple Developer 與 Google Play 帳號？
-3. **App 名稱**：商店名稱用「Novaday」，還是加副標（例如「Novaday 星空日記」）？
-4. **拍照／錄影**：編輯器要不要提供直接拍照、錄影（會多相機與麥克風權限），還是只從相簿選？網頁版目前只能選檔案。
-5. **生物辨識解鎖**：第一版要不要做？
-6. **影片轉檔**：要不要第一版就加 `ffmpeg_kit` 把 HEVC 轉成 H.264（App 會變大），還是先只提示？
-7. **平板**：第一版是否只上架 iPhone（和 pet_diary 相同），Android 平板也先不最佳化？
-8. **開發者工具**：正式版是否保留（和網頁版一樣連點版本號碼開啟），還是只在 debug／TestFlight 版本出現？
+| 項目 | 決定 | 影響的章節 |
+|---|---|---|
+| Repo | 另開 `dominicshing/novaday_app` | 5.1 |
+| Bundle ID | `com.creativesky.novaday` | 2.1 |
+| 拍照、錄影 | 編輯器可以直接拍照、錄影（`image_picker` 系統相機） | 4.1、6.2、11.1、11.2 |
+| 生物辨識 | 做 Face ID／Touch ID／指紋解鎖 | 4.2、11.4 |
+| HEVC 影片 | 不轉成 H.264 | 4.3、14 |
+| 第一版平台 | 手機（iOS、Android）＋ Web（Flutter Web）；版面以手機直式為主 | 1、2.1、6.5、11.3、13 |
+| 開發者工具 | 正式版保留 | 11.5 |
+
+兩點是照我的理解寫的，不對請告訴我：
+
+- 「不用把 HEVC 轉成 H.264？」是問句，這裡當成「不轉檔」處理。
+- 「手機和 Web 版」理解成 Flutter 專案第一版也輸出 Web；現有的 JS 網頁版同時繼續上線。如果你的意思是「Flutter 只做手機，Web 繼續用現有的 JS 版」，刪掉第 6.5、11.3 節，時程回到 15 週。
+
+### 15.2 還需要決定
+
+1. **開發者帳號**：用和 pet_diary 同一個 Apple Developer 與 Google Play 帳號嗎？
+2. **App 名稱**：商店名稱用「Novaday」，還是加副標（例如「Novaday 星空日記」）？
+3. **平板**：第一版是否只上架 iPhone（和 pet_diary 相同），Android 平板也先不最佳化？
+4. **Web 的長期方向**（1.0 之後再決定也可以）：Flutter Web 做到和 JS 網頁版相同後，要不要取代 JS 網頁版？要取代的話，資料、語言檔、星座插畫的「唯一來源」要從這個 repo 搬到 App repo，`export-assets`、`export-l10n` 的流程也要跟著改。
 
 ---
 
@@ -607,7 +695,8 @@ dependencies:
   share_plus: any               # 和 pet_diary 一起升級到同一個大版本
   url_launcher: any
   in_app_review: any
-  local_auth: any               # 待確認（第 15 節第 5 項）
+  local_auth: any               # Face ID／指紋（第 11.4 節）
+  web: any                      # Flutter Web 的 IndexedDB、canvas（第 11.3 節）
 
   # Notifications
   flutter_local_notifications: ^20.0.0
@@ -691,6 +780,8 @@ flutter_launcher_icons:
 
 - `assets/svg/constellations/` 與 `assets/png/` **不放進 App**（第 9.3 節；PNG 只是 SVG 的備用版本）。
 - `any` 的套件在 M0 建立專案時改成固定的 `^x.y.z`，並記錄在 README。
+- `flutter_image_compress`、`video_thumbnail`、`flutter_local_notifications`、`local_auth`、`in_app_review` 只在 iOS／Android 呼叫；Web 走 `lib/core/platform/` 的 Web 實作或隱藏功能。
+- Web 另外要把 drift 的 `sqlite3.wasm` 與 `drift_worker.js`（版本和 `drift` 對應）放進 `web/`。
 
 ## 附錄 B：這個 repo 需要配合的修改
 
@@ -701,3 +792,4 @@ App 開工後，網頁版這邊需要做的事（每一項各自一個 PR）：
 3. 把每日任務、那年今日、心情洞察、月報、年度回顧的計算從畫面程式抽到 `src/js/logic/`，讓 fixtures 能直接呼叫（只搬位置，不改行為）。
 4. `src/js/core/config.js` 的 `FEEDBACK.store` 在上架後填入商店網址。
 5. README 的「Flutter 使用方式」改成指向 App repo 與這份規劃書。
+6. JS 網頁版的 localStorage 鍵名與 IndexedDB 結構（architecture.md 第 4 節）在 1.0 期間不要改名，Flutter Web 的舊版資料搬移靠它們（第 6.5 節）；真的要改時同步通知 App repo。
