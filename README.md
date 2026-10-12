@@ -5,6 +5,8 @@
 - **網頁版**：根目錄的 `index.html` 加上 `src/`，由 GitHub Pages 提供（dominicshing.github.io/novaday-pages）。
 - **Flutter 素材**：`assets/` 裡的圖像、資料和設計規格，給之後用 Flutter 製作手機 App 時使用。資料和星座圖由網頁版的程式產生，兩邊保持一致。
 
+iOS／Android App 的技術選型、功能範圍、資料搬移與開發階段，見 [Flutter 手機版遷移規劃書](docs/flutter-mobile-plan.md)。
+
 ## 資料夾結構
 
 ```
