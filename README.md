@@ -15,7 +15,7 @@
 │   ├── css/            base、layout、components（一個元件一個檔）、screens（一個畫面一個檔）
 │   └── js/             core、data、logic、ui、screens、features、app
 ├── assets/             Flutter 素材（見下方）
-├── docs/               架構說明、備份格式規格、範例媒體來源
+├── docs/               架構說明、備份格式規格、Flutter App 規劃書、範例媒體來源
 ├── tests/              自動測試
 ├── tools/              打包單檔版、匯出 Flutter 素材
 └── dist/novaday.html   單檔版（可直接當 Claude artifact 發布）
@@ -94,6 +94,8 @@ npm run export-assets
 頭像、水晶徽章、心情星星、黃道符號、Logo 和它們的 PNG 來自最初的匯出（水晶徽章是照 CSS 的構造手工重建的 SVG），這次沒有變動；如果之後修改這些圖，需要另外更新。
 
 ### Flutter 使用方式
+
+移植成 iOS／Android App 與 Flutter Web 版的完整規劃（套件、資料庫、路由、時程，以 pet_diary 的 Flutter 規格為基準）見 [docs/flutter-migration-plan.md](docs/flutter-migration-plan.md)。
 
 把 `assets/` 整個資料夾複製到 Flutter 專案根目錄，`pubspec.yaml`：
 
