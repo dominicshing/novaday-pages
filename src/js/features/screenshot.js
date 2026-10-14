@@ -26,6 +26,9 @@ async function captureScreenshot(){
     });
     const outsideBlocks=new Set([...device.querySelectorAll('.at-card,.rk-card,.medal')].filter(el=>{const r=el.getBoundingClientRect();return r.bottom<=bounds.top||r.top>=bounds.bottom||r.right<=bounds.left||r.left>=bounds.right}));
     const cardArt=new Map([...device.querySelectorAll('.screen.active .at-card')].filter(el=>!outsideBlocks.has(el)).map(el=>[el.dataset.k,el.querySelector(':scope > svg')?.innerHTML]));
+    /* 心情星星等共用的 SVG 漸層、裁切放在 #device 外面，要一起帶進截圖；漸層顏色用了 CSS 變數，先換成實際色值 */
+    const sharedDefs=[...document.querySelectorAll('svg defs')].filter(d=>!device.contains(d)).map(d=>{const c=d.cloneNode(true),to=c.querySelectorAll('stop');
+      d.querySelectorAll('stop').forEach((s,i)=>{const cs=getComputedStyle(s);to[i].style.stopColor=cs.stopColor;to[i].style.stopOpacity=cs.stopOpacity});return c.outerHTML}).join('');
     /* 插畫保留原生 SVG 與樣式，避免逐一計算數千個星點節點的樣式。 */
     const artworkCss=[...document.styleSheets].map(sheet=>{try{return [...sheet.cssRules].map(rule=>rule.cssText).join('\n')}catch(e){return ''}}).join('\n');
     const blob=await modernScreenshot.domToBlob(device,{
@@ -43,9 +46,14 @@ async function captureScreenshot(){
         node.style.animation='none';node.style.transition='none';
         /* SVG foreignObject 中的背景模糊會把鄰近文字一起模糊，改保留原本底色。 */
         node.style.backdropFilter='none';node.style.webkitBackdropFilter='none';
+        /* SVG 圖形：複製來的是動畫進行到一半的 transform，原點又是 px（少了 transform-box），心情星星的光芒、目標星的光圈會跑位；改回 transform 屬性與樣式表 */
+        if(node instanceof SVGElement){node.style.transform='';node.style.transformOrigin=''}
+        /* 複本每個元素都寫死了文字填色（會繼承），蓋過 placeholder 的淡色；空白的輸入框改成跟著各自的文字顏色 */
+        if(node.matches('input,textarea')&&!node.value)node.style.webkitTextFillColor='currentcolor';
         if(node.matches('.at-card')){node.style.contentVisibility='visible';const svg=node.querySelector(':scope > svg'),art=cardArt.get(node.dataset.k);if(svg&&art)svg.innerHTML=art}
       }},
       onCloneNode:clone=>{
+        if(sharedDefs)clone.insertAdjacentHTML('afterbegin',`<svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true">${sharedDefs}</svg>`);
         const style=document.createElement('style');style.textContent=artworkCss+'\n*{animation:none!important;transition:none!important}';clone.prepend(style);
         /* 捲動內容位移後，固定頁首仍留在畫面頂端。 */
         clone.querySelectorAll(stickySelector).forEach((el,i)=>{
