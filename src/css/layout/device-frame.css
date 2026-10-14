@@ -29,6 +29,7 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
   .tabbar{height:76px;padding-bottom:12px}
   .sheet{top:62px;padding-bottom:10px}
   .sheet.short{top:auto}
+  #editor .sheet{top:0;padding-top:54px}
   .edbar{margin-bottom:-10px;padding-bottom:20px}
   .toast{top:62px}
 }

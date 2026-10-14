@@ -1,4 +1,6 @@
 /* 新增／編輯紀錄、草稿提示 */
+/* 編輯面板滑上來後佔滿整個畫面：從最頂端開始、不留圓角與外框，自己讓出瀏海／狀態列 */
+#editor .sheet{top:0;padding-top:env(safe-area-inset-top,0px);border:0;border-radius:0;box-shadow:none}
 .draft-bar{cursor:pointer;transition:transform .12s ease,background .2s}
 .draft-bar:active{transform:scale(.98);background:rgba(255,180,92,.16)}
 /* 「點亮」按鈕：深紫星雲色膠囊、上緣一道亮光、金色四芒星；還不能送出時（.off）只剩淡外框 */
