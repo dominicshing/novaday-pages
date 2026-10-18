@@ -13,8 +13,10 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
       box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
   .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
   /* 狀態列底色留在 App 內，讓面板與引導頁自然蓋過；圖示仍由 .sys-status 顯示。
-     沿用標題列狀態，不另設捲動門檻，也不讓隱藏分頁影響目前底色。 */
-  .app::before{content:"";position:absolute;inset:0 0 auto;height:54px;z-index:9;pointer-events:none;
+     沿用標題列狀態，不另設捲動門檻，也不讓隱藏分頁影響目前底色。
+     底色向下重疊 2px，避免手機外框縮放後，兩個合成圖層在 54px 交界露出細縫；
+     App 的頂部留白與系統圖示高度仍維持 54px，不移動標題列。 */
+  .app::before{content:"";position:absolute;inset:0 0 auto;height:56px;z-index:9;pointer-events:none;
       background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);opacity:0}
   .app:has(#s-home.active)::before{transition:opacity .22s}
   .app:has(#s-home.active):has(>.compact-bar.show)::before{opacity:1}
