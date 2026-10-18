@@ -8,7 +8,7 @@
 .tag{color:var(--ion)}
 
 /* 紀錄頁：精簡模式、月份段落、固定日期、篩選列淡出 */
-#logTop{background:rgba(7,10,28,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-bottom:8px}
+#logTop{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop);padding-bottom:8px}
 .log-hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .log-hrow .icon-btn svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .month-head{display:flex;align-items:baseline;justify-content:space-between;margin:22px 2px 0;padding-bottom:6px;border-bottom:1px solid var(--line)}

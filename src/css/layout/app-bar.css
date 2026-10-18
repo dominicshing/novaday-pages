@@ -15,7 +15,7 @@
   box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
 .home-top .avatar-btn:active{transform:scale(.94)}
 .compact-bar{position:absolute;left:0;right:0;top:0;z-index:9;height:48px;align-items:center;justify-content:center;pointer-events:none;
-  background:rgba(9,12,34,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid rgba(138,124,255,.18);
+  background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);border-bottom:1px solid rgba(138,124,255,.18);
   opacity:0;transform:translateY(-6px);transition:opacity .22s,transform .22s}
 .compact-bar.show{opacity:1;transform:none}
 .compact-bar.show .cb-title,.compact-bar.show .cb-av{pointer-events:auto}

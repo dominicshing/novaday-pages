@@ -25,6 +25,10 @@
   /* 星空暗黑主題：固定深色，不隨系統切換 */
   --bg:#070A1C;--bg2:#0C1030;--surface:rgba(22,28,72,.58);--surface2:rgba(44,52,120,.5);--field:rgba(8,11,32,.75);
   --line:rgba(138,124,255,.24);--text:#E8E9FF;--muted:#9AA0D0;--bar:rgba(9,12,34,.84);
+  /* 標題列與模擬狀態列共用的表面 */
+  --top-bg:rgba(7,10,28,.92);--top-stuck-bg:rgba(7,10,28,.97);--top-backdrop:blur(14px);
+  --top-solid-bg:rgba(7,10,28,.95);--top-solid-backdrop:blur(10px);
+  --compact-bg:rgba(9,12,34,.78);--compact-backdrop:blur(14px) saturate(1.4);
   --nebula:#8A7CFF;--ion:#6FE3D6;--flare:#FFB45C;--danger:#FF7A8A;--on-accent:#070A1C;--star:232,233,255;
   --m0:#7E72C8;--m1:#5F8FEA;--m2:#5FD8CC;--m3:#FFE7A3;--m4:#FFC744;
   --glow:0 0 0 1px rgba(255,255,255,.03) inset,0 10px 30px -18px rgba(138,124,255,.55);
@@ -67,10 +71,10 @@ button{cursor:pointer;touch-action:manipulation}
   padding:0 16px 28px;display:none}
 .screen.active{display:block;animation:fadein .22s ease-out}
 .top{position:sticky;top:0;z-index:3;margin:0 -16px;padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:linear-gradient(rgba(7,10,28,.92) 62%,transparent);transition:background-color .2s}
+  background:linear-gradient(var(--top-bg) 62%,transparent);transition:background-color .2s}
 /* 往下捲動後（.stuck）：標題列改成霧面不透明底，下緣再接一小段淡出，內容不會從標題後面透出來 */
-.top.stuck{background:rgba(7,10,28,.97);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.top::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px;background:linear-gradient(rgba(7,10,28,.97),rgba(7,10,28,0));opacity:0;transition:opacity .2s;pointer-events:none}
+.top.stuck{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
+.top::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px;background:linear-gradient(var(--top-stuck-bg),rgba(7,10,28,0));opacity:0;transition:opacity .2s;pointer-events:none}
 .top.stuck::after{opacity:1}
 .top h1{margin:0;font-size:26px;line-height:1.2;font-weight:700}
 .sub{color:var(--flare);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
@@ -184,7 +188,7 @@ button{cursor:pointer;touch-action:manipulation}
   box-shadow:0 0 18px -4px rgba(138,124,255,.8)}
 .home-top .avatar-btn:active{transform:scale(.94)}
 .compact-bar{position:absolute;left:0;right:0;top:0;z-index:9;height:48px;align-items:center;justify-content:center;pointer-events:none;
-  background:rgba(9,12,34,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid rgba(138,124,255,.18);
+  background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);border-bottom:1px solid rgba(138,124,255,.18);
   opacity:0;transform:translateY(-6px);transition:opacity .22s,transform .22s}
 .compact-bar.show{opacity:1;transform:none}
 .compact-bar.show .cb-title,.compact-bar.show .cb-av{pointer-events:auto}
@@ -1933,7 +1937,7 @@ html{overflow:hidden}
 .tag{color:var(--ion)}
 
 /* 紀錄頁：精簡模式、月份段落、固定日期、篩選列淡出 */
-#logTop{background:rgba(7,10,28,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-bottom:8px}
+#logTop{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop);padding-bottom:8px}
 .log-hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .log-hrow .icon-btn svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .month-head{display:flex;align-items:baseline;justify-content:space-between;margin:22px 2px 0;padding-bottom:6px;border-bottom:1px solid var(--line)}
@@ -2152,7 +2156,7 @@ mark{background:rgba(255,199,68,.26);color:#FFE7A3;border-radius:3px;padding:0 1
 .cn-info .vz-ok{color:var(--ion)}
 .cn-info .vz-low{color:var(--flare)}
 .cn-info .vz-no{color:#FF8FA0}
-#atTop{background:rgba(7,10,28,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#atTop{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop)}
 .at-hero{display:flex;align-items:center;gap:14px;margin-top:4px;padding:14px;position:relative;overflow:hidden;
   background:radial-gradient(120% 140% at 100% 0%,rgba(255,180,92,.14),transparent 55%),var(--surface)}
 .ah-ring{position:relative;flex:none;width:72px;height:72px}
@@ -3234,6 +3238,17 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
   .device{width:390px;height:844px;flex:none;border-radius:56px;transform-origin:center center;
       box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
   .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
+  /* 狀態列底色留在 App 內，讓面板與引導頁自然蓋過；圖示仍由 .sys-status 顯示。
+     沿用標題列狀態，不另設捲動門檻，也不讓隱藏分頁影響目前底色。 */
+  .app::before{content:"";position:absolute;inset:0 0 auto;height:54px;z-index:9;pointer-events:none;
+      background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);opacity:0}
+  .app:has(#s-home.active)::before{transition:opacity .22s}
+  .app:has(#s-home.active):has(>.compact-bar.show)::before{opacity:1}
+  .app:has(.screen.active:not(#s-home))::before{background:var(--top-bg);backdrop-filter:none;-webkit-backdrop-filter:none;opacity:1}
+  .app:has(.screen.active:is(#s-log,#s-atlas))::before{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop)}
+  .app:has(.screen.active:not(#s-home)>.top.stuck)::before{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
+  /* 日記／圖鑑原有獨立的固定底色；預覽捲動後一併套用共用霧面表面。 */
+  .app :is(#logTop,#atTop).stuck{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
   /* 引導頁是 .app 的兄弟元素，同樣要讓出模擬狀態列 */
   .device>.onb{padding-top:54px}
   .hw{display:block;position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#3A3D48,#7A7E8C 50%,#3A3D48)}
@@ -3258,6 +3273,7 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
 
 @media (prefers-reduced-motion:reduce){
   .halo,.lvcard,.screen.active{animation:none}
+  .app::before{transition:none!important}
 }
 </style>
 </head>
@@ -5665,7 +5681,8 @@ Object.assign(ACHP,{s60:l=>[bestStreak(l),60],mfull:l=>achFullMonth(l),back:l=>[
 let cur='home',q='',pIdx=0,freshId=null,calMonth=new Date(),selDate=ymd(new Date());
 calMonth.setDate(1);
 const promptToday=()=>PROMPTS[pIdx%PROMPTS.length];
-function go(s,view){if(s==='me'&&cur!=='me'&&typeof renderFootprint==='function'){fpIntroDone=false;requestAnimationFrame(renderFootprint)}cur=s;if(s==='me'&&(prof.achNew||[]).length){setTimeout(()=>{prof.achNew=[];saveProf();renderAchDot()},2500)}if(s==='log'&&view)setLogView(view,true);if(s==='log'&&logView==='cal')requestAnimationFrame(()=>typeof drawCalLines==='function'&&drawCalLines());if(s==='atlas')renderAtlas();if(s==='me')requestAnimationFrame(()=>typeof rkSync==='function'&&rkSync());setTimeout(()=>typeof syncCompact==='function'&&syncCompact(),0);if(s==='me'&&typeof renderEnergy==='function')renderEnergy();s==='home'?galStart():galStop();document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id==='s-'+s));
+function go(s,view){if(s==='me'&&cur!=='me'&&typeof renderFootprint==='function'){fpIntroDone=false;requestAnimationFrame(renderFootprint)}cur=s;if(s==='me'&&(prof.achNew||[]).length){setTimeout(()=>{prof.achNew=[];saveProf();renderAchDot()},2500)}if(s==='log'&&view)setLogView(view,true);if(s==='log'&&logView==='cal')requestAnimationFrame(()=>typeof drawCalLines==='function'&&drawCalLines());if(s==='atlas')renderAtlas();if(s==='me')requestAnimationFrame(()=>typeof rkSync==='function'&&rkSync());if(s==='me'&&typeof renderEnergy==='function')renderEnergy();s==='home'?galStart():galStop();document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id==='s-'+s));
+  if(typeof syncCompact==='function')syncCompact();
   document.querySelectorAll('.tb[data-s]').forEach(b=>b.dataset.s===s?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'))}
 document.querySelectorAll('.tb[data-s]').forEach(b=>b.onclick=()=>{if(cur===b.dataset.s)$('s-'+cur).scrollTo({top:0,behavior:'smooth'});go(b.dataset.s)});
 /* 首頁 HUD：等級、經驗值、連續天數 */

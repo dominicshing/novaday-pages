@@ -45,7 +45,7 @@
 .cn-info .vz-ok{color:var(--ion)}
 .cn-info .vz-low{color:var(--flare)}
 .cn-info .vz-no{color:#FF8FA0}
-#atTop{background:rgba(7,10,28,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#atTop{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop)}
 .at-hero{display:flex;align-items:center;gap:14px;margin-top:4px;padding:14px;position:relative;overflow:hidden;
   background:radial-gradient(120% 140% at 100% 0%,rgba(255,180,92,.14),transparent 55%),var(--surface)}
 .ah-ring{position:relative;flex:none;width:72px;height:72px}

@@ -12,6 +12,17 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
   .device{width:390px;height:844px;flex:none;border-radius:56px;transform-origin:center center;
       box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
   .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
+  /* 狀態列底色留在 App 內，讓面板與引導頁自然蓋過；圖示仍由 .sys-status 顯示。
+     沿用標題列狀態，不另設捲動門檻，也不讓隱藏分頁影響目前底色。 */
+  .app::before{content:"";position:absolute;inset:0 0 auto;height:54px;z-index:9;pointer-events:none;
+      background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);opacity:0}
+  .app:has(#s-home.active)::before{transition:opacity .22s}
+  .app:has(#s-home.active):has(>.compact-bar.show)::before{opacity:1}
+  .app:has(.screen.active:not(#s-home))::before{background:var(--top-bg);backdrop-filter:none;-webkit-backdrop-filter:none;opacity:1}
+  .app:has(.screen.active:is(#s-log,#s-atlas))::before{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop)}
+  .app:has(.screen.active:not(#s-home)>.top.stuck)::before{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
+  /* 日記／圖鑑原有獨立的固定底色；預覽捲動後一併套用共用霧面表面。 */
+  .app :is(#logTop,#atTop).stuck{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
   /* 引導頁是 .app 的兄弟元素，同樣要讓出模擬狀態列 */
   .device>.onb{padding-top:54px}
   .hw{display:block;position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#3A3D48,#7A7E8C 50%,#3A3D48)}
@@ -36,4 +47,5 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
 
 @media (prefers-reduced-motion:reduce){
   .halo,.lvcard,.screen.active{animation:none}
+  .app::before{transition:none!important}
 }
