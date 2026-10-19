@@ -24,10 +24,6 @@
 .cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
   background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
 
-@media (min-width:600px) and (min-height:600px){
-  .compact-bar{top:54px}
-}
-
 /* 滾動 app bar：左品牌、中日期、右頭像 */
 .compact-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:0 12px}
 .compact-bar .cb-title{padding:0 4px!important;overflow:hidden}
@@ -37,6 +33,11 @@
 .cb-date small{font-size:12px;font-weight:500;color:var(--muted)}
 .compact-bar .cb-av{justify-self:end}
 .compact-bar.show .cb-date{pointer-events:auto}
+
+@media (min-width:600px) and (min-height:600px){
+  /* 狀態列與精簡列使用同一片背景與模糊圖層，縮放時不會在交界產生接縫。 */
+  .compact-bar{height:102px;padding-top:54px}
+}
 
 @media (max-width:379px){
   .compact-bar .cb-title .brand-t{display:none}

@@ -197,10 +197,6 @@ button{cursor:pointer;touch-action:manipulation}
 .cb-av{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:16px;
   background:#161B4A;border:1px solid rgba(138,124,255,.5);padding:0;cursor:pointer}
 
-@media (min-width:600px) and (min-height:600px){
-  .compact-bar{top:54px}
-}
-
 /* 滾動 app bar：左品牌、中日期、右頭像 */
 .compact-bar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);padding:0 12px}
 .compact-bar .cb-title{padding:0 4px!important;overflow:hidden}
@@ -210,6 +206,11 @@ button{cursor:pointer;touch-action:manipulation}
 .cb-date small{font-size:12px;font-weight:500;color:var(--muted)}
 .compact-bar .cb-av{justify-self:end}
 .compact-bar.show .cb-date{pointer-events:auto}
+
+@media (min-width:600px) and (min-height:600px){
+  /* 狀態列與精簡列使用同一片背景與模糊圖層，縮放時不會在交界產生接縫。 */
+  .compact-bar{height:102px;padding-top:54px}
+}
 
 @media (max-width:379px){
   .compact-bar .cb-title .brand-t{display:none}
@@ -3238,14 +3239,13 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
   .device{width:390px;height:844px;flex:none;border-radius:56px;transform-origin:center center;
       box-shadow:0 0 0 11px #07080D,0 0 0 13px #4A4E5C,0 0 0 14px #1C1E26,0 0 0 15px #6B6F7E,0 40px 100px -10px rgba(138,124,255,.4)}
   .app{width:390px;height:844px;border-radius:56px;padding-top:54px}
-  /* 狀態列底色留在 App 內，讓面板與引導頁自然蓋過；圖示仍由 .sys-status 顯示。
+  /* 其他分頁的狀態列底色留在 App 內，讓面板與引導頁自然蓋過；圖示仍由 .sys-status 顯示。
+     首頁由 .compact-bar 的單一背景涵蓋狀態列，避免兩片半透明表面重疊產生接縫。
      沿用標題列狀態，不另設捲動門檻，也不讓隱藏分頁影響目前底色。
      底色向下重疊 2px，避免手機外框縮放後，兩個合成圖層在 54px 交界露出細縫；
      App 的頂部留白與系統圖示高度仍維持 54px，不移動標題列。 */
   .app::before{content:"";position:absolute;inset:0 0 auto;height:56px;z-index:9;pointer-events:none;
       background:var(--compact-bg);backdrop-filter:var(--compact-backdrop);-webkit-backdrop-filter:var(--compact-backdrop);opacity:0}
-  .app:has(#s-home.active)::before{transition:opacity .22s}
-  .app:has(#s-home.active):has(>.compact-bar.show)::before{opacity:1}
   .app:has(.screen.active:not(#s-home))::before{background:var(--top-bg);backdrop-filter:none;-webkit-backdrop-filter:none;opacity:1}
   .app:has(.screen.active:is(#s-log,#s-atlas))::before{background:var(--top-solid-bg);backdrop-filter:var(--top-solid-backdrop);-webkit-backdrop-filter:var(--top-solid-backdrop)}
   .app:has(.screen.active:not(#s-home)>.top.stuck)::before{background:var(--top-stuck-bg);backdrop-filter:var(--top-backdrop);-webkit-backdrop-filter:var(--top-backdrop)}
