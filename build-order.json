@@ -131,6 +131,7 @@
     "src/js/core/download.js",
     "src/js/vendor/modern-screenshot.js",
     "src/js/features/screenshot.js",
+    "src/js/features/screen-recording.js",
     "src/js/features/backup/restore.js",
     "src/js/ui/scroll.js",
     "src/js/ui/device-preview.js",

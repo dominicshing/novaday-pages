@@ -51,9 +51,13 @@ document.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229)return
     if(o.classList.contains('overlay')){const b=o.querySelector('.btn.primary');if(b)b.click()}else requestClose(o.id)}
   /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
   else if(e.key==='Tab'){const o=topLayer();if(!o)return;
-    const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;
+    const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');
+    /* 錄影停止鈕在手機外，面板開啟時仍可用鍵盤到達。 */
+    const stop=$('recordingCapture');if(stop?.dataset.recording==='true'&&!stop.disabled&&!stop.closest('[inert]'))f.push(stop);
+    if(!f.length)return;
     const a=document.activeElement,i=f.indexOf(a);
-    if(!o.contains(a)||(e.shiftKey&&i===0)||(!e.shiftKey&&i===f.length-1)){e.preventDefault();f[e.shiftKey?f.length-1:0].focus()}}});
+    if(i<0||(e.shiftKey&&i===0)||(!e.shiftKey&&i===f.length-1)){e.preventDefault();f[e.shiftKey?f.length-1:0].focus()}
+    else if(stop===f[f.length-1]&&((!e.shiftKey&&i===f.length-2)||(e.shiftKey&&a===stop))){e.preventDefault();f[i+(e.shiftKey?-1:1)].focus()}}});
 let askRes=null;
 function ask(t,m,btns){return new Promise(res=>{askRes=res;$('askT').textContent=t;$('askM').textContent=m;
   $('askBtns').innerHTML=btns.map(b=>`<button type="button" class="btn ${b.cls||''}" data-k="${b.k}">${b.t}</button>`).join('');

@@ -25,6 +25,13 @@
       "features/dev-tools.js"
     ]
   },
+  "aBitTired": "有點累",
+  "@aBitTired": {
+    "description": "繁體原文：有點累",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "about": "關於",
   "@about": {
     "description": "繁體原文：關於",
@@ -84,6 +91,13 @@
       "features/dev-tools.js"
     ]
   },
+  "accretionOrange": "吸積盤橙",
+  "@accretionOrange": {
+    "description": "繁體原文：吸積盤橙",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "actual": "實際",
   "@actual": {
     "description": "繁體原文：實際",
@@ -101,6 +115,13 @@
     },
     "x-used-in": [
       "features/dev-tools.js"
+    ]
+  },
+  "add4PhotosToOne": "單則紀錄放滿 4 張照片",
+  "@add4PhotosToOne": {
+    "description": "繁體原文：單則紀錄放滿 4 張照片",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "addAnother": "再加一張",
@@ -245,6 +266,13 @@
     "description": "繁體原文：調整頭像",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "alchemyAmber": "煉金琥珀",
+  "@alchemyAmber": {
+    "description": "繁體原文：煉金琥珀",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "all": "全部",
@@ -608,6 +636,13 @@
       "screens/me/rank-carousel.js"
     ]
   },
+  "apprenticeStargazer": "見習觀星者",
+  "@apprenticeStargazer": {
+    "description": "繁體原文：見習觀星者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "apr": "4 月",
   "@apr": {
     "description": "繁體原文：4 月",
@@ -643,6 +678,13 @@
       "core/storage.js"
     ]
   },
+  "astronomer": "天文學家",
+  "@astronomer": {
+    "description": "繁體原文：天文學家",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "aSundayOfSleepingIn": "睡到自然醒的星期天",
   "@aSundayOfSleepingIn": {
     "description": "繁體原文：睡到自然醒的星期天",
@@ -669,6 +711,28 @@
     "description": "繁體原文：8 月",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "auroraGreen": "極光綠",
+  "@auroraGreen": {
+    "description": "繁體原文：極光綠",
+    "x-used-in": [
+      "data/moods-ranks.js",
+      "data/zodiac-fortune.js"
+    ]
+  },
+  "auroraTeal": "極光青",
+  "@auroraTeal": {
+    "description": "繁體原文：極光青",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "auroraTraveler": "極光旅人",
+  "@auroraTraveler": {
+    "description": "繁體原文：極光旅人",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "autumn": "秋季",
@@ -911,6 +975,13 @@
       "screens/me/insights.js"
     ]
   },
+  "binaryStarObserver": "雙星觀測家",
+  "@binaryStarObserver": {
+    "description": "繁體原文：雙星觀測家",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "birthday": "生日",
   "@birthday": {
     "description": "繁體原文：生日",
@@ -941,6 +1012,13 @@
       "index.html"
     ]
   },
+  "blackHoleGazer": "黑洞凝視者",
+  "@blackHoleGazer": {
+    "description": "繁體原文：黑洞凝視者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "body15WriteDownThe": "內文 15・寫下今天的小事，累積成一整片星空。",
   "@body15WriteDownThe": {
     "description": "繁體原文：內文 15・寫下今天的小事，累積成一整片星空。",
@@ -965,6 +1043,13 @@
     "description": "繁體原文：兩項都可以之後再設定。",
     "x-used-in": [
       "screens/onboarding.js"
+    ]
+  },
+  "brickByBrickBuildsEveryday": "一磚一瓦，把日常搭成屬於自己的銀河。",
+  "@brickByBrickBuildsEveryday": {
+    "description": "繁體原文：一磚一瓦，把日常搭成屬於自己的銀河。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "browserB": "瀏覽器：{b}",
@@ -1053,6 +1138,20 @@
     "description": "繁體原文：已取消，下一個星座會依季節自動挑選",
     "x-used-in": [
       "screens/atlas/tonight-guide.js"
+    ]
+  },
+  "canFindFamiliarConstellationsAnd": "能在夜空中找到熟悉的星座，記錄沿途的風景。",
+  "@canFindFamiliarConstellationsAnd": {
+    "description": "繁體原文：能在夜空中找到熟悉的星座，記錄沿途的風景。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "canPointTheWayFor": "能替別人指出方向，自己的航線也越來越清楚。",
+  "@canPointTheWayFor": {
+    "description": "繁體原文：能替別人指出方向，自己的航線也越來越清楚。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "caption13StoredOnlyOn": "說明 13・只存在這台裝置",
@@ -1229,6 +1328,27 @@
       "index.html"
     ]
   },
+  "chooseThisSimulatorTabNot": "請分享目前的模擬器分頁，無法錄製其他分頁或整個螢幕。",
+  "@chooseThisSimulatorTabNot": {
+    "description": "繁體原文：請分享目前的模擬器分頁，無法錄製其他分頁或整個螢幕。",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "chooseThisTabAndEnable": "請選擇此分頁，並開啟分享分頁音訊。",
+  "@chooseThisTabAndEnable": {
+    "description": "繁體原文：請選擇此分頁，並開啟分享分頁音訊。",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "chooseThisTabAndShare": "選擇此分頁並分享音訊，即可錄製模擬器。",
+  "@chooseThisTabAndShare": {
+    "description": "繁體原文：選擇此分頁並分享音訊，即可錄製模擬器。",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
   "cities": "城市",
   "@cities": {
     "description": "繁體原文：城市",
@@ -1284,6 +1404,13 @@
       "index.html"
     ]
   },
+  "clearSkyBlue": "晴空藍",
+  "@clearSkyBlue": {
+    "description": "繁體原文：晴空藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "cLitOfNStars": "{c}，已點亮 {lit} / {n} 顆星",
   "@cLitOfNStars": {
     "description": "繁體原文：{c}，已點亮 {lit} / {n} 顆星",
@@ -1308,6 +1435,13 @@
     "description": "繁體原文：關閉",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "clusterSilverBlue": "星團銀藍",
+  "@clusterSilverBlue": {
+    "description": "繁體原文：星團銀藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "coffee": "咖啡",
@@ -1346,11 +1480,32 @@
       "screens/me/badge-sheet.js"
     ]
   },
+  "cometTailJade": "彗尾碧",
+  "@cometTailJade": {
+    "description": "繁體原文：彗尾碧",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "cometTracker": "彗星追蹤者",
+  "@cometTracker": {
+    "description": "繁體原文：彗星追蹤者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "compact": "精簡",
   "@compact": {
     "description": "繁體原文：精簡",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "complete1Constellation": "完成 1 個星座",
+  "@complete1Constellation": {
+    "description": "繁體原文：完成 1 個星座",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "complete1MoreToUnlock": "再完成 <b>1</b> 個，解鎖「{b}」徽章",
@@ -1365,6 +1520,13 @@
       "screens/atlas/atlas.js"
     ],
     "x-markup": "contains inline HTML tags (<b>, <br>, <em>, <span>); render with RichText/TextSpan"
+  },
+  "complete3Constellations": "完成 3 個星座",
+  "@complete3Constellations": {
+    "description": "繁體原文：完成 3 個星座",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
   },
   "completeAZodiacConstellationTo": "完成一個黃道十二星座就能解鎖",
   "@completeAZodiacConstellationTo": {
@@ -1502,6 +1664,13 @@
       "screens/me/badge-sheet.js"
     ]
   },
+  "connectsDayAfterDayOf": "把一天天的紀錄，連成屬於自己的星圖。",
+  "@connectsDayAfterDayOf": {
+    "description": "繁體原文：把一天天的紀錄，連成屬於自己的星圖。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "constellation": "星座",
   "@constellation": {
     "description": "繁體原文：星座",
@@ -1551,6 +1720,13 @@
     "description": "繁體原文：已顯示星座剪影",
     "x-used-in": [
       "screens/settings/settings.js"
+    ]
+  },
+  "constellationHunter": "星座獵人",
+  "@constellationHunter": {
+    "description": "繁體原文：星座獵人",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "constellationLightUpPreview": "星座點亮預覽",
@@ -1679,6 +1855,20 @@
       "core/storage.js"
     ]
   },
+  "coronaAmber": "日冕橘",
+  "@coronaAmber": {
+    "description": "繁體原文：日冕橘",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "cosmicPoet": "宇宙詩人",
+  "@cosmicPoet": {
+    "description": "繁體原文：宇宙詩人",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "couldntCopyPleaseSelectIt": "無法複製，請手動選取",
   "@couldntCopyPleaseSelectIt": {
     "description": "繁體原文：無法複製，請手動選取",
@@ -1770,6 +1960,13 @@
       "core/photo-store.js"
     ]
   },
+  "couldntSaveTheRecordingPlease": "無法儲存錄影，請再試一次",
+  "@couldntSaveTheRecordingPlease": {
+    "description": "繁體原文：無法儲存錄影，請再試一次",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
   "couldntSaveTheVideoYour": "影片無法儲存，可能是裝置空間不足",
   "@couldntSaveTheVideoYour": {
     "description": "繁體原文：影片無法儲存，可能是裝置空間不足",
@@ -1782,6 +1979,13 @@
     "description": "繁體原文：無法儲存個人資料，照片可能太大",
     "x-used-in": [
       "core/profile.js"
+    ]
+  },
+  "couldntStartRecordingCheckBrowser": "無法開始錄影，請檢查瀏覽器的分享權限後再試一次。",
+  "@couldntStartRecordingCheckBrowser": {
+    "description": "繁體原文：無法開始錄影，請檢查瀏覽器的分享權限後再試一次。",
+    "x-used-in": [
+      "features/screen-recording.js"
     ]
   },
   "cover": "封面",
@@ -1812,6 +2016,20 @@
     "x-used-in": [
       "ui/art/avatars.js",
       "screens/log/star-calendar.js"
+    ]
+  },
+  "crimsonGlow": "赤霞紅",
+  "@crimsonGlow": {
+    "description": "繁體原文：赤霞紅",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "crossesNebulaAfterNebulaLeaving": "穿越一片片星雲，在未知的地方留下紀錄。",
+  "@crossesNebulaAfterNebulaLeaving": {
+    "description": "繁體原文：穿越一片片星雲，在未知的地方留下紀錄。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "current": "目前",
@@ -1987,6 +2205,13 @@
       "features/dev-tools.js"
     ]
   },
+  "daresToFaceTheDeepest": "敢直視最深的黑暗，也記得光在哪裡。",
+  "@daresToFaceTheDeepest": {
+    "description": "繁體原文：敢直視最深的黑暗，也記得光在哪裡。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "data": "資料管理",
   "@data": {
     "description": "繁體原文：資料管理",
@@ -2028,6 +2253,13 @@
     },
     "x-used-in": [
       "screens/atlas/tonight-guide.js"
+    ]
+  },
+  "dawnBlue": "晨曦藍",
+  "@dawnBlue": {
+    "description": "繁體原文：晨曦藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "day": "日期",
@@ -2548,6 +2780,13 @@
       "index.html"
     ]
   },
+  "emeraldGlow": "翡翠光",
+  "@emeraldGlow": {
+    "description": "繁體原文：翡翠光",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "emptyState": "空白狀態",
   "@emptyState": {
     "description": "繁體原文：空白狀態",
@@ -2784,6 +3023,13 @@
       "features/dev-tools.js"
     ]
   },
+  "everyEntryLightsANew": "每一則紀錄，都在宇宙裡點亮一顆新的星。",
+  "@everyEntryLightsANew": {
+    "description": "繁體原文：每一則紀錄，都在宇宙裡點亮一顆新的星。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "everyJournalEntryLightsA": "每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。",
   "@everyJournalEntryLightsA": {
     "description": "繁體原文：每寫一則日記，就點亮一顆星。<br>集滿一個星座，就收進你的星空圖鑑。",
@@ -2930,6 +3176,13 @@
       "index.html"
     ]
   },
+  "feelGoodOrBetter3": "連續 3 天心情「不錯」以上",
+  "@feelGoodOrBetter3": {
+    "description": "繁體原文：連續 3 天心情「不錯」以上",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "fileDownloaded": "已下載檔案",
   "@fileDownloaded": {
     "description": "繁體原文：已下載檔案",
@@ -2978,6 +3231,13 @@
     "description": "繁體原文：讀完一本書",
     "x-used-in": [
       "features/dev-tools.js"
+    ]
+  },
+  "finishingRecording": "正在完成錄影…",
+  "@finishingRecording": {
+    "description": "繁體原文：正在完成錄影…",
+    "x-used-in": [
+      "features/screen-recording.js"
     ]
   },
   "firstConstellation": "第一個星座",
@@ -3036,6 +3296,13 @@
       "core/storage.js"
     ]
   },
+  "firstStar": "第一顆星",
+  "@firstStar": {
+    "description": "繁體原文：第一顆星",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "flowers": "賞花",
   "@flowers": {
     "description": "繁體原文：賞花",
@@ -3043,11 +3310,25 @@
       "core/storage.js"
     ]
   },
+  "followsTheConstellationsThroughThe": "循著季節追逐星座，知道每顆星在哪裡。",
+  "@followsTheConstellationsThroughThe": {
+    "description": "繁體原文：循著季節追逐星座，知道每顆星在哪裡。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "food": "美食",
   "@food": {
     "description": "繁體原文：美食",
     "x-used-in": [
       "features/dev-tools.js"
+    ]
+  },
+  "footprintTraveler": "足跡旅人",
+  "@footprintTraveler": {
+    "description": "繁體原文：足跡旅人",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "forgotPasscode": "忘記密碼？",
@@ -3070,6 +3351,13 @@
     "description": "繁體原文：用來測試介面與樣式。測試紀錄會另外標記，可以一鍵清除，不會動到你自己寫的日記。",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "fourFrameMemory": "四格回憶",
+  "@fourFrameMemory": {
+    "description": "繁體原文：四格回憶",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "fpsDisplayOff": "已關閉 FPS 顯示",
@@ -3183,6 +3471,20 @@
       "screens/log/star-calendar.js"
     ]
   },
+  "galaxyLavender": "銀河薰衣草",
+  "@galaxyLavender": {
+    "description": "繁體原文：銀河薰衣草",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "galaxyTraveler": "星系旅人",
+  "@galaxyTraveler": {
+    "description": "繁體原文：星系旅人",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "generatedNTestEntries": "已產生 {n} 則測試紀錄",
   "@generatedNTestEntries": {
     "description": "繁體原文：已產生 {n} 則測試紀錄",
@@ -3216,6 +3518,13 @@
       "core/storage.js"
     ]
   },
+  "good": "不錯",
+  "@good": {
+    "description": "繁體原文：不錯",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "goodAfternoon": "午安",
   "@goodAfternoon": {
     "description": "繁體原文：午安",
@@ -3244,6 +3553,13 @@
       "screens/home/app-bar.js"
     ]
   },
+  "great": "很棒",
+  "@great": {
+    "description": "繁體原文：很棒",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "greenIsland": "綠島",
   "@greenIsland": {
     "description": "繁體原文：綠島",
@@ -3264,6 +3580,13 @@
     "description": "繁體原文：含照片",
     "x-used-in": [
       "screens/detail.js"
+    ]
+  },
+  "hasARichRecordOf": "累積了豐富的觀測紀錄，讀得懂星空的節奏。",
+  "@hasARichRecordOf": {
+    "description": "繁體原文：累積了豐富的觀測紀錄，讀得懂星空的節奏。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "hasAVideo": "有影片",
@@ -3299,6 +3622,13 @@
     "description": "繁體原文：已經有備份？從備份還原 ›",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "hearsTheSteadiestHeartbeatIn": "聽得見宇宙最規律的心跳，也聽得見自己的。",
+  "@hearsTheSteadiestHeartbeatIn": {
+    "description": "繁體原文：聽得見宇宙最規律的心跳，也聽得見自己的。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "helloStarTraveler": "你好，星旅人",
@@ -3423,12 +3753,26 @@
       "core/storage.js"
     ]
   },
+  "howeverLongTheNightYou": "夜再長，也有你守著滿天星辰。",
+  "@howeverLongTheNightYou": {
+    "description": "繁體原文：夜再長，也有你守著滿天星辰。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "howWasYourDay": "今天過得怎麼樣？",
   "@howWasYourDay": {
     "description": "繁體原文：今天過得怎麼樣？",
     "x-used-in": [
       "screens/home/quick-note.js",
       "index.html"
+    ]
+  },
+  "iceCrystalBlue": "冰晶藍",
+  "@iceCrystalBlue": {
+    "description": "繁體原文：冰晶藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "iFinallyLearnedToPour": "終於學會用手沖壺慢慢繞圈注水，看著咖啡粉一點一點膨脹起來，整個早上都很安靜。",
@@ -3562,6 +3906,20 @@
     "x-used-in": [
       "features/reports/monthly-report.js",
       "features/reports/year-review.js"
+    ]
+  },
+  "interstellarLegend": "星際傳奇",
+  "@interstellarLegend": {
+    "description": "繁體原文：星際傳奇",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "interstellarVoyager": "星際航行者",
+  "@interstellarVoyager": {
+    "description": "繁體原文：星際航行者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "inTheDAfterDark": "天黑後在{d}方",
@@ -3704,6 +4062,13 @@
       "index.html"
     ]
   },
+  "justPickedUpATelescope": "剛拿起望遠鏡，開始認識夜空裡的第一批星星。",
+  "@justPickedUpATelescope": {
+    "description": "繁體原文：剛拿起望遠鏡，開始認識夜空裡的第一批星星。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "keepDraftForLater": "保留草稿，稍後再寫",
   "@keepDraftForLater": {
     "description": "繁體原文：保留草稿，稍後再寫",
@@ -3716,6 +4081,13 @@
     "description": "繁體原文：繼續編輯",
     "x-used-in": [
       "screens/me/profile-editor.js"
+    ]
+  },
+  "keeperOfTheNightSky": "星辰守夜人",
+  "@keeperOfTheNightSky": {
+    "description": "繁體原文：星辰守夜人",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "keepNSampleEntriesTo": "保留 {n} 則範例紀錄，先看看長什麼樣子",
@@ -4152,6 +4524,13 @@
       "features/share-card.js"
     ]
   },
+  "littleStarMap": "小小星圖",
+  "@littleStarMap": {
+    "description": "繁體原文：小小星圖",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "loading": "讀取中…",
   "@loading": {
     "description": "繁體原文：讀取中…",
@@ -4468,6 +4847,20 @@
       "screens/settings/tag-manager.js"
     ]
   },
+  "meteorChaser": "流星追尋者",
+  "@meteorChaser": {
+    "description": "繁體原文：流星追尋者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "meteorOrange": "流星橙",
+  "@meteorOrange": {
+    "description": "繁體原文：流星橙",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "meteorShower": "流星雨",
   "@meteorShower": {
     "description": "繁體原文：流星雨",
@@ -4485,6 +4878,20 @@
     },
     "x-used-in": [
       "screens/home/fortune.js"
+    ]
+  },
+  "milkyWayArchitect": "銀河建築師",
+  "@milkyWayArchitect": {
+    "description": "繁體原文：銀河建築師",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "milkyWayWanderer": "銀河漫遊者",
+  "@milkyWayWanderer": {
+    "description": "繁體原文：銀河漫遊者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "missingFamily": "想念家人",
@@ -4631,6 +5038,13 @@
       "index.html"
     ]
   },
+  "moondustSilver": "月塵銀",
+  "@moondustSilver": {
+    "description": "繁體原文：月塵銀",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "moonFirstQuarter": "上弦月",
   "@moonFirstQuarter": {
     "description": "繁體原文：上弦月（情境：moon）",
@@ -4653,12 +5067,26 @@
       "screens/log/star-calendar.js"
     ]
   },
+  "moonlightWhite": "月光白",
+  "@moonlightWhite": {
+    "description": "繁體原文：月光白",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "moonNewMoon": "新月",
   "@moonNewMoon": {
     "description": "繁體原文：新月（情境：moon）",
     "x-used-in": [
       "ui/art/avatars.js",
       "screens/log/star-calendar.js"
+    ]
+  },
+  "moonPhaseKeeper": "月相記錄者",
+  "@moonPhaseKeeper": {
+    "description": "繁體原文：月相記錄者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "moonWaningCrescent": "殘月",
@@ -4866,6 +5294,13 @@
       "index.html"
     ]
   },
+  "n10EntriesFeelingGreat": "10 則心情「很棒」",
+  "@n10EntriesFeelingGreat": {
+    "description": "繁體原文：10 則心情「很棒」",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "n12Hour": "12 小時",
   "@n12Hour": {
     "description": "繁體原文：12 小時",
@@ -4960,6 +5395,20 @@
       "screens/atlas/atlas.js"
     ],
     "x-markup": "contains inline HTML tags (<b>, <br>, <em>, <span>); render with RichText/TextSpan"
+  },
+  "n5EntriesWithAPhoto": "5 則附照片或影片",
+  "@n5EntriesWithAPhoto": {
+    "description": "繁體原文：5 則附照片或影片",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
+  "n5EntriesWithAPlace": "5 則有地點",
+  "@n5EntriesWithAPlace": {
+    "description": "繁體原文：5 則有地點",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
   },
   "n88IauConstellations": "88 個 IAU 星座",
   "@n88IauConstellations": {
@@ -5142,6 +5591,20 @@
       "screens/editor.js"
     ]
   },
+  "nebulaExplorer": "星雲探險家",
+  "@nebulaExplorer": {
+    "description": "繁體原文：星雲探險家",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "nebulaViolet": "星雲紫",
+  "@nebulaViolet": {
+    "description": "繁體原文：星雲紫",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "needsNXpInTotal": "需要累積 <b>{n}</b> XP",
   "@needsNXpInTotal": {
     "description": "繁體原文：需要累積 <b>{n}</b> XP",
@@ -5288,6 +5751,13 @@
       "features/backup/restore.js"
     ],
     "x-markup": "contains inline HTML tags (<b>, <br>, <em>, <span>); render with RichText/TextSpan"
+  },
+  "neverMissesAFlashOf": "不錯過任何一道劃過心裡的光。",
+  "@neverMissesAFlashOf": {
+    "description": "繁體原文：不錯過任何一道劃過心裡的光。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
   },
   "newBadgeUnlocked": "新徽章解鎖",
   "@newBadgeUnlocked": {
@@ -5478,6 +5948,13 @@
       "index.html"
     ]
   },
+  "nightSkyBlue": "夜空藍",
+  "@nightSkyBlue": {
+    "description": "繁體原文：夜空藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "nItemsAboutSVideos": "共 {n} 個項目・約 {s}（影片另存在 IndexedDB）・點一下展開",
   "@nItemsAboutSVideos": {
     "description": "繁體原文：共 {n} 個項目・約 {s}（影片另存在 IndexedDB）・點一下展開",
@@ -5558,6 +6035,13 @@
     "description": "繁體原文：否",
     "x-used-in": [
       "screens/settings/feedback.js"
+    ]
+  },
+  "noAudio": "無音訊",
+  "@noAudio": {
+    "description": "繁體原文：無音訊",
+    "x-used-in": [
+      "features/screen-recording.js"
     ]
   },
   "noConstellationFound": "找不到這個星座",
@@ -5871,11 +6355,32 @@
       "index.html"
     ]
   },
+  "novadayScreenRecording": "Novaday 畫面錄影",
+  "@novadayScreenRecording": {
+    "description": "繁體原文：Novaday 畫面錄影",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
   "novadayScreenshot": "Novaday 畫面截圖",
   "@novadayScreenshot": {
     "description": "繁體原文：Novaday 畫面截圖",
     "x-used-in": [
       "features/screenshot.js"
+    ]
+  },
+  "novaScarlet": "新星緋",
+  "@novaScarlet": {
+    "description": "繁體原文：新星緋",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "novaWitness": "新星見證者",
+  "@novaWitness": {
+    "description": "繁體原文：新星見證者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "nPeakApprox": "{n}極大期（約）",
@@ -6362,6 +6867,13 @@
       "index.html"
     ]
   },
+  "opensAnOldJournalAnd": "翻開舊日記，就能在時間裡來回旅行。",
+  "@opensAnOldJournalAnd": {
+    "description": "繁體原文：翻開舊日記，就能在時間裡來回旅行。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "opensTheGithubIssuePage": "會打開 GitHub 的回報頁面（需要 GitHub 帳號）；也可以複製內容，用其他方式傳給我們。",
   "@opensTheGithubIssuePage": {
     "description": "繁體原文：會打開 GitHub 的回報頁面（需要 GitHub 帳號）；也可以複製內容，用其他方式傳給我們。",
@@ -6755,6 +7267,13 @@
       "features/backup/export.js"
     ]
   },
+  "placeExplorer": "地點探險家",
+  "@placeExplorer": {
+    "description": "繁體原文：地點探險家",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "placesVisited": "到訪地點",
   "@placesVisited": {
     "description": "繁體原文：到訪地點",
@@ -6993,6 +7512,27 @@
       "features/backup/export.js"
     ]
   },
+  "pulsarListener": "脈衝星聆聽者",
+  "@pulsarListener": {
+    "description": "繁體原文：脈衝星聆聽者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "pulsarPink": "脈衝星粉",
+  "@pulsarPink": {
+    "description": "繁體原文：脈衝星粉",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "pulseViolet": "脈動紫",
+  "@pulseViolet": {
+    "description": "繁體原文：脈動紫",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "punctColon": "：",
   "@punctColon": {
     "description": "繁體原文：：",
@@ -7224,6 +7764,70 @@
     "description": "繁體原文：最近搜尋",
     "x-used-in": [
       "screens/log/search.js"
+    ]
+  },
+  "recordingCanceled": "已取消錄影",
+  "@recordingCanceled": {
+    "description": "繁體原文：已取消錄影",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingFailedPleaseTryAgain": "錄影失敗，請再試一次",
+  "@recordingFailedPleaseTryAgain": {
+    "description": "繁體原文：錄影失敗，請再試一次",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingNeedsDesktopChromeOr": "錄影需要桌面版 Chrome 或 Edge，並以 HTTPS 或 localhost 開啟。",
+  "@recordingNeedsDesktopChromeOr": {
+    "description": "繁體原文：錄影需要桌面版 Chrome 或 Edge，並以 HTTPS 或 localhost 開啟。",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingPreview": "錄影預覽",
+  "@recordingPreview": {
+    "description": "繁體原文：錄影預覽",
+    "x-used-in": [
+      "index.html"
+    ]
+  },
+  "recordingReadyToSaveOr": "錄影已完成，可以儲存或分享",
+  "@recordingReadyToSaveOr": {
+    "description": "繁體原文：錄影已完成，可以儲存或分享",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingSaved": "已儲存錄影",
+  "@recordingSaved": {
+    "description": "繁體原文：已儲存錄影",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingWithoutAudio": "錄影中・無音訊",
+  "@recordingWithoutAudio": {
+    "description": "繁體原文：錄影中・無音訊",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordingWithTabAudio": "錄影中・含分頁音訊",
+  "@recordingWithTabAudio": {
+    "description": "繁體原文：錄影中・含分頁音訊",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "recordScreen": "錄製畫面",
+  "@recordScreen": {
+    "description": "繁體原文：錄製畫面",
+    "x-used-in": [
+      "features/screen-recording.js",
+      "index.html"
     ]
   },
   "redNightMode": "紅光夜視模式",
@@ -7727,6 +8331,13 @@
       "index.html"
     ]
   },
+  "saveVideo": "儲存影片",
+  "@saveVideo": {
+    "description": "繁體原文：儲存影片",
+    "x-used-in": [
+      "index.html"
+    ]
+  },
   "sawAMovie": "看了一場電影",
   "@sawAMovie": {
     "description": "繁體原文：看了一場電影",
@@ -7737,6 +8348,13 @@
   "screenPreview": "畫面預覽",
   "@screenPreview": {
     "description": "繁體原文：畫面預覽",
+    "x-used-in": [
+      "index.html"
+    ]
+  },
+  "screenRecording": "畫面錄影",
+  "@screenRecording": {
+    "description": "繁體原文：畫面錄影",
     "x-used-in": [
       "index.html"
     ]
@@ -7890,6 +8508,13 @@
       "index.html"
     ]
   },
+  "seesThePeopleAndThings": "看見生活裡彼此繞行、互相照亮的人和事。",
+  "@seesThePeopleAndThings": {
+    "description": "繁體原文：看見生活裡彼此繞行、互相照亮的人和事。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "seeWhatsIncluded": "查看會附上的內容",
   "@seeWhatsIncluded": {
     "description": "繁體原文：查看會附上的內容",
@@ -7998,6 +8623,13 @@
       "screens/atlas/atlas.js"
     ]
   },
+  "setsSailOnACourse": "揚帆出發，航線一路延伸到星海深處。",
+  "@setsSailOnACourse": {
+    "description": "繁體原文：揚帆出發，航線一路延伸到星海深處。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "settings": "設定",
   "@settings": {
     "description": "繁體原文：設定",
@@ -8098,6 +8730,13 @@
     "description": "繁體原文：分享這則紀錄",
     "x-used-in": [
       "features/share-card.js"
+    ]
+  },
+  "shiningMoments": "閃耀時刻",
+  "@shiningMoments": {
+    "description": "繁體原文：閃耀時刻",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "shortAtlas": "星座圖鑑",
@@ -8242,6 +8881,14 @@
       "index.html"
     ]
   },
+  "skyNavigator": "星空領航員",
+  "@skyNavigator": {
+    "description": "繁體原文：星空領航員",
+    "x-used-in": [
+      "data/moods-ranks.js",
+      "data/achievements.js"
+    ]
+  },
   "skyReport": "星空月報",
   "@skyReport": {
     "description": "繁體原文：星空月報",
@@ -8296,11 +8943,53 @@
       "logic/sky-projection.js"
     ]
   },
+  "spacePhotographer": "星際攝影師",
+  "@spacePhotographer": {
+    "description": "繁體原文：星際攝影師",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
+  "spacetimeJade": "時空碧",
+  "@spacetimeJade": {
+    "description": "繁體原文：時空碧",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "spring": "春季",
   "@spring": {
     "description": "繁體原文：春季",
     "x-used-in": [
       "logic/sky-projection.js"
+    ]
+  },
+  "starByStarTheyGather": "一顆顆星聚在一起，成了閃閃發亮的星團。",
+  "@starByStarTheyGather": {
+    "description": "繁體原文：一顆顆星聚在一起，成了閃閃發亮的星團。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "starClusterCollector": "星團收藏家",
+  "@starClusterCollector": {
+    "description": "繁體原文：星團收藏家",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "stardustAlchemist": "星塵煉金師",
+  "@stardustAlchemist": {
+    "description": "繁體原文：星塵煉金師",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "starGatherer": "拾星者",
+  "@starGatherer": {
+    "description": "繁體原文：拾星者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "stargazer": "觀星者",
@@ -8334,6 +9023,13 @@
       "screens/editor.js"
     ]
   },
+  "starlacePurple": "星紋紫",
+  "@starlacePurple": {
+    "description": "繁體原文：星紋紫",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "starlightByMonth": "每個月的星光",
   "@starlightByMonth": {
     "description": "繁體原文：每個月的星光",
@@ -8341,11 +9037,25 @@
       "features/reports/year-review.js"
     ]
   },
+  "starlightCollector": "星光收藏家",
+  "@starlightCollector": {
+    "description": "繁體原文：星光收藏家",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "starlightTrail": "星光足跡",
   "@starlightTrail": {
     "description": "繁體原文：星光足跡",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "starMaker": "創星者",
+  "@starMaker": {
+    "description": "繁體原文：創星者",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "starMapper": "星圖繪製者",
@@ -8364,11 +9074,25 @@
       "features/dev-star-preview.js"
     ]
   },
+  "starRiverGuardian": "星河守護者",
+  "@starRiverGuardian": {
+    "description": "繁體原文：星河守護者",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "starsLit": "顆星被點亮",
   "@starsLit": {
     "description": "繁體原文：顆星被點亮",
     "x-used-in": [
       "features/reports/monthly-report.js"
+    ]
+  },
+  "starstreamIridescent": "星河幻彩",
+  "@starstreamIridescent": {
+    "description": "繁體原文：星河幻彩",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "start": "開始",
@@ -8413,11 +9137,25 @@
       "screens/atlas/tonight-guide.js"
     ]
   },
+  "stellarGold": "恆星金",
+  "@stellarGold": {
+    "description": "繁體原文：恆星金",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "stopEditing": "要離開編輯嗎？",
   "@stopEditing": {
     "description": "繁體原文：要離開編輯嗎？",
     "x-used-in": [
       "screens/editor.js"
+    ]
+  },
+  "stopRecording": "停止錄影",
+  "@stopRecording": {
+    "description": "繁體原文：停止錄影",
+    "x-used-in": [
+      "features/screen-recording.js"
     ]
   },
   "stopTwinklingStarsAndLight": "停止星星閃爍與點亮動畫",
@@ -8504,6 +9242,13 @@
       "features/dev-tools.js"
     ]
   },
+  "strollsThroughTheMilkyWay": "在銀河裡隨意漫步，每一步都是風景。",
+  "@strollsThroughTheMilkyWay": {
+    "description": "繁體原文：在銀河裡隨意漫步，每一步都是風景。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "styleChecks": "樣式檢查",
   "@styleChecks": {
     "description": "繁體原文：樣式檢查",
@@ -8568,6 +9313,13 @@
       "core/storage.js"
     ]
   },
+  "supernovaGold": "超新星金",
+  "@supernovaGold": {
+    "description": "繁體原文：超新星金",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "sw": "西南",
   "@sw": {
     "description": "繁體原文：西南",
@@ -8610,6 +9362,13 @@
       "screens/settings/settings.js"
     ]
   },
+  "tabAudioIncluded": "含分頁音訊",
+  "@tabAudioIncluded": {
+    "description": "繁體原文：含分頁音訊",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
   "tabEAsia": "東亞",
   "@tabEAsia": {
     "description": "繁體原文：東亞（情境：tab）"
@@ -8641,6 +9400,13 @@
     "x-used-in": [
       "core/storage.js",
       "features/dev-tools.js"
+    ]
+  },
+  "tagMaster": "標籤達人",
+  "@tagMaster": {
+    "description": "繁體原文：標籤達人",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "tags": "標籤",
@@ -9200,6 +9966,20 @@
       "features/backup/restore.js"
     ]
   },
+  "threeClearDays": "晴朗三日",
+  "@threeClearDays": {
+    "description": "繁體原文：晴朗三日",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
+  "threeDayStreak": "三日連續",
+  "@threeDayStreak": {
+    "description": "繁體原文：三日連續",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "tidiedMyRoom": "整理房間",
   "@tidiedMyRoom": {
     "description": "繁體原文：整理房間",
@@ -9240,6 +10020,13 @@
     "description": "繁體原文：時間與地點",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "timeTraveler": "時空旅人",
+  "@timeTraveler": {
+    "description": "繁體原文：時空旅人",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "title": "標題",
@@ -9478,6 +10265,20 @@
       "features/dev-tools.js"
     ]
   },
+  "travelsBetweenGalaxiesAndEvery": "在不同的星系之間旅行，每段旅程都有回音。",
+  "@travelsBetweenGalaxiesAndEvery": {
+    "description": "繁體原文：在不同的星系之間旅行，每段旅程都有回音。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "travelsFarJustToGlimpse": "走到很遠的地方，只為看一眼天空的舞。",
+  "@travelsFarJustToGlimpse": {
+    "description": "繁體原文：走到很遠的地方，只為看一眼天空的舞。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "triedANewRestaurantThe": "試了一家新餐廳，甜點特別好吃，下次還要再來。",
   "@triedANewRestaurantThe": {
     "description": "繁體原文：試了一家新餐廳，甜點特別好吃，下次還要再來。",
@@ -9518,6 +10319,27 @@
     "description": "繁體原文：關閉這頁的所有模擬與檢查，移除測試紀錄，日記保持不變",
     "x-used-in": [
       "index.html"
+    ]
+  },
+  "turnsAnOrdinaryDayInto": "把平凡的一天寫成詩，宇宙也為你停留。",
+  "@turnsAnOrdinaryDayInto": {
+    "description": "繁體原文：把平凡的一天寫成詩，宇宙也為你停留。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "turnsOrdinaryDaysIntoGlittering": "把平凡的日子，煉成閃閃發亮的星塵。",
+  "@turnsOrdinaryDaysIntoGlittering": {
+    "description": "繁體原文：把平凡的日子，煉成閃閃發亮的星塵。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "twinPink": "雙子粉",
+  "@twinPink": {
+    "description": "繁體原文：雙子粉",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "typeDeleteToConfirm": "輸入「刪除」以確認",
@@ -9715,6 +10537,13 @@
       "index.html"
     ]
   },
+  "use5DifferentTags": "用過 5 種不同的標籤",
+  "@use5DifferentTags": {
+    "description": "繁體原文：用過 5 種不同的標籤",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "useCurrentLocation": "使用目前位置",
   "@useCurrentLocation": {
     "description": "繁體原文：使用目前位置",
@@ -9837,6 +10666,13 @@
       "screens/settings/feedback.js"
     ]
   },
+  "veryLow": "很低落",
+  "@veryLow": {
+    "description": "繁體原文：很低落",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "videoAddedNoPreviewAvailable": "已加入影片（這個格式無法顯示預覽畫面）",
   "@videoAddedNoPreviewAvailable": {
     "description": "繁體原文：已加入影片（這個格式無法顯示預覽畫面）",
@@ -9935,6 +10771,13 @@
       "screens/detail.js"
     ]
   },
+  "viewRecording": "查看錄影",
+  "@viewRecording": {
+    "description": "繁體原文：查看錄影",
+    "x-used-in": [
+      "index.html"
+    ]
+  },
   "viewTheMSkyReport": "查看 {m}星空報告 ›",
   "@viewTheMSkyReport": {
     "description": "繁體原文：查看 {m}星空報告 ›",
@@ -9992,6 +10835,13 @@
       "logic/sky-projection.js"
     ]
   },
+  "visit10DifferentPlaces": "去過 10 個不同的地點",
+  "@visit10DifferentPlaces": {
+    "description": "繁體原文：去過 10 個不同的地點",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "visitNMoreNewPlaces": "再去 {n} 個新地點就能解鎖",
   "@visitNMoreNewPlaces": {
     "description": "繁體原文：再去 {n} 個新地點就能解鎖",
@@ -10009,6 +10859,27 @@
     "description": "繁體原文：西",
     "x-used-in": [
       "screens/atlas/tonight-guide.js"
+    ]
+  },
+  "waitingForSharing": "等待分享…",
+  "@waitingForSharing": {
+    "description": "繁體原文：等待分享…",
+    "x-used-in": [
+      "features/screen-recording.js"
+    ]
+  },
+  "waitsPatientlyAndAlwaysMeets": "耐心等待，總會遇見拖著長尾巴的訪客。",
+  "@waitsPatientlyAndAlwaysMeets": {
+    "description": "繁體原文：耐心等待，總會遇見拖著長尾巴的訪客。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "wakeBlue": "航跡藍",
+  "@wakeBlue": {
+    "description": "繁體原文：航跡藍",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "walks": "散步",
@@ -10043,6 +10914,20 @@
     },
     "x-used-in": [
       "screens/me/insights.js"
+    ]
+  },
+  "watchesOverAWholeRiver": "守護著一整片屬於自己的星河。",
+  "@watchesOverAWholeRiver": {
+    "description": "繁體原文：守護著一整片屬於自己的星河。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
+  "watchesTheMoonWaxAnd": "看著月亮圓了又缺，也記下自己的起起伏伏。",
+  "@watchesTheMoonWaxAnd": {
+    "description": "繁體原文：看著月亮圓了又缺，也記下自己的起起伏伏。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "weekendPourOver": "週末的手沖咖啡",
@@ -10144,6 +11029,13 @@
       "logic/sky-projection.js"
     ]
   },
+  "witnessedTheMostDazzlingMoment": "見證了最耀眼的時刻，也把它寫進星空。",
+  "@witnessedTheMostDazzlingMoment": {
+    "description": "繁體原文：見證了最耀眼的時刻，也把它寫進星空。",
+    "x-used-in": [
+      "data/moods-ranks.js"
+    ]
+  },
   "work": "工作",
   "@work": {
     "description": "繁體原文：工作",
@@ -10192,6 +11084,20 @@
     "description": "繁體原文：補寫 ›",
     "x-used-in": [
       "screens/me/footprint.js"
+    ]
+  },
+  "write10Entries": "累積 10 則紀錄",
+  "@write10Entries": {
+    "description": "繁體原文：累積 10 則紀錄",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
+  "write3DaysInA": "連續 3 天記錄",
+  "@write3DaysInA": {
+    "description": "繁體原文：連續 3 天記錄",
+    "x-used-in": [
+      "data/achievements.js"
     ]
   },
   "writeAFewEntriesAnd": "寫下幾則之後，這裡會整理出你的月報。",
@@ -10478,6 +11384,13 @@
       "screens/onboarding.js"
     ]
   },
+  "writeYourFirstEntry3": "完成第一則紀錄",
+  "@writeYourFirstEntry3": {
+    "description": "繁體原文：完成第一則紀錄",
+    "x-used-in": [
+      "data/achievements.js"
+    ]
+  },
   "writeYourFirstEntryAnd": "寫下第一則，這裡就會畫出你的心情曲線。",
   "@writeYourFirstEntryAnd": {
     "description": "繁體原文：寫下第一則，這裡就會畫出你的心情曲線。",
@@ -10762,6 +11675,13 @@
     "description": "繁體原文：你的第一個星座",
     "x-used-in": [
       "screens/onboarding.js"
+    ]
+  },
+  "yourJournalItselfIsA": "你的日記本身，就是一段星空傳奇。",
+  "@yourJournalItselfIsA": {
+    "description": "繁體原文：你的日記本身，就是一段星空傳奇。",
+    "x-used-in": [
+      "data/moods-ranks.js"
     ]
   },
   "yourMoodDippedThisWeek": "這週心情低了一些，最近多是 {m}",

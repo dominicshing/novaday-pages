@@ -8,9 +8,10 @@ $('screenshotCapture').onclick=captureScreenshot;
   new MutationObserver(sync).observe($('lock'),{attributes:true,attributeFilter:['hidden']});sync()}
 
 async function captureScreenshot(){
-  if(screenshotBusy||!$('lock').hidden)return;
+  if(screenshotBusy||recordingInProgress()||!$('lock').hidden)return;
   const returnFocus=document.activeElement;
   screenshotBusy=true;$('screenshotStatus').textContent=tl('正在擷取畫面…');toast(tl('正在擷取畫面…'));
+  syncRecordingControls();
   const buttons=[...document.querySelectorAll('.screenshot-trigger')];buttons.forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true')});
   try{
     await document.fonts.ready;
@@ -72,7 +73,7 @@ async function captureScreenshot(){
     openSheet('screenshotSheet');$('screenshotSheet')._last=returnFocus;$('screenshotSheet')._lastKey=null;
     $('screenshotStatus').textContent=tl('截圖已產生，可以儲存或分享');
   }catch(e){$('screenshotStatus').textContent=tl('截圖失敗，請再試一次');toast(tl('截圖失敗，請再試一次'),3000)}
-  finally{screenshotBusy=false;buttons.forEach(b=>{b.disabled=false;b.removeAttribute('aria-busy')})}
+  finally{screenshotBusy=false;buttons.forEach(b=>{b.disabled=false;b.removeAttribute('aria-busy')});syncRecordingControls()}
 }
 $('screenshotSave').onclick=async()=>{
   if(!screenshotBlob)return;

@@ -1744,11 +1744,23 @@ html{overflow:hidden}
 .sh-opt{grid-template-columns:1fr 1fr;margin-top:12px}
 
 /* 畫面截圖：依原畫面比例預覽，主要操作保持可見。 */
-.preview-tools{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:64px;display:flex;align-items:center;justify-content:center;z-index:80}
-.screenshot-trigger{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);font-size:14px}
-.screenshot-trigger:hover{border-color:var(--ion)}
-.screenshot-trigger svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.screenshot-trigger:disabled{opacity:.5;cursor:wait}
+:root{--preview-tools-height:100px}
+.preview-tools{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:var(--preview-tools-height);padding:8px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:80}
+.preview-actions{display:flex;align-items:center;justify-content:center;gap:8px}
+.preview-trigger{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);font-size:14px;white-space:nowrap}
+.preview-trigger:hover{border-color:var(--ion)}
+.preview-trigger svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.preview-trigger:disabled{opacity:.5;cursor:not-allowed}
+.preview-trigger.recording{border-color:var(--danger);color:var(--danger)}
+.preview-trigger.recording svg{fill:currentColor;stroke:none}
+.recording-time{font-variant-numeric:tabular-nums;font-family:ui-monospace,monospace;font-size:12px}
+.preview-info{display:flex;align-items:center;justify-content:center;gap:8px;max-width:100%;min-height:32px;font-size:12px;color:var(--muted)}
+#recordingStatus{max-height:36px;overflow:auto;text-align:center;line-height:1.45}
+#recordingReview{flex:none;font-size:12px;padding:4px}
+.recording-preview{display:flex;justify-content:center}
+.recording-preview video{display:block;max-width:100%;max-height:44dvh;border:1px solid var(--line);border-radius:12px;background:#070A1C}
+#recordingSheet .sb{padding-bottom:16px}
+@media (max-width:479px){.preview-trigger{font-size:12px;padding:0 8px;gap:5px}.preview-actions{gap:6px}}
 .screenshot-preview{display:flex;justify-content:center;min-height:80px}
 .screenshot-preview img{display:block;max-width:100%;max-height:44dvh;width:auto;height:auto;object-fit:contain;border:1px solid var(--line);border-radius:12px}
 #screenshotSheet .sb{padding-bottom:16px}
@@ -3226,7 +3238,7 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 @keyframes rise {0%{opacity:0;transform:translate(-50%,10px) scale(.8)}20%{opacity:1;transform:translate(-50%,0) scale(1.1)}100%{opacity:0;transform:translate(-50%,-60px)}
 }
 /* 電腦預覽的 iPhone 外框與系統狀態列（只在寬螢幕顯示），以及減少動態效果時的覆寫 */
-body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{padding-top:calc(var(--preview-tools-height,64px) + env(safe-area-inset-top,0px))}
 .device{position:relative;height:100%}
 .hw,.sys-status,.sys-island{display:none}
 
@@ -3281,7 +3293,11 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
 </head>
 <body>
 <div class="preview-tools" data-screenshot-ignore aria-label="預覽工具">
-  <button type="button" class="screenshot-trigger" id="screenshotCapture" aria-label="擷取畫面" title="擷取畫面"></button>
+  <div class="preview-actions">
+    <button type="button" class="preview-trigger screenshot-trigger" id="screenshotCapture" aria-label="擷取畫面" title="擷取畫面"></button>
+    <button type="button" class="preview-trigger" id="recordingCapture" aria-label="錄製畫面" aria-describedby="recordingStatus"></button>
+  </div>
+  <div class="preview-info"><span id="recordingStatus" role="status"></span><button type="button" class="txt-btn" id="recordingReview" hidden>查看錄影</button></div>
 </div>
 <svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs>
     <linearGradient id="avGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6D6"/><stop offset=".55" stop-color="#FFE7A3"/><stop offset="1" stop-color="#FFB45C"/></linearGradient>
@@ -4025,6 +4041,20 @@ body{padding-top:calc(64px + env(safe-area-inset-top,0px))}
     </div>
   </div>
   <span class="sr" id="screenshotStatus" role="status" data-screenshot-ignore></span>
+
+  <!-- 畫面錄影 -->
+  <div class="layer" id="recordingSheet" aria-hidden="true" data-screenshot-ignore>
+    <div class="bd" data-close></div>
+    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="recordingTitle">
+      <div class="grab"></div>
+      <div class="sh"><span></span><h2 id="recordingTitle">畫面錄影</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
+      <div class="sb">
+        <div class="recording-preview"><video id="recordingVideo" controls playsinline preload="metadata" aria-label="錄影預覽"></video></div>
+        <p class="sh-hint" id="recordingDetails"></p>
+        <div class="row sh-btns"><button type="button" class="btn" id="recordingSave">儲存影片</button><button type="button" class="btn primary" id="recordingShare">分享</button></div>
+      </div>
+    </div>
+  </div>
 
   <!-- 分享圖卡 -->
   <div class="layer" id="shareSheet" aria-hidden="true">
@@ -4892,6 +4922,30 @@ const EN={
 '早安':'Good morning','午安':'Good afternoon','晚安':'Good evening','夜深了':'Up late','我的檔案・目前階級：{r}':'My profile · Current rank: {r}','今天 {d}，打開日記月曆':'Today, {d}. Open journal calendar',
 /* ── features/screenshot.js ── */
 '正在擷取畫面…':'Capturing screen…','目前 App 畫面的截圖':'Screenshot of the current app screen','截圖已產生，可以儲存或分享':'Screenshot ready to save or share','截圖失敗，請再試一次':'Screenshot failed. Please try again','已儲存截圖':'Screenshot saved','無法下載，請長按圖片儲存':'Couldn’t download. Long-press the image to save it','Novaday 畫面截圖':'Novaday screenshot',
+/* ── features/screen-recording.js ── */
+'錄製畫面':"Record screen",
+'停止錄影':"Stop recording",
+'等待分享…':"Waiting for sharing…",
+'正在完成錄影…':"Finishing recording…",
+'錄影需要桌面版 Chrome 或 Edge，並以 HTTPS 或 localhost 開啟。':"Recording needs desktop Chrome or Edge on HTTPS or localhost.",
+'含分頁音訊':"Tab audio included",
+'無音訊':"No audio",
+'錄影已完成，可以儲存或分享':"Recording ready to save or share",
+'錄影失敗，請再試一次':"Recording failed. Please try again.",
+'請選擇此分頁，並開啟分享分頁音訊。':"Choose this tab and enable tab audio.",
+'已取消錄影':"Recording canceled",
+'錄影中・含分頁音訊':"Recording with tab audio",
+'錄影中・無音訊':"Recording without audio",
+'請分享目前的模擬器分頁，無法錄製其他分頁或整個螢幕。':"Choose this simulator tab, not another tab, a window, or the entire screen.",
+'無法開始錄影，請檢查瀏覽器的分享權限後再試一次。':"Couldn’t start recording. Check browser sharing permissions and try again.",
+'已儲存錄影':"Recording saved",
+'無法儲存錄影，請再試一次':"Couldn’t save the recording. Please try again.",
+'Novaday 畫面錄影':"Novaday screen recording",
+'選擇此分頁並分享音訊，即可錄製模擬器。':"Choose this tab and share audio to record the simulator.",
+'查看錄影':"View recording",
+'畫面錄影':"Screen recording",
+'錄影預覽':"Recording preview",
+'儲存影片':"Save video",
 /* ── features/backup/restore.js ── */
 '無法讀取這個檔案，請選擇 Novaday 的完整備份（.zip），或重新下載一次備份。':'Couldn’t read this file. Choose a Novaday full backup (.zip), or download the backup again.','這個 zip 不是 Novaday 的完整備份，請確認選對檔案。':'This zip isn’t a Novaday full backup. Check that you picked the right file.',
 '找到 <b>{n}</b> 則可以匯入的紀錄':'<b>{n}</b> {n, plural, one{entry} other{entries}} ready to import','這份備份裡的紀錄都已經在這台裝置上了':'All entries in this backup are already on this device','新紀錄':'new','已存在':'already here','無法讀取':'unreadable',
@@ -7196,9 +7250,13 @@ document.addEventListener('keydown',e=>{if(e.isComposing||e.keyCode===229)return
     if(o.classList.contains('overlay')){const b=o.querySelector('.btn.primary');if(b)b.click()}else requestClose(o.id)}
   /* Tab 只在最上層的面板裡循環，不會跑到被蓋住的頁面 */
   else if(e.key==='Tab'){const o=topLayer();if(!o)return;
-    const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');if(!f.length)return;
+    const f=[...o.querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');
+    /* 錄影停止鈕在手機外，面板開啟時仍可用鍵盤到達。 */
+    const stop=$('recordingCapture');if(stop?.dataset.recording==='true'&&!stop.disabled&&!stop.closest('[inert]'))f.push(stop);
+    if(!f.length)return;
     const a=document.activeElement,i=f.indexOf(a);
-    if(!o.contains(a)||(e.shiftKey&&i===0)||(!e.shiftKey&&i===f.length-1)){e.preventDefault();f[e.shiftKey?f.length-1:0].focus()}}});
+    if(i<0||(e.shiftKey&&i===0)||(!e.shiftKey&&i===f.length-1)){e.preventDefault();f[e.shiftKey?f.length-1:0].focus()}
+    else if(stop===f[f.length-1]&&((!e.shiftKey&&i===f.length-2)||(e.shiftKey&&a===stop))){e.preventDefault();f[i+(e.shiftKey?-1:1)].focus()}}});
 let askRes=null;
 function ask(t,m,btns){return new Promise(res=>{askRes=res;$('askT').textContent=t;$('askM').textContent=m;
   $('askBtns').innerHTML=btns.map(b=>`<button type="button" class="btn ${b.cls||''}" data-k="${b.k}">${b.t}</button>`).join('');
@@ -7969,9 +8027,10 @@ $('screenshotCapture').onclick=captureScreenshot;
   new MutationObserver(sync).observe($('lock'),{attributes:true,attributeFilter:['hidden']});sync()}
 
 async function captureScreenshot(){
-  if(screenshotBusy||!$('lock').hidden)return;
+  if(screenshotBusy||recordingInProgress()||!$('lock').hidden)return;
   const returnFocus=document.activeElement;
   screenshotBusy=true;$('screenshotStatus').textContent=tl('正在擷取畫面…');toast(tl('正在擷取畫面…'));
+  syncRecordingControls();
   const buttons=[...document.querySelectorAll('.screenshot-trigger')];buttons.forEach(b=>{b.disabled=true;b.setAttribute('aria-busy','true')});
   try{
     await document.fonts.ready;
@@ -8033,7 +8092,7 @@ async function captureScreenshot(){
     openSheet('screenshotSheet');$('screenshotSheet')._last=returnFocus;$('screenshotSheet')._lastKey=null;
     $('screenshotStatus').textContent=tl('截圖已產生，可以儲存或分享');
   }catch(e){$('screenshotStatus').textContent=tl('截圖失敗，請再試一次');toast(tl('截圖失敗，請再試一次'),3000)}
-  finally{screenshotBusy=false;buttons.forEach(b=>{b.disabled=false;b.removeAttribute('aria-busy')})}
+  finally{screenshotBusy=false;buttons.forEach(b=>{b.disabled=false;b.removeAttribute('aria-busy')});syncRecordingControls()}
 }
 $('screenshotSave').onclick=async()=>{
   if(!screenshotBlob)return;
@@ -8047,6 +8106,128 @@ $('screenshotShare').onclick=async()=>{
   catch(e){if(e?.name==='AbortError')return}
   $('screenshotSave').click();
 };
+/* 原生分頁錄影：先裁切到模擬器，再編碼；影片只保留在本機記憶體。 */
+let recordingSession=null,recordingLast=null,recordingPendingPreview=false;
+const RECORD_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="12" height="14" rx="3"/><path d="m15 9 6-3v12l-6-3z"/></svg>';
+const RECORD_STOP_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>';
+function recordingInProgress(){return recordingSession!==null}
+function recordingSupported(){return !!(isSecureContext&&navigator.mediaDevices?.getDisplayMedia&&globalThis.CropTarget?.fromElement&&
+  globalThis.BrowserCaptureMediaStreamTrack?.prototype.cropTo&&globalThis.MediaRecorder?.isTypeSupported)}
+function recordingStatus(message){$('recordingStatus').textContent=message}
+function recordingElapsed(ms){const seconds=Math.floor(ms/1000);return `${pad(Math.floor(seconds/60))}:${pad(seconds%60)}`}
+function syncRecordingControls(){
+  const phase=recordingSession?.phase||'idle',active=phase==='recording',supported=recordingSupported(),b=$('recordingCapture');
+  const label=tl(active?'停止錄影':phase==='requesting'?'等待分享…':phase==='finalizing'?'正在完成錄影…':'錄製畫面');
+  b.innerHTML=(active?RECORD_STOP_ICON:RECORD_ICON)+`<span>${label}</span>`+(active?'<span class="recording-time" id="recordingTime" aria-hidden="true">00:00</span>':'');
+  b.setAttribute('aria-label',label);b.setAttribute('aria-pressed',String(active));b.dataset.recording=String(active);b.classList.toggle('recording',active);
+  b.disabled=!supported||screenshotBusy||phase==='requesting'||phase==='finalizing';
+  if(phase==='requesting'||phase==='finalizing')b.setAttribute('aria-busy','true');else b.removeAttribute('aria-busy');
+  $('screenshotCapture').disabled=screenshotBusy||recordingInProgress();
+  $('recordingReview').hidden=!recordingLast||recordingInProgress();$('recordingReview').disabled=screenshotBusy;
+  if(!supported)recordingStatus(tl('錄影需要桌面版 Chrome 或 Edge，並以 HTTPS 或 localhost 開啟。'));
+}
+function recordingMime(hasAudio){
+  const types=hasAudio?['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm']:
+    ['video/mp4;codecs=avc1.42E01E','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+  return types.find(type=>MediaRecorder.isTypeSupported(type))||'';
+}
+function releaseRecordingTracks(s){
+  clearInterval(s.timer);
+  if(s.video&&s.ended)s.video.removeEventListener('ended',s.ended);
+  if(s.audio&&s.audioEnded)s.audio.removeEventListener('ended',s.audioEnded);
+  s.stream?.getTracks().forEach(track=>track.stop());
+}
+function resetRecording(s){
+  releaseRecordingTracks(s);
+  if(s.recorder){s.recorder.ondataavailable=null;s.recorder.onstop=null;s.recorder.onerror=null}
+  s.chunks=[];
+  if(recordingSession===s){recordingSession=null;syncRecordingControls()}
+}
+function showRecordingPreview(){
+  if(!recordingLast||recordingInProgress()||!$('lock').hidden)return;
+  recordingPendingPreview=false;openSheet('recordingSheet');
+  $('recordingSheet')._last=$('recordingCapture');$('recordingSheet')._lastKey='#recordingCapture';
+}
+function finishRecording(s){
+  if(s.finished)return;s.finished=true;
+  const type=s.recorder.mimeType||s.chunks.find(c=>c.type)?.type||'',blob=new Blob(s.chunks,{type});
+  const valid=!s.failed&&!s.abandoned&&blob.size>0&&/^video\/(mp4|webm)(;|$)/i.test(type);
+  if(valid){
+    const now=s.startedDate,ext=/^video\/mp4/i.test(type)?'mp4':'webm',video=$('recordingVideo');
+    video.pause();video.removeAttribute('src');video.load();
+    if(recordingLast)URL.revokeObjectURL(recordingLast.url);
+    recordingLast={blob,url:URL.createObjectURL(blob),name:`Novaday-recording-${ymd(now)}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}.${ext}`};
+    video.src=recordingLast.url;
+    $('recordingDetails').textContent=`${ext.toUpperCase()} · ${recordingElapsed(s.duration)} · ${tl(s.hasAudio?'含分頁音訊':'無音訊')}`;
+  }
+  resetRecording(s);
+  if(s.abandoned)return;
+  if(valid){recordingStatus(tl('錄影已完成，可以儲存或分享'));recordingPendingPreview=true;showRecordingPreview()}
+  else recordingStatus(tl('錄影失敗，請再試一次'));
+}
+function stopScreenRecording(){
+  const s=recordingSession;if(!s||s.phase==='finalizing')return;
+  if(s.phase==='requesting'){s.cancelled=true;releaseRecordingTracks(s);return}
+  s.phase='finalizing';s.duration=Date.now()-s.startedAt;syncRecordingControls();recordingStatus(tl('正在完成錄影…'));
+  try{if(s.recorder.state!=='inactive')s.recorder.stop()}catch(e){s.failed=true;finishRecording(s)}
+  releaseRecordingTracks(s);
+}
+async function startScreenRecording(){
+  if(recordingInProgress()||screenshotBusy||!$('lock').hidden||!recordingSupported())return;
+  if($('recordingSheet').classList.contains('open'))closeSheet('recordingSheet');
+  recordingPendingPreview=false;
+  const s={phase:'requesting',chunks:[],cancelled:false,failed:false};recordingSession=s;syncRecordingControls();
+  recordingStatus(tl('請選擇此分頁，並開啟分享分頁音訊。'));
+  let stage='permission';
+  try{
+    /* 必須在按鈕的使用者手勢內呼叫，不先 await 裁切目標。 */
+    s.stream=await navigator.mediaDevices.getDisplayMedia({video:{displaySurface:'browser',frameRate:30},audio:{suppressLocalAudioPlayback:false},
+      preferCurrentTab:true,selfBrowserSurface:'include',surfaceSwitching:'exclude',systemAudio:'exclude'});
+    if(s.cancelled||!$('lock').hidden){resetRecording(s);recordingStatus(tl('已取消錄影'));return}
+    stage='crop';s.video=s.stream.getVideoTracks()[0];
+    if(!s.video||s.video.getSettings().displaySurface!=='browser'||typeof s.video.cropTo!=='function')throw new Error('Select this tab');
+    /* 其他分頁無法使用本頁的裁切目標；失敗時不建立錄影器，避免存下未裁切畫面。 */
+    await s.video.cropTo(await CropTarget.fromElement($('device')));
+    if(s.cancelled||!$('lock').hidden||s.video.readyState==='ended'){resetRecording(s);recordingStatus(tl('已取消錄影'));return}
+    stage='recorder';s.audio=s.stream.getAudioTracks().find(track=>track.readyState==='live');s.hasAudio=!!s.audio;
+    const mimeType=recordingMime(s.hasAudio);s.recorder=new MediaRecorder(s.stream,mimeType?{mimeType}:undefined);
+    s.recorder.ondataavailable=e=>{if(e.data?.size)s.chunks.push(e.data)};
+    s.recorder.onstop=()=>finishRecording(s);
+    s.recorder.onerror=()=>{s.failed=true;stopScreenRecording()};
+    s.ended=()=>stopScreenRecording();s.video.addEventListener('ended',s.ended);
+    if(s.audio){s.audioEnded=()=>recordingStatus(tl('錄影中・無音訊'));s.audio.addEventListener('ended',s.audioEnded)}
+    s.startedDate=new Date();s.startedAt=Date.now();s.duration=0;
+    s.recorder.start(1000);s.phase='recording';syncRecordingControls();
+    recordingStatus(tl(s.hasAudio?'錄影中・含分頁音訊':'錄影中・無音訊'));
+    s.timer=setInterval(()=>{const timer=$('recordingTime');if(timer)timer.textContent=recordingElapsed(Date.now()-s.startedAt)},1000);
+  }catch(e){
+    resetRecording(s);if(s.abandoned)return;
+    recordingStatus(tl(s.cancelled?'已取消錄影':stage==='permission'&&(e?.name==='NotAllowedError'||e?.name==='AbortError')?'已取消錄影':
+      stage==='crop'?'請分享目前的模擬器分頁，無法錄製其他分頁或整個螢幕。':'無法開始錄影，請檢查瀏覽器的分享權限後再試一次。'));
+  }
+}
+$('recordingCapture').onclick=()=>recordingSession?.phase==='recording'?stopScreenRecording():startScreenRecording();
+$('recordingReview').onclick=showRecordingPreview;
+$('recordingSave').onclick=async()=>{
+  if(!recordingLast)return;
+  try{if(await saveFile(recordingLast.name,recordingLast.blob,recordingLast.blob.type))recordingStatus(tl('已儲存錄影'))}
+  catch(e){recordingStatus(tl('無法儲存錄影，請再試一次'))}
+};
+$('recordingShare').onclick=async()=>{
+  if(!recordingLast)return;
+  const file=new File([recordingLast.blob],recordingLast.name,{type:recordingLast.blob.type});
+  try{if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:tl('Novaday 畫面錄影')});return}}
+  catch(e){if(e?.name==='AbortError')return}
+  $('recordingSave').click();
+};
+new MutationObserver(()=>{if(!$('lock').hidden)stopScreenRecording();else if(recordingPendingPreview)showRecordingPreview()})
+  .observe($('lock'),{attributes:true,attributeFilter:['hidden']});
+addEventListener('pagehide',()=>{
+  const s=recordingSession;if(s){s.abandoned=true;stopScreenRecording();releaseRecordingTracks(s)}
+  $('recordingVideo').pause();$('recordingVideo').removeAttribute('src');$('recordingVideo').load();
+  if(recordingLast){URL.revokeObjectURL(recordingLast.url);recordingLast=null}recordingPendingPreview=false;
+});
+recordingStatus(tl('選擇此分頁並分享音訊，即可錄製模擬器。'));syncRecordingControls();
 /* 從備份還原（.zip） */
 let imData=null;
 const BK_PATH=/^(photos|videos)\/[\w.-]+$/,BK_MIME={jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
