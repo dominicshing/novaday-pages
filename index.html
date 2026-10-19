@@ -46,7 +46,7 @@
 <link rel="stylesheet" href="src/css/components/missions.css">
 <link rel="stylesheet" href="src/css/components/entry-card.css">
 <link rel="stylesheet" href="src/css/components/media.css">
-<link rel="stylesheet" href="src/css/components/share-card.css">
+<link rel="stylesheet" href="src/css/components/share-card.css?v=recording-2">
 <link rel="stylesheet" href="src/css/components/empty-state.css">
 <link rel="stylesheet" href="src/css/components/galaxy.css">
 <link rel="stylesheet" href="src/css/base/accessibility.css">
@@ -74,9 +74,19 @@
   <div class="preview-actions">
     <button type="button" class="preview-trigger screenshot-trigger" id="screenshotCapture" aria-label="擷取畫面" title="擷取畫面"></button>
     <button type="button" class="preview-trigger" id="recordingCapture" aria-label="錄製畫面" aria-describedby="recordingStatus"></button>
+    <button type="button" class="preview-review" id="recordingReview" aria-label="查看錄影" title="查看錄影" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="m10 8 6 4-6 4z"/></svg></button>
   </div>
-  <div class="preview-info"><span id="recordingStatus" role="status"></span><button type="button" class="txt-btn" id="recordingReview" hidden>查看錄影</button></div>
+  <span class="sr" id="recordingStatus" role="status"></span>
 </div>
+<dialog id="recordingSheet" class="recording-dialog" aria-labelledby="recordingTitle" aria-describedby="recordingDetails" data-screenshot-ignore>
+  <div class="recording-heading">
+    <div><h2 id="recordingTitle">畫面錄影</h2><p id="recordingDetails"></p></div>
+    <button type="button" class="recording-close" id="recordingClose" aria-label="關閉" title="關閉"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="recording-preview"><video id="recordingVideo" controls playsinline preload="auto" aria-label="錄影預覽"></video></div>
+  <div class="recording-actions"><button type="button" class="btn" id="recordingShare">分享</button><button type="button" class="btn primary" id="recordingSave">儲存影片</button></div>
+  <p id="recordingFeedback" class="recording-feedback" role="status" hidden></p>
+</dialog>
 <svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false"><defs>
     <linearGradient id="avGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF6D6"/><stop offset=".55" stop-color="#FFE7A3"/><stop offset="1" stop-color="#FFB45C"/></linearGradient>
     <linearGradient id="avNeb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C7BFFF"/><stop offset="1" stop-color="#6A5AE6"/></linearGradient>
@@ -820,20 +830,6 @@
   </div>
   <span class="sr" id="screenshotStatus" role="status" data-screenshot-ignore></span>
 
-  <!-- 畫面錄影 -->
-  <div class="layer" id="recordingSheet" aria-hidden="true" data-screenshot-ignore>
-    <div class="bd" data-close></div>
-    <div class="sheet short" role="dialog" aria-modal="true" aria-labelledby="recordingTitle">
-      <div class="grab"></div>
-      <div class="sh"><span></span><h2 id="recordingTitle">畫面錄影</h2><button type="button" class="txt-btn r" data-close>完成</button></div>
-      <div class="sb">
-        <div class="recording-preview"><video id="recordingVideo" controls playsinline preload="metadata" aria-label="錄影預覽"></video></div>
-        <p class="sh-hint" id="recordingDetails"></p>
-        <div class="row sh-btns"><button type="button" class="btn" id="recordingSave">儲存影片</button><button type="button" class="btn primary" id="recordingShare">分享</button></div>
-      </div>
-    </div>
-  </div>
-
   <!-- 分享圖卡 -->
   <div class="layer" id="shareSheet" aria-hidden="true">
     <div class="bd" data-close></div>
@@ -966,7 +962,7 @@
 <script src="src/js/core/download.js?v=i18n-2"></script>
 <script src="src/js/vendor/modern-screenshot.js?v=i18n-2"></script>
 <script src="src/js/features/screenshot.js?v=i18n-2"></script>
-<script src="src/js/features/screen-recording.js"></script>
+<script src="src/js/features/screen-recording.js?v=recording-2"></script>
 <script src="src/js/features/backup/restore.js?v=i18n-2"></script>
 <script src="src/js/ui/scroll.js?v=i18n-2"></script>
 <script src="src/js/ui/device-preview.js?v=i18n-2"></script>

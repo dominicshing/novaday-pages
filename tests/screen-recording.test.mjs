@@ -15,9 +15,9 @@ export default async ({ok,open})=>{
       __capture.calls++;__capture.options=options;
       if(__capture.mode==='cancel')throw new DOMException('Canceled','NotAllowedError');
       if(__capture.mode==='permissionError')throw new DOMException('Unavailable','NotReadableError');
-      const cv=document.createElement('canvas');cv.width=160;cv.height=240;
+      const cv=document.createElement('canvas');cv.width=160;cv.height=240;__capture.canvas=cv;
       const ctx=cv.getContext('2d');let frame=0;
-      const draw=()=>{ctx.fillStyle=frame++%2?'#6fe3d6':'#8a7cff';ctx.fillRect(0,0,160,240);ctx.fillStyle='white';ctx.fillRect(20,20,frame%120,20)};
+      const draw=()=>{ctx.fillStyle=frame++%2?'#6fe3d6':'#8a7cff';ctx.fillRect(0,0,cv.width,cv.height);ctx.fillStyle='white';ctx.fillRect(20,20,frame%120,20)};
       draw();const timer=setInterval(draw,80),stream=cv.captureStream(15),video=stream.getVideoTracks()[0];
       const stop=video.stop.bind(video);video.stop=()=>{clearInterval(timer);stop()};
       video.getSettings=()=>({displaySurface:__capture.mode==='wrongSurface'?'monitor':'browser'});
@@ -35,10 +35,11 @@ export default async ({ok,open})=>{
   await p.evaluate(()=>{window.CropTarget=__cropTarget;syncRecordingControls()});
   const start=async()=>{await p.click('#recordingCapture');await p.waitForFunction(()=>document.getElementById('recordingCapture').dataset.recording==='true')};
   const stop=async()=>{await p.click('#recordingCapture');await p.waitForFunction(()=>!recordingInProgress())};
-  const close=async()=>{await p.evaluate(()=>closeSheet('recordingSheet'));await p.waitForTimeout(200)};
+  const close=async()=>{await p.evaluate(()=>closeRecordingPreview());await p.waitForTimeout(200)};
   await start();await p.waitForTimeout(1150);
   ok(await p.evaluate(()=>__capture.calls===1&&__capture.crops===1&&__capture.target==='device'&&__capture.options.audio&&__capture.options.video.frameRate===30),'Requests tab audio and crops simulator before encoding');
   ok(await p.locator('#recordingStatus').textContent()==='Recording without audio','Missing audio explicitly shown');
+  ok(await p.locator('#recordingCapture .recording-audio').isVisible(),'Muted icon indicates recording without audio');
   ok(await p.locator('#recordingTime').textContent()!=='00:00','Elapsed time advances');
   await p.evaluate(()=>{startScreenRecording();startScreenRecording();captureScreenshot()});
   ok(await p.evaluate(()=>__capture.calls===1&&!screenshotBusy)&&await p.locator('#screenshotCapture').isDisabled(),'Duplicate starts and screenshots blocked during recording');
@@ -46,7 +47,8 @@ export default async ({ok,open})=>{
   await p.evaluate(()=>{const f=[...$('editor').querySelectorAll(FOCUSABLE)].filter(x=>x.getClientRects().length&&getComputedStyle(x).visibility!=='hidden');f.at(-1).focus()});
   await p.keyboard.press('Tab');ok(await p.locator('#recordingCapture').evaluate(el=>el===document.activeElement),'Stop is reachable from an open panel with Tab');
   await p.keyboard.press('Shift+Tab');ok(await p.evaluate(()=>$('editor').contains(document.activeElement)),'Shift+Tab returns from Stop to the panel');
-  await p.evaluate(()=>closeSheet('editor'));await stop();
+  await p.evaluate(()=>{closeSheet('editor');__capture.canvas.width=319;__capture.canvas.height=481});await p.waitForTimeout(250);
+  ok(await p.evaluate(()=>recordingSession.canvas.width===160&&recordingSession.canvas.height===240),'Encoder dimensions remain fixed when source size changes');await stop();
   await p.locator('#recordingVideo').evaluate(v=>v.play());await p.waitForTimeout(150);
   ok(await p.locator('#recordingVideo').evaluate(v=>v.videoWidth===160&&v.videoHeight===240&&v.readyState>=2),'Finalized recording is a playable video');
   ok(await p.evaluate(()=>__capture.streams.every(s=>s.getTracks().every(t=>t.readyState==='ended'))),'All capture tracks stopped');
@@ -60,7 +62,11 @@ export default async ({ok,open})=>{
   await p.click('#recordingShare');await p.waitForTimeout(100);ok(await p.evaluate(()=>__downloads===0),'Canceling share does not download');
   await p.evaluate(()=>Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>false}));
   const [fallback]=await Promise.all([p.waitForEvent('download'),p.click('#recordingShare')]);ok(fallback.suggestedFilename()===download.suggestedFilename(),'Unsupported sharing falls back to download');
-  await close();await p.click('#recordingReview');ok(await p.locator('#recordingSheet').evaluate(el=>el.classList.contains('open')),'Completed recording can be reopened');await close();
+  await p.evaluate(()=>{window.__saveFile=saveFile;saveFile=async()=>{throw Error('Download failed')}});await p.click('#recordingSave');
+  ok(await p.locator('#recordingFeedback').isVisible()&&await p.locator('#recordingFeedback').textContent().then(t=>t.includes('Couldn’t save')),'Save failure is visible inside the preview dialog');
+  await p.evaluate(()=>{saveFile=__saveFile});
+  await p.keyboard.press('Escape');ok(await p.evaluate(()=>!$('recordingSheet').open&&$('recordingVideo').paused),'Escape closes native preview and pauses playback');
+  await close();await p.click('#recordingReview');ok(await p.locator('#recordingSheet').evaluate(el=>el.open),'Completed recording can be reopened');await close();
 
   for(const mode of ['cancel','permissionError','wrongSurface','cropFailure']){
     const count=await p.evaluate(mode=>{__capture.mode=mode;return __capture.recorders},mode);
@@ -80,15 +86,19 @@ export default async ({ok,open})=>{
   await p.evaluate(()=>{__capture.mode='ok';__capture.audio=true;__capture.webmOnly=true});await start();await p.waitForTimeout(400);
   ok(await p.evaluate(()=>recordingSession.recorder.stream.getAudioTracks().length===1&&__capture.mime.startsWith('video/webm')),'WebM fallback records audio track');
   await p.evaluate(()=>recordingSession.video.dispatchEvent(new Event('ended')));await p.waitForFunction(()=>!recordingInProgress());
-  ok(await p.evaluate(()=>recordingLast.name.endsWith('.webm')&&$('recordingSheet').classList.contains('open')),'Browser stop finalizes once and previews WebM');
+  ok(await p.evaluate(()=>recordingLast.name.endsWith('.webm')&&$('recordingSheet').open),'Browser stop finalizes once and previews WebM');
   ok(await p.evaluate(url=>__capture.revoked.includes(url),previous),'Replacing completed recording revokes old URL');await close();
   await start();await p.waitForTimeout(300);await p.evaluate(()=>openLock('preview'));await p.waitForFunction(()=>!recordingInProgress());
-  ok(await p.evaluate(()=>!$('recordingSheet').classList.contains('open')&&recordingPendingPreview),'Lock defers completed preview');
-  await p.evaluate(()=>closeLock());await p.waitForFunction(()=>$('recordingSheet').classList.contains('open'));await close();
+  ok(await p.evaluate(()=>!$('recordingSheet').open&&recordingPendingPreview),'Lock defers completed preview');
+  await p.evaluate(()=>closeLock());await p.waitForFunction(()=>$('recordingSheet').open);await close();
+  const validUrl=await p.evaluate(()=>recordingLast.url);
+  await start();await p.waitForTimeout(200);
+  await p.evaluate(()=>{const s=recordingSession;s.recorder.ondataavailable=()=>{s.chunks.push(new Blob(['invalid video'],{type:'video/mp4'}))}});await stop();
+  ok(await p.evaluate(url=>recordingLast.url===url&&!$('recordingSheet').open,validUrl),'Undecodable output is rejected and previous valid recording retained');
   await start();await p.waitForTimeout(200);await p.evaluate(()=>recordingSession.recorder.dispatchEvent(new Event('error')));await p.waitForFunction(()=>!recordingInProgress());
   ok(await p.locator('#recordingStatus').textContent()==='Recording failed. Please try again.','Encoder error restores idle with retry message');
   await p.evaluate(()=>openOnb(true));await start();await p.waitForTimeout(300);await stop();
-  ok(await p.evaluate(()=>+$('recordingSheet').style.zIndex>+getComputedStyle($('onb')).zIndex),'Onboarding can be recorded and preview stays above it');await close();
+  ok(await p.evaluate(()=>$('recordingSheet').open&&$('recordingSheet').matches(':modal')),'Onboarding recording opens a modal above the simulator');await close();
   await p.evaluate(()=>obFinish(false));await p.waitForTimeout(200);
   await p.setViewportSize({width:320,height:740});await start();
   ok(await p.locator('.preview-actions').evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth}),'Toolbar fits narrow viewport while recording');
@@ -101,7 +111,7 @@ export default async ({ok,open})=>{
   const dist=await open({url:'/dist/novaday.html',viewport:{width:1000,height:900},seed:{'orbitlog.profile.v1':{onboarded:1,lang:'en'}}});
   await install(dist);
   await dist.click('#recordingCapture');await dist.waitForFunction(()=>document.getElementById('recordingCapture').dataset.recording==='true');await dist.waitForTimeout(300);
-  await dist.click('#recordingCapture');await dist.waitForFunction(()=>document.getElementById('recordingSheet').classList.contains('open'));
+  await dist.click('#recordingCapture');await dist.waitForFunction(()=>document.getElementById('recordingSheet').open);
   ok(await dist.locator('#recordingVideo').evaluate(v=>!!v.src),'Standalone build can record and preview');
   ok(!dist.errors.length,'Standalone recording has no script errors');await dist.context().close();
 };
