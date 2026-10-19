@@ -14,7 +14,7 @@ export default async ({ok,BASE})=>{
   try{
     const p=await browser.newPage({viewport:{width:1100,height:1000},deviceScaleFactor:2,acceptDownloads:true});const errors=[];p.on('pageerror',e=>errors.push(e.message));
     await p.addInitScript(()=>localStorage.setItem('orbitlog.profile.v1',JSON.stringify({onboarded:1,lang:'en'})));
-    await p.goto((process.env.RECORDING_BASE||BASE)+'/index.html');await p.waitForTimeout(1000);
+    await p.goto((process.env.RECORDING_BASE||BASE)+'/index.html',{waitUntil:'domcontentloaded',timeout:90000});await p.waitForTimeout(1000);
     await p.screenshot({path:path.join(os.tmpdir(),`novaday-recording-${channel}-toolbar.png`)});
     /* 顏色標記必須真的出現在編碼後的不同影格；只驗證影片時間前進會漏掉靜止錄影。 */
     await p.evaluate(()=>{const marker=document.createElement('div');marker.id='recording-motion-marker';marker.style.cssText='position:absolute;left:40%;top:40%;width:20%;height:20%;z-index:99;pointer-events:none;background:rgb(240,40,40)';$('device').appendChild(marker)});
