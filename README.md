@@ -18,6 +18,7 @@
 ├── docs/               架構說明、備份格式規格、Flutter App 規劃書、範例媒體來源
 ├── tests/              自動測試
 ├── tools/              打包單檔版、匯出 Flutter 素材
+├── privacy/          App 隱私權政策（英文＋繁中），App Store Connect 的 Privacy Policy URL
 └── dist/novaday.html   單檔版（可直接當 Claude artifact 發布）
 ```
 
