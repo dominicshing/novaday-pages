@@ -3487,34 +3487,44 @@
       },
       "cities": [
         {
-          "key": "台北",
+          "key": "東京",
           "name": {
-            "zh_Hant": "台北",
-            "zh_Hans": "台北",
-            "en": "Taipei"
+            "zh_Hant": "東京",
+            "zh_Hans": "东京",
+            "en": "Tokyo"
           },
-          "lat": 25,
-          "lon": 121.5
+          "lat": 35.7,
+          "lon": 139.7
         },
         {
-          "key": "台中",
+          "key": "大阪",
           "name": {
-            "zh_Hant": "台中",
-            "zh_Hans": "台中",
-            "en": "Taichung"
+            "zh_Hant": "大阪",
+            "zh_Hans": "大阪",
+            "en": "Osaka"
           },
-          "lat": 24.1,
-          "lon": 120.7
+          "lat": 34.7,
+          "lon": 135.5
         },
         {
-          "key": "高雄",
+          "key": "首爾",
           "name": {
-            "zh_Hant": "高雄",
-            "zh_Hans": "高雄",
-            "en": "Kaohsiung"
+            "zh_Hant": "首爾",
+            "zh_Hans": "首尔",
+            "en": "Seoul"
           },
-          "lat": 22.6,
-          "lon": 120.3
+          "lat": 37.6,
+          "lon": 127
+        },
+        {
+          "key": "釜山",
+          "name": {
+            "zh_Hant": "釜山",
+            "zh_Hans": "釜山",
+            "en": "Busan"
+          },
+          "lat": 35.2,
+          "lon": 129.1
         },
         {
           "key": "香港",
@@ -3567,24 +3577,34 @@
           "lon": 116.4
         },
         {
-          "key": "東京",
+          "key": "台北",
           "name": {
-            "zh_Hant": "東京",
-            "zh_Hans": "东京",
-            "en": "Tokyo"
+            "zh_Hant": "台北",
+            "zh_Hans": "台北",
+            "en": "Taipei"
           },
-          "lat": 35.7,
-          "lon": 139.7
+          "lat": 25,
+          "lon": 121.5
         },
         {
-          "key": "首爾",
+          "key": "台中",
           "name": {
-            "zh_Hant": "首爾",
-            "zh_Hans": "首尔",
-            "en": "Seoul"
+            "zh_Hant": "台中",
+            "zh_Hans": "台中",
+            "en": "Taichung"
           },
-          "lat": 37.6,
-          "lon": 127
+          "lat": 24.1,
+          "lon": 120.7
+        },
+        {
+          "key": "高雄",
+          "name": {
+            "zh_Hant": "高雄",
+            "zh_Hans": "高雄",
+            "en": "Kaohsiung"
+          },
+          "lat": 22.6,
+          "lon": 120.3
         }
       ]
     },
@@ -3624,6 +3644,85 @@
           },
           "lat": 13.8,
           "lon": 100.5
+        },
+        {
+          "key": "馬尼拉",
+          "name": {
+            "zh_Hant": "馬尼拉",
+            "zh_Hans": "马尼拉",
+            "en": "Manila"
+          },
+          "lat": 14.6,
+          "lon": 121
+        },
+        {
+          "key": "雅加達",
+          "name": {
+            "zh_Hant": "雅加達",
+            "zh_Hans": "雅加达",
+            "en": "Jakarta"
+          },
+          "lat": -6.2,
+          "lon": 106.8
+        },
+        {
+          "key": "胡志明市",
+          "name": {
+            "zh_Hant": "胡志明市",
+            "zh_Hans": "胡志明市",
+            "en": "Ho Chi Minh City"
+          },
+          "lat": 10.8,
+          "lon": 106.7
+        },
+        {
+          "key": "河內",
+          "name": {
+            "zh_Hant": "河內",
+            "zh_Hans": "河内",
+            "en": "Hanoi"
+          },
+          "lat": 21,
+          "lon": 105.8
+        }
+      ]
+    },
+    {
+      "name": {
+        "zh_Hant": "南亞中東",
+        "zh_Hans": "南亚中东",
+        "en": "South Asia & Middle East"
+      },
+      "cities": [
+        {
+          "key": "孟買",
+          "name": {
+            "zh_Hant": "孟買",
+            "zh_Hans": "孟买",
+            "en": "Mumbai"
+          },
+          "lat": 19.1,
+          "lon": 72.9
+        },
+        {
+          "key": "新德里",
+          "name": {
+            "zh_Hant": "新德里",
+            "zh_Hans": "新德里",
+            "en": "New Delhi"
+          },
+          "lat": 28.6,
+          "lon": 77.2
+        },
+        {
+          "key": "杜拜",
+          "name": {
+            "zh_Hant": "杜拜",
+            "zh_Hans": "杜拜",
+            "en": "Dubai"
+          },
+          "lat": 25.2,
+          "lon": 55.3
         }
       ]
     },
@@ -3655,6 +3754,46 @@
           "lon": 2.35
         },
         {
+          "key": "柏林",
+          "name": {
+            "zh_Hant": "柏林",
+            "zh_Hans": "柏林",
+            "en": "Berlin"
+          },
+          "lat": 52.5,
+          "lon": 13.4
+        },
+        {
+          "key": "阿姆斯特丹",
+          "name": {
+            "zh_Hant": "阿姆斯特丹",
+            "zh_Hans": "阿姆斯特丹",
+            "en": "Amsterdam"
+          },
+          "lat": 52.4,
+          "lon": 4.9
+        },
+        {
+          "key": "馬德里",
+          "name": {
+            "zh_Hant": "馬德里",
+            "zh_Hans": "马德里",
+            "en": "Madrid"
+          },
+          "lat": 40.4,
+          "lon": -3.7
+        },
+        {
+          "key": "羅馬",
+          "name": {
+            "zh_Hant": "羅馬",
+            "zh_Hans": "罗马",
+            "en": "Rome"
+          },
+          "lat": 41.9,
+          "lon": 12.5
+        },
+        {
           "key": "雷克雅維克",
           "name": {
             "zh_Hant": "雷克雅維克",
@@ -3673,6 +3812,26 @@
           },
           "lat": 40.7,
           "lon": -74
+        },
+        {
+          "key": "芝加哥",
+          "name": {
+            "zh_Hant": "芝加哥",
+            "zh_Hans": "芝加哥",
+            "en": "Chicago"
+          },
+          "lat": 41.9,
+          "lon": -87.6
+        },
+        {
+          "key": "舊金山",
+          "name": {
+            "zh_Hant": "舊金山",
+            "zh_Hans": "旧金山",
+            "en": "San Francisco"
+          },
+          "lat": 37.8,
+          "lon": -122.4
         },
         {
           "key": "洛杉磯",
@@ -3703,6 +3862,16 @@
           },
           "lat": 43.7,
           "lon": -79.4
+        },
+        {
+          "key": "墨西哥城",
+          "name": {
+            "zh_Hant": "墨西哥城",
+            "zh_Hans": "墨西哥城",
+            "en": "Mexico City"
+          },
+          "lat": 19.4,
+          "lon": -99.1
         }
       ]
     },
@@ -3732,6 +3901,26 @@
           },
           "lat": -37.8,
           "lon": 145
+        },
+        {
+          "key": "布里斯本",
+          "name": {
+            "zh_Hant": "布里斯本",
+            "zh_Hans": "布里斯本",
+            "en": "Brisbane"
+          },
+          "lat": -27.5,
+          "lon": 153
+        },
+        {
+          "key": "伯斯",
+          "name": {
+            "zh_Hant": "伯斯",
+            "zh_Hans": "伯斯",
+            "en": "Perth"
+          },
+          "lat": -32,
+          "lon": 115.9
         },
         {
           "key": "奧克蘭",
@@ -3772,6 +3961,16 @@
           },
           "lat": -34.6,
           "lon": -58.4
+        },
+        {
+          "key": "聖地牙哥",
+          "name": {
+            "zh_Hant": "聖地牙哥",
+            "zh_Hans": "圣地牙哥",
+            "en": "Santiago"
+          },
+          "lat": -33.4,
+          "lon": -70.7
         }
       ]
     }

@@ -2800,9 +2800,9 @@ button.xpchip{border:1px solid rgba(138,124,255,.35);background:rgba(138,124,255
 .ob-geo{flex:none;margin-left:auto;display:flex;align-items:center;gap:5px;min-height:34px;padding:0 12px;border-radius:17px;border:1px solid rgba(111,227,214,.4);background:rgba(111,227,214,.08);color:var(--ion);font:inherit;font-size:13px;font-weight:600;transition:transform .15s}
 .ob-geo:active{transform:scale(.95)}
 .ob-geo svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
-.ob-tabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding:3px;border-radius:12px;background:rgba(7,10,28,.55);border:1px solid var(--line);margin-bottom:10px}
-.ob-tabs::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/4);border-radius:9px;background:linear-gradient(135deg,rgba(138,124,255,.38),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset,0 4px 14px -6px rgba(138,124,255,.9);transform:translateX(calc(var(--i,0)*100%));transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
-.ob-tabs button{position:relative;min-height:34px;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;transition:color .25s}
+.ob-tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:3px;border-radius:12px;background:rgba(7,10,28,.55);border:1px solid var(--line);margin-bottom:10px}
+.ob-tabs::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/5);border-radius:9px;background:linear-gradient(135deg,rgba(138,124,255,.38),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset,0 4px 14px -6px rgba(138,124,255,.9);transform:translateX(calc(var(--i,0)*100%));transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.ob-tabs button{position:relative;min-height:34px;padding:0 2px;border:0;background:none;color:var(--muted);font:inherit;font-size:clamp(11px,3.3vw,13px);font-weight:600;white-space:nowrap;transition:color .25s}
 .ob-tabs button[aria-selected="true"]{color:var(--text)}
 .ob-rg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .ob-rg .rg-c{background:rgba(232,233,255,.05);transition:transform .15s,border-color .2s,background .2s,box-shadow .2s}
@@ -4733,7 +4733,8 @@ const EN={
 '約 {m}晚上':'Evenings around {m}',
 '北天星座':'Northern constellation','北半球容易看到':'Easy to see from the Northern Hemisphere','南天星座':'Southern constellation','南半球容易看到':'Easy to see from the Southern Hemisphere','赤道帶星座':'Equatorial constellation','全球都看得到':'Visible worldwide',
 '整年都看得到':'Visible all year','在這裡看不到':'Not visible here','幾乎看不到':'Barely visible','在南方低空':'Low in the south','在北方低空':'Low in the north','容易看到':'Easy to see',
-'東亞':'East Asia','東南亞':'Southeast Asia','歐美':'Europe & Americas','南半球':'Southern Hemisphere',
+'東亞':'East Asia','東南亞':'Southeast Asia','南亞中東':'South Asia & Middle East','歐美':'Europe & Americas','南半球':'Southern Hemisphere',
+'大阪':'Osaka','釜山':'Busan','馬尼拉':'Manila','雅加達':'Jakarta','胡志明市':'Ho Chi Minh City','河內':'Hanoi','孟買':'Mumbai','新德里':'New Delhi','杜拜':'Dubai','柏林':'Berlin','阿姆斯特丹':'Amsterdam','馬德里':'Madrid','羅馬':'Rome','芝加哥':'Chicago','舊金山':'San Francisco','墨西哥城':'Mexico City','布里斯本':'Brisbane','伯斯':'Perth','聖地牙哥':'Santiago',
 '台北':'Taipei','台中':'Taichung','高雄':'Kaohsiung','香港':'Hong Kong','澳門':'Macau','廣州':'Guangzhou','上海':'Shanghai','北京':'Beijing','東京':'Tokyo','首爾':'Seoul','新加坡':'Singapore','吉隆坡':'Kuala Lumpur','曼谷':'Bangkok','倫敦':'London','巴黎':'Paris','雷克雅維克':'Reykjavík','紐約':'New York','洛杉磯':'Los Angeles','溫哥華':'Vancouver','多倫多':'Toronto','雪梨':'Sydney','墨爾本':'Melbourne','奧克蘭':'Auckland','開普敦':'Cape Town','聖保羅':'São Paulo','布宜諾斯艾利斯':'Buenos Aires',
 /* ── ui/art/constellation-map.js ── */
 '全部完成':'All complete','今天回顧的星座':'Today’s look back',
@@ -4978,7 +4979,7 @@ const EN={
 '引導預覽結束，資料沒有變更':'Intro preview ended. Nothing was changed',
 /* ── 語言選擇 ── */
 '語言':'Language',
-'tab|東亞':'E. Asia','tab|東南亞':'SE Asia','tab|歐美':'West','tab|南半球':'South',
+'tab|東亞':'E. Asia','tab|東南亞':'SE Asia','tab|歐美':'West','tab|南半球':'South','tab|南亞中東':'S. Asia',
 'card|{d}完成':'{d}',
 'short|星座圖鑑':'Atlas',
 /* ── features/pin-lock.js ── */
@@ -5792,10 +5793,11 @@ const lst21=d=>(((21+2*(d.getMonth()+1-9)+(d.getDate()-21)/15)%24)+24)%24;
 const raDist=(a,b)=>{const x=Math.abs(a-b)%24;return Math.min(x,24-x)};
 /* 地區：只存名稱與緯度；沒設定時用天區（北天／赤道帶／南天）當備用說明 */
 /* 城市：[名稱, 緯度, 經度]（經度東正西負，只用來算「今晚幾點在哪個方位」） */
-const REGIONS=[['東亞',[['台北',25.0,121.5],['台中',24.1,120.7],['高雄',22.6,120.3],['香港',22.3,114.2],['澳門',22.2,113.5],['廣州',23.1,113.3],['上海',31.2,121.5],['北京',39.9,116.4],['東京',35.7,139.7],['首爾',37.6,127.0]]],
-  ['東南亞',[['新加坡',1.3,103.8],['吉隆坡',3.1,101.7],['曼谷',13.8,100.5]]],
-  ['歐美',[['倫敦',51.5,-0.1],['巴黎',48.9,2.35],['雷克雅維克',64.1,-21.9],['紐約',40.7,-74.0],['洛杉磯',34.1,-118.2],['溫哥華',49.3,-123.1],['多倫多',43.7,-79.4]]],
-  ['南半球',[['雪梨',-33.9,151.2],['墨爾本',-37.8,145.0],['奧克蘭',-36.8,174.8],['開普敦',-33.9,18.4],['聖保羅',-23.6,-46.6],['布宜諾斯艾利斯',-34.6,-58.4]]]];
+const REGIONS=[['東亞',[['東京',35.7,139.7],['大阪',34.7,135.5],['首爾',37.6,127.0],['釜山',35.2,129.1],['香港',22.3,114.2],['澳門',22.2,113.5],['廣州',23.1,113.3],['上海',31.2,121.5],['北京',39.9,116.4],['台北',25.0,121.5],['台中',24.1,120.7],['高雄',22.6,120.3]]],
+  ['東南亞',[['新加坡',1.3,103.8],['吉隆坡',3.1,101.7],['曼谷',13.8,100.5],['馬尼拉',14.6,121.0],['雅加達',-6.2,106.8],['胡志明市',10.8,106.7],['河內',21.0,105.8]]],
+  ['南亞中東',[['孟買',19.1,72.9],['新德里',28.6,77.2],['杜拜',25.2,55.3]]],
+  ['歐美',[['倫敦',51.5,-0.1],['巴黎',48.9,2.35],['柏林',52.5,13.4],['阿姆斯特丹',52.4,4.9],['馬德里',40.4,-3.7],['羅馬',41.9,12.5],['雷克雅維克',64.1,-21.9],['紐約',40.7,-74.0],['芝加哥',41.9,-87.6],['舊金山',37.8,-122.4],['洛杉磯',34.1,-118.2],['溫哥華',49.3,-123.1],['多倫多',43.7,-79.4],['墨西哥城',19.4,-99.1]]],
+  ['南半球',[['雪梨',-33.9,151.2],['墨爾本',-37.8,145.0],['布里斯本',-27.5,153.0],['伯斯',-32.0,115.9],['奧克蘭',-36.8,174.8],['開普敦',-33.9,18.4],['聖保羅',-23.6,-46.6],['布宜諾斯艾利斯',-34.6,-58.4],['聖地牙哥',-33.4,-70.7]]]];
 /* 地區的顯示名稱：存的是繁體城市名或「目前位置（25.0°N）」，顯示時再翻譯 */
 const regName=r=>{const n=r.name,m=/^目前位置（(.*)）$/.exec(n);return m?tl('目前位置（{x}）',{x:m[1]}):tl(n)};
 const regLat=()=>prof.region&&typeof prof.region.lat==='number'?prof.region.lat:null;

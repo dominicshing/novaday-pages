@@ -72,9 +72,9 @@
 .ob-geo{flex:none;margin-left:auto;display:flex;align-items:center;gap:5px;min-height:34px;padding:0 12px;border-radius:17px;border:1px solid rgba(111,227,214,.4);background:rgba(111,227,214,.08);color:var(--ion);font:inherit;font-size:13px;font-weight:600;transition:transform .15s}
 .ob-geo:active{transform:scale(.95)}
 .ob-geo svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
-.ob-tabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);padding:3px;border-radius:12px;background:rgba(7,10,28,.55);border:1px solid var(--line);margin-bottom:10px}
-.ob-tabs::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/4);border-radius:9px;background:linear-gradient(135deg,rgba(138,124,255,.38),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset,0 4px 14px -6px rgba(138,124,255,.9);transform:translateX(calc(var(--i,0)*100%));transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
-.ob-tabs button{position:relative;min-height:34px;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;font-weight:600;transition:color .25s}
+.ob-tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);padding:3px;border-radius:12px;background:rgba(7,10,28,.55);border:1px solid var(--line);margin-bottom:10px}
+.ob-tabs::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/5);border-radius:9px;background:linear-gradient(135deg,rgba(138,124,255,.38),rgba(111,227,214,.22));box-shadow:0 0 0 1px rgba(138,124,255,.45) inset,0 4px 14px -6px rgba(138,124,255,.9);transform:translateX(calc(var(--i,0)*100%));transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.ob-tabs button{position:relative;min-height:34px;padding:0 2px;border:0;background:none;color:var(--muted);font:inherit;font-size:clamp(11px,3.3vw,13px);font-weight:600;white-space:nowrap;transition:color .25s}
 .ob-tabs button[aria-selected="true"]{color:var(--text)}
 .ob-rg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .ob-rg .rg-c{background:rgba(232,233,255,.05);transition:transform .15s,border-color .2s,background .2s,box-shadow .2s}

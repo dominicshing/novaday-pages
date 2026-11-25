@@ -9373,6 +9373,10 @@
   "@tabEAsia": {
     "description": "繁體原文：東亞（情境：tab）"
   },
+  "tabSAsia": "南亞中東",
+  "@tabSAsia": {
+    "description": "繁體原文：南亞中東（情境：tab）"
+  },
   "tabSeAsia": "東南亞",
   "@tabSeAsia": {
     "description": "繁體原文：東南亞（情境：tab）"

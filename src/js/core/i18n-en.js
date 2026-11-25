@@ -581,7 +581,8 @@ const EN={
 '約 {m}晚上':'Evenings around {m}',
 '北天星座':'Northern constellation','北半球容易看到':'Easy to see from the Northern Hemisphere','南天星座':'Southern constellation','南半球容易看到':'Easy to see from the Southern Hemisphere','赤道帶星座':'Equatorial constellation','全球都看得到':'Visible worldwide',
 '整年都看得到':'Visible all year','在這裡看不到':'Not visible here','幾乎看不到':'Barely visible','在南方低空':'Low in the south','在北方低空':'Low in the north','容易看到':'Easy to see',
-'東亞':'East Asia','東南亞':'Southeast Asia','歐美':'Europe & Americas','南半球':'Southern Hemisphere',
+'東亞':'East Asia','東南亞':'Southeast Asia','南亞中東':'South Asia & Middle East','歐美':'Europe & Americas','南半球':'Southern Hemisphere',
+'大阪':'Osaka','釜山':'Busan','馬尼拉':'Manila','雅加達':'Jakarta','胡志明市':'Ho Chi Minh City','河內':'Hanoi','孟買':'Mumbai','新德里':'New Delhi','杜拜':'Dubai','柏林':'Berlin','阿姆斯特丹':'Amsterdam','馬德里':'Madrid','羅馬':'Rome','芝加哥':'Chicago','舊金山':'San Francisco','墨西哥城':'Mexico City','布里斯本':'Brisbane','伯斯':'Perth','聖地牙哥':'Santiago',
 '台北':'Taipei','台中':'Taichung','高雄':'Kaohsiung','香港':'Hong Kong','澳門':'Macau','廣州':'Guangzhou','上海':'Shanghai','北京':'Beijing','東京':'Tokyo','首爾':'Seoul','新加坡':'Singapore','吉隆坡':'Kuala Lumpur','曼谷':'Bangkok','倫敦':'London','巴黎':'Paris','雷克雅維克':'Reykjavík','紐約':'New York','洛杉磯':'Los Angeles','溫哥華':'Vancouver','多倫多':'Toronto','雪梨':'Sydney','墨爾本':'Melbourne','奧克蘭':'Auckland','開普敦':'Cape Town','聖保羅':'São Paulo','布宜諾斯艾利斯':'Buenos Aires',
 /* ── ui/art/constellation-map.js ── */
 '全部完成':'All complete','今天回顧的星座':'Today’s look back',
@@ -826,7 +827,7 @@ const EN={
 '引導預覽結束，資料沒有變更':'Intro preview ended. Nothing was changed',
 /* ── 語言選擇 ── */
 '語言':'Language',
-'tab|東亞':'E. Asia','tab|東南亞':'SE Asia','tab|歐美':'West','tab|南半球':'South',
+'tab|東亞':'E. Asia','tab|東南亞':'SE Asia','tab|歐美':'West','tab|南半球':'South','tab|南亞中東':'S. Asia',
 'card|{d}完成':'{d}',
 'short|星座圖鑑':'Atlas',
 /* ── features/pin-lock.js ── */
